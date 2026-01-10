@@ -1,0 +1,772 @@
+<?= $this->include('layouts/user/header', ['title' => 'Analytics • ChegeOS']) ?>
+<?= $this->include('layouts/user/sidebar') ?>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="h4 mb-0">Analytics</h1>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="dropdown me-2">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fas fa-calendar me-1"></i> Last 30 Days
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-day me-2"></i> Today</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-week me-2"></i> This Week</a></li>
+                        <li><a class="dropdown-item active" href="#"><i class="fas fa-calendar-alt me-2"></i> Last 30 Days</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i> This Quarter</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i> This Year</a></li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-primary btn-sm me-2" id="exportAnalyticsBtn">
+                    <i class="fas fa-download me-1"></i> Export
+                </button>
+
+                <div class="dropdown">
+                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
+                        JD
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Total Projects</div>
+                    <div class="stat-change text-success">
+                        <i class="fas fa-arrow-up"></i> 2 this month
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value">62%</div>
+                    <div class="stat-label">Completion Rate</div>
+                    <div class="stat-change text-success">
+                        <i class="fas fa-arrow-up"></i> 8% increase
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value">42.5</div>
+                    <div class="stat-label">Hours Logged</div>
+                    <div class="stat-change text-warning">
+                        <i class="fas fa-minus"></i> 5% decrease
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="stat-value">4.2</div>
+                    <div class="stat-label">Avg Daily Hours</div>
+                    <div class="stat-change text-success">
+                        <i class="fas fa-arrow-up"></i> 12% increase
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row mb-4">
+            <!-- Project Completion Chart -->
+            <div class="col-lg-8">
+                <div class="stat-card h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Project Completion Trends</h5>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary active">Monthly</button>
+                            <button class="btn btn-outline-secondary">Quarterly</button>
+                            <button class="btn btn-outline-secondary">Yearly</button>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <div class="chart-legend">
+                                <span class="legend-item"><span class="legend-color" style="background-color: #6366f1;"></span> Started</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #10b981;"></span> Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="bar-chart">
+                            <div class="chart-row">
+                                <div class="chart-label">Jan</div>
+                                <div class="chart-bars">
+                                    <div class="bar started" style="width: 30%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: 20%; background-color: #10b981;"></div>
+                                </div>
+                                <div class="chart-value">3/5</div>
+                            </div>
+                            <div class="chart-row">
+                                <div class="chart-label">Feb</div>
+                                <div class="chart-bars">
+                                    <div class="bar started" style="width: 40%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: 30%; background-color: #10b981;"></div>
+                                </div>
+                                <div class="chart-value">4/6</div>
+                            </div>
+                            <div class="chart-row">
+                                <div class="chart-label">Mar</div>
+                                <div class="chart-bars">
+                                    <div class="bar started" style="width: 60%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: 50%; background-color: #10b981;"></div>
+                                </div>
+                                <div class="chart-value">8/10</div>
+                            </div>
+                            <div class="chart-row">
+                                <div class="chart-label">Apr</div>
+                                <div class="chart-bars">
+                                    <div class="bar started" style="width: 50%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: 40%; background-color: #10b981;"></div>
+                                </div>
+                                <div class="chart-value">5/8</div>
+                            </div>
+                            <div class="chart-row">
+                                <div class="chart-label">May</div>
+                                <div class="chart-bars">
+                                    <div class="bar started" style="width: 70%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: 62%; background-color: #10b981;"></div>
+                                </div>
+                                <div class="chart-value">8/13</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Health Distribution -->
+            <div class="col-lg-4">
+                <div class="stat-card h-100">
+                    <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Health Distribution</h5>
+                    <div class="pie-chart-container">
+                        <div class="pie-chart">
+                            <div class="pie-segment" style="--percentage: 50; --color: #10b981;"></div>
+                            <div class="pie-segment" style="--percentage: 25; --color: #f59e0b;"></div>
+                            <div class="pie-segment" style="--percentage: 15; --color: #ef4444;"></div>
+                            <div class="pie-segment" style="--percentage: 10; --color: #94a3b8;"></div>
+                            <div class="pie-center">
+                                <div class="pie-value">8</div>
+                                <div class="pie-label">Projects</div>
+                            </div>
+                        </div>
+
+                        <div class="pie-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #10b981;"></span>
+                                <span class="legend-text">Good (50%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #f59e0b;"></span>
+                                <span class="legend-text">Warning (25%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #ef4444;"></span>
+                                <span class="legend-text">Danger (15%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #94a3b8;"></span>
+                                <span class="legend-text">Archived (10%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="row mb-4">
+            <!-- Time Distribution -->
+            <div class="col-lg-6">
+                <div class="stat-card h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Time Distribution by Project</h5>
+                        <button class="btn btn-sm btn-outline-secondary">Details</button>
+                    </div>
+
+                    <div class="time-distribution">
+                        <div class="distribution-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="project-icon me-2" style="background-color: #6366f1;">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <span>ChegeOS Dashboard</span>
+                                </div>
+                                <span class="text-muted">18.5 hrs (44%)</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 10px;">
+                                <div class="progress-bar" style="width: 44%; background-color: #6366f1;"></div>
+                            </div>
+                        </div>
+
+                        <div class="distribution-item mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="project-icon me-2" style="background-color: #10b981;">
+                                        <i class="fas fa-server"></i>
+                                    </div>
+                                    <span>E-commerce Backend</span>
+                                </div>
+                                <span class="text-muted">8.0 hrs (19%)</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 10px;">
+                                <div class="progress-bar" style="width: 19%; background-color: #10b981;"></div>
+                            </div>
+                        </div>
+
+                        <div class="distribution-item mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="project-icon me-2" style="background-color: #0ea5e9;">
+                                        <i class="fas fa-globe"></i>
+                                    </div>
+                                    <span>Portfolio Website</span>
+                                </div>
+                                <span class="text-muted">6.0 hrs (14%)</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 10px;">
+                                <div class="progress-bar" style="width: 14%; background-color: #0ea5e9;"></div>
+                            </div>
+                        </div>
+
+                        <div class="distribution-item mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="project-icon me-2" style="background-color: #f59e0b;">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <span>Mobile App</span>
+                                </div>
+                                <span class="text-muted">5.0 hrs (12%)</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 10px;">
+                                <div class="progress-bar" style="width: 12%; background-color: #f59e0b;"></div>
+                            </div>
+                        </div>
+
+                        <div class="distribution-item mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="project-icon me-2" style="background-color: #8b5cf6;">
+                                        <i class="fas fa-code-branch"></i>
+                                    </div>
+                                    <span>API Integration</span>
+                                </div>
+                                <span class="text-muted">5.0 hrs (11%)</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 10px;">
+                                <div class="progress-bar" style="width: 11%; background-color: #8b5cf6;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productivity Heatmap -->
+            <div class="col-lg-6">
+                <div class="stat-card h-100">
+                    <h5 class="mb-3"><i class="fas fa-calendar-alt me-2"></i>Monthly Activity Heatmap</h5>
+                    <div class="heatmap-container">
+                        <div class="heatmap-header">
+                            <div class="heatmap-months">
+                                <span>Jan</span>
+                                <span>Feb</span>
+                                <span>Mar</span>
+                                <span>Apr</span>
+                                <span>May</span>
+                            </div>
+                        </div>
+
+                        <div class="heatmap-grid">
+                            <!-- Generate 150 days of activity -->
+                            <?php for($i = 0; $i < 150; $i++): ?>
+                                <?php
+                                $activity = rand(0, 4);
+                                $color = '';
+                                if($activity == 0) $color = '#334155';
+                                if($activity == 1) $color = '#1e3a8a';
+                                if($activity == 2) $color = '#1d4ed8';
+                                if($activity == 3) $color = '#3b82f6';
+                                if($activity == 4) $color = '#60a5fa';
+                                ?>
+                                <div class="heatmap-square" style="background-color: <?= $color ?>;"
+                                     title="Day <?= $i+1 ?>: <?= $activity ?> activities"></div>
+                            <?php endfor; ?>
+                        </div>
+
+                        <div class="heatmap-footer mt-3">
+                            <div class="d-flex justify-content-between small text-muted">
+                                <span>Less</span>
+                                <div>
+                                    <span class="heatmap-legend" style="background-color: #334155;"></span>
+                                    <span class="heatmap-legend" style="background-color: #1e3a8a;"></span>
+                                    <span class="heatmap-legend" style="background-color: #1d4ed8;"></span>
+                                    <span class="heatmap-legend" style="background-color: #3b82f6;"></span>
+                                    <span class="heatmap-legend" style="background-color: #60a5fa;"></span>
+                                </div>
+                                <span>More</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights & Recommendations -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Insights & Recommendations</h5>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-sync me-1"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="insight-card insight-positive">
+                                <div class="insight-icon">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h6>Productivity Increase</h6>
+                                    <p class="small text-muted">Your completion rate has increased by 8% this month. Keep it up!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="insight-card insight-warning">
+                                <div class="insight-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h6>Time Distribution</h6>
+                                    <p class="small text-muted">Consider balancing time across projects. One project has 44% of your time.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="insight-card insight-info">
+                                <div class="insight-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h6>Consistency</h6>
+                                    <p class="small text-muted">You're most productive on Wednesdays and Thursdays. Schedule important work then.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="insight-card">
+                                <div class="insight-content">
+                                    <h6><i class="fas fa-check-circle text-success me-2"></i>Completed This Month</h6>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Portfolio website design system</li>
+                                        <li>ChegeOS dashboard setup</li>
+                                        <li>E-commerce authentication system</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="insight-card">
+                                <div class="insight-content">
+                                    <h6><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Mobile app progress is behind schedule</li>
+                                        <li>API integration blocked on documentation</li>
+                                        <li>2 projects have been stalled for 14+ days</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Analytics Styles */
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Chart Styles */
+        .chart-container {
+            padding: 1rem 0;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 0.5rem;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 60px;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chart-label {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .chart-bars {
+            display: flex;
+            height: 24px;
+            background-color: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bars .bar {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .chart-bars .bar:hover {
+            filter: brightness(1.2);
+        }
+
+        .chart-value {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Pie Chart */
+        .pie-chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            background: conic-gradient(
+                    var(--color) 0% calc(var(--percentage) * 1%),
+                    transparent calc(var(--percentage) * 1%) 100%
+            );
+            margin-right: 2rem;
+        }
+
+        .pie-center {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pie-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        .pie-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .pie-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .pie-legend .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Project Icons */
+        .project-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        /* Heatmap */
+        .heatmap-container {
+            padding: 1rem 0;
+        }
+
+        .heatmap-header {
+            margin-bottom: 1rem;
+        }
+
+        .heatmap-months {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(30, 1fr);
+            gap: 3px;
+            justify-content: center;
+        }
+
+        .heatmap-square {
+            width: 14px;
+            height: 14px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .heatmap-square:hover {
+            transform: scale(1.2);
+        }
+
+        .heatmap-legend {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            display: inline-block;
+            margin: 0 2px;
+        }
+
+        /* Insights */
+        .insight-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            height: 100%;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .insight-card.insight-positive {
+            border-left: 4px solid #10b981;
+        }
+
+        .insight-card.insight-warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .insight-card.insight-info {
+            border-left: 4px solid #6366f1;
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .insight-warning .insight-icon {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .insight-info .insight-icon {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+
+        .insight-content h6 {
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+        }
+
+        .insight-content p, .insight-content ul {
+            margin-bottom: 0;
+        }
+
+        .insight-content ul {
+            padding-left: 1.2rem;
+        }
+
+        .insight-content li {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Analytics JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Initialize tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Sidebar toggle
+            $('#sidebarToggle').click(function() {
+                $('#sidebar').toggleClass('sidebar-collapsed');
+                $('#mainContent').toggleClass('full-width');
+
+                const icon = $(this).find('i');
+                if (icon.hasClass('fa-bars')) {
+                    icon.removeClass('fa-bars').addClass('fa-times');
+                } else {
+                    icon.removeClass('fa-times').addClass('fa-bars');
+                }
+
+                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
+            });
+
+            // Check saved sidebar state
+            if (localStorage.getItem('sidebarCollapsed') === 'true') {
+                $('#sidebar').addClass('sidebar-collapsed');
+                $('#mainContent').addClass('full-width');
+                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
+            }
+
+            // Export analytics
+            $('#exportAnalyticsBtn').click(function() {
+                showToast('Exporting analytics data...', 'info');
+                // In a real app, this would generate a CSV/PDF report
+                setTimeout(() => {
+                    showToast('Analytics data exported successfully!', 'success');
+                }, 1500);
+            });
+
+            // Chart time period buttons
+            $('.btn-group .btn').click(function() {
+                $(this).parent().find('.btn').removeClass('active');
+                $(this).addClass('active');
+
+                const period = $(this).text();
+                showToast(`Showing analytics for: ${period}`, 'info');
+            });
+
+            // Heatmap square hover
+            $('.heatmap-square').hover(
+                function() {
+                    const title = $(this).attr('title');
+                    $(this).attr('data-bs-toggle', 'tooltip');
+                    $(this).attr('data-bs-title', title);
+                    $(this).tooltip('show');
+                },
+                function() {
+                    $(this).tooltip('hide');
+                }
+            );
+
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                const toastId = 'toast-' + Date.now();
+                const toastHtml = `
+            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+
+                $('.toast-container').append(toastHtml);
+                const toast = new bootstrap.Toast(document.getElementById(toastId));
+                toast.show();
+
+                $(`#${toastId}`).on('hidden.bs.toast', function() {
+                    $(this).remove();
+                });
+            }
+        });
+    </script>
+
+<?= $this->include('layouts/user/footer') ?>
