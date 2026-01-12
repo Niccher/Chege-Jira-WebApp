@@ -26,6 +26,7 @@ abstract class BaseController extends Controller
      */
 
     // protected $session;
+    protected $helpers = ['auth', 'form', 'url'];
 
     /**
      * @return void
@@ -41,5 +42,27 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         // $this->session = service('session');
+        // Load language files
+        $this->language = \Config\Services::language();
+        $this->language->setLocale($this->request->getLocale());
+    }
+
+    public function initController1(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
+
+        // Check if user is logged in for protected pages
+        $currentURI = $request->uri->getPath();
+        $authPages = ['auth/login', 'auth/register', 'auth/forgot-password', 'auth/reset-password', 'auth/activate'];
+
+        // If trying to access protected page without login
+        if (!session()->has('user_id') && !in_array($currentURI, $authPages)) {
+            return redirect()->to('/auth/login')->with('error', 'Please login to access this page.');
+        }
+
+        // If already logged in and trying to access auth pages
+        if (session()->has('user_id') && in_array($currentURI, $authPages)) {
+            return redirect()->to('/dashboard')->with('info', 'You are already logged in.');
+        }
     }
 }

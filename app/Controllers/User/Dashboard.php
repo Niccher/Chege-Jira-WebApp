@@ -27,7 +27,7 @@ class Dashboard extends BaseController
     {
         return view('user/projects');
     }
-    public function kanban()
+    public function project_kanban()
     {
         return view('user/kanban');
     }

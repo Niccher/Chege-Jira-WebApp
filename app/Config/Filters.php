@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'session'       => \CodeIgniter\Shield\Filters\SessionAuth::class,
     ];
 
     /**
@@ -106,5 +107,26 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'session' => [
+            'before' => [
+                'home',
+                'home/*',
+                'projects',
+                'projects/*',
+                'kanban',
+                'kanban/*',
+                'calendar',
+                'calendar/*',
+                'time',
+                'time/*',
+                'notes',
+                'notes/*',
+                'analytics',
+                'analytics/*',
+                'settings',
+                'settings/*',
+            ],
+        ],
+    ];
 }
