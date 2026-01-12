@@ -9,7 +9,7 @@
             <i class="fas fa-tachometer-alt nav-icon"></i>
             Dashboard
         </a>
-        <a class="nav-link <?= (uri_string() == 'projects') ? 'active' : '' ?>" href="<?= site_url('projects') ?>">
+        <a class="nav-link <?= (strpos(uri_string(), 'projects') === 0) ? 'active' : '' ?>" href="<?= site_url('projects') ?>">
             <i class="fas fa-project-diagram nav-icon"></i>
             Projects
         </a>

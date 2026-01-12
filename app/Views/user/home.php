@@ -20,9 +20,9 @@
                     </button>
                 </div>
 
-                <button class="btn btn-primary btn-sm me-2">
+                <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm me-2">
                     <i class="fas fa-plus me-1"></i> New Project
-                </button>
+                </a>
 
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
@@ -45,7 +45,7 @@
                     <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: var(--primary-color);">
                         <i class="fas fa-project-diagram"></i>
                     </div>
-                    <div class="stat-value" id="totalProjects">8</div>
+                    <div class="stat-value" id="totalProjects"><?= $stats['total'] ?></div>
                     <div class="stat-label">Total Projects</div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: var(--success-color);">
                         <i class="fas fa-play-circle"></i>
                     </div>
-                    <div class="stat-value" id="activeProjects">5</div>
+                    <div class="stat-value" id="activeProjects"><?= $stats['active'] ?></div>
                     <div class="stat-label">Active Projects</div>
                 </div>
             </div>
@@ -65,18 +65,18 @@
                     <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: var(--warning-color);">
                         <i class="fas fa-hourglass-half"></i>
                     </div>
-                    <div class="stat-value" id="stalledProjects">2</div>
-                    <div class="stat-label">Stalled</div>
+                    <div class="stat-value" id="stalledProjects"><?= $stats['pending'] ?></div>
+                    <div class="stat-label">Pending/Hold</div>
                 </div>
             </div>
 
             <div class="col-md-3 col-sm-6 mb-3">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: var(--danger-color);">
-                        <i class="fas fa-clock"></i>
+                    <div class="stat-icon" style="background-color: rgba(107, 114, 128, 0.2); color: #6b7280;">
+                        <i class="fas fa-archive"></i>
                     </div>
-                    <div class="stat-value" id="timeThisWeek">18.5</div>
-                    <div class="stat-label">Hours This Week</div>
+                    <div class="stat-value" id="archivedProjects"><?= $stats['archived'] ?></div>
+                    <div class="stat-label">Archived</div>
                 </div>
             </div>
         </div>
@@ -85,70 +85,49 @@
         <div class="row">
             <!-- Left Column: Projects & Focus -->
             <div class="col-lg-8">
-                <!-- Weekly Focus -->
-                <div class="stat-card mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-bullseye me-2"></i>Weekly Focus (Top 3)</h5>
-                        <button class="btn btn-sm btn-outline-secondary">Edit Focus</button>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="project-card focus-project">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <span class="project-health health-good"></span>
-                                        <strong>ChegeOS Dashboard</strong>
-                                    </div>
-                                    <span class="badge bg-primary">High</span>
-                                </div>
-                                <p class="small text-muted mt-2 mb-2">Finish MVP dashboard with stats</p>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" style="width: 75%"></div>
-                                </div>
-                                <div class="d-flex justify-content-between small">
-                                    <span>75% complete</span>
-                                    <span>3 days left</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <div class="project-card focus-project">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <span class="project-health health-warning"></span>
-                                        <strong>API Integration</strong>
-                                    </div>
-                                    <span class="badge bg-warning">Medium</span>
-                                </div>
-                                <p class="small text-muted mt-2 mb-2">Connect to GitHub API</p>
-                                <div class="progress">
-                                    <div class="progress-bar bg-warning" style="width: 40%"></div>
-                                </div>
-                                <div class="d-flex justify-content-between small">
-                                    <span>40% complete</span>
-                                    <span>7 days left</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <div class="project-card focus-project">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <span class="project-health health-danger"></span>
-                                        <strong>Mobile App</strong>
-                                    </div>
-                                    <span class="badge bg-secondary">Low</span>
-                                </div>
-                                <p class="small text-muted mt-2 mb-2">Design React Native prototype</p>
-                                <div class="progress">
-                                    <div class="progress-bar bg-danger" style="width: 20%"></div>
-                                </div>
-                                <div class="d-flex justify-content-between small">
-                                    <span>20% complete</span>
-                                    <span>14 days left</span>
+                <!-- Weekly Focus Accordion -->
+                <div class="accordion mb-4" id="focusAccordion">
+                    <div class="accordion-item stat-card p-0" style="border: none;">
+                        <h2 class="accordion-header p-3 d-flex justify-content-between align-items-center">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#focusCollapse" style="background: none; box-shadow: none; padding: 0; color: inherit; width: auto;">
+                                <h5 class="mb-0"><i class="fas fa-bullseye me-2 text-primary"></i>Weekly Focus (Top 3)</h5>
+                            </button>
+                            <a href="<?= site_url('projects') ?>" class="btn btn-sm btn-outline-secondary">View All</a>
+                        </h2>
+                        <div id="focusCollapse" class="accordion-collapse collapse show" data-bs-parent="#focusAccordion">
+                            <div class="accordion-body pt-0">
+                                <div class="row">
+                                    <?php if (!empty($weeklyFocus)): ?>
+                                        <?php foreach ($weeklyFocus as $project): ?>
+                                        <div class="col-md-4 mb-3">
+                                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none">
+                                                <div class="project-card focus-project h-100">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="text-truncate me-2">
+                                                            <span class="project-health health-good"></span>
+                                                            <strong class="text-dark"><?= esc($project['name']) ?></strong>
+                                                        </div>
+                                                        <span class="badge bg-<?= $project['priority'] === 'critical' ? 'danger' : ($project['priority'] === 'high' ? 'warning' : 'primary') ?> small">
+                                                            <?= ucfirst($project['priority']) ?>
+                                                        </span>
+                                                    </div>
+                                                    <p class="small text-muted mt-2 mb-2 text-truncate-2"><?= esc($project['description']) ?></p>
+                                                    <div class="progress mb-1" style="height: 6px;">
+                                                        <div class="progress-bar bg-success" style="width: <?= $project['progress'] ?>%"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between small text-muted">
+                                                        <span><?= $project['progress'] ?>% complete</span>
+                                                        <span>In Progress</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12 text-center py-3">
+                                            <p class="text-muted small">No active projects to focus on. <a href="<?= site_url('projects/create') ?>">Create one?</a></p>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -161,55 +140,47 @@
                         <h5 class="mb-0"><i class="fas fa-list-alt me-2"></i>All Projects</h5>
                         <div>
                             <button class="btn btn-sm btn-outline-secondary me-2">Filter</button>
-                            <button class="btn btn-sm btn-primary">+ New</button>
+                            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary">+ New</a>
                         </div>
                     </div>
 
                     <div id="projectsList">
-                        <!-- Project cards will be dynamically loaded here -->
-                        <div class="project-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <span class="project-health health-good"></span>
-                                    <strong>Portfolio Website</strong>
+                        <?php if (!empty($projects)): ?>
+                            <?php foreach ($projects as $project): ?>
+                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none">
+                                <div class="project-card mb-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="project-health health-good"></span>
+                                            <strong class="text-dark"><?= esc($project['name']) ?></strong>
+                                        </div>
+                                        <div>
+                                            <?php 
+                                            $techs = json_decode($project['tech_stack'], true) ?? [];
+                                            foreach (array_slice($techs, 0, 2) as $tech): 
+                                            ?>
+                                            <span class="badge bg-dark me-1"><?= esc($tech) ?></span>
+                                            <?php endforeach; ?>
+                                            <span class="badge bg-<?= $project['status'] === 'in_progress' ? 'success' : 'secondary' ?>"><?= ucfirst($project['status']) ?></span>
+                                        </div>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-2 text-truncate"><?= esc($project['description']) ?></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="progress flex-grow-1 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-info" style="width: <?= $project['progress'] ?>%"></div>
+                                        </div>
+                                        <div class="small text-muted">
+                                            <i class="fas fa-calendar me-1"></i><?= date('M d', strtotime($project['updated_at'])) ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="badge bg-info me-1">Web</span>
-                                    <span class="badge bg-secondary">Design</span>
-                                </div>
+                            </a>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="text-center py-4">
+                                <p class="text-muted small">No projects found. Use the "New Project" button to get started!</p>
                             </div>
-                            <p class="small text-muted mt-2 mb-2">Redesign and deploy personal portfolio</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="progress flex-grow-1 me-3">
-                                    <div class="progress-bar bg-info" style="width: 90%"></div>
-                                </div>
-                                <div class="small">
-                                    <i class="fas fa-calendar me-1"></i>Updated 2 days ago
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <span class="project-health health-good"></span>
-                                    <strong>E-commerce Backend</strong>
-                                </div>
-                                <div>
-                                    <span class="badge bg-dark me-1">Node.js</span>
-                                    <span class="badge bg-success">API</span>
-                                </div>
-                            </div>
-                            <p class="small text-muted mt-2 mb-2">Build REST API with authentication</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="progress flex-grow-1 me-3">
-                                    <div class="progress-bar bg-success" style="width: 60%"></div>
-                                </div>
-                                <div class="small">
-                                    <i class="fas fa-calendar me-1"></i>Updated 1 week ago
-                                </div>
-                            </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -227,46 +198,36 @@
                     </div>
                 </div>
 
-                <!-- Recent Activity -->
-                <div class="stat-card">
-                    <h5 class="mb-3"><i class="fas fa-history me-2"></i>Recent Activity</h5>
-                    <div id="recentActivity">
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0">
-                                <div class="user-avatar" style="width: 36px; height: 36px; background-color: var(--primary-color);">
-                                    <i class="fas fa-code"></i>
+                <!-- Recent Activity Accordion -->
+                <div class="accordion" id="activityAccordion">
+                    <div class="accordion-item stat-card p-0" style="border: none;">
+                        <h2 class="accordion-header p-3">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse" style="background: none; box-shadow: none; padding: 0; color: inherit; width: auto;">
+                                <h5 class="mb-0"><i class="fas fa-history me-2 text-warning"></i>Recent Activity</h5>
+                            </button>
+                        </h2>
+                        <div id="activityCollapse" class="accordion-collapse collapse show" data-bs-parent="#activityAccordion">
+                            <div class="accordion-body pt-0">
+                                <div id="recentActivity">
+                                    <?php if (!empty($recentActivity)): ?>
+                                        <?php foreach ($recentActivity as $act): ?>
+                                        <div class="d-flex mb-3">
+                                            <div class="flex-shrink-0">
+                                                <div class="user-avatar" style="width: 32px; height: 32px; background-color: <?= $act['color'] ?>; font-size: 14px;">
+                                                    <i class="fas <?= $act['icon'] ?>"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <div class="small text-dark"><strong><?= esc($act['title']) ?></strong></div>
+                                                <div class="small text-muted"><?= esc($act['description']) ?></div>
+                                                <div class="extra-small text-muted text-end mt-1"><?= date('M d, H:i', strtotime($act['time'])) ?></div>
+                                            </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p class="text-center text-muted small py-3">No recent activity found.</p>
+                                    <?php endif; ?>
                                 </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="small"><strong>Updated ChegeOS Dashboard</strong></div>
-                                <div class="small text-muted">Added progress tracking to project cards</div>
-                                <div class="small text-muted">2 hours ago</div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex mb-3">
-                            <div class="flex-shrink-0">
-                                <div class="user-avatar" style="width: 36px; height: 36px; background-color: var(--success-color);">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="small"><strong>Completed milestone</strong></div>
-                                <div class="small text-muted">"Design system" in Portfolio Website</div>
-                                <div class="small text-muted">1 day ago</div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex">
-                            <div class="flex-shrink-0">
-                                <div class="user-avatar" style="width: 36px; height: 36px; background-color: var(--warning-color);">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="small"><strong>Logged 3.5 hours</strong></div>
-                                <div class="small text-muted">On E-commerce Backend API</div>
-                                <div class="small text-muted">2 days ago</div>
                             </div>
                         </div>
                     </div>
