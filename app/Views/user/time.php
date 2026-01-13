@@ -72,14 +72,12 @@
                             <h5 class="mb-1"><i class="fas fa-play-circle me-2 text-success"></i>Quick Start Timer</h5>
                             <p class="small text-muted mb-0">Start tracking time for a task</p>
                         </div>
-                        <div class="d-flex align-items-center" style="width: 500px;">
+                        <div class="d-flex align-items-center" style="width: 600px;">
                             <select class="form-select me-2" id="quickProjectSelect">
                                 <option value="">Select Project</option>
-                                <option value="chegeos">ChegeOS Dashboard</option>
-                                <option value="api">API Integration</option>
-                                <option value="mobile">Mobile App</option>
-                                <option value="portfolio">Portfolio Website</option>
-                                <option value="ecommerce">E-commerce Backend</option>
+                                <?php foreach ($projects as $project): ?>
+                                    <option value="<?= $project['id'] ?>"><?= esc($project['name']) ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <input type="text" class="form-control me-2" id="quickTaskInput" placeholder="Task description...">
                             <button class="btn btn-primary btn-lg" id="startTimerBtn">
@@ -98,8 +96,8 @@
                     <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <div class="stat-value" id="todayTime">3.5</div>
-                    <div class="stat-label">Today</div>
+                    <div class="stat-value" id="todayTime"><?= $todayTime ?></div>
+                    <div class="stat-label">Today (hrs)</div>
                 </div>
             </div>
 
@@ -108,8 +106,8 @@
                     <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
                         <i class="fas fa-calendar-week"></i>
                     </div>
-                    <div class="stat-value" id="weekTime">18.5</div>
-                    <div class="stat-label">This Week</div>
+                    <div class="stat-value" id="weekTime"><?= $weekTime ?></div>
+                    <div class="stat-label">This Week (hrs)</div>
                 </div>
             </div>
 
@@ -118,8 +116,8 @@
                     <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <div class="stat-value" id="monthTime">42.5</div>
-                    <div class="stat-label">This Month</div>
+                    <div class="stat-value" id="monthTime"><?= $monthTime ?></div>
+                    <div class="stat-label">This Month (hrs)</div>
                 </div>
             </div>
 
@@ -128,7 +126,7 @@
                     <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
-                    <div class="stat-value" id="avgDaily">4.2</div>
+                    <div class="stat-value" id="avgDaily"><?= $avgDaily ?></div>
                     <div class="stat-label">Avg Daily (hrs)</div>
                 </div>
             </div>
@@ -152,122 +150,49 @@
                         <table class="table table-hover table-dark" id="timeEntriesTable">
                             <thead>
                             <tr>
-                                <th>Date</th>
+                                <th>Date / Time</th>
                                 <th>Project</th>
                                 <th>Task</th>
                                 <th>Duration</th>
-                                <th>Notes</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td class="small">Today<br><span class="text-muted">2:00 PM - 4:30 PM</span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: #6366f1;">
-                                            <i class="fas fa-project-diagram" style="font-size: 0.7rem;"></i>
+                            <?php if (empty($time_logs)): ?>
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No time entries found.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($time_logs as $log): ?>
+                                <tr>
+                                    <td class="small">
+                                        <?= date('M d', strtotime($log['start_time'])) ?><br>
+                                        <span class="text-muted"><?= date('H:i', strtotime($log['start_time'])) ?> - <?= $log['end_time'] ? date('H:i', strtotime($log['end_time'])) : '...' ?></span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: <?= $log['project_color'] ?? '#64748b' ?>;">
+                                                <i class="fas fa-project-diagram" style="font-size: 0.7rem;"></i>
+                                            </div>
+                                            <span><?= esc($log['project_name'] ?? 'Personal') ?></span>
                                         </div>
-                                        <span>ChegeOS Dashboard</span>
-                                    </div>
-                                </td>
-                                <td>Dashboard UI Design</td>
-                                <td><strong class="text-success">2.5 hours</strong></td>
-                                <td class="small">Improved sidebar and card designs</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="small">Today<br><span class="text-muted">10:00 AM - 11:00 AM</span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: #10b981;">
-                                            <i class="fas fa-server" style="font-size: 0.7rem;"></i>
-                                        </div>
-                                        <span>E-commerce Backend</span>
-                                    </div>
-                                </td>
-                                <td>Authentication System</td>
-                                <td><strong class="text-success">1.0 hour</strong></td>
-                                <td class="small">JWT implementation and testing</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="small">Yesterday<br><span class="text-muted">3:00 PM - 5:30 PM</span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: #6366f1;">
-                                            <i class="fas fa-project-diagram" style="font-size: 0.7rem;"></i>
-                                        </div>
-                                        <span>ChegeOS Dashboard</span>
-                                    </div>
-                                </td>
-                                <td>Projects Page Development</td>
-                                <td><strong class="text-success">2.5 hours</strong></td>
-                                <td class="small">Built table view with filters</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="small">Mar 17<br><span class="text-muted">9:00 AM - 12:00 PM</span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: #f59e0b;">
-                                            <i class="fas fa-mobile-alt" style="font-size: 0.7rem;"></i>
-                                        </div>
-                                        <span>Mobile App</span>
-                                    </div>
-                                </td>
-                                <td>UI Component Design</td>
-                                <td><strong class="text-success">3.0 hours</strong></td>
-                                <td class="small">React Native component library</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="small">Mar 16<br><span class="text-muted">1:00 PM - 4:00 PM</span></td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-avatar me-2" style="width: 24px; height: 24px; background-color: #0ea5e9;">
-                                            <i class="fas fa-globe" style="font-size: 0.7rem;"></i>
-                                        </div>
-                                        <span>Portfolio Website</span>
-                                    </div>
-                                </td>
-                                <td>Responsive Design</td>
-                                <td><strong class="text-success">3.0 hours</strong></td>
-                                <td class="small">Mobile responsiveness testing</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td><?= esc($log['task_name']) ?></td>
+                                    <td><strong class="text-success"><?= round(($log['duration'] ?? 0) / 3600, 2) ?> hours</strong></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="text-center mt-3">
-                        <button class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-history me-1"></i> Load More Entries
-                        </button>
+                    <div class="mt-3">
+                        <?= $pager->links('time_logs', 'bootstrap_full') ?>
                     </div>
                 </div>
             </div>
@@ -275,108 +200,45 @@
             <!-- Project Breakdown & Reports -->
             <div class="col-lg-4">
                 <!-- Project Time Breakdown -->
-                <div class="stat-card mb-4">
+                <div class="stat-card mb-4" id="projectBreakdownCard">
                     <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Time Breakdown</h5>
                     <div class="time-breakdown">
-                        <div class="breakdown-item">
-                            <div class="d-flex justify-content-between">
-                                <span>ChegeOS Dashboard</span>
-                                <span class="text-muted">8.5 hrs (46%)</span>
+                        <?php if (empty($project_breakdown)): ?>
+                            <p class="text-center py-3 text-muted">No data available.</p>
+                        <?php else: ?>
+                            <?php foreach ($project_breakdown as $item): 
+                                $percent = round(($item['total_duration'] / $total_all_duration) * 100);
+                            ?>
+                            <div class="breakdown-item mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <span><?= esc($item['name'] ?? 'Personal') ?></span>
+                                    <span class="text-muted"><?= round($item['total_duration'] / 3600, 1) ?> hrs (<?= $percent ?>%)</span>
+                                </div>
+                                <div class="progress mt-1" style="height: 8px;">
+                                    <div class="progress-bar" style="width: <?= $percent ?>%; background-color: <?= $item['color'] ?? '#64748b' ?>;"></div>
+                                </div>
                             </div>
-                            <div class="progress mt-1" style="height: 8px;">
-                                <div class="progress-bar bg-primary" style="width: 46%"></div>
-                            </div>
-                        </div>
-                        <div class="breakdown-item mt-3">
-                            <div class="d-flex justify-content-between">
-                                <span>E-commerce Backend</span>
-                                <span class="text-muted">4.0 hrs (22%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 8px;">
-                                <div class="progress-bar bg-success" style="width: 22%"></div>
-                            </div>
-                        </div>
-                        <div class="breakdown-item mt-3">
-                            <div class="d-flex justify-content-between">
-                                <span>Portfolio Website</span>
-                                <span class="text-muted">3.0 hrs (16%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 8px;">
-                                <div class="progress-bar bg-info" style="width: 16%"></div>
-                            </div>
-                        </div>
-                        <div class="breakdown-item mt-3">
-                            <div class="d-flex justify-content-between">
-                                <span>Mobile App</span>
-                                <span class="text-muted">2.0 hrs (11%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 8px;">
-                                <div class="progress-bar bg-warning" style="width: 11%"></div>
-                            </div>
-                        </div>
-                        <div class="breakdown-item mt-3">
-                            <div class="d-flex justify-content-between">
-                                <span>API Integration</span>
-                                <span class="text-muted">1.0 hr (5%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 8px;">
-                                <div class="progress-bar bg-danger" style="width: 5%"></div>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
-                </div>
 
-                <!-- Weekly Productivity -->
-                <div class="stat-card">
-                    <h5 class="mb-3"><i class="fas fa-chart-line me-2"></i>Weekly Productivity</h5>
-                    <div class="weekly-chart">
-                        <div class="d-flex justify-content-between align-items-end mb-3" style="height: 120px;">
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 40%; background-color: #6366f1;"></div>
-                                <div class="small mt-1">Mon</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 60%; background-color: #10b981;"></div>
-                                <div class="small mt-1">Tue</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 80%; background-color: #f59e0b;"></div>
-                                <div class="small mt-1">Wed</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 100%; background-color: #6366f1;"></div>
-                                <div class="small mt-1">Thu</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 70%; background-color: #10b981;"></div>
-                                <div class="small mt-1">Fri</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 30%; background-color: #ef4444;"></div>
-                                <div class="small mt-1">Sat</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="chart-bar" style="height: 20%; background-color: #8b5cf6;"></div>
-                                <div class="small mt-1">Sun</div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between small text-muted">
-                            <span>2.0 hrs</span>
-                            <span>3.0 hrs</span>
-                            <span>4.0 hrs</span>
-                            <span>5.0 hrs</span>
-                            <span>3.5 hrs</span>
-                            <span>1.5 hrs</span>
-                            <span>1.0 hrs</span>
-                        </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <button class="btn btn-sm btn-outline-secondary <?= $breakdown_current_page <= 1 ? 'disabled' : '' ?>" 
+                                onclick="window.location.search = '?page_breakdown=<?= $breakdown_current_page - 1 ?>'">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="small text-muted">Page <?= $breakdown_current_page ?> of <?= $breakdown_total_pages ?></span>
+                        <button class="btn btn-sm btn-outline-secondary <?= $breakdown_current_page >= $breakdown_total_pages ? 'disabled' : '' ?>"
+                                onclick="window.location.search = '?page_breakdown=<?= $breakdown_current_page + 1 ?>'">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        </div> <!-- Close Main Row -->
 
     <!-- Manual Entry Modal -->
-    <div class="modal fade" id="manualEntryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -384,38 +246,37 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="manualEntryForm">
+                    <form id="manualEntryForm" action="<?= site_url('time/manual') ?>" method="POST">
+                        <?= csrf_field() ?>
                         <div class="mb-3">
                             <label for="entryProject" class="form-label">Project *</label>
-                            <select class="form-select" id="entryProject" required>
+                            <select class="form-select" id="entryProject" name="project_id" required>
                                 <option value="">Select Project</option>
-                                <option value="chegeos">ChegeOS Dashboard</option>
-                                <option value="api">API Integration</option>
-                                <option value="mobile">Mobile App</option>
-                                <option value="portfolio">Portfolio Website</option>
-                                <option value="ecommerce">E-commerce Backend</option>
+                                <?php foreach ($projects as $project): ?>
+                                    <option value="<?= $project['id'] ?>"><?= esc($project['name']) ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="entryTask" class="form-label">Task / Description *</label>
-                            <input type="text" class="form-control" id="entryTask" placeholder="What did you work on?" required>
+                            <input type="text" class="form-control" id="entryTask" name="task_name" placeholder="What did you work on?" required>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="entryDate" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="entryDate" value="<?= date('Y-m-d') ?>">
+                                <input type="date" class="form-control" id="entryDate" name="date" value="<?= date('Y-m-d') ?>">
                             </div>
                             <div class="col-md-6">
                                 <label for="entryDuration" class="form-label">Duration (hours)</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="entryDuration" value="1.0" step="0.25" min="0.25">
+                                    <input type="number" class="form-control" id="entryDuration" name="duration" value="1.0" step="0.25" min="0.25">
                                     <span class="input-group-text">hours</span>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="entryNotes" class="form-label">Notes</label>
-                            <textarea class="form-control" id="entryNotes" rows="3" placeholder="Additional notes about this work..."></textarea>
+                            <textarea class="form-control" id="entryNotes" name="notes" rows="3" placeholder="Additional notes about this work..."></textarea>
                         </div>
                     </form>
                 </div>
@@ -461,36 +322,22 @@
     <!-- Time Tracking JavaScript -->
     <script>
         $(document).ready(function() {
-            // Initialize tooltips
-            $('[data-bs-toggle="tooltip"]').tooltip();
-
-            // Sidebar toggle
+            // Sidebar toggle logic (consistent across pages)
             $('#sidebarToggle').click(function() {
                 $('#sidebar').toggleClass('sidebar-collapsed');
                 $('#mainContent').toggleClass('full-width');
-
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-
                 localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
             });
 
-            // Check saved sidebar state
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
-            }
-
             // Timer variables
             let timerInterval = null;
-            let timerSeconds = 0;
-            let isTimerRunning = false;
-            let isTimerPaused = false;
+            let currentLogId = localStorage.getItem('active_timer_log_id');
+            let startTimestamp = localStorage.getItem('active_timer_start');
+
+            // Initialize timer on load if active
+            if (currentLogId && startTimestamp) {
+                resumeActiveTimer();
+            }
 
             // Start timer
             $('#startTimerBtn').click(function() {
@@ -502,48 +349,40 @@
                     return;
                 }
 
-                // Show active timer section
-                $('#quickStartSection').hide();
-                $('#activeTimerSection').show();
-                $('#currentTask').text(task);
+                $.post('<?= site_url('time/start') ?>', {
+                    project_id: project,
+                    task_name: task
+                }, function(response) {
+                    if (response.status === 'success') {
+                        currentLogId = response.id;
+                        startTimestamp = Date.now();
+                        
+                        localStorage.setItem('active_timer_log_id', currentLogId);
+                        localStorage.setItem('active_timer_start', startTimestamp);
+                        localStorage.setItem('active_timer_task', task);
 
-                // Start timer
-                startTimer();
-                showToast(`Started tracking time for: ${task}`, 'success');
+                        showActiveTimerUI(task, 0);
+                        startTimerInterval(0);
+                        showToast(`Started tracking time for: ${task}`, 'success');
+                    }
+                });
             });
 
             // Stop timer
             $('#stopTimerBtn').click(function() {
-                stopTimer();
+                if (!currentLogId) return;
 
-                const task = $('#currentTask').text();
-                const hours = (timerSeconds / 3600).toFixed(2);
-
-                // Show confirmation
-                showToast(`Stopped timer. Logged ${hours} hours for: ${task}`, 'info');
-
-                // Reset UI
-                $('#quickStartSection').show();
-                $('#activeTimerSection').hide();
-                $('#quickProjectSelect').val('');
-                $('#quickTaskInput').val('');
-
-                // Update today's time
-                const currentTime = parseFloat($('#todayTime').text());
-                $('#todayTime').text((currentTime + parseFloat(hours)).toFixed(1));
-            });
-
-            // Pause/Resume timer
-            $('#pauseTimerBtn').click(function() {
-                if (isTimerPaused) {
-                    resumeTimer();
-                    $(this).html('<i class="fas fa-pause me-1"></i> Pause');
-                    showToast('Timer resumed', 'info');
-                } else {
-                    pauseTimer();
-                    $(this).html('<i class="fas fa-play me-1"></i> Resume');
-                    showToast('Timer paused', 'warning');
-                }
+                $.post('<?= site_url('time/stop') ?>/' + currentLogId, {}, function(response) {
+                    if (response.status === 'success') {
+                        clearInterval(timerInterval);
+                        localStorage.removeItem('active_timer_log_id');
+                        localStorage.removeItem('active_timer_start');
+                        localStorage.removeItem('active_timer_task');
+                        
+                        showToast(`Time logged successfully!`, 'success');
+                        setTimeout(() => window.location.reload(), 1500);
+                    }
+                });
             });
 
             // Manual entry button
@@ -551,114 +390,59 @@
                 $('#manualEntryModal').modal('show');
             });
 
-            // Save manual entry
             $('#saveEntryBtn').click(function() {
-                const project = $('#entryProject').val();
-                const task = $('#entryTask').val();
-                const duration = $('#entryDuration').val();
-
-                if (!project || !task || !duration) {
-                    showToast('Please fill all required fields', 'warning');
-                    return;
-                }
-
-                showToast(`Time entry saved: ${duration} hours for ${task}`, 'success');
-
-                // Update stats
-                const currentTime = parseFloat($('#todayTime').text());
-                $('#todayTime').text((currentTime + parseFloat(duration)).toFixed(1));
-
-                // Reset form and close modal
-                $('#manualEntryForm')[0].reset();
-                $('#manualEntryModal').modal('hide');
+                $('#manualEntryForm').submit();
             });
 
-            // Timer functions
-            function startTimer() {
-                timerSeconds = 0;
-                isTimerRunning = true;
-                isTimerPaused = false;
-                updateTimerDisplay();
+            function resumeActiveTimer() {
+                const task = localStorage.getItem('active_timer_task');
+                const elapsedSeconds = Math.floor((Date.now() - parseInt(startTimestamp)) / 1000);
+                
+                showActiveTimerUI(task, elapsedSeconds);
+                startTimerInterval(elapsedSeconds);
+            }
 
+            function showActiveTimerUI(task, initialSeconds) {
+                $('#quickStartSection').hide();
+                $('#activeTimerSection').show();
+                $('#currentTask').text(task);
+                updateTimerDisplay(initialSeconds);
+            }
+
+            function startTimerInterval(initialSeconds) {
+                let seconds = initialSeconds;
+                clearInterval(timerInterval);
                 timerInterval = setInterval(function() {
-                    if (!isTimerPaused) {
-                        timerSeconds++;
-                        updateTimerDisplay();
-                    }
+                    seconds++;
+                    updateTimerDisplay(seconds);
                 }, 1000);
             }
 
-            function pauseTimer() {
-                isTimerPaused = true;
-                $('#timerDisplay').removeClass('timer-pulse');
-            }
-
-            function resumeTimer() {
-                isTimerPaused = false;
-                $('#timerDisplay').addClass('timer-pulse');
-            }
-
-            function stopTimer() {
-                clearInterval(timerInterval);
-                isTimerRunning = false;
-                isTimerPaused = false;
-                timerSeconds = 0;
-                $('#timerDisplay').removeClass('timer-pulse');
-            }
-
-            function updateTimerDisplay() {
-                const hours = Math.floor(timerSeconds / 3600);
-                const minutes = Math.floor((timerSeconds % 3600) / 60);
-                const seconds = timerSeconds % 60;
+            function updateTimerDisplay(totalSeconds) {
+                const hours = Math.floor(totalSeconds / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
 
                 $('#timerDisplay').text(
                     `${hours.toString().padStart(2, '0')}:` +
                     `${minutes.toString().padStart(2, '0')}:` +
                     `${seconds.toString().padStart(2, '0')}`
                 );
-
-                if (isTimerRunning && !isTimerPaused) {
-                    $('#timerDisplay').addClass('timer-pulse');
-                }
+                $('#timerDisplay').addClass('timer-pulse');
             }
 
-            // Edit time entry
-            $(document).on('click', '.btn-outline-warning', function() {
-                const task = $(this).closest('tr').find('td:nth-child(3)').text();
-                showToast(`Editing time entry for: ${task}`, 'info');
-            });
-
-            // Toast notification function
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-
+                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">${message}</div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>`;
                 $('.toast-container').append(toastHtml);
-                const toast = new bootstrap.Toast(document.getElementById(toastId));
-                toast.show();
-
-                $(`#${toastId}`).on('hidden.bs.toast', function() {
-                    $(this).remove();
-                });
+                new bootstrap.Toast(document.getElementById(toastId)).show();
             }
-
-            // Simulate time updates (demo only)
-            setInterval(function() {
-                if (isTimerRunning && !isTimerPaused) {
-                    // Update weekly total when timer is running
-                    const weekTime = parseFloat($('#weekTime').text());
-                    $('#weekTime').text((weekTime + 0.0003).toFixed(1)); // Add 1 second in hours
-                }
-            }, 1000);
         });
     </script>
 

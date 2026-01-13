@@ -371,12 +371,12 @@
                     <h6 class="mb-2"><i class="fas fa-bolt me-2"></i>Quick Actions</h6>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
-                            <a href="<?= site_url('projects/time/1') ?>" class="btn btn-sm btn-primary w-100">
+                            <a href="<?= site_url('time?project_id=' . $project['id']) ?>" class="btn btn-sm btn-primary w-100">
                                 <i class="fas fa-clock me-1"></i> Time
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="<?= site_url('projects/kanban/1') ?>" class="btn btn-sm btn-info w-100">
+                            <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-sm btn-info w-100">
                                 <i class="fas fa-columns me-1"></i> Tasks
                             </a>
                         </div>
@@ -470,8 +470,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> <!-- Close Main Row -->
 
     <!-- Add Note Modal (Compact) -->
     <div class="modal fade" id="addNoteModal" tabindex="-1" aria-hidden="true">

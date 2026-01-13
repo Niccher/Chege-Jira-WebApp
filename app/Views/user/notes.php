@@ -58,7 +58,7 @@
                     <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
                         <i class="fas fa-sticky-note"></i>
                     </div>
-                    <div class="stat-value" id="totalNotes">24</div>
+                    <div class="stat-value" id="totalNotes"><?= $stats['total'] ?></div>
                     <div class="stat-label">Total Notes</div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
                         <i class="fas fa-star"></i>
                     </div>
-                    <div class="stat-value" id="starredNotes">8</div>
+                    <div class="stat-value" id="starredNotes"><?= $stats['starred'] ?></div>
                     <div class="stat-label">Starred</div>
                 </div>
             </div>
@@ -76,26 +76,26 @@
             <div class="col-md-3 col-sm-6 mb-3">
                 <div class="stat-card">
                     <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-project-diagram"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <div class="stat-value" id="projectNotes">15</div>
-                    <div class="stat-label">Project Notes</div>
+                    <div class="stat-value" id="completedNotes"><?= $stats['completed'] ?></div>
+                    <div class="stat-label">Completed</div>
                 </div>
             </div>
 
             <div class="col-md-3 col-sm-6 mb-3">
                 <div class="stat-card">
                     <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-code"></i>
+                        <i class="fas fa-trash"></i>
                     </div>
-                    <div class="stat-value" id="codeSnippets">32</div>
-                    <div class="stat-label">Code Snippets</div>
+                    <div class="stat-value" id="deletedNotes">0</div>
+                    <div class="stat-label">Deleted</div>
                 </div>
             </div>
         </div>
 
-        <!-- Notes Layout -->
-        <div class="row">
+        <!-- Row 1: Notes List & Editor -->
+        <div class="row" id="row_1">
             <!-- Notes List -->
             <div class="col-lg-4">
                 <div class="stat-card" style="height: calc(100vh - 300px); overflow-y: auto;">
@@ -107,319 +107,160 @@
                     </div>
 
                     <div id="notesList">
-                        <!-- Note Item -->
-                        <div class="note-item active" data-note-id="1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">Dashboard Design Decisions</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-project-diagram me-1"></i> ChegeOS Dashboard
+                        <?php if (!empty($notes)): ?>
+                            <?php foreach ($notes as $note): ?>
+                            <?php $noteTags = json_decode($note['tags'], true) ?? []; ?>
+                            <div class="note-item <?= $note['is_completed'] ? 'completed-note' : '' ?>" 
+                                 data-note-id="<?= $note['id'] ?>" 
+                                 data-project-id="<?= $note['project_id'] ?>"
+                                 data-title="<?= esc($note['title']) ?>"
+                                 data-content="<?= esc($note['content']) ?>"
+                                 data-tags="<?= esc(implode(', ', $noteTags)) ?>"
+                                 data-starred="<?= $note['is_starred'] ?>"
+                                 data-completed="<?= $note['is_completed'] ?>"
+                                 data-created-at="<?= date('M d, Y', strtotime($note['created_at'])) ?>">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="text-truncate" style="max-width: 70%;">
+                                        <h6 class="mb-1"><?= esc($note['title']) ?></h6>
+                                        <div class="small text-muted">
+                                            <i class="fas fa-project-diagram me-1"></i> <?= esc($note['project_name'] ?? 'General') ?>
+                                        </div>
+                                    </div>
+                                    <div class="note-meta text-end">
+                                        <i class="fa<?= $note['is_starred'] ? 's' : 'r' ?> fa-star text-warning"></i>
+                                        <div class="small text-muted"><?= date('M d', strtotime($note['created_at'])) ?></div>
                                     </div>
                                 </div>
-                                <div class="note-meta">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <div class="small text-muted">Today</div>
+                                <p class="note-preview small text-muted mb-2">
+                                    <?= esc(substr(strip_tags($note['content']), 0, 80)) ?><?= strlen($note['content']) > 80 ? '...' : '' ?>
+                                </p>
+                                <div class="note-tags">
+                                    <?php 
+                                    $tagColors = ['bg-primary', 'bg-info', 'bg-success', 'bg-warning', 'bg-danger', 'bg-secondary'];
+                                    foreach ($noteTags as $index => $tag): 
+                                        $color = $tagColors[$index % count($tagColors)];
+                                    ?>
+                                    <span class="badge <?= $color ?> badge-sm"><i class="fas fa-tag me-1"></i><?= esc($tag) ?></span>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
-                            <p class="note-preview small text-muted mb-2">
-                                Decided to use dark theme as default with Bootstrap 5. Sidebar will be collapsible...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-primary badge-sm">design</span>
-                                <span class="badge bg-info badge-sm">ui</span>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="text-center py-5">
+                                <i class="fas fa-sticky-note fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No notes found. Create your first note!</p>
                             </div>
-                        </div>
-
-                        <!-- Note Item -->
-                        <div class="note-item" data-note-id="2">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">API Integration Architecture</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-server me-1"></i> API Integration
-                                    </div>
-                                </div>
-                                <div class="note-meta">
-                                    <div class="small text-muted">2 days ago</div>
-                                </div>
-                            </div>
-                            <p class="note-preview small text-muted mb-2">
-                                Plan to integrate with GitHub, GitLab, and Jira APIs. Need rate limiting...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-success badge-sm">backend</span>
-                                <span class="badge bg-dark badge-sm">api</span>
-                            </div>
-                        </div>
-
-                        <!-- Note Item -->
-                        <div class="note-item" data-note-id="3">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">Database Schema</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-database me-1"></i> E-commerce Backend
-                                    </div>
-                                </div>
-                                <div class="note-meta">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <div class="small text-muted">3 days ago</div>
-                                </div>
-                            </div>
-                            <p class="note-preview small text-muted mb-2">
-                                Users table: id, email, password_hash, created_at. Projects table...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-dark badge-sm">database</span>
-                                <span class="badge bg-warning badge-sm">schema</span>
-                            </div>
-                        </div>
-
-                        <!-- Note Item -->
-                        <div class="note-item" data-note-id="4">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">React Native Setup</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-mobile-alt me-1"></i> Mobile App
-                                    </div>
-                                </div>
-                                <div class="note-meta">
-                                    <div class="small text-muted">1 week ago</div>
-                                </div>
-                            </div>
-                            <p class="note-preview small text-muted mb-2">
-                                npx react-native init ChegeOSMobile. Using React Navigation for routing...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-info badge-sm">mobile</span>
-                                <span class="badge bg-danger badge-sm">react</span>
-                            </div>
-                        </div>
-
-                        <!-- Note Item -->
-                        <div class="note-item" data-note-id="5">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">Project Meeting Notes</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-users me-1"></i> Team Meeting
-                                    </div>
-                                </div>
-                                <div class="note-meta">
-                                    <div class="small text-muted">2 weeks ago</div>
-                                </div>
-                            </div>
-                            <p class="note-preview small text-muted mb-2">
-                                Discussed project priorities and timeline. ChegeOS MVP deadline...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-secondary badge-sm">meeting</span>
-                            </div>
-                        </div>
-
-                        <!-- Note Item -->
-                        <div class="note-item" data-note-id="6">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="mb-1">Code Snippet: JWT Auth</h6>
-                                    <div class="small text-muted">
-                                        <i class="fas fa-code me-1"></i> Code Snippet
-                                    </div>
-                                </div>
-                                <div class="note-meta">
-                                    <i class="fas fa-star text-warning"></i>
-                                    <div class="small text-muted">Mar 10</div>
-                                </div>
-                            </div>
-                            <p class="note-preview small text-muted mb-2">
-                                // JWT middleware implementation for Express.js...
-                            </p>
-                            <div class="note-tags">
-                                <span class="badge bg-success badge-sm">nodejs</span>
-                                <span class="badge bg-danger badge-sm">auth</span>
-                                <span class="badge bg-primary badge-sm">code</span>
-                            </div>
-                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="mt-3">
+                        <?= $pager->links('notes', 'bootstrap_full') ?>
                     </div>
                 </div>
             </div>
 
-            <!-- Note Editor -->
+            <!-- Note Editor or New Note Form -->
             <div class="col-lg-8">
                 <div class="stat-card" style="height: calc(100vh - 300px); display: flex; flex-direction: column;">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Note Editor</h5>
-                        <div class="btn-group">
-                            <button class="btn btn-sm btn-outline-secondary" id="saveNoteBtn">
-                                <i class="fas fa-save me-1"></i> Save
-                            </button>
-                            <button class="btn btn-sm btn-outline-secondary" id="starNoteBtn">
-                                <i class="far fa-star"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger" id="deleteNoteBtn">
-                                <i class="fas fa-trash"></i>
+                    <form action="<?= site_url('notes/store') ?>" method="POST" id="newNoteForm" class="h-100 d-flex flex-column">
+                        <?= csrf_field() ?>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0"><i class="fas fa-edit me-2"></i>New Note</h5>
+                            <button type="submit" class="btn btn-sm btn-primary" id="saveNoteBtn" disabled>
+                                <i class="fas fa-save me-1"></i> Save Note
                             </button>
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <input type="text" class="form-control form-control-lg" id="noteTitle" placeholder="Note Title" value="Dashboard Design Decisions">
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <select class="form-select" id="noteProject">
-                                <option value="chegeos">ChegeOS Dashboard</option>
-                                <option value="api">API Integration</option>
-                                <option value="mobile">Mobile App</option>
-                                <option value="portfolio">Portfolio Website</option>
-                                <option value="ecommerce">E-commerce Backend</option>
-                                <option value="general">General</option>
-                            </select>
+                        <div class="mb-3">
+                            <input type="text" name="title" class="form-control form-control-lg" id="noteTitle" placeholder="Note Title" required>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" id="noteTags" placeholder="Tags (comma separated)" value="design, ui, decisions">
-                        </div>
-                    </div>
 
-                    <!-- Editor Toolbar -->
-                    <div class="editor-toolbar mb-3">
-                        <div class="btn-group btn-group-sm me-2">
-                            <button class="btn btn-outline-secondary" title="Bold"><i class="fas fa-bold"></i></button>
-                            <button class="btn btn-outline-secondary" title="Italic"><i class="fas fa-italic"></i></button>
-                            <button class="btn btn-outline-secondary" title="Code"><i class="fas fa-code"></i></button>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <select name="project_id" class="form-select" id="noteProject">
+                                    <option value="">General (No Project)</option>
+                                    <?php if (!empty($projects)): ?>
+                                        <?php foreach ($projects as $project): ?>
+                                        <option value="<?= $project['id'] ?>"><?= esc($project['name']) ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="tags" class="form-control" id="noteTags" placeholder="Tags (comma separated)">
+                            </div>
                         </div>
-                        <div class="btn-group btn-group-sm me-2">
-                            <button class="btn btn-outline-secondary" title="Heading 1"><i class="fas fa-heading"></i>1</button>
-                            <button class="btn btn-outline-secondary" title="Heading 2"><i class="fas fa-heading"></i>2</button>
+
+                        <div class="flex-grow-1 mb-3">
+                            <textarea name="content" class="form-control h-100" id="noteContent" placeholder="Start writing your note here..."></textarea>
                         </div>
-                        <div class="btn-group btn-group-sm me-2">
-                            <button class="btn btn-outline-secondary" title="List"><i class="fas fa-list-ul"></i></button>
-                            <button class="btn btn-outline-secondary" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="markdownMode">
+                                <label class="form-check-label small" for="markdownMode">Markdown Mode</label>
+                            </div>
+                            <div class="small text-muted">
+                                <i class="fas fa-info-circle me-1"></i> Press Save to store this note.
+                            </div>
                         </div>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary" title="Link"><i class="fas fa-link"></i></button>
-                            <button class="btn btn-outline-secondary" title="Image"><i class="fas fa-image"></i></button>
-                        </div>
-                        <div class="form-check form-check-inline ms-3">
-                            <input class="form-check-input" type="checkbox" id="markdownMode">
-                            <label class="form-check-label small" for="markdownMode">Markdown</label>
-                        </div>
-                    </div>
-
-                    <!-- Note Editor -->
-                    <div class="flex-grow-1 mb-3">
-                    <textarea class="form-control h-100" id="noteContent" placeholder="Start writing your note here..."># Dashboard Design Decisions
-
-## Color Scheme
-- Primary: Indigo (#6366f1)
-- Background: Dark slate (#0f172a)
-- Cards: Slate (#1e293b)
-
-## Layout Decisions
-1. Fixed sidebar (250px) with toggle
-2. Main content area with padding
-3. Responsive grid system
-
-## Components
-- Stat cards with hover effects
-- Project cards with health indicators
-- Progress bars for task completion
-
-## Future Considerations
-- Light/dark theme toggle
-- Customizable dashboard widgets
-- Export functionality for reports
-
-## Code Example
-```css
-.stat-card {
-    background-color: #1e293b;
-    border-radius: 12px;
-    padding: 1.5rem;
-    border: 1px solid #334155;
-}
-```</textarea>
-                    </div>
-
-                    <!-- Preview/Edit Toggle -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="previewToggle">
-                            <label class="form-check-label small" for="previewToggle">Preview Mode</label>
-                        </div>
-                        <div class="small text-muted">
-                            <i class="fas fa-history me-1"></i> Last saved: 2 hours ago
-                        </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
-        </div>
+        </div> <!-- Close Main Row -->
 
-        <!-- Quick Notes Section -->
-        <div class="row mt-4">
-            <div class="col-lg-12">
-                <div class="stat-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Notes</h5>
-                        <button class="btn btn-sm btn-outline-secondary" id="clearQuickNotes">
-                            <i class="fas fa-trash me-1"></i> Clear All
-                        </button>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <div class="quick-note">
-                                <div class="quick-note-content">
-                                    Remember to add export functionality to time tracking
+        <!-- Note View Modal -->
+        <div class="modal fade" id="noteModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <form id="noteEditForm" method="POST">
+                        <?= csrf_field() ?>
+                        <div class="modal-header border-bottom border-secondary">
+                            <input type="text" name="title" id="modalNoteTitle" class="form-control form-control-lg bg-transparent border-0 text-white font-weight-bold" required>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="small text-muted mb-1">Project</label>
+                                    <select name="project_id" id="modalNoteProject" class="form-select form-select-sm">
+                                        <option value="">General</option>
+                                        <?php if (!empty($projects)): ?>
+                                            <?php foreach ($projects as $project): ?>
+                                            <option value="<?= $project['id'] ?>"><?= esc($project['name']) ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
                                 </div>
-                                <div class="quick-note-footer">
-                                    <div class="small text-muted">Just now</div>
-                                    <button class="btn btn-sm btn-link p-0">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </button>
+                                <div class="col-md-4">
+                                    <label class="small text-muted mb-1">Tags (comma separated)</label>
+                                    <input type="text" name="tags" id="modalNoteTags" class="form-control form-select-sm" placeholder="e.g. design, logic">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small text-muted mb-1">Created At</label>
+                                    <div id="modalNoteDate" class="form-control-plaintext small text-white ms-2"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="quick-note">
-                                <div class="quick-note-content">
-                                    Check mobile responsiveness on calendar view
-                                </div>
-                                <div class="quick-note-footer">
-                                    <div class="small text-muted">Yesterday</div>
-                                    <button class="btn btn-sm btn-link p-0">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </button>
-                                </div>
+                            <div class="mb-3">
+                                <label class="small text-muted mb-1">Content (Markdown supported)</label>
+                                <textarea name="content" id="modalNoteContent" class="form-control" rows="10" placeholder="Write your note here..."></textarea>
+                            </div>
+                            
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-warning w-100" id="modalToggleStar">
+                                    <i class="far fa-star me-1"></i> Starred
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-success w-100" id="modalToggleComplete">
+                                    <i class="fas fa-check me-1"></i> Completed
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger w-100" id="modalDeleteBtn">
+                                    <i class="fas fa-trash me-1"></i> Delete
+                                </button>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="quick-note">
-                                <div class="quick-note-content">
-                                    Research best practices for kanban drag & drop
-                                </div>
-                                <div class="quick-note-footer">
-                                    <div class="small text-muted">2 days ago</div>
-                                    <button class="btn btn-sm btn-link p-0">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="modal-footer border-top border-secondary">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="quick-note">
-                                <div class="quick-note-content">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Add quick note...">
-                                </div>
-                                <div class="quick-note-footer">
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -445,6 +286,15 @@
         .note-item.active {
             border-color: #6366f1;
             background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .completed-note {
+            opacity: 0.7;
+            border-left: 4px solid #10b981;
+        }
+
+        .completed-note h6 {
+            text-decoration: line-through;
         }
 
         .note-meta {
@@ -531,199 +381,143 @@
     <!-- Notes JavaScript -->
     <script>
         $(document).ready(function() {
-            // Initialize tooltips
-            $('[data-bs-toggle="tooltip"]').tooltip();
-
             // Sidebar toggle
             $('#sidebarToggle').click(function() {
                 $('#sidebar').toggleClass('sidebar-collapsed');
                 $('#mainContent').toggleClass('full-width');
-
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-
                 localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
             });
 
-            // Check saved sidebar state
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
+            // Note item click -> Open Modal (Using Event Delegation)
+            $(document).on('click', '.note-item', function() {
+                const noteId = $(this).data('note-id');
+                const title = $(this).data('title');
+                const content = $(this).data('content');
+                const projectId = $(this).data('project-id');
+                const tags = $(this).data('tags');
+                const isStarred = $(this).data('starred');
+                const isCompleted = $(this).data('completed');
+                const createdAt = $(this).data('created-at');
+
+                // Fill Modal
+                $('#modalNoteTitle').val(title);
+                $('#modalNoteContent').val(content);
+                $('#modalNoteProject').val(projectId);
+                $('#modalNoteTags').val(tags);
+                $('#modalNoteDate').text(createdAt);
+                $('#noteEditForm').attr('action', '<?= site_url('notes/update/') ?>' + noteId);
+                $('#modalDeleteBtn').attr('data-id', noteId);
+                $('#modalToggleStar').attr('data-id', noteId);
+                $('#modalToggleComplete').attr('data-id', noteId);
+
+                // Update Button States
+                updateModalButtonStates(isStarred, isCompleted);
+                
+                // Show Modal using Bootstrap 5 Native API
+                const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('noteModal'));
+                modal.show();
+            });
+
+            function updateModalButtonStates(isStarred, isCompleted) {
+                if (isStarred) {
+                    $('#modalToggleStar').removeClass('btn-outline-warning').addClass('btn-warning text-dark');
+                    $('#modalToggleStar i').removeClass('far').addClass('fas');
+                } else {
+                    $('#modalToggleStar').removeClass('btn-warning text-dark').addClass('btn-outline-warning');
+                    $('#modalToggleStar i').removeClass('fas').addClass('far');
+                }
+
+                if (isCompleted) {
+                    $('#modalToggleComplete').removeClass('btn-outline-success').addClass('btn-success');
+                } else {
+                    $('#modalToggleComplete').removeClass('btn-success').addClass('btn-outline-success');
+                }
             }
 
-            // New note button
-            $('#newNoteBtn').click(function() {
-                resetNoteEditor();
-                showToast('New note created', 'info');
-            });
-
-            // Save note
-            $('#saveNoteBtn').click(function() {
-                const title = $('#noteTitle').val();
-                if (!title) {
-                    showToast('Please enter a note title', 'warning');
-                    return;
-                }
-
-                showToast(`Note "${title}" saved successfully`, 'success');
-
-                // Update note list if needed
-                updateNoteInList(title);
-            });
-
-            // Star note
-            $('#starNoteBtn').click(function() {
-                const isStarred = $(this).find('i').hasClass('fas');
-                if (isStarred) {
-                    $(this).html('<i class="far fa-star"></i>');
-                    showToast('Note unstarred', 'info');
-                } else {
-                    $(this).html('<i class="fas fa-star"></i>');
-                    showToast('Note starred', 'success');
-                }
-            });
-
-            // Delete note
-            $('#deleteNoteBtn').click(function() {
-                const title = $('#noteTitle').val();
-                if (confirm(`Delete note "${title}"?`)) {
-                    showToast(`Note "${title}" deleted`, 'danger');
-                    resetNoteEditor();
-                }
-            });
-
-            // Note item click
-            $(document).on('click', '.note-item', function() {
-                $('.note-item').removeClass('active');
-                $(this).addClass('active');
-
-                const noteId = $(this).data('note-id');
-                loadNote(noteId);
-            });
-
-            // Search notes
-            $('#notesSearch').on('keyup', function() {
-                const searchTerm = $(this).val().toLowerCase();
-
-                $('.note-item').each(function() {
-                    const noteText = $(this).text().toLowerCase();
-                    if (noteText.includes(searchTerm) || searchTerm === '') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
+            // Star Toggle (AJAX)
+            $('#modalToggleStar').click(function() {
+                const id = $(this).data('id');
+                $.post('<?= site_url('notes/star/') ?>' + id, {
+                    <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                }, function(res) {
+                    if (res.status === 'success') {
+                        updateModalButtonStates(res.is_starred, null);
+                        // Optional: update the list item star icon too without reload
                     }
                 });
             });
 
-            // Preview toggle
-            $('#previewToggle').change(function() {
-                if ($(this).is(':checked')) {
-                    // Convert markdown to HTML (simplified)
-                    const content = $('#noteContent').val();
-                    // In a real app, you would use a markdown parser here
-                    showToast('Preview mode enabled', 'info');
+            // Complete Toggle (AJAX)
+            $('#modalToggleComplete').click(function() {
+                const id = $(this).data('id');
+                $.post('<?= site_url('notes/complete/') ?>' + id, {
+                    <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+                }, function(res) {
+                    if (res.status === 'success') {
+                        location.reload(); // Reload to update list styling and stats
+                    }
+                });
+            });
+
+            // Delete (Form Submission)
+            $('#modalDeleteBtn').click(function() {
+                if (confirm('Move this note to trash?')) {
+                    const id = $(this).data('id');
+                    const form = $('<form>', {
+                        'method': 'POST',
+                        'action': '<?= site_url('notes/delete/') ?>' + id
+                    }).append($('<input>', {
+                        'type': 'hidden',
+                        'name': '<?= csrf_token() ?>',
+                        'value': '<?= csrf_hash() ?>'
+                    }));
+                    $('body').append(form);
+                    form.submit();
+                }
+            });
+
+            // Note List Search
+            $('#notesSearch').on('keyup', function() {
+                const term = $(this).val().toLowerCase();
+                $('.note-item').each(function() {
+                    const text = $(this).text().toLowerCase();
+                    $(this).toggle(text.includes(term));
+                });
+            });
+
+            // New Note Button (uses the desktop editor if preferred, or we could use another modal)
+            $('#newNoteBtn').click(function() {
+                // Focus the title input in the right editor
+                $('#noteTitle').focus();
+                $('html, body').animate({
+                    scrollTop: $("#noteTitle").offset().top - 100
+                }, 500);
+            });
+
+            // Toggle Save Note Button
+            $('#noteProject').on('change', function() {
+                const val = $(this).val();
+                if (val !== "") {
+                    $('#saveNoteBtn').prop('disabled', false);
+                    showToast('Project selected. You can now save your note.', 'info');
                 } else {
-                    showToast('Edit mode enabled', 'info');
+                    $('#saveNoteBtn').prop('disabled', true);
                 }
             });
-
-            // Clear quick notes
-            $('#clearQuickNotes').click(function() {
-                if (confirm('Clear all quick notes?')) {
-                    $('.quick-note-content:not(:has(input))').parent().parent().fadeOut(300, function() {
-                        $(this).remove();
-                    });
-                    showToast('Quick notes cleared', 'danger');
-                }
-            });
-
-            // Add quick note
-            $(document).on('keypress', '.quick-note input', function(e) {
-                if (e.which === 13) { // Enter key
-                    const noteText = $(this).val();
-                    if (noteText) {
-                        // In a real app, this would save the note
-                        $(this).val('');
-                        showToast('Quick note added', 'success');
-                    }
-                }
-            });
-
-            // Helper functions
-            function resetNoteEditor() {
-                $('#noteTitle').val('');
-                $('#noteContent').val('');
-                $('#noteProject').val('general');
-                $('#noteTags').val('');
-                $('#starNoteBtn').html('<i class="far fa-star"></i>');
-            }
-
-            function loadNote(noteId) {
-                // In a real app, this would load note from database
-                const noteData = {
-                    1: {
-                        title: 'Dashboard Design Decisions',
-                        content: '# Dashboard Design Decisions\n\n## Color Scheme\n- Primary: Indigo (#6366f1)\n- Background: Dark slate (#0f172a)\n- Cards: Slate (#1e293b)',
-                        project: 'chegeos',
-                        tags: 'design, ui, decisions',
-                        starred: true
-                    },
-                    2: {
-                        title: 'API Integration Architecture',
-                        content: '# API Integration Architecture\n\nPlan to integrate with GitHub, GitLab, and Jira APIs.',
-                        project: 'api',
-                        tags: 'backend, api',
-                        starred: false
-                    }
-                };
-
-                if (noteData[noteId]) {
-                    const note = noteData[noteId];
-                    $('#noteTitle').val(note.title);
-                    $('#noteContent').val(note.content);
-                    $('#noteProject').val(note.project);
-                    $('#noteTags').val(note.tags);
-                    $('#starNoteBtn').html(note.starred ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>');
-                }
-            }
-
-            function updateNoteInList(title) {
-                // Update the active note item in the list
-                const activeNote = $('.note-item.active');
-                activeNote.find('h6').text(title);
-                activeNote.find('.note-preview').text($('#noteContent').val().substring(0, 100) + '...');
-            }
 
             // Toast notification function
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        `;
-
+                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">${message}</div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>`;
                 $('.toast-container').append(toastHtml);
-                const toast = new bootstrap.Toast(document.getElementById(toastId));
-                toast.show();
-
-                $(`#${toastId}`).on('hidden.bs.toast', function() {
-                    $(this).remove();
-                });
+                new bootstrap.Toast(document.getElementById(toastId)).show();
             }
-
-            // Load first note by default
-            $('.note-item:first').click();
         });
     </script>
 

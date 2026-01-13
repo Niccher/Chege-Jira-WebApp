@@ -100,12 +100,12 @@
                                     <?php if (!empty($weeklyFocus)): ?>
                                         <?php foreach ($weeklyFocus as $project): ?>
                                         <div class="col-md-4 mb-3">
-                                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none">
+                                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none text-white">
                                                 <div class="project-card focus-project h-100">
                                                     <div class="d-flex justify-content-between align-items-start">
                                                         <div class="text-truncate me-2">
                                                             <span class="project-health health-good"></span>
-                                                            <strong class="text-dark"><?= esc($project['name']) ?></strong>
+                                                            <strong class="text-white"><?= esc($project['name']) ?></strong>
                                                         </div>
                                                         <span class="badge bg-<?= $project['priority'] === 'critical' ? 'danger' : ($project['priority'] === 'high' ? 'warning' : 'primary') ?> small">
                                                             <?= ucfirst($project['priority']) ?>
@@ -150,9 +150,14 @@
                             <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none">
                                 <div class="project-card mb-3">
                                     <div class="d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <span class="project-health health-good"></span>
-                                            <strong class="text-dark"><?= esc($project['name']) ?></strong>
+                                        <div class="d-flex align-items-center">
+                                            <div class="stat-icon m-0 me-3" style="width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; font-size: 14px; border-radius: 6px;">
+                                                <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?>"></i>
+                                            </div>
+                                            <div>
+                                                <span class="project-health health-good"></span>
+                                                <strong class="text-white"><?= esc($project['name']) ?></strong>
+                                            </div>
                                         </div>
                                         <div>
                                             <?php 
@@ -187,16 +192,6 @@
 
             <!-- Right Column: Activity & Heatmap -->
             <div class="col-lg-4">
-                <!-- Activity Heatmap -->
-                <div class="stat-card mb-4">
-                    <h5 class="mb-3"><i class="fas fa-fire me-2"></i>Activity Heatmap</h5>
-                    <div class="text-center mb-3">
-                        <div id="heatmap">
-                            <!-- Heatmap will be generated here -->
-                        </div>
-                        <div class="small text-muted mt-2">Last 30 days of activity</div>
-                    </div>
-                </div>
 
                 <!-- Recent Activity Accordion -->
                 <div class="accordion" id="activityAccordion">
@@ -208,24 +203,41 @@
                         </h2>
                         <div id="activityCollapse" class="accordion-collapse collapse show" data-bs-parent="#activityAccordion">
                             <div class="accordion-body pt-0">
+                                <!-- Activity Legend -->
+                                <div class="activity-legend mb-4 p-2 rounded" style="background-color: rgba(30, 41, 59, 0.5); border: 1px solid #334155;">
+                                    <div class="d-flex flex-wrap gap-2 small">
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-plus-circle text-success me-1"></i>New</div>
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-check-double text-primary me-1"></i>Done</div>
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-archive text-muted me-1"></i>Arc</div>
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-play-circle text-info me-1"></i>Start</div>
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-flag-checkered text-success me-1"></i>Goal</div>
+                                        <div class="d-flex align-items-center me-2"><i class="fas fa-sticky-note text-warning me-1"></i>Note</div>
+                                        <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-1"></i>Task</div>
+                                    </div>
+                                </div>
+
                                 <div id="recentActivity">
                                     <?php if (!empty($recentActivity)): ?>
-                                        <?php foreach ($recentActivity as $act): ?>
-                                        <div class="d-flex mb-3">
-                                            <div class="flex-shrink-0">
-                                                <div class="user-avatar" style="width: 32px; height: 32px; background-color: <?= $act['color'] ?>; font-size: 14px;">
-                                                    <i class="fas <?= $act['icon'] ?>"></i>
+                                        <div class="activity-timeline">
+                                            <?php foreach ($recentActivity as $act): ?>
+                                            <div class="activity-item d-flex position-relative mb-4">
+                                                <div class="activity-icon-wrapper flex-shrink-0" style="z-index: 2;">
+                                                    <div class="stat-icon m-0" style="width: 40px; height: 40px; background-color: <?= $act['bg'] ?>; color: <?= $act['color'] ?>; font-size: 16px; border-radius: 50%; border: 2px solid #1e293b;">
+                                                        <i class="fas <?= $act['icon'] ?>"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="small fw-bold text-white"><?= esc($act['title']) ?></div>
+                                                        <span class="extra-small text-muted" style="font-size: 0.7rem;"><?= date('M d', strtotime($act['time'])) ?></span>
+                                                    </div>
+                                                    <div class="small text-muted mt-1" style="font-size: 0.8rem; line-height: 1.2;"><?= esc($act['description']) ?></div>
                                                 </div>
                                             </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <div class="small text-dark"><strong><?= esc($act['title']) ?></strong></div>
-                                                <div class="small text-muted"><?= esc($act['description']) ?></div>
-                                                <div class="extra-small text-muted text-end mt-1"><?= date('M d, H:i', strtotime($act['time'])) ?></div>
-                                            </div>
+                                            <?php endforeach; ?>
                                         </div>
-                                        <?php endforeach; ?>
                                     <?php else: ?>
-                                        <p class="text-center text-muted small py-3">No recent activity found.</p>
+                                        <p class="text-center text-muted small py-3">No recent activity detected.</p>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -236,3 +248,23 @@
         </div>
 
 <?= $this->include('layouts/user/footer') ?>
+
+<style>
+    .activity-timeline::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #334155;
+        z-index: 1;
+    }
+    .activity-item:last-child {
+        margin-bottom: 0 !important;
+    }
+    .activity-legend i {
+        width: 14px;
+        text-align: center;
+    }
+</style>

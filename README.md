@@ -1,60 +1,98 @@
-# CodeIgniter 4 Framework
+# ChegeOS • Side-Project Dashboard
 
-## What is CodeIgniter?
+ChegeOS is a powerful, agentic project management dashboard designed to help developers and power users organize their side projects, track time, manage tasks via Kanban, and capture ideas seamlessly.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+![ChegeOS Banner](https://img.shields.io/badge/Status-Beta-blue?style=for-the-badge)
+![CodeIgniter](https://img.shields.io/badge/Framework-CodeIgniter%204-EF4444?style=for-the-badge&logo=codeigniter)
+![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205-7952B3?style=for-the-badge&logo=bootstrap)
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 🚀 Key Features
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- **📊 Comprehensive Dashboard**: Get a high-level overview of your project stats, weekly focus, and recent activity at a glance.
+- **📋 Project Management**: Full lifecycle management of projects including planning, progress tracking, and archiving.
+- **🧱 Kanban Board**: Organize tasks with a dynamic drag-and-drop interface powered by SortableJS.
+- **⏱️ Time Tracking**: Built-in timer and manual entry system to monitor how much effort you're putting into each project.
+- **📝 Smart Notes**: Markdown-supported notes system with starring capabilities and project-specific linking.
+- **🗓️ Integrated Calendar**: Track deadlines, milestones, and custom events in a unified view.
+- **🔐 Secure Authentication**: Robust user management powered by CodeIgniter Shield.
+- **🌙 Modern Dark UI**: Sleek, premium aesthetic with a collapsible sidebar and responsive design.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## 🛠️ Tech Stack
 
-## Important Change with index.php
+- **Backend**: PHP 8.1+ (CodeIgniter 4)
+- **Database**: MySQL / MariaDB
+- **Frontend**: 
+  - Bootstrap 5 (Vanilla CSS)
+  - jQuery (Interactivity)
+  - SortableJS (Kanban Drag-and-Drop)
+  - FontAwesome 6 (Icons)
+  - Inter font family (Typography)
+- **Authentication**: CodeIgniter Shield
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## 🔧 Installation
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### Prerequisites
+- PHP 8.1 or higher
+- Composer
+- MySQL/MariaDB
+- A local server environment like XAMPP, Laragon, or Apache/Nginx
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Steps
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/chege-os.git
+   cd chege-os
+   ```
 
-## Repository Management
+2. **Install dependencies**
+   ```bash
+   composer install
+   ```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+3. **Environment Configuration**
+   - Copy `env` to `.env`
+   - Configure your database settings:
+     ```env
+     database.default.hostname = localhost
+     database.default.database = chege_os
+     database.default.username = root
+     database.default.password = 
+     database.default.DBDriver = MySQLi
+     ```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+4. **Run Migrations**
+   ```bash
+   php spark migrate
+   ```
 
-## Contributing
+5. **Serve the application**
+   ```bash
+   php spark serve
+   ```
+   Access the dashboard at `http://localhost:8080`
 
-We welcome contributions from the community.
+## 📸 Screenshots
 
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
+*(To be added)*
+- Dashboard Overview
+- Project Kanban Board
+- Time Tracking Statistics
 
-## Server Requirements
+## 🗺️ Roadmap
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+- [ ] Interactive Analytics Reports
+- [ ] Exportable CSV/PDF project summaries
+- [ ] Multi-user collaboration tools
+- [ ] API Integrations (GitHub, Trello)
+- [ ] Mobile App wrapper (PWA)
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## 🤝 Contributing
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## 📄 License
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+*Built with ❤️ for the Side-Project Community.*

@@ -12,6 +12,11 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <style>
         :root {
             --sidebar-width: 250px;
@@ -211,21 +216,68 @@
             border-left: 4px solid var(--primary-color);
         }
 
-        /* Heatmap */
-        .heatmap-cell {
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
-            margin: 2px;
-            background-color: #334155;
-            display: inline-block;
+        /* Pagination Styling */
+        .pagination .page-link {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: #cbd5e1;
+            transition: all 0.2s;
+            margin: 0 2px;
+            border-radius: 6px !important;
         }
 
-        .heatmap-1 { background-color: #1e3a8a; }
-        .heatmap-2 { background-color: #1d4ed8; }
-        .heatmap-3 { background-color: #3b82f6; }
-        .heatmap-4 { background-color: #60a5fa; }
-        .heatmap-5 { background-color: #93c5fd; }
+        .pagination .page-link:hover {
+            background-color: #334155;
+            color: white;
+            border-color: #475569;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #0f172a;
+            border-color: #1e293b;
+            color: #475569;
+        }
+
+        /* Sticky Footer & Layout Improvements */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            min-height: 100vh;
+        }
+
+        .full-width {
+            margin-left: 0;
+        }
+
+        .content-wrap {
+            flex: 1;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem 0;
+            border-top: 1px solid #334155;
+            background-color: #0f172a;
+            position: relative;
+            width: 100%;
+        }
 
         /* Responsive */
         @media (max-width: 992px) {

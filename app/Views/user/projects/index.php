@@ -84,35 +84,19 @@
                         <i class="fas fa-list me-1"></i> All Projects <span class="badge bg-secondary ms-1"><?= $stats['total'] ?></span>
                     </button>
                 </li>
-                <?php 
-                $status_counts = [
-                    'active'    => ['icon' => 'fa-play-circle', 'class' => 'bg-success', 'label' => 'Active'],
-                    'pending'   => ['icon' => 'fa-hourglass-half', 'class' => 'bg-warning', 'label' => 'Pending'],
-                    'testing'   => ['icon' => 'fa-flask', 'class' => 'bg-info', 'label' => 'Testing'],
-                    'completed' => ['icon' => 'fa-check-circle', 'class' => 'bg-success', 'label' => 'Completed']
-                ];
-                
-                // Count specifically for tabs
-                $active_count = 0; $pending_count = 0; $completed_count = 0;
-                foreach($projects as $p) {
-                    if($p['status'] == 'in_progress') $active_count++;
-                    if(in_array($p['status'], ['planning', 'on_hold'])) $pending_count++;
-                    if($p['status'] == 'completed') $completed_count++;
-                }
-                ?>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
-                        <i class="fas fa-play-circle me-1"></i> Active <span class="badge bg-success ms-1"><?= $active_count ?></span>
+                        <i class="fas fa-play-circle me-1"></i> Active <span class="badge bg-success ms-1"><?= $stats['active'] ?></span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">
-                        <i class="fas fa-hourglass-half me-1"></i> Pending <span class="badge bg-warning ms-1"><?= $pending_count ?></span>
+                        <i class="fas fa-hourglass-half me-1"></i> Pending <span class="badge bg-warning ms-1"><?= $stats['pending'] ?></span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">
-                        <i class="fas fa-check-circle me-1"></i> Completed <span class="badge bg-info ms-1"><?= $completed_count ?></span>
+                        <i class="fas fa-check-circle me-1"></i> Completed <span class="badge bg-info ms-1"><?= $stats['completed'] ?></span>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -144,7 +128,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if (empty($projects)): ?>
+                            <?php if (empty($all_projects)): ?>
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     <div class="text-muted">No projects found. Create your first project to get started!</div>
@@ -154,7 +138,7 @@
                                 </td>
                             </tr>
                             <?php else: ?>
-                            <?php foreach ($projects as $project): ?>
+                            <?php foreach ($all_projects as $project): ?>
                             <tr>
                                 <td>
                                     <div class="form-check">
@@ -236,12 +220,15 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="mt-3">
+                        <?= $pager->links('all', 'bootstrap_full') ?>
+                    </div>
                 </div>
 
                 <!-- Active Projects Tab -->
                 <div class="tab-pane fade" id="active" role="tabpanel">
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i> Showing <strong><?= $active_count ?> active projects</strong>. Active projects are those currently being worked on.
+                        <i class="fas fa-info-circle me-2"></i> Showing <strong><?= $stats['active'] ?> active projects</strong>. Active projects are those currently being worked on.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
@@ -254,72 +241,86 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $has_active = false; foreach($projects as $p): if($p['status'] == 'in_progress'): $has_active = true; ?>
-                                <tr>
-                                    <td><strong><?= esc($p['name']) ?></strong></td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                                                <div class="progress-bar bg-success" style="width: <?= $p['progress'] ?>%"></div>
+                                <?php if (empty($active_projects)): ?>
+                                    <tr><td colspan="4" class="text-center py-4 text-muted">No active projects.</td></tr>
+                                <?php else: ?>
+                                    <?php foreach($active_projects as $p): ?>
+                                    <tr>
+                                        <td><strong><?= esc($p['name']) ?></strong></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                                    <div class="progress-bar bg-success" style="width: <?= $p['progress'] ?>%"></div>
+                                                </div>
+                                                <span class="small"><?= $p['progress'] ?>%</span>
                                             </div>
-                                            <span class="small"><?= $p['progress'] ?>%</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge <?= $priority_classes[$p['priority']] ?? 'bg-secondary' ?>"><?= ucfirst($p['priority']) ?></span></td>
-                                    <td>
-                                        <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                                <?php endif; endforeach; if(!$has_active): ?>
-                                <tr><td colspan="4" class="text-center py-4 text-muted">No active projects.</td></tr>
+                                        </td>
+                                        <td><span class="badge <?= $priority_classes[$p['priority']] ?? 'bg-secondary' ?>"><?= ucfirst($p['priority']) ?></span></td>
+                                        <td>
+                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3">
+                        <?= $pager->links('active', 'bootstrap_full') ?>
                     </div>
                 </div>
 
                 <!-- Pending Projects Tab -->
                 <div class="tab-pane fade" id="pending" role="tabpanel">
                     <div class="alert alert-warning">
-                        <i class="fas fa-clock me-2"></i> Showing <strong><?= $pending_count ?> pending projects</strong>. These projects are on hold or in planning.
+                        <i class="fas fa-clock me-2"></i> Showing <strong><?= $stats['pending'] ?> pending projects</strong>. These projects are on hold or in planning.
                     </div>
-                    <!-- Simplified list for other tabs -->
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
                             <tbody>
-                                <?php $has_pending = false; foreach($projects as $p): if(in_array($p['status'], ['planning', 'on_hold'])): $has_pending = true; ?>
-                                <tr>
-                                    <td><strong><?= esc($p['name']) ?></strong></td>
-                                    <td><span class="badge bg-warning"><?= ucfirst($p['status']) ?></span></td>
-                                    <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
-                                </tr>
-                                <?php endif; endforeach; if(!$has_pending): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No pending projects.</td></tr>
+                                <?php if (empty($pending_projects)): ?>
+                                    <tr><td colspan="3" class="text-center py-4 text-muted">No pending projects.</td></tr>
+                                <?php else: ?>
+                                    <?php foreach($pending_projects as $p): ?>
+                                    <tr>
+                                        <td><strong><?= esc($p['name']) ?></strong></td>
+                                        <td><span class="badge bg-warning"><?= ucfirst($p['status']) ?></span></td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3">
+                        <?= $pager->links('pending', 'bootstrap_full') ?>
                     </div>
                 </div>
 
                 <!-- Completed Projects Tab -->
                 <div class="tab-pane fade" id="completed" role="tabpanel">
                     <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i> Showing <strong><?= $completed_count ?> completed projects</strong>.
+                        <i class="fas fa-check-circle me-2"></i> Showing <strong><?= $stats['completed'] ?> completed projects</strong>.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
                             <tbody>
-                                <?php $has_comp = false; foreach($projects as $p): if($p['status'] == 'completed'): $has_comp = true; ?>
-                                <tr>
-                                    <td><strong><?= esc($p['name']) ?></strong></td>
-                                    <td class="text-success"><i class="fas fa-check-circle me-1"></i> Completed</td>
-                                    <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
-                                </tr>
-                                <?php endif; endforeach; if(!$has_comp): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No completed projects yet.</td></tr>
+                                <?php if (empty($completed_projects)): ?>
+                                    <tr><td colspan="3" class="text-center py-4 text-muted">No completed projects yet.</td></tr>
+                                <?php else: ?>
+                                    <?php foreach($completed_projects as $p): ?>
+                                    <tr>
+                                        <td><strong><?= esc($p['name']) ?></strong></td>
+                                        <td class="text-success"><i class="fas fa-check-circle me-1"></i> Completed</td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3">
+                        <?= $pager->links('completed', 'bootstrap_full') ?>
                     </div>
                 </div>
 
@@ -331,17 +332,22 @@
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
                             <tbody>
-                                <?php $has_arch = false; foreach($projects as $p): if($p['is_archived'] == 1): $has_arch = true; ?>
-                                <tr>
-                                    <td><strong><?= esc($p['name']) ?></strong></td>
-                                    <td><span class="badge bg-secondary">Archived</span></td>
-                                    <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
-                                </tr>
-                                <?php endif; endforeach; if(!$has_arch): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No archived projects.</td></tr>
+                                <?php if (empty($archived_projects)): ?>
+                                    <tr><td colspan="3" class="text-center py-4 text-muted">No archived projects.</td></tr>
+                                <?php else: ?>
+                                    <?php foreach($archived_projects as $p): ?>
+                                    <tr>
+                                        <td><strong><?= esc($p['name']) ?></strong></td>
+                                        <td><span class="badge bg-secondary">Archived</span></td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3">
+                        <?= $pager->links('archived', 'bootstrap_full') ?>
                     </div>
                 </div>
             </div>
@@ -378,7 +384,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
