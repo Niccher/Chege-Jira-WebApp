@@ -5,35 +5,38 @@ use CodeIgniter\Router\RouteCollection;
 /** @var RouteCollection $routes */
 
 $routes->get('/', 'Home::index');
-$routes->get('/home', 'User\Dashboard::index');
-$routes->get('/projects', 'User\Dashboard::projects');
-$routes->get('/projects/create', 'User\Dashboard::project_create');
-$routes->post('/projects/store', 'User\Dashboard::project_store');
-$routes->get('/projects/view/(:num)', 'User\Dashboard::project_view/$1');
-$routes->get('/projects/kanban/(:num)', 'User\Dashboard::project_kanban/$1');
-$routes->post('/projects/task/move', 'User\Dashboard::task_move');
-$routes->post('/projects/task/store', 'User\Dashboard::task_store');
-$routes->get('/projects/edit/(:num)', 'User\Dashboard::project_edit/$1');
-$routes->post('/projects/update/(:num)', 'User\Dashboard::project_update/$1');
-$routes->post('/projects/delete/(:num)', 'User\Dashboard::project_delete/$1');
-$routes->get('/kanban', 'User\Dashboard::project_kanban');
-$routes->get('/calendar', 'User\Dashboard::project_calendar');
-$routes->get('/calendar/events', 'User\Dashboard::get_calendar_events');
-$routes->post('/calendar/event/store', 'User\Dashboard::event_store');
-$routes->post('/calendar/event/update/(:num)', 'User\Dashboard::event_update/$1');
-$routes->post('/calendar/event/delete/(:num)', 'User\Dashboard::event_delete/$1');
-$routes->get('/time', 'User\Dashboard::project_time_tracker');
-$routes->post('/time/start', 'User\Dashboard::timer_start');
-$routes->post('/time/stop/(:num)', 'User\Dashboard::timer_stop/$1');
-$routes->post('/time/manual', 'User\Dashboard::timer_manual');
-$routes->get('/notes', 'User\Dashboard::project_notes');
-$routes->post('/notes/store', 'User\Dashboard::note_store');
-$routes->post('/notes/update/(:num)', 'User\Dashboard::note_update/$1');
-$routes->post('/notes/delete/(:num)', 'User\Dashboard::note_delete/$1');
-$routes->post('/notes/star/(:num)', 'User\Dashboard::note_star/$1');
-$routes->post('/notes/complete/(:num)', 'User\Dashboard::note_complete/$1');
-$routes->get('/analytics', 'User\Dashboard::project_analytics');
-$routes->get('/settings', 'User\Dashboard::project_settings');
+$routes->group('', ['filter' => 'session'], function($routes) {
+    $routes->get('/home', 'User\Dashboard::index');
+    $routes->get('/dashboard', 'User\Dashboard::index');
+    $routes->get('/projects', 'User\Dashboard::projects');
+    $routes->get('/projects/create', 'User\Dashboard::project_create');
+    $routes->post('/projects/store', 'User\Dashboard::project_store');
+    $routes->get('/projects/view/(:num)', 'User\Dashboard::project_view/$1');
+    $routes->get('/projects/kanban/(:num)', 'User\Dashboard::project_kanban/$1');
+    $routes->post('/projects/task/move', 'User\Dashboard::task_move');
+    $routes->post('/projects/task/store', 'User\Dashboard::task_store');
+    $routes->get('/projects/edit/(:num)', 'User\Dashboard::project_edit/$1');
+    $routes->post('/projects/update/(:num)', 'User\Dashboard::project_update/$1');
+    $routes->post('/projects/delete/(:num)', 'User\Dashboard::project_delete/$1');
+    $routes->get('/kanban', 'User\Dashboard::project_kanban');
+    $routes->get('/calendar', 'User\Dashboard::project_calendar');
+    $routes->get('/calendar/events', 'User\Dashboard::get_calendar_events');
+    $routes->post('/calendar/event/store', 'User\Dashboard::event_store');
+    $routes->post('/calendar/event/update/(:num)', 'User\Dashboard::event_update/$1');
+    $routes->post('/calendar/event/delete/(:num)', 'User\Dashboard::event_delete/$1');
+    $routes->get('/time', 'User\Dashboard::project_time_tracker');
+    $routes->post('/time/start', 'User\Dashboard::timer_start');
+    $routes->post('/time/stop/(:num)', 'User\Dashboard::timer_stop/$1');
+    $routes->post('/time/manual', 'User\Dashboard::timer_manual');
+    $routes->get('/notes', 'User\Dashboard::project_notes');
+    $routes->post('/notes/store', 'User\Dashboard::note_store');
+    $routes->post('/notes/update/(:num)', 'User\Dashboard::note_update/$1');
+    $routes->post('/notes/delete/(:num)', 'User\Dashboard::note_delete/$1');
+    $routes->post('/notes/star/(:num)', 'User\Dashboard::note_star/$1');
+    $routes->post('/notes/complete/(:num)', 'User\Dashboard::note_complete/$1');
+    $routes->get('/analytics', 'User\Dashboard::project_analytics');
+    $routes->get('/settings', 'User\Dashboard::project_settings');
+});
 
 // Load default Shield routes, excluding those we'll customize
 service('auth')->routes($routes, ['except' => ['login', 'register', 'forgot', 'reset', 'verify-email', 'locked']]);
@@ -57,11 +60,14 @@ $routes->group('auth', static function ($routes) {
     $routes->get('reset-password', [\App\Controllers\Auth\ResetPasswordController::class, 'resetPasswordView']);
     $routes->post('reset-password', [\App\Controllers\Auth\ResetPasswordController::class, 'resetPasswordAction']);
 
-    // Email Verification
-    $routes->get('verify-email', [\App\Controllers\Auth\AccountController::class, 'verifyEmailView']);
-    $routes->get('activate/(:any)', [\App\Controllers\Auth\AccountController::class, 'activateAccount']);
-    $routes->post('resend-activation', [\App\Controllers\Auth\AccountController::class, 'resendActivation']);
-    $routes->post('resend-verification', [\App\Controllers\Auth\AccountController::class, 'resendActivation']);
+    // Email Verification - Using Shield's built-in routes
+    $routes->get('verify-email', [\App\Controllers\Auth\AccountController::class, 'verifyEmailAction'], ['as' => 'verify-email']);
+    
+    // Resend verification
+    $routes->post('resend-verification', [\App\Controllers\Auth\AccountController::class, 'resendShieldActivation']);
+
+    // Email Verification Success
+    $routes->get('verify-email-success', [\App\Controllers\Auth\AccountController::class, 'verifyEmailSuccess']);
 
     // Locked Account
     $routes->get('locked', [\App\Controllers\Auth\AccountController::class, 'lockedView']);

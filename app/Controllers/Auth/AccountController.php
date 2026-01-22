@@ -17,7 +17,78 @@ class AccountController extends BaseController
     }
 
     /**
+     * Display email verification success page
+     */
+    public function verifyEmailSuccess(): string
+    {
+        return view('\App\Views\auth\activate_account', [
+            'status' => 'success',
+            'email' => session()->get('email') ?? ''
+        ]);
+    }
+
+    public function verifyEmailAction(): ResponseInterface|string
+    {
+        $token = trim($this->request->getGet('token'));
+        $email = trim($this->request->getGet('email'));
+        
+        if (empty($token) || empty($email)) {
+             return redirect()->to('/auth/login')->with('error', 'Invalid verification link.');
+        }
+
+        /** @var UserModel $userModel */
+        $userModel = model(UserModel::class);
+        $user = $userModel->findByCredentials(['email' => $email]);
+        
+        if (! $user) {
+             return redirect()->to('/auth/login')->with('error', 'User not found.');
+        }
+        
+        if ($user->active) {
+             return redirect()->to('/auth/login')->with('message', 'Account already active.');
+        }
+
+        /** @var \CodeIgniter\Shield\Models\UserIdentityModel $identityModel */
+        $identityModel = model(\CodeIgniter\Shield\Models\UserIdentityModel::class);
+        
+        // Check for the identity
+        $identity = $identityModel->getIdentityBySecret('email_activate', $token);
+        
+        // Verify identity checks
+        if (! $identity) {
+             return redirect()->to('/auth/login')->with('error', 'Authentication token not found or expired.');
+        }
+        
+        // Loose comparison for ID to handle string/int types from DB drivers
+        if ($identity->user_id != $user->id) {
+             return redirect()->to('/auth/login')->with('error', 'Token does not match user account.');
+        }
+        
+        // Activate User
+        $user->activate();
+        
+        // Clean up identity
+        $identityModel->delete($identity->id);
+
+        // Helper to get correct authenticator
+        $auth = auth();
+
+        // Logout any existing session (including pending registration sessions)
+        // to prevent LogicException in startLogin
+        if ($auth->loggedIn() || $auth->isPending()) {
+            $auth->logout();
+        }
+
+        // Auto-login the user
+        $auth->login($user);
+
+        // Success - redirect to dashboard (or wherever)
+        return redirect()->to('/home')->with('message', 'Account activated successfully!');
+    }
+
+    /**
      * Activate account with token
+     * @deprecated Legacy - replaced by verifyEmailAction
      */
     public function activateAccount($token = null): string
     {
@@ -74,14 +145,16 @@ class AccountController extends BaseController
     }
 
     /**
-     * Resend activation email
+     * Resend activation email using Shield
      */
-    public function resendActivation(): ResponseInterface
+    public function resendShieldActivation(): ResponseInterface
     {
         if ($this->request->getMethod() === 'post') {
             $email = $this->request->getPost('email');
-            $userModel = new UserModel();
-            $user = $userModel->where('email', $email)->first();
+            
+            /** @var UserModel $userModel */
+            $userModel = model(UserModel::class);
+            $user = $userModel->findByCredentials(['email' => $email]);
 
             if (!$user) {
                 return redirect()->back()->with('error', 'Email not found');
@@ -90,12 +163,54 @@ class AccountController extends BaseController
             if ($user->active) {
                 return redirect()->to('/auth/login')->with('error', 'Account already activated');
             }
+            
+            // Get the authenticator
+            /** @var \CodeIgniter\Shield\Authentication\Authenticators\Session $authenticator */
+            $authenticator = auth('session')->getAuthenticator();
+            
+            // Generate a specialized class for the action
+            $actionClass = setting('Auth.actions')['register'];
+            
+            /** @var \CodeIgniter\Shield\Authentication\Actions\EmailActivator $action */
+            $action = new $actionClass($authenticator, $user);
+            
+            // Create the identity and send the email
+            $action->createIdentity($user);
 
+            // Send activation email
+            return redirect()->to('/auth/verify-email')
+                ->with('success', 'Activation email sent!')
+                ->with('email', $user->email);
+        }
+
+        return redirect()->back()->with('error', 'Failed to resend activation email');
+    }
+
+    /**
+     * Resend activation email
+     * @deprecated Use resendShieldActivation instead
+     */
+    public function resendActivation(): ResponseInterface
+    {
+        // Legacy implementation kept for reference or fallback
+        if ($this->request->getMethod() === 'post') {
+            $email = $this->request->getPost('email');
+            $userModel = new UserModel();
+            $user = $userModel->where('email', $email)->first();
+    
+            if (!$user) {
+                return redirect()->back()->with('error', 'Email not found');
+            }
+    
+            if ($user->active) {
+                return redirect()->to('/auth/login')->with('error', 'Account already activated');
+            }
+    
             // Generate new activation token
             $user->activate_hash = bin2hex(random_bytes(32));
             $user->activate_hash_expires = date('Y-m-d H:i:s', time() + 86400);
             $userModel->save($user);
-
+    
             // Send activation email
             helper('email');
             if (sendActivationEmail($user, $user->activate_hash)) {
@@ -104,7 +219,7 @@ class AccountController extends BaseController
                     ->with('email', $user->email);
             }
         }
-
+    
         return redirect()->back()->with('error', 'Failed to resend activation email');
     }
 

@@ -71,14 +71,16 @@ class Auth extends ShieldAuth
 //        'action_email_2fa_email'      => 'auth/action_email_2fa_email',
 //    ];
     public $views = [
-        'login'              => '\App\Views\auth\login',
-        'register'           => '\App\Views\auth\register',
-        'layout'             => '\App\Views\layouts\auth\auth_template',
-        'forgotPassword'     => '\App\Views\auth\forgot_password',
-        'resetPassword'      => '\App\Views\auth\reset_password',
-        'verifyEmail'        => '\App\Views\auth\verify_email',
-        'verifyEmailSuccess' => '\App\Views\auth\activate_account',
-        'lockout'            => '\App\Views\auth\locked',
+        'login'                       => '\App\Views\auth\login',
+        'register'                    => '\App\Views\auth\register',
+        'layout'                      => '\App\Views\layouts\auth\auth_template',
+        'forgotPassword'              => '\App\Views\auth\forgot_password',
+        'resetPassword'               => '\App\Views\auth\reset_password',
+        'verifyEmail'                 => '\App\Views\auth\verify_email',
+        'verifyEmailSuccess'          => '\App\Views\auth\activate_account',
+        'lockout'                     => '\App\Views\auth\locked',
+        'action_email_activate_show'  => '\App\Views\auth\email_activate_show',
+        'action_email_activate_email' => '\App\Views\auth\email_activate_email',
     ];
 
 
@@ -111,13 +113,14 @@ class Auth extends ShieldAuth
         'register'           => false,
         'forgot-password'    => false,
         'reset-password'     => false,
-        'verify-email'       => false,
-        'verify-email-short' => false,
+        // Enable activation routes
+        'verify-email'       => true,
+        'verify-email-short' => true,
     ];
 
 // Use your own redirects
     public array $redirects = [
-        'register' => '/auth/verify-email',
+        'register' => '/auth/verify-email-success', // Custom success page after activation
         'login'    => '/home',
         'logout'   => '/auth/login',
     ];
@@ -143,7 +146,7 @@ class Auth extends ShieldAuth
      * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
-        'register' => null,
+        'register' => \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
         'login'    => null,
     ];
 

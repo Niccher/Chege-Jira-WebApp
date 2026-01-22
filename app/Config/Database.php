@@ -24,11 +24,12 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
+
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'root',
-        'password'     => '',
+        'username'     => 'chegecac_chegeos_usr',
+        'password'     => 'BN3oT+~,mgZQ',
         'database'     => 'chegecac_chege_os',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
@@ -49,6 +50,9 @@ class Database extends Config
             'datetime' => 'Y-m-d H:i:s',
             'time'     => 'H:i:s',
         ],
+
+        // 🔴 IMPORTANT FOR TRUEHOST
+        'socket'   => '/var/lib/mysql/mysql.sock',
     ];
 
     //    /**

@@ -15,7 +15,7 @@ class RegisterController extends BaseController
     /**
      * Display registration form
      */
-    public function registerView(): string
+    public function registerView()
     {
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->registerRedirect());
@@ -29,12 +29,18 @@ class RegisterController extends BaseController
     }
 
     /**
-     * Handle registration
+     * Handle registration using Shield's proper flow
      */
     public function registerAction(): ResponseInterface
     {
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->registerRedirect());
+        }
+
+        // Check if registration is allowed
+        if (! setting('Auth.allowRegistration')) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Registration is currently disabled.');
         }
 
         // Validate
@@ -70,10 +76,6 @@ class RegisterController extends BaseController
         }
 
         // Check if email exists
-//        $userModel = new UserModel();
-//        $existingUser = $userModel->where('email', $this->request->getPost('email'))->first();
-
-        // Check if email exists
         $userModel = new UserModel();
         $existingUser = $userModel->findByCredentials(['email' => $this->request->getPost('email')]);
 
@@ -83,50 +85,61 @@ class RegisterController extends BaseController
                 ->with('error', 'Email already registered. Please use a different email.');
         }
 
-        if ($existingUser) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Email already registered. Please use a different email.');
-        }
+        // Use Shield's proper registration flow
+        $users = auth()->getProvider();
 
-        // Create user
-        $user = new User([
+        // Prepare user data
+        $userData = [
             'first_name' => $this->request->getPost('firstName'),
             'last_name'  => $this->request->getPost('lastName'),
             'username'   => $this->request->getPost('username'),
             'email'      => $this->request->getPost('email'),
+            'password'   => $this->request->getPost('password'),
             'newsletter' => $this->request->getPost('newsletter') ? 1 : 0,
-            'active'     => 0, // Require email activation
-        ]);
+            'active'     => 0, // Will be activated after email verification
+        ];
 
-        // Save user
-        $userModel->save($user);
-        $userId = $userModel->getInsertID();
+        // Save the user using Shield's method
+        $user = $users->createNewUser($userData);
 
-        // Get the saved user
-        $user = $userModel->findById($userId);
-
-        // Create email identity with password
-        $user->createEmailIdentity([
-            'email'    => $this->request->getPost('email'),
-            'password' => $this->request->getPost('password'),
-        ]);
-
-        // Generate activation hash
-        $user->activate_hash = bin2hex(random_bytes(32));
-        $user->activate_hash_expires = date('Y-m-d H:i:s', time() + 86400); // 24 hours
-        $userModel->save($user);
-
-        // Send activation email
-        helper('email');
-        if (sendActivationEmail($user, $user->activate_hash)) {
-            return redirect()->to('/auth/verify-email')
-                ->with('success', 'Registration successful! Please check your email for activation link.')
-                ->with('email', $user->email);
-        } else {
-            return redirect()->to('/auth/verify-email')
-                ->with('warning', 'Registration successful, but we couldn\'t send the activation email. Please contact support.')
-                ->with('email', $user->email);
+        try {
+            $users->save($user);
+        } catch (\CodeIgniter\Shield\Exceptions\ValidationException $e) {
+            return redirect()->back()->withInput()->with('errors', $users->errors());
         }
+
+        // To get the complete user object with ID, we need to get from the database
+        $user = $users->findById($users->getInsertID());
+
+        // Add to default group
+        $users->addToDefaultGroup($user);
+
+        // Trigger registration event
+        \CodeIgniter\Events\Events::trigger('register', $user);
+
+        /** @var \CodeIgniter\Shield\Authentication\Authenticators\Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        // Prevent "User Info in Session" LogicException by clearing any existing state
+        if ($authenticator->loggedIn() || $authenticator->isPending()) {
+            $authenticator->logout();
+        }
+
+        $authenticator->startLogin($user);
+
+        // If an action has been defined for register, start it up.
+        $hasAction = $authenticator->startUpAction('register', $user);
+        if ($hasAction) {
+            return redirect()->route('auth-action-show');
+        }
+
+        // Set the user active if no action is configured
+        $user->activate();
+
+        $authenticator->completeLogin($user);
+
+        // Success!
+        return redirect()->to(config('Auth')->registerRedirect())
+            ->with('message', 'Registration successful!');
     }
 }

@@ -20,6 +20,11 @@ class LoginController extends ShieldLogin
         if (auth()->loggedIn()) {
             return redirect()->to(config('Auth')->loginRedirect());
         }
+
+        // If user is pending (e.g. from registration), logout to allow fresh login
+        if (auth()->isPending()) {
+            auth()->logout();
+        }
         $data = [
             'title' => 'Login • ChegeOS',
             'config' => config('Auth'),
