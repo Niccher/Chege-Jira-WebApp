@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  webapp:
+    build: .
+    container_name: chege-os-webapp
+    ports:
+      - "9001:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/writable
+    environment:
+      - CI_ENVIRONMENT=development
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    name: hosts-shared-network
+    external: true
