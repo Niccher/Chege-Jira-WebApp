@@ -1,7 +1,7 @@
     <!-- Footer -->
-    <footer class="mt-auto py-3 text-center small text-muted border-top border-secondary-subtle" style="background-color: #0f172a;">
-        <div class="container-fluid">
-            ChegeOS Dashboard • v0.1 • <span id="currentDate"></span>
+    <footer class="mt-auto py-3 text-center small text-muted border-top">
+        <div class="container-fluid font-mono">
+            CHEGE OS TRACKER • v0.1 • <span id="currentDate"></span>
         </div>
     </footer>
 </div> <!-- Close main-content -->

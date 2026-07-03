@@ -53,44 +53,44 @@
         </div>
 
         <!-- Quick Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
-                        <i class="fas fa-tasks"></i>
-                    </div>
+        <div class="row mb-4 g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Total Tasks</div>
                     <div class="stat-value" id="totalTasks">24</div>
-                    <div class="stat-label">Total Tasks</div>
+                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                        <i class="fas fa-tasks"></i> All Active
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-spinner"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">In Progress</div>
+                    <div class="stat-value text-warning" id="inProgress">8</div>
+                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                        <i class="fas fa-spinner"></i> Being worked on
                     </div>
-                    <div class="stat-value" id="inProgress">8</div>
-                    <div class="stat-label">In Progress</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-exclamation-triangle"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Blocked</div>
+                    <div class="stat-value text-danger" id="blockedTasks">3</div>
+                    <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
+                        <i class="fas fa-exclamation-triangle"></i> Needs attention
                     </div>
-                    <div class="stat-value" id="blockedTasks">3</div>
-                    <div class="stat-label">Blocked</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                        <i class="fas fa-check-circle"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Completed</div>
+                    <div class="stat-value text-success" id="completedTasks">13</div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                        <i class="fas fa-check-circle"></i> Done
                     </div>
-                    <div class="stat-value" id="completedTasks">13</div>
-                    <div class="stat-label">Completed</div>
                 </div>
             </div>
         </div>
@@ -504,9 +504,9 @@
     <style>
         /* Kanban Board Styles */
         .kanban-column {
-            background-color: #1e293b;
-            border-radius: var(--border-radius);
-            border: 1px solid #334155;
+            background-color: var(--card-bg);
+            border-radius: 0;
+            border: 1px solid var(--border-color);
             height: calc(100vh - 300px);
             display: flex;
             flex-direction: column;
@@ -514,48 +514,59 @@
 
         .kanban-column-header {
             padding: 1rem;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border-bottom: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: white;
+            color: var(--bs-body-bg);
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
+        }
+
+        .kanban-column-header h6 {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
         }
 
         .kanban-column-body {
             padding: 1rem;
             flex-grow: 1;
             overflow-y: auto;
+            background-color: var(--bs-body-bg);
         }
 
         .kanban-card {
-            background-color: #0f172a;
-            border-radius: 8px;
-            border: 1px solid #334155;
+            background-color: var(--card-bg);
+            border-radius: 0;
+            border: 1px solid var(--border-color);
             padding: 1rem;
             margin-bottom: 1rem;
             cursor: move;
-            transition: all 0.2s;
+            transition: none;
         }
 
         .kanban-card:hover {
-            border-color: #475569;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
+            border-color: var(--bs-body-color);
+            box-shadow: 4px 4px 0 var(--border-color);
+            transform: translate(-2px, -2px);
         }
 
         .kanban-card.blocked-task {
-            border-left: 4px solid #ef4444;
-            background-color: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid var(--bs-danger);
+            background-color: rgba(220, 53, 69, 0.05);
         }
 
         .kanban-card-header {
             margin-bottom: 0.75rem;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 0.5rem;
         }
 
         .task-title {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
-            color: #e2e8f0;
+            color: var(--bs-body-color);
+            font-family: 'Space Grotesk', monospace;
         }
 
         .task-project {
@@ -568,7 +579,7 @@
 
         .kanban-card-body p {
             font-size: 0.8rem;
-            color: #94a3b8;
+            color: var(--bs-secondary-color);
             margin-bottom: 0.5rem;
         }
 
@@ -581,19 +592,32 @@
         .task-meta .badge {
             font-size: 0.65rem;
             padding: 0.25rem 0.5rem;
+            border-radius: 0;
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
         }
 
         .task-date {
             font-size: 0.75rem;
+            font-family: 'Space Grotesk', monospace;
         }
 
         .kanban-card-footer {
-            border-top: 1px solid #334155;
+            border-top: 1px solid var(--border-color);
             padding-top: 0.75rem;
         }
 
         .task-progress {
             width: 100%;
+        }
+
+        .task-progress .progress {
+            border-radius: 0;
+            background-color: var(--border-color);
+        }
+
+        .task-progress .progress-bar {
+            border-radius: 0;
         }
 
         .task-assignee .user-avatar {
@@ -602,11 +626,16 @@
             justify-content: center;
             font-weight: 600;
             font-size: 0.7rem;
+            border-radius: 0;
+            border: 1px solid var(--bs-body-color);
+            background: var(--card-bg);
+            color: var(--bs-body-color);
         }
 
         .task-comments {
             font-size: 0.8rem;
-            color: #94a3b8;
+            color: var(--bs-secondary-color);
+            font-family: 'Space Grotesk', monospace;
         }
 
         /* Scrollbar Styling */
@@ -615,17 +644,17 @@
         }
 
         .kanban-column-body::-webkit-scrollbar-track {
-            background: #1e293b;
-            border-radius: 3px;
+            background: var(--bs-body-bg);
+            border-radius: 0;
         }
 
         .kanban-column-body::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 3px;
+            background: var(--border-color);
+            border-radius: 0;
         }
 
         .kanban-column-body::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
+            background: var(--bs-secondary-color);
         }
     </style>
 

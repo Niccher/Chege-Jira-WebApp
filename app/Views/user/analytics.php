@@ -45,54 +45,43 @@
         </div>
 
         <!-- Key Metrics -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
+        <!-- Key Metrics -->
+        <div class="row mb-4 g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Total Projects</div>
                     <div class="stat-value">8</div>
-                    <div class="stat-label">Total Projects</div>
-                    <div class="stat-change text-success">
+                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
                         <i class="fas fa-arrow-up"></i> 2 this month
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-value">62%</div>
-                    <div class="stat-label">Completion Rate</div>
-                    <div class="stat-change text-success">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Completion Rate</div>
+                    <div class="stat-value text-success">62%</div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
                         <i class="fas fa-arrow-up"></i> 8% increase
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-value">42.5</div>
-                    <div class="stat-label">Hours Logged</div>
-                    <div class="stat-change text-warning">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Hours Logged</div>
+                    <div class="stat-value text-warning">42.5</div>
+                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
                         <i class="fas fa-minus"></i> 5% decrease
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <div class="stat-value">4.2</div>
-                    <div class="stat-label">Avg Daily Hours</div>
-                    <div class="stat-change text-success">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Avg Daily Hours</div>
+                    <div class="stat-value text-success">4.2</div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
                         <i class="fas fa-arrow-up"></i> 12% increase
                     </div>
                 </div>
@@ -356,68 +345,58 @@
                         </button>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="insight-card insight-positive">
-                                <div class="insight-icon">
-                                    <i class="fas fa-arrow-up"></i>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-success">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-arrow-up text-success fs-5 me-2"></i>
+                                    <h6 class="mb-0 text-white font-mono">Productivity Increase</h6>
                                 </div>
-                                <div class="insight-content">
-                                    <h6>Productivity Increase</h6>
-                                    <p class="small text-muted">Your completion rate has increased by 8% this month. Keep it up!</p>
-                                </div>
+                                <p class="small text-secondary mb-0">Your completion rate has increased by 8% this month. Keep it up!</p>
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <div class="insight-card insight-warning">
-                                <div class="insight-icon">
-                                    <i class="fas fa-clock"></i>
+                        <div class="col-md-4">
+                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-warning">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-clock text-warning fs-5 me-2"></i>
+                                    <h6 class="mb-0 text-white font-mono">Time Distribution</h6>
                                 </div>
-                                <div class="insight-content">
-                                    <h6>Time Distribution</h6>
-                                    <p class="small text-muted">Consider balancing time across projects. One project has 44% of your time.</p>
-                                </div>
+                                <p class="small text-secondary mb-0">Consider balancing time across projects. One project has 44% of your time.</p>
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <div class="insight-card insight-info">
-                                <div class="insight-icon">
-                                    <i class="fas fa-calendar"></i>
+                        <div class="col-md-4">
+                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-info">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-calendar text-info fs-5 me-2"></i>
+                                    <h6 class="mb-0 text-white font-mono">Consistency</h6>
                                 </div>
-                                <div class="insight-content">
-                                    <h6>Consistency</h6>
-                                    <p class="small text-muted">You're most productive on Wednesdays and Thursdays. Schedule important work then.</p>
-                                </div>
+                                <p class="small text-secondary mb-0">You're most productive on Wednesdays and Thursdays. Schedule important work then.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row g-3 mt-2">
                         <div class="col-md-6">
-                            <div class="insight-card">
-                                <div class="insight-content">
-                                    <h6><i class="fas fa-check-circle text-success me-2"></i>Completed This Month</h6>
-                                    <ul class="small text-muted mb-0">
-                                        <li>Portfolio website design system</li>
-                                        <li>ChegeOS dashboard setup</li>
-                                        <li>E-commerce authentication system</li>
-                                    </ul>
-                                </div>
+                            <div class="stat-card p-3 border-dark">
+                                <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-check-square text-success me-2"></i>Completed This Month</h6>
+                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Portfolio website design system</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>ChegeOS dashboard setup</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>E-commerce authentication system</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="insight-card">
-                                <div class="insight-content">
-                                    <h6><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
-                                    <ul class="small text-muted mb-0">
-                                        <li>Mobile app progress is behind schedule</li>
-                                        <li>API integration blocked on documentation</li>
-                                        <li>2 projects have been stalled for 14+ days</li>
-                                    </ul>
-                                </div>
+                            <div class="stat-card p-3 border-dark">
+                                <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
+                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>Mobile app progress is behind schedule</li>
+                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>API integration blocked on documentation</li>
+                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>2 projects have been stalled for 14+ days</li>
+                                </ul>
                             </div>
                         </div>
                     </div>

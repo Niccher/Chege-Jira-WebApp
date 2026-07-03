@@ -32,44 +32,44 @@
         </div>
 
         <!-- Calendar Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
+        <div class="row mb-4 g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">This Month</div>
                     <div class="stat-value" id="totalEvents"><?= $total_events ?></div>
-                    <div class="stat-label">This Month</div>
+                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                        <i class="fas fa-calendar-check"></i> Scheduled
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                        <i class="fas fa-check-circle"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Completed</div>
+                    <div class="stat-value text-success" id="completedEvents"><?= $completed_count ?></div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                        <i class="fas fa-check-circle"></i> Done
                     </div>
-                    <div class="stat-value" id="completedEvents"><?= $completed_count ?></div>
-                    <div class="stat-label">Completed</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-clock"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Pending</div>
+                    <div class="stat-value text-warning" id="pendingEvents"><?= $pending_count ?></div>
+                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                        <i class="fas fa-clock"></i> In Progress
                     </div>
-                    <div class="stat-value" id="pendingEvents"><?= $pending_count ?></div>
-                    <div class="stat-label">Pending</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-exclamation-triangle"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Overdue</div>
+                    <div class="stat-value text-danger" id="overdueEvents"><?= $overdue_count ?></div>
+                    <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
+                        <i class="fas fa-exclamation-triangle"></i> Needs Action
                     </div>
-                    <div class="stat-value" id="overdueEvents"><?= $overdue_count ?></div>
-                    <div class="stat-label">Overdue</div>
                 </div>
             </div>
         </div>
@@ -203,61 +203,72 @@
 
         /* FullCalendar Customizations */
         .fc {
-            --fc-border-color: #334155;
+            --fc-border-color: var(--border-color);
             --fc-daygrid-event-dot-width: 8px;
             --fc-list-event-dot-width: 8px;
             --fc-page-bg-color: transparent;
-            --fc-neutral-bg-color: #0f172a;
-            --fc-today-bg-color: rgba(99, 102, 241, 0.1);
+            --fc-neutral-bg-color: var(--card-bg);
+            --fc-today-bg-color: rgba(255, 255, 255, 0.05);
         }
 
         .fc .fc-toolbar-title {
-            color: white;
+            color: var(--bs-body-color);
             font-size: 1.25rem;
             font-weight: 600;
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
         }
 
         .fc .fc-button-primary {
-            background-color: #1e293b;
-            border-color: #334155;
-            color: #cbd5e1;
-            text-transform: capitalize;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--bs-body-color);
+            text-transform: uppercase;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.85rem;
+            border-radius: 0 !important;
         }
 
         .fc .fc-button-primary:hover {
-            background-color: #334155;
-            border-color: #475569;
+            background-color: var(--card-bg);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
 
         .fc .fc-button-primary:not(:disabled).fc-button-active, 
         .fc .fc-button-primary:not(:disabled):active {
-            background-color: #6366f1;
-            border-color: #6366f1;
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--bs-body-bg);
         }
 
         .fc .fc-col-header-cell-cushion {
-            color: #94a3b8;
+            color: #9ca3af;
             padding: 10px 0;
             text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
 
         .fc .fc-daygrid-day-number {
-            color: #e2e8f0;
+            color: var(--bs-body-color);
             padding: 8px;
             text-decoration: none;
+            font-family: 'Space Grotesk', monospace;
         }
 
         .fc .fc-event {
             border: none;
+            border-radius: 0;
             padding: 2px 5px;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: opacity 0.1s;
         }
 
         .fc .fc-event:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
+            opacity: 0.8;
         }
     </style>
     

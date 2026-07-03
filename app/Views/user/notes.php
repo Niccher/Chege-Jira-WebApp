@@ -52,44 +52,44 @@
         </div>
 
         <!-- Notes Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
-                        <i class="fas fa-sticky-note"></i>
-                    </div>
+        <div class="row mb-4 g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Total Notes</div>
                     <div class="stat-value" id="totalNotes"><?= $stats['total'] ?></div>
-                    <div class="stat-label">Total Notes</div>
+                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                        <i class="fas fa-sticky-note"></i> All notes
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                        <i class="fas fa-star"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Starred</div>
+                    <div class="stat-value text-warning" id="starredNotes"><?= $stats['starred'] ?></div>
+                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                        <i class="fas fa-star"></i> Important
                     </div>
-                    <div class="stat-value" id="starredNotes"><?= $stats['starred'] ?></div>
-                    <div class="stat-label">Starred</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-check-circle"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Completed</div>
+                    <div class="stat-value text-success" id="completedNotes"><?= $stats['completed'] ?></div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                        <i class="fas fa-check-circle"></i> Resolved
                     </div>
-                    <div class="stat-value" id="completedNotes"><?= $stats['completed'] ?></div>
-                    <div class="stat-label">Completed</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-trash"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Deleted</div>
+                    <div class="stat-value text-danger" id="deletedNotes">0</div>
+                    <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
+                        <i class="fas fa-trash"></i> Trash
                     </div>
-                    <div class="stat-value" id="deletedNotes">0</div>
-                    <div class="stat-label">Deleted</div>
                 </div>
             </div>
         </div>
@@ -269,28 +269,35 @@
     <style>
         /* Notes Styles */
         .note-item {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
             padding: 1rem;
             margin-bottom: 1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: none;
         }
 
         .note-item:hover {
-            border-color: #475569;
-            transform: translateY(-2px);
+            border-color: var(--bs-body-color);
+            box-shadow: 4px 4px 0 var(--border-color);
+            transform: translate(-2px, -2px);
         }
 
         .note-item.active {
-            border-color: #6366f1;
-            background-color: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary-color);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .note-item h6 {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .completed-note {
             opacity: 0.7;
-            border-left: 4px solid #10b981;
+            border-left: 4px solid var(--bs-success);
         }
 
         .completed-note h6 {
@@ -300,6 +307,7 @@
         .note-meta {
             text-align: right;
             font-size: 0.8rem;
+            font-family: 'Space Grotesk', monospace;
         }
 
         .note-preview {
@@ -307,6 +315,7 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            font-size: 0.85rem;
         }
 
         .note-tags {
@@ -319,19 +328,22 @@
         .badge-sm {
             font-size: 0.65rem;
             padding: 0.2rem 0.5rem;
+            border-radius: 0;
+            font-family: 'Space Grotesk', monospace;
+            text-transform: uppercase;
         }
 
         .editor-toolbar {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 6px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
             padding: 0.5rem;
         }
 
         .quick-note {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
             padding: 1rem;
             height: 120px;
             display: flex;
@@ -352,11 +364,17 @@
         }
 
         #noteContent {
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #e2e8f0;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--border-color);
+            color: var(--bs-body-color);
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             resize: none;
+            border-radius: 0;
+        }
+        
+        #noteContent:focus {
+            border-color: var(--primary-color);
+            box-shadow: none;
         }
 
         /* Scrollbar Styling */
@@ -365,13 +383,17 @@
         }
 
         #notesList::-webkit-scrollbar-track {
-            background: #1e293b;
-            border-radius: 3px;
+            background: var(--bs-body-bg);
+            border-radius: 0;
         }
 
         #notesList::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 3px;
+            background: var(--border-color);
+            border-radius: 0;
+        }
+        
+        #notesList::-webkit-scrollbar-thumb:hover {
+            background: var(--bs-secondary-color);
         }
     </style>
 

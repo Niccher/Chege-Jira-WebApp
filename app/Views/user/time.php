@@ -90,44 +90,44 @@
         </div>
 
         <!-- Time Tracking Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
-                        <i class="fas fa-clock"></i>
-                    </div>
+        <div class="row mb-4 g-3">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Today (hrs)</div>
                     <div class="stat-value" id="todayTime"><?= $todayTime ?></div>
-                    <div class="stat-label">Today (hrs)</div>
+                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                        <i class="fas fa-clock"></i> Logged today
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
-                        <i class="fas fa-calendar-week"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">This Week (hrs)</div>
+                    <div class="stat-value text-primary" id="weekTime"><?= $weekTime ?></div>
+                    <div class="stat-change text-primary mt-3 font-mono border-top border-primary border-opacity-25 pt-2">
+                        <i class="fas fa-calendar-week"></i> Current week
                     </div>
-                    <div class="stat-value" id="weekTime"><?= $weekTime ?></div>
-                    <div class="stat-label">This Week (hrs)</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
-                        <i class="fas fa-calendar-alt"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">This Month (hrs)</div>
+                    <div class="stat-value text-warning" id="monthTime"><?= $monthTime ?></div>
+                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                        <i class="fas fa-calendar-alt"></i> Current month
                     </div>
-                    <div class="stat-value" id="monthTime"><?= $monthTime ?></div>
-                    <div class="stat-label">This Month (hrs)</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
-                        <i class="fas fa-tachometer-alt"></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="stat-label mb-2">Avg Daily (hrs)</div>
+                    <div class="stat-value text-success" id="avgDaily"><?= $avgDaily ?></div>
+                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                        <i class="fas fa-tachometer-alt"></i> Daily pace
                     </div>
-                    <div class="stat-value" id="avgDaily"><?= $avgDaily ?></div>
-                    <div class="stat-label">Avg Daily (hrs)</div>
                 </div>
             </div>
         </div>

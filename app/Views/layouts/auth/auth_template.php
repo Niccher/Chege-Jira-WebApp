@@ -10,29 +10,40 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary-color: #6366f1;
+            --primary-color: #ffffff;
+            --bs-body-bg: #000000;
+            --bs-body-color: #e5e5e5;
+            --card-bg: #0a0a0a;
+            --border-color: #333333;
+            --border-radius: 0;
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            --border-radius: 12px;
         }
 
         * {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
+            border-radius: 0 !important;
         }
 
         body {
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            background-image: linear-gradient(var(--border-color) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
         }
 
         .auth-container {
@@ -52,33 +63,37 @@
             width: 60px;
             height: 60px;
             background-color: var(--primary-color);
-            border-radius: 16px;
+            border: 2px solid var(--primary-color);
             margin-bottom: 1rem;
+            box-shadow: 4px 4px 0 var(--border-color);
         }
 
         .auth-brand .logo i {
             font-size: 1.8rem;
-            color: white;
+            color: #000;
         }
 
         .auth-brand h1 {
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
             color: white;
+            text-transform: uppercase;
+            letter-spacing: -1px;
         }
 
         .auth-brand p {
             color: #94a3b8;
             font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
         }
 
         .auth-card {
-            background-color: #1e293b;
-            border-radius: var(--border-radius);
-            border: 1px solid #334155;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem 2rem;
+            box-shadow: 12px 12px 0 rgba(255,255,255,0.05);
         }
 
         .auth-header {
@@ -87,21 +102,23 @@
         }
 
         .auth-header h2 {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #e2e8f0;
+            color: #ffffff;
+            text-transform: uppercase;
         }
 
         .auth-header p {
             color: #94a3b8;
             font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .auth-footer {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #334155;
+            border-top: 1px dashed var(--border-color);
             color: #94a3b8;
             font-size: 0.9rem;
         }
@@ -109,31 +126,39 @@
         .auth-footer a {
             color: var(--primary-color);
             text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .auth-footer a:hover {
-            text-decoration: underline;
+            background-color: var(--primary-color);
+            color: #000;
         }
 
         .form-label {
-            font-weight: 500;
-            color: #e2e8f0;
+            font-weight: 600;
+            color: #ffffff;
             margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            font-size: 0.8rem;
         }
 
         .form-control {
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #e2e8f0;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
             padding: 0.75rem 1rem;
-            border-radius: 8px;
+            border-radius: 0;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .form-control:focus {
-            background-color: #0f172a;
+            background-color: rgba(255,255,255,0.05);
             border-color: var(--primary-color);
-            color: #e2e8f0;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            color: #ffffff;
+            box-shadow: 4px 4px 0 var(--border-color);
         }
 
         .form-control::placeholder {
@@ -143,32 +168,47 @@
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
+            color: #000;
             padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
         }
 
         .btn-primary:hover {
-            background-color: #4f46e5;
-            border-color: #4f46e5;
+            background-color: #fff;
+            border-color: #fff;
+            color: #000;
+            box-shadow: 4px 4px 0 var(--border-color);
+            transform: translate(-2px, -2px);
         }
 
         .btn-outline-secondary {
-            border-color: #334155;
-            color: #94a3b8;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            background-color: transparent;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
         }
 
         .btn-outline-secondary:hover {
-            background-color: #334155;
-            border-color: #475569;
-            color: #e2e8f0;
+            background-color: #ffffff;
+            border-color: #ffffff;
+            color: #000;
+            box-shadow: 4px 4px 0 var(--border-color);
+            transform: translate(-2px, -2px);
         }
 
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             color: #64748b;
         }
 
@@ -176,12 +216,14 @@
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         .divider span {
             padding: 0 1rem;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
         }
 
         .social-login {
@@ -215,35 +257,44 @@
         }
 
         .alert {
-            border-radius: 8px;
+            border-radius: 0;
             border: 1px solid;
             padding: 1rem;
             margin-bottom: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
         }
 
         .alert-success {
             background-color: rgba(16, 185, 129, 0.1);
-            border-color: #10b981;
-            color: #a7f3d0;
+            border-color: var(--success-color);
+            color: var(--success-color);
         }
 
         .alert-warning {
             background-color: rgba(245, 158, 11, 0.1);
-            border-color: #f59e0b;
-            color: #fde68a;
+            border-color: var(--warning-color);
+            color: var(--warning-color);
         }
 
         .alert-danger {
             background-color: rgba(239, 68, 68, 0.1);
-            border-color: #ef4444;
-            color: #fca5a5;
+            border-color: var(--danger-color);
+            color: var(--danger-color);
         }
 
         .alert-info {
-            background-color: rgba(99, 102, 241, 0.1);
-            border-color: #6366f1;
-            color: #c7d2fe;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
+
+        /* Utility overrides */
+        .text-primary { color: var(--primary-color) !important; }
+        .text-success { color: var(--success-color) !important; }
+        .text-warning { color: var(--warning-color) !important; }
+        .text-danger { color: var(--danger-color) !important; }
 
         /* Dark/Light theme toggle for auth pages */
         .theme-toggle {

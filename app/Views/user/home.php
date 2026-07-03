@@ -39,44 +39,45 @@
         </div>
 
         <!-- Quick Stats -->
-        <div class="row mb-4">
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(99, 102, 241, 0.2); color: var(--primary-color);">
-                        <i class="fas fa-project-diagram"></i>
+        <div class="row mb-4 g-3">
+            <div class="col-md-4 mb-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-label mb-2">Total Projects</div>
+                            <div class="stat-value" id="totalProjects"><?= $stats['total'] ?></div>
+                        </div>
+                        <i class="fas fa-project-diagram fs-3 text-secondary"></i>
                     </div>
-                    <div class="stat-value" id="totalProjects"><?= $stats['total'] ?></div>
-                    <div class="stat-label">Total Projects</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.2); color: var(--success-color);">
-                        <i class="fas fa-play-circle"></i>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card h-100 p-4 border-dark">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="stat-label mb-2">Active Projects</div>
+                            <div class="stat-value text-success" id="activeProjects"><?= $stats['active'] ?></div>
+                        </div>
+                        <i class="fas fa-play-circle fs-3 text-success"></i>
                     </div>
-                    <div class="stat-value" id="activeProjects"><?= $stats['active'] ?></div>
-                    <div class="stat-label">Active Projects</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.2); color: var(--warning-color);">
-                        <i class="fas fa-hourglass-half"></i>
+            <div class="col-md-4 mb-3">
+                <div class="row g-3 h-100">
+                    <div class="col-12 h-50">
+                        <div class="stat-card p-3 border-dark d-flex justify-content-between align-items-center">
+                            <div class="stat-label">Pending</div>
+                            <div class="stat-value fs-4 text-warning" id="stalledProjects"><?= $stats['pending'] ?></div>
+                        </div>
                     </div>
-                    <div class="stat-value" id="stalledProjects"><?= $stats['pending'] ?></div>
-                    <div class="stat-label">Pending/Hold</div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 mb-3">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background-color: rgba(107, 114, 128, 0.2); color: #6b7280;">
-                        <i class="fas fa-archive"></i>
+                    <div class="col-12 h-50">
+                        <div class="stat-card p-3 border-dark d-flex justify-content-between align-items-center">
+                            <div class="stat-label">Archived</div>
+                            <div class="stat-value fs-4 text-muted" id="archivedProjects"><?= $stats['archived'] ?></div>
+                        </div>
                     </div>
-                    <div class="stat-value" id="archivedProjects"><?= $stats['archived'] ?></div>
-                    <div class="stat-label">Archived</div>
                 </div>
             </div>
         </div>
@@ -151,12 +152,11 @@
                                 <div class="project-card mb-3">
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="d-flex align-items-center">
-                                            <div class="stat-icon m-0 me-3" style="width: 32px; height: 32px; background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; font-size: 14px; border-radius: 6px;">
+                                            <div class="stat-icon m-0 me-3 bg-dark border-0" style="width: 32px; height: 32px; font-size: 14px;">
                                                 <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?>"></i>
                                             </div>
                                             <div>
-                                                <span class="project-health health-good"></span>
-                                                <strong class="text-white"><?= esc($project['name']) ?></strong>
+                                                <strong class="text-white font-mono"><?= esc($project['name']) ?></strong>
                                             </div>
                                         </div>
                                         <div>
@@ -256,8 +256,8 @@
         left: 20px;
         top: 0;
         bottom: 0;
-        width: 2px;
-        background: #334155;
+        width: 1px;
+        background: var(--border-color);
         z-index: 1;
     }
     .activity-item:last-child {

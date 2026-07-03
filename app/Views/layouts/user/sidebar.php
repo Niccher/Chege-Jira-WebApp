@@ -34,10 +34,7 @@
             Analytics
         </a>
     </nav>
-    <hr>
-    <br>
-    <hr>
-    <div class="mt-auto">
+    <div class="mt-auto pt-3 border-top">
         <div class="nav flex-column">
             <a class="nav-link <?= (uri_string() == 'settings') ? 'active' : '' ?>" href="<?= site_url('settings') ?>">
                 <i class="fas fa-cog nav-icon"></i>

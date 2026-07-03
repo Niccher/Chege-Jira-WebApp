@@ -1,0 +1,14 @@
+.env
+vendor/
+writable/cache/
+writable/logs/
+writable/session/
+.idea/
+.vscode/
+writable/debugbar/
+
+# Ignore writable logs and debugbar
+writable/logs/*
+!writable/logs/index.html
+writable/debugbar/*
+!writable/debugbar/index.html
