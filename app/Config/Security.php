@@ -33,7 +33,7 @@ class Security extends BaseConfig
      *
      * Token name for Cross Site Request Forgery protection.
      */
-    public string $tokenName = 'chege_os_csrf_token';
+    public string $tokenName = 'chege_jira_csrf_token';
 
     /**
      * --------------------------------------------------------------------------
@@ -51,7 +51,7 @@ class Security extends BaseConfig
      *
      * Cookie name for Cross Site Request Forgery protection.
      */
-    public string $cookieName = 'chege_os_csrf_cookie';
+    public string $cookieName = 'chege_jira_csrf_cookie';
 
     /**
      * --------------------------------------------------------------------------
