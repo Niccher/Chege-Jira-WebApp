@@ -13,8 +13,10 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->post('/projects/store', 'User\Dashboard::project_store');
     $routes->get('/projects/view/(:num)', 'User\Dashboard::project_view/$1');
     $routes->get('/projects/kanban/(:num)', 'User\Dashboard::project_kanban/$1');
+    $routes->get('/projects/kanban', 'User\Dashboard::project_kanban');
     $routes->post('/projects/task/move', 'User\Dashboard::task_move');
     $routes->post('/projects/task/store', 'User\Dashboard::task_store');
+    $routes->post('/projects/task/update/(:num)', 'User\Dashboard::task_update/$1');
     $routes->get('/projects/edit/(:num)', 'User\Dashboard::project_edit/$1');
     $routes->post('/projects/update/(:num)', 'User\Dashboard::project_update/$1');
     $routes->post('/projects/delete/(:num)', 'User\Dashboard::project_delete/$1');
@@ -36,6 +38,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->post('/notes/complete/(:num)', 'User\Dashboard::note_complete/$1');
     $routes->get('/analytics', 'User\Dashboard::project_analytics');
     $routes->get('/settings', 'User\Dashboard::project_settings');
+    $routes->post('/settings/update', 'User\Dashboard::settings_update');
 });
 
 // Load default Shield routes, excluding those we'll customize

@@ -25,11 +25,37 @@ Every component of this application is fully containerized. From the zero-config
 
 ## ✨ 2. Features
 
-- 🐳 **Instant Setup**: 100% Dockerized architecture. Go from zero to running in under 60 seconds.
-- 🔄 **Automated Migrations**: Database tables and schemas are built automatically when the container boots.
-- 💾 **Smart Persistence**: Database records and uploaded media safely persist on your local filesystem, completely isolated from container lifecycle events.
-- 🛡️ **Hardened Security**: Features built-in CSRF protection, strictly configured session handling, and environment-driven configurations.
-- 📊 **Integrated Database Management**: Comes bundled with a dedicated `phpMyAdmin` container for real-time database visualization.
+### 🖥️ Dashboard & Project Management
+- **📊 Live Dashboard**: Real-time overview with quick stats (total/active/pending/archived projects), weekly focus cards, and a recent activity timeline with color-coded event types.
+- **📋 Full Project Lifecycle**: Create, edit, view, and manage projects with status tracking, priority levels, tech stack tagging, and progress bars.
+- **🗂️ Kanban Board**: Project-specific kanban views with drag-and-drop task cards, theme-aware styling, and clear status columns.
+- **📈 Analytics**: Visual project analytics with completion trends and status distribution.
+
+### 🎨 Personalization & UX
+- **🌗 Theme Toggle**: Switch between Dark and Light themes with a single click or press `T`. Preference is persisted to your account.
+- **🎨 Accent Color Picker**: Choose your accent color (default: Red). Saved per-user and applied instantly across the UI.
+- **📍 Persistent Sidebar**: Collapse/expand the sidebar with a click or press `S`. Your preference is stored in the browser across sessions.
+- **📱 Responsive Layout**: Fully responsive design that adapts from desktop to mobile.
+
+### 🔐 Authentication & Security
+- **🛡️ Shield Auth**: Built on CodeIgniter Shield with register, login, forgot/reset password, and email activation flows.
+- **🔒 CSRF Protection**: All forms are protected against cross-site request forgery.
+- **🗄️ Settings Persistence**: User preferences (timezone, date format, theme, accent color) are stored in the database and survive container restarts.
+
+### 🕐 Time Tracking & Notes
+- **⏱️ Time Logger**: Log work hours against projects with start/stop or manual entry. View daily, weekly, and monthly summaries.
+- **📝 Per-Project Notes**: Attach notes to projects with timestamps. Organize thoughts, meeting minutes, and technical references.
+- **📅 Calendar View**: Visual calendar for time logs and events, integrated with FullCalendar.
+
+### 📦 Data Management
+- **📥 Import / Export**: Export projects, time logs, and notes to CSV or JSON. Import data back via the settings panel.
+- **🖼️ Profile Avatars**: Upload a profile image — securely stored and served from the application.
+
+### 🐳 DevOps & Infrastructure
+- **⚡ Instant Setup**: 100% Dockerized architecture. Go from zero to running in under 60 seconds with `docker compose up`.
+- **🔄 Automated Migrations**: Database tables and schemas are built automatically when the container boots.
+- **💾 Smart Persistence**: Database records and uploaded media safely persist on your local filesystem, completely isolated from container lifecycle events.
+- **📊 Integrated Database Management**: Comes bundled with a dedicated `phpMyAdmin` container for real-time database visualization.
 
 ---
 

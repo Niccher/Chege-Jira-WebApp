@@ -22,8 +22,10 @@ class Dashboard extends BaseController
     {
         $projectModel = new \App\Models\ProjectModel();
         $userId = auth()->id();
+        $user = auth()->user();
 
         $data = [
+            'user'           => $user,
             'stats'          => $projectModel->getStats($userId),
             'weeklyFocus'    => $projectModel->getWeeklyFocus($userId),
             'recentActivity' => $projectModel->getRecentActivity($userId),
@@ -41,8 +43,10 @@ class Dashboard extends BaseController
     {
         $projectModel = new \App\Models\ProjectModel();
         $userId = auth()->id();
+        $user = auth()->user();
 
         $data = [
+            'user'               => $user,
             'all_projects'       => $projectModel->where('user_id', $userId)->paginate(10, 'all'),
             'active_projects'    => $projectModel->where('user_id', $userId)->where('status', 'in_progress')->paginate(10, 'active'),
             'pending_projects'   => $projectModel->where('user_id', $userId)->whereIn('status', ['planning', 'on_hold'])->paginate(10, 'pending'),
@@ -58,7 +62,8 @@ class Dashboard extends BaseController
 
     public function project_create()
     {
-        return view('user/projects/create');
+        $user = auth()->user();
+        return view('user/projects/create', ['user' => $user]);
     }
 
     public function project_store()
@@ -108,6 +113,8 @@ class Dashboard extends BaseController
     {
         $projectModel = new \App\Models\ProjectModel();
         $userId = auth()->id();
+        $user = auth()->user();
+        $db = \Config\Database::connect();
         
         $project = $projectModel->where('id', $id)->where('user_id', $userId)->first();
 
@@ -115,11 +122,31 @@ class Dashboard extends BaseController
             return redirect()->to('/projects')->with('error', 'Project not found.');
         }
 
+        $timeStats = $db->table('time_logs')
+            ->select('COALESCE(SUM(duration), 0) as total_seconds, 
+                      COUNT(DISTINCT DATE(start_time)) as days_logged,
+                      COALESCE(SUM(CASE WHEN start_time >= DATE_SUB(NOW(), INTERVAL 7 DAY) THEN duration ELSE 0 END), 0) as week_seconds,
+                      COALESCE(SUM(CASE WHEN start_time >= DATE_SUB(NOW(), INTERVAL 30 DAY) THEN duration ELSE 0 END), 0) as month_seconds')
+            ->where('user_id', $userId)
+            ->where('project_id', $id)
+            ->get()->getRowArray();
+
+        $projectNotes = $db->table('notes')
+            ->where('user_id', $userId)
+            ->where('project_id', $id)
+            ->where('is_deleted', 0)
+            ->orderBy('created_at', 'DESC')
+            ->limit(10)
+            ->get()->getResultArray();
+
         $data = [
-            'project'    => $project,
-            'milestones' => $projectModel->getMilestones($id),
-            'tech_stack' => json_decode($project['tech_stack'], true) ?? [],
-            'categories' => json_decode($project['categories'], true) ?? [],
+            'user'          => $user,
+            'project'       => $project,
+            'milestones'    => $projectModel->getMilestones($id),
+            'tech_stack'    => json_decode($project['tech_stack'], true) ?? [],
+            'categories'    => json_decode($project['categories'], true) ?? [],
+            'time_stats'    => $timeStats,
+            'project_notes' => $projectNotes,
         ];
 
         return view('user/projects/view', $data);
@@ -129,6 +156,7 @@ class Dashboard extends BaseController
     {
         $projectModel = new \App\Models\ProjectModel();
         $userId = auth()->id();
+        $user = auth()->user();
         
         $project = $projectModel->where('id', $id)->where('user_id', $userId)->first();
 
@@ -137,6 +165,7 @@ class Dashboard extends BaseController
         }
 
         $data = [
+            'user'       => $user,
             'project'    => $project,
             'milestones' => $projectModel->getMilestones($id),
             'tech_stack' => json_decode($project['tech_stack'], true) ?? [],
@@ -211,9 +240,11 @@ class Dashboard extends BaseController
     public function project_calendar()
     {
         $userId = auth()->id();
+        $user = auth()->user();
         $db = \Config\Database::connect();
         $projectModel = new \App\Models\ProjectModel();
         
+        $data['user'] = $user;
         $data['projects'] = $projectModel->where('user_id', $userId)->findAll();
         
         // --- 1. Stats Calculation ---
@@ -326,10 +357,12 @@ class Dashboard extends BaseController
     public function project_time_tracker()
     {
         $userId = auth()->id();
+        $user = auth()->user();
         $db = \Config\Database::connect();
         $projectModel = new \App\Models\ProjectModel();
         $timeModel = new \App\Models\TimeLogModel();
 
+        $data['user'] = $user;
         $data['projects'] = $projectModel->where('user_id', $userId)->findAll();
         
         // Stats
@@ -463,8 +496,8 @@ class Dashboard extends BaseController
         $noteModel = new \App\Models\NoteModel();
         $projectModel = new \App\Models\ProjectModel();
         $userId = auth()->id();
+        $user = auth()->user();
 
-        // Paginated Notes
         $notes = $noteModel->select('notes.*, projects.name as project_name')
             ->join('projects', 'projects.id = notes.project_id', 'left')
             ->where('notes.user_id', $userId)
@@ -474,6 +507,7 @@ class Dashboard extends BaseController
             ->paginate(5, 'notes');
 
         $data = [
+            'user'     => $user,
             'notes'    => $notes,
             'pager'    => $noteModel->pager,
             'projects' => $projectModel->where('user_id', $userId)->findAll(),
@@ -481,6 +515,7 @@ class Dashboard extends BaseController
                 'total'     => $noteModel->where('user_id', $userId)->where('is_deleted', 0)->countAllResults(),
                 'starred'   => $noteModel->where('user_id', $userId)->where('is_deleted', 0)->where('is_starred', 1)->countAllResults(),
                 'completed' => $noteModel->where('user_id', $userId)->where('is_deleted', 0)->where('is_completed', 1)->countAllResults(),
+                'deleted'   => $noteModel->where('user_id', $userId)->where('is_deleted', 1)->countAllResults(),
             ]
         ];
 
@@ -800,12 +835,277 @@ class Dashboard extends BaseController
 
     public function project_analytics()
     {
-        return view('user/analytics');
+        $userId = auth()->id();
+        $user = auth()->user();
+        $db = \Config\Database::connect();
+        $projectModel = new \App\Models\ProjectModel();
+
+        // Total projects count
+        $totalProjects = $projectModel->where('user_id', $userId)->countAllResults();
+        $completedProjects = $projectModel->where('user_id', $userId)->where('status', 'completed')->countAllResults();
+
+        // Completion rate
+        $completionRate = $totalProjects > 0 ? round(($completedProjects / $totalProjects) * 100) : 0;
+
+        // Hours logged
+        $totalSeconds = $db->table('time_logs')
+            ->selectSum('duration')
+            ->where('user_id', $userId)
+            ->get()->getRow()->duration ?? 0;
+        $totalHours = round($totalSeconds / 3600, 1);
+
+        // Avg daily
+        $daysLogged = $db->table('time_logs')
+            ->select('COUNT(DISTINCT DATE(start_time)) as days')
+            ->where('user_id', $userId)
+            ->get()->getRow()->days ?? 1;
+        $avgDaily = $daysLogged > 0 ? round($totalHours / $daysLogged, 1) : 0;
+
+        // Monthly trends (last 6 months)
+        $monthlyTrends = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = date('Y-m', strtotime("-{$i} months"));
+            $monthStart = $month . '-01';
+            $monthEnd = date('Y-m-t', strtotime($monthStart));
+            
+            $started = $projectModel->where('user_id', $userId)
+                ->where('created_at >=', $monthStart)
+                ->where('created_at <=', $monthEnd . ' 23:59:59')
+                ->countAllResults();
+            
+            $done = $projectModel->where('user_id', $userId)
+                ->where('updated_at >=', $monthStart)
+                ->where('updated_at <=', $monthEnd . ' 23:59:59')
+                ->where('status', 'completed')
+                ->countAllResults();
+
+            $monthlyTrends[] = [
+                'month' => date('M', strtotime($monthStart)),
+                'started' => $started,
+                'completed' => $done,
+            ];
+        }
+
+        // Project health distribution
+        $good = $projectModel->where('user_id', $userId)->where('status', 'in_progress')->where('progress >=', 50)->countAllResults();
+        $warning = $projectModel->where('user_id', $userId)->where('status', 'in_progress')->where('progress <', 50)->where('progress >', 0)->countAllResults();
+        $danger = $projectModel->where('user_id', $userId)->whereIn('status', ['planning', 'on_hold'])->countAllResults();
+        $archived = $projectModel->where('user_id', $userId)->where('is_archived', 1)->countAllResults();
+        $healthTotal = max($good + $warning + $danger + $archived, 1);
+
+        // Time distribution by project
+        $timeDistribution = $db->table('time_logs')
+            ->select('projects.name, projects.color, COALESCE(SUM(time_logs.duration), 0) as total_duration')
+            ->join('projects', 'projects.id = time_logs.project_id', 'left')
+            ->where('time_logs.user_id', $userId)
+            ->groupBy('time_logs.project_id')
+            ->orderBy('total_duration', 'DESC')
+            ->limit(5)
+            ->get()->getResultArray();
+
+        $allTimeTotal = max(array_sum(array_column($timeDistribution, 'total_duration')), 1);
+
+        // Activity heatmap data - last 30 days
+        $heatmapData = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $day = date('Y-m-d', strtotime("-{$i} days"));
+            $activityCount = 0;
+            
+            $activityCount += $db->table('time_logs')
+                ->where('user_id', $userId)
+                ->where('DATE(start_time)', $day)
+                ->countAllResults();
+            
+            $activityCount += $db->table('notes')
+                ->where('user_id', $userId)
+                ->where('DATE(created_at)', $day)
+                ->countAllResults();
+
+            $activityCount += $db->table('projects')
+                ->where('user_id', $userId)
+                ->where('DATE(updated_at)', $day)
+                ->countAllResults();
+
+            $heatmapData[] = [
+                'date' => $day,
+                'count' => min($activityCount, 4),
+            ];
+        }
+
+        // Insights
+        $insights = [];
+        if ($completionRate >= 50) {
+            $insights[] = [
+                'type' => 'positive',
+                'icon' => 'fa-arrow-up',
+                'color' => 'text-success',
+                'title' => 'Productivity Increase',
+                'message' => "Your completion rate is {$completionRate}%. Keep up the momentum!",
+            ];
+        } else {
+            $insights[] = [
+                'type' => 'warning',
+                'icon' => 'fa-clock',
+                'color' => 'text-warning',
+                'title' => 'Time Distribution',
+                'message' => 'Consider breaking down projects into smaller, achievable milestones.',
+            ];
+        }
+
+        $overdueCount = $db->table('projects')
+            ->where('user_id', $userId)
+            ->where('due_date <', date('Y-m-d'))
+            ->where('status !=', 'completed')
+            ->countAllResults();
+        
+        if ($overdueCount > 0) {
+            $insights[] = [
+                'type' => 'danger',
+                'icon' => 'fa-exclamation-triangle',
+                'color' => 'text-danger',
+                'title' => 'Overdue Projects',
+                'message' => "You have {$overdueCount} overdue project(s) that need attention.",
+            ];
+        }
+
+        $insights[] = [
+            'type' => 'info',
+            'icon' => 'fa-calendar',
+            'color' => 'text-info',
+            'title' => 'Consistency',
+            'message' => $daysLogged > 0 ? "You've logged time on {$daysLogged} different days. " . ($avgDaily > 0 ? "Average {$avgDaily}h/day." : '') : 'Start tracking time to see consistency insights.',
+        ];
+
+        // Completed this month
+        $monthStart = date('Y-m-01');
+        $monthEnd = date('Y-m-t 23:59:59');
+        $completedThisMonth = $projectModel->where('user_id', $userId)
+            ->where('status', 'completed')
+            ->where('updated_at >=', $monthStart)
+            ->where('updated_at <=', $monthEnd)
+            ->findAll();
+
+        // Stalled projects (no update in 14+ days)
+        $stalledProjects = $projectModel->where('user_id', $userId)
+            ->where('status', 'in_progress')
+            ->where('updated_at <', date('Y-m-d', strtotime('-14 days')))
+            ->where('is_archived', 0)
+            ->findAll();
+
+        $stalledTasks = [];
+        foreach ($stalledProjects as $sp) {
+            $stalledTasks[] = esc($sp['name']) . ' has been inactive for ' . round((time() - strtotime($sp['updated_at'])) / 86400) . ' days';
+        }
+
+        // Recent notes completed
+        $recentDone = [];
+        $doneNotes = $db->table('notes')
+            ->where('user_id', $userId)
+            ->where('is_completed', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('updated_at', 'DESC')
+            ->limit(5)
+            ->get()->getResultArray();
+        foreach ($doneNotes as $dn) {
+            $recentDone[] = esc($dn['title']);
+        }
+
+        $data = [
+            'user'              => $user,
+            'totalProjects'     => $totalProjects,
+            'completionRate'    => $completionRate,
+            'totalHours'        => $totalHours,
+            'avgDaily'          => $avgDaily,
+            'monthlyTrends'     => $monthlyTrends,
+            'good'              => $good,
+            'warningCount'      => $warning,
+            'dangerCount'       => $danger,
+            'archivedCount'     => $archived,
+            'healthTotal'       => $healthTotal,
+            'goodPct'           => round(($good / $healthTotal) * 100),
+            'warningPct'        => round(($warning / $healthTotal) * 100),
+            'dangerPct'         => round(($danger / $healthTotal) * 100),
+            'archivedPct'       => round(($archived / $healthTotal) * 100),
+            'timeDistribution'  => $timeDistribution,
+            'allTimeTotal'      => $allTimeTotal,
+            'heatmapData'       => $heatmapData,
+            'insights'          => $insights,
+            'completedThisMonth' => $completedThisMonth,
+            'stalledTasks'      => $stalledTasks,
+            'recentDone'        => $recentDone,
+            'thisMonthStarted'  => $projectModel->where('user_id', $userId)
+                ->where('created_at >=', $monthStart)
+                ->where('created_at <=', $monthEnd)
+                ->countAllResults(),
+            'projectsCount'     => $totalProjects,
+        ];
+
+        return view('user/analytics', $data);
     }
 
     public function project_settings()
     {
-        return view('user/settings');
+        $user = auth()->user();
+        $user->preferences = $user->preferences ?? [];
+        return view('user/settings', ['user' => $user]);
+    }
+
+    public function settings_update()
+    {
+        $user = auth()->user();
+        $model = new \App\Models\UserModel();
+
+        $data = [];
+
+        if ($this->request->getPost('first_name') !== null) {
+            $data['first_name'] = $this->request->getPost('first_name');
+        }
+        if ($this->request->getPost('last_name') !== null) {
+            $data['last_name'] = $this->request->getPost('last_name');
+        }
+        if ($this->request->getPost('bio') !== null) {
+            $data['bio'] = $this->request->getPost('bio');
+        }
+        if ($this->request->getPost('timezone') !== null) {
+            $data['timezone'] = $this->request->getPost('timezone');
+        }
+        if ($this->request->getPost('date_format') !== null) {
+            $data['date_format'] = $this->request->getPost('date_format');
+        }
+
+        // Handle avatar upload
+        $avatar = $this->request->getFile('avatar');
+        if ($avatar && $avatar->isValid() && !$avatar->hasMoved()) {
+            $newName = $avatar->getRandomName();
+            $avatar->move(FCPATH . 'uploads/avatars', $newName);
+            $data['avatar'] = 'uploads/avatars/' . $newName;
+        }
+
+        // Gather preferences
+        $preferences = is_array($user->preferences) ? $user->preferences : [];
+        $prefFields = ['theme', 'accent_color', 'density', 'animations', 'sidebar_collapsed',
+                       'notifications_email_project_updates', 'notifications_email_weekly_reports',
+                       'notifications_email_stalled', 'notifications_inapp_due_dates',
+                       'notifications_inapp_achievements', 'notifications_inapp_tips',
+                       'notification_digest', 'reminder_time',
+                       'default_priority', 'default_status', 'auto_archive_completed',
+                       'show_stalled_alerts', 'kanban_default_columns', 'kanban_card_density',
+                       'idle_timeout', 'rounding_interval', 'auto_break', 'timer_sound',
+                       'weekly_goal_hours', 'daily_goal_hours', 'auto_weekly_report', 'show_billable'];
+
+        foreach ($prefFields as $field) {
+            $val = $this->request->getPost($field);
+            if ($val !== null) {
+                $preferences[$field] = $val;
+            }
+        }
+        $data['preferences'] = json_encode($preferences);
+
+        if ($model->update($user->id, $data)) {
+            return redirect()->to('/settings')->with('message', 'Settings saved successfully!');
+        }
+
+        return redirect()->back()->withInput()->with('errors', $model->errors());
     }
 
     /**
@@ -816,9 +1116,9 @@ class Dashboard extends BaseController
         $projectModel = new \App\Models\ProjectModel();
         $taskModel = new \App\Models\TaskModel();
         $userId = auth()->id();
+        $user = auth()->user();
 
         if ($id === null) {
-            // Find the most recently updated project
             $latestProject = $projectModel->where('user_id', $userId)
                                           ->orderBy('updated_at', 'DESC')
                                           ->first();
@@ -839,7 +1139,9 @@ class Dashboard extends BaseController
         $tech = $projectModel->getTechStackByProjectId($id);
 
         $data = [
+            'user'       => $user,
             'project'    => $project,
+            'projects'   => $projectModel->where('user_id', $userId)->orderBy('updated_at', 'DESC')->findAll(),
             'categories' => $cats,
             'tech_stack' => $tech,
             'boardData'  => $taskModel->getBoardData($id, $userId)
@@ -895,5 +1197,35 @@ class Dashboard extends BaseController
         $taskModel->insert($data);
 
         return redirect()->back()->with('success', 'Task added successfully.');
+    }
+
+    /**
+     * Update a task (title, description, priority, due_date)
+     */
+    public function task_update($id = null)
+    {
+        $taskModel = new \App\Models\TaskModel();
+        $userId = auth()->id();
+
+        $task = $taskModel->where('user_id', $userId)->find($id);
+        if (!$task) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Task not found']);
+        }
+
+        $allowedFields = ['title', 'description', 'priority', 'due_date', 'status'];
+        $data = [];
+        foreach ($allowedFields as $field) {
+            $value = $this->request->getPost($field);
+            if ($value !== null) {
+                $data[$field] = $value;
+            }
+        }
+
+        if (empty($data)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'No data provided']);
+        }
+
+        $taskModel->update($id, $data);
+        return $this->response->setJSON(['status' => 'success']);
     }
 }

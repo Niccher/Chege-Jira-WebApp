@@ -32,27 +32,26 @@
 
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= esc(strtoupper(substr($user->name ?? $user->username ?? 'U', 0, 2))) ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-user me-2"></i> Profile</span></li>
+                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-cog me-2"></i> Settings</span></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-sign-out-alt me-2"></i> Logout</span></li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <!-- Key Metrics -->
-        <!-- Key Metrics -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Total Projects</div>
-                    <div class="stat-value">8</div>
+                    <div class="stat-value"><?= esc($totalProjects) ?></div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
-                        <i class="fas fa-arrow-up"></i> 2 this month
+                        <i class="fas fa-arrow-up"></i> <?= esc($thisMonthStarted) ?> this month
                     </div>
                 </div>
             </div>
@@ -60,9 +59,9 @@
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Completion Rate</div>
-                    <div class="stat-value text-success">62%</div>
+                    <div class="stat-value text-success"><?= esc(round($completionRate)) ?>%</div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
-                        <i class="fas fa-arrow-up"></i> 8% increase
+                        <i class="fas fa-arrow-up"></i> Overall rate
                     </div>
                 </div>
             </div>
@@ -70,9 +69,9 @@
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Hours Logged</div>
-                    <div class="stat-value text-warning">42.5</div>
+                    <div class="stat-value text-warning"><?= esc(number_format($totalHours, 1)) ?></div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
-                        <i class="fas fa-minus"></i> 5% decrease
+                        <i class="fas fa-clock"></i> Total hours
                     </div>
                 </div>
             </div>
@@ -80,9 +79,9 @@
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Avg Daily Hours</div>
-                    <div class="stat-value text-success">4.2</div>
+                    <div class="stat-value text-success"><?= esc(number_format($avgDaily, 1)) ?></div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
-                        <i class="fas fa-arrow-up"></i> 12% increase
+                        <i class="fas fa-arrow-up"></i> Daily average
                     </div>
                 </div>
             </div>
@@ -111,46 +110,22 @@
                         </div>
 
                         <div class="bar-chart">
+                            <?php
+                            $maxVal = 1;
+                            foreach ($monthlyTrends as $row) {
+                                $maxVal = max($maxVal, $row['started'], $row['completed']);
+                            }
+                            ?>
+                            <?php foreach ($monthlyTrends as $row): ?>
                             <div class="chart-row">
-                                <div class="chart-label">Jan</div>
+                                <div class="chart-label"><?= esc($row['month']) ?></div>
                                 <div class="chart-bars">
-                                    <div class="bar started" style="width: 30%; background-color: #6366f1;"></div>
-                                    <div class="bar completed" style="width: 20%; background-color: #10b981;"></div>
+                                    <div class="bar started" style="width: <?= ($row['started'] / $maxVal) * 100 ?>%; background-color: #6366f1;"></div>
+                                    <div class="bar completed" style="width: <?= ($row['completed'] / $maxVal) * 100 ?>%; background-color: #10b981;"></div>
                                 </div>
-                                <div class="chart-value">3/5</div>
+                                <div class="chart-value"><?= esc($row['completed']) ?>/<?= esc($row['started']) ?></div>
                             </div>
-                            <div class="chart-row">
-                                <div class="chart-label">Feb</div>
-                                <div class="chart-bars">
-                                    <div class="bar started" style="width: 40%; background-color: #6366f1;"></div>
-                                    <div class="bar completed" style="width: 30%; background-color: #10b981;"></div>
-                                </div>
-                                <div class="chart-value">4/6</div>
-                            </div>
-                            <div class="chart-row">
-                                <div class="chart-label">Mar</div>
-                                <div class="chart-bars">
-                                    <div class="bar started" style="width: 60%; background-color: #6366f1;"></div>
-                                    <div class="bar completed" style="width: 50%; background-color: #10b981;"></div>
-                                </div>
-                                <div class="chart-value">8/10</div>
-                            </div>
-                            <div class="chart-row">
-                                <div class="chart-label">Apr</div>
-                                <div class="chart-bars">
-                                    <div class="bar started" style="width: 50%; background-color: #6366f1;"></div>
-                                    <div class="bar completed" style="width: 40%; background-color: #10b981;"></div>
-                                </div>
-                                <div class="chart-value">5/8</div>
-                            </div>
-                            <div class="chart-row">
-                                <div class="chart-label">May</div>
-                                <div class="chart-bars">
-                                    <div class="bar started" style="width: 70%; background-color: #6366f1;"></div>
-                                    <div class="bar completed" style="width: 62%; background-color: #10b981;"></div>
-                                </div>
-                                <div class="chart-value">8/13</div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
@@ -161,13 +136,28 @@
                 <div class="stat-card h-100">
                     <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Health Distribution</h5>
                     <div class="pie-chart-container">
-                        <div class="pie-chart">
-                            <div class="pie-segment" style="--percentage: 50; --color: #10b981;"></div>
-                            <div class="pie-segment" style="--percentage: 25; --color: #f59e0b;"></div>
-                            <div class="pie-segment" style="--percentage: 15; --color: #ef4444;"></div>
-                            <div class="pie-segment" style="--percentage: 10; --color: #94a3b8;"></div>
+                        <?php
+                        $segments = [
+                            ['pct' => $goodPct, 'color' => '#10b981'],
+                            ['pct' => $warningPct, 'color' => '#f59e0b'],
+                            ['pct' => $dangerPct, 'color' => '#ef4444'],
+                            ['pct' => $archivedPct, 'color' => '#94a3b8'],
+                        ];
+                        $start = 0;
+                        $parts = [];
+                        foreach ($segments as $seg) {
+                            if ($seg['pct'] > 0) {
+                                $end = $start + $seg['pct'];
+                                $parts[] = $seg['color'] . ' ' . $start . '% ' . $end . '%';
+                                $start = $end;
+                            }
+                        }
+                        $pieGradient = implode(', ', $parts);
+                        $totalHealthCount = $good + $warningCount + $dangerCount + $archivedCount;
+                        ?>
+                        <div class="pie-chart" style="background: conic-gradient(<?= $pieGradient ?>);">
                             <div class="pie-center">
-                                <div class="pie-value">8</div>
+                                <div class="pie-value"><?= esc($totalHealthCount) ?></div>
                                 <div class="pie-label">Projects</div>
                             </div>
                         </div>
@@ -175,19 +165,19 @@
                         <div class="pie-legend">
                             <div class="legend-item">
                                 <span class="legend-color" style="background-color: #10b981;"></span>
-                                <span class="legend-text">Good (50%)</span>
+                                <span class="legend-text">Good (<?= esc(round($goodPct)) ?>%)</span>
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color" style="background-color: #f59e0b;"></span>
-                                <span class="legend-text">Warning (25%)</span>
+                                <span class="legend-text">Warning (<?= esc(round($warningPct)) ?>%)</span>
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color" style="background-color: #ef4444;"></span>
-                                <span class="legend-text">Danger (15%)</span>
+                                <span class="legend-text">Danger (<?= esc(round($dangerPct)) ?>%)</span>
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color" style="background-color: #94a3b8;"></span>
-                                <span class="legend-text">Archived (10%)</span>
+                                <span class="legend-text">Archived (<?= esc(round($archivedPct)) ?>%)</span>
                             </div>
                         </div>
                     </div>
@@ -206,80 +196,25 @@
                     </div>
 
                     <div class="time-distribution">
-                        <div class="distribution-item">
+                        <?php $isFirst = true; ?>
+                        <?php foreach ($timeDistribution as $item): ?>
+                        <?php $pct = $allTimeTotal > 0 ? round(($item['total_duration'] / $allTimeTotal) * 100) : 0; ?>
+                        <div class="distribution-item<?= $isFirst ? '' : ' mt-3' ?>">
+                            <?php $isFirst = false; ?>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: #6366f1;">
-                                        <i class="fas fa-project-diagram"></i>
+                                    <div class="project-icon me-2" style="background-color: <?= esc($item['color']) ?>;">
+                                        <i class="fas fa-clock"></i>
                                     </div>
-                                    <span>ChegeOS Dashboard</span>
+                                    <span><?= esc($item['name']) ?></span>
                                 </div>
-                                <span class="text-muted">18.5 hrs (44%)</span>
+                                <span class="text-muted"><?= esc(number_format($item['total_duration'], 1)) ?> hrs (<?= $pct ?>%)</span>
                             </div>
                             <div class="progress mt-1" style="height: 10px;">
-                                <div class="progress-bar" style="width: 44%; background-color: #6366f1;"></div>
+                                <div class="progress-bar" style="width: <?= $pct ?>%; background-color: <?= esc($item['color']) ?>;"></div>
                             </div>
                         </div>
-
-                        <div class="distribution-item mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: #10b981;">
-                                        <i class="fas fa-server"></i>
-                                    </div>
-                                    <span>E-commerce Backend</span>
-                                </div>
-                                <span class="text-muted">8.0 hrs (19%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 10px;">
-                                <div class="progress-bar" style="width: 19%; background-color: #10b981;"></div>
-                            </div>
-                        </div>
-
-                        <div class="distribution-item mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: #0ea5e9;">
-                                        <i class="fas fa-globe"></i>
-                                    </div>
-                                    <span>Portfolio Website</span>
-                                </div>
-                                <span class="text-muted">6.0 hrs (14%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 10px;">
-                                <div class="progress-bar" style="width: 14%; background-color: #0ea5e9;"></div>
-                            </div>
-                        </div>
-
-                        <div class="distribution-item mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: #f59e0b;">
-                                        <i class="fas fa-mobile-alt"></i>
-                                    </div>
-                                    <span>Mobile App</span>
-                                </div>
-                                <span class="text-muted">5.0 hrs (12%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 10px;">
-                                <div class="progress-bar" style="width: 12%; background-color: #f59e0b;"></div>
-                            </div>
-                        </div>
-
-                        <div class="distribution-item mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: #8b5cf6;">
-                                        <i class="fas fa-code-branch"></i>
-                                    </div>
-                                    <span>API Integration</span>
-                                </div>
-                                <span class="text-muted">5.0 hrs (11%)</span>
-                            </div>
-                            <div class="progress mt-1" style="height: 10px;">
-                                <div class="progress-bar" style="width: 11%; background-color: #8b5cf6;"></div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -291,29 +226,19 @@
                     <div class="heatmap-container">
                         <div class="heatmap-header">
                             <div class="heatmap-months">
-                                <span>Jan</span>
-                                <span>Feb</span>
-                                <span>Mar</span>
-                                <span>Apr</span>
-                                <span>May</span>
+                                <span>Last 30 Days</span>
                             </div>
                         </div>
 
-                        <div class="heatmap-grid">
-                            <!-- Generate 150 days of activity -->
-                            <?php for($i = 0; $i < 150; $i++): ?>
-                                <?php
-                                $activity = rand(0, 4);
-                                $color = '';
-                                if($activity == 0) $color = '#334155';
-                                if($activity == 1) $color = '#1e3a8a';
-                                if($activity == 2) $color = '#1d4ed8';
-                                if($activity == 3) $color = '#3b82f6';
-                                if($activity == 4) $color = '#60a5fa';
-                                ?>
-                                <div class="heatmap-square" style="background-color: <?= $color ?>;"
-                                     title="Day <?= $i+1 ?>: <?= $activity ?> activities"></div>
-                            <?php endfor; ?>
+                        <div class="heatmap-grid" style="grid-template-columns: repeat(30, 1fr);">
+                            <?php foreach ($heatmapData as $cell): ?>
+                            <?php
+                            $colors = ['#334155', '#1e3a8a', '#1d4ed8', '#3b82f6', '#60a5fa'];
+                            $color = $colors[$cell['count']] ?? '#334155';
+                            ?>
+                            <div class="heatmap-square" style="background-color: <?= $color ?>;"
+                                 title="<?= esc($cell['date']) ?>: <?= esc($cell['count']) ?> activities"></div>
+                            <?php endforeach; ?>
                         </div>
 
                         <div class="heatmap-footer mt-3">
@@ -345,46 +270,34 @@
                         </button>
                     </div>
 
+                    <?php if (!empty($insights)): ?>
                     <div class="row g-3">
+                        <?php foreach ($insights as $insight): ?>
                         <div class="col-md-4">
-                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-success">
+                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
                                 <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-arrow-up text-success fs-5 me-2"></i>
-                                    <h6 class="mb-0 text-white font-mono">Productivity Increase</h6>
+                                    <i class="<?= esc($insight['icon']) ?> text-<?= esc($insight['color']) ?> fs-5 me-2"></i>
+                                    <h6 class="mb-0 text-white font-mono"><?= esc($insight['title']) ?></h6>
                                 </div>
-                                <p class="small text-secondary mb-0">Your completion rate has increased by 8% this month. Keep it up!</p>
+                                <p class="small text-secondary mb-0"><?= esc($insight['message']) ?></p>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-warning">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-clock text-warning fs-5 me-2"></i>
-                                    <h6 class="mb-0 text-white font-mono">Time Distribution</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">Consider balancing time across projects. One project has 44% of your time.</p>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-info">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-calendar text-info fs-5 me-2"></i>
-                                    <h6 class="mb-0 text-white font-mono">Consistency</h6>
-                                </div>
-                                <p class="small text-secondary mb-0">You're most productive on Wednesdays and Thursdays. Schedule important work then.</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
+                    <?php endif; ?>
 
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
                             <div class="stat-card p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-check-square text-success me-2"></i>Completed This Month</h6>
                                 <ul class="small text-secondary mb-0 list-unstyled font-mono">
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Portfolio website design system</li>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>ChegeOS dashboard setup</li>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>E-commerce authentication system</li>
+                                    <?php if (!empty($completedThisMonth)): ?>
+                                    <?php foreach ($completedThisMonth as $item): ?>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i><?= esc($item) ?></li>
+                                    <?php endforeach; ?>
+                                    <?php else: ?>
+                                    <li class="mb-2 text-muted">No projects completed this month</li>
+                                    <?php endif; ?>
                                 </ul>
                             </div>
                         </div>
@@ -393,10 +306,22 @@
                             <div class="stat-card p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
                                 <ul class="small text-secondary mb-0 list-unstyled font-mono">
-                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>Mobile app progress is behind schedule</li>
-                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>API integration blocked on documentation</li>
-                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i>2 projects have been stalled for 14+ days</li>
+                                    <?php if (!empty($stalledTasks)): ?>
+                                    <?php foreach ($stalledTasks as $item): ?>
+                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i><?= esc($item) ?></li>
+                                    <?php endforeach; ?>
+                                    <?php else: ?>
+                                    <li class="mb-2 text-muted">No stalled projects</li>
+                                    <?php endif; ?>
                                 </ul>
+                                <?php if (!empty($recentDone)): ?>
+                                <h6 class="font-mono text-white border-bottom pb-2 mb-3 mt-3"><i class="fas fa-history text-info me-2"></i>Recently Completed</h6>
+                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                                    <?php foreach ($recentDone as $item): ?>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i><?= esc($item) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -497,10 +422,6 @@
             height: 180px;
             border-radius: 50%;
             position: relative;
-            background: conic-gradient(
-                    var(--color) 0% calc(var(--percentage) * 1%),
-                    transparent calc(var(--percentage) * 1%) 100%
-            );
             margin-right: 2rem;
         }
 
@@ -669,28 +590,6 @@
         $(document).ready(function() {
             // Initialize tooltips
             $('[data-bs-toggle="tooltip"]').tooltip();
-
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
-            });
-
-            // Check saved sidebar state
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
-            }
 
             // Export analytics
             $('#exportAnalyticsBtn').click(function() {

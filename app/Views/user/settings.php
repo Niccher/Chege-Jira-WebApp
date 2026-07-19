@@ -1,5 +1,9 @@
 <?= $this->include('layouts/user/header', ['title' => 'Settings • ChegeOS']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
+<?php
+$initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1));
+$timezones = DateTimeZone::listIdentifiers();
+?>
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
@@ -13,19 +17,19 @@
             </div>
 
             <div class="d-flex align-items-center">
-                <button class="btn btn-primary btn-sm me-2" id="saveSettingsBtn">
+                <button type="submit" form="settingsForm" class="btn btn-primary btn-sm me-2" id="saveSettingsBtn">
                     <i class="fas fa-save me-1"></i> Save Changes
                 </button>
 
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= $initials ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item active" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item active" href="/settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -63,20 +67,26 @@
 
             <!-- Settings Content -->
             <div class="col-lg-9">
+<?php $prefs = is_array($user->preferences) ? $user->preferences : []; ?>
+                <form method="POST" action="/settings/update" enctype="multipart/form-data" id="settingsForm">
                 <div class="tab-content" id="settingsContent">
                     <!-- Profile Tab -->
                     <div class="tab-pane fade show active" id="profile">
                         <div class="stat-card">
                             <h5 class="mb-4"><i class="fas fa-user me-2"></i>Profile Settings</h5>
 
-                            <form id="profileForm">
                                 <div class="row mb-4">
                                     <div class="col-md-3 text-center">
                                         <div class="profile-avatar mb-3">
                                             <div class="user-avatar" style="width: 100px; height: 100px; font-size: 2rem;">
-                                                JD
+                                                <?php if ($user->avatar): ?>
+                                                    <img src="/<?= $user->avatar ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <?php else: ?>
+                                                    <?= $initials ?>
+                                                <?php endif; ?>
                                             </div>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                            <input type="file" name="avatar" id="avatarInput" accept="image/*" style="display: none;">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="document.getElementById('avatarInput').click();">
                                                 <i class="fas fa-camera me-1"></i> Change
                                             </button>
                                         </div>
@@ -86,60 +96,62 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" value="John">
+                                                <input type="text" class="form-control" id="firstName" name="first_name" value="<?= esc($user->first_name ?? '') ?>">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="lastName" class="form-label">Last Name</label>
-                                                <input type="text" class="form-control" id="lastName" value="Developer">
+                                                <input type="text" class="form-control" id="lastName" name="last_name" value="<?= esc($user->last_name ?? '') ?>">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="email" class="form-label">Email Address</label>
-                                                <input type="email" class="form-control" id="email" value="john@example.com">
+                                                <input type="email" class="form-control" id="email" value="<?= esc($user->email ?? '') ?>" disabled readonly>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username" value="johndev">
+                                                <input type="text" class="form-control" id="username" name="username" value="<?= esc($user->username ?? '') ?>">
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="bio" class="form-label">Bio</label>
-                                            <textarea class="form-control" id="bio" rows="3" placeholder="Tell us about yourself...">Full-stack developer passionate about side projects and productivity tools.</textarea>
+                                            <textarea class="form-control" id="bio" name="bio" rows="3" placeholder="Tell us about yourself..."><?= esc($user->bio ?? '') ?></textarea>
                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="timezone" class="form-label">Timezone</label>
-                                                <select class="form-select" id="timezone">
-                                                    <option value="UTC-5" selected>EST (UTC-5)</option>
-                                                    <option value="UTC-8">PST (UTC-8)</option>
-                                                    <option value="UTC+0">GMT (UTC+0)</option>
-                                                    <option value="UTC+1">CET (UTC+1)</option>
-                                                    <option value="UTC+8">CST (UTC+8)</option>
+                                                <select class="form-select" id="timezone" name="timezone">
+                                                    <?php foreach ($timezones as $tz): ?>
+                                                        <option value="<?= $tz ?>" <?= ($user->timezone ?? 'Africa/Nairobi') === $tz ? 'selected' : '' ?>><?= $tz ?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="dateFormat" class="form-label">Date Format</label>
-                                                <select class="form-select" id="dateFormat">
-                                                    <option value="MM/DD/YYYY" selected>MM/DD/YYYY</option>
-                                                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                                                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                                <select class="form-select" id="dateFormat" name="date_format">
+                                                    <option value="MM/DD/YYYY" <?= ($user->date_format ?? '') === 'MM/DD/YYYY' ? 'selected' : '' ?>>MM/DD/YYYY</option>
+                                                    <option value="DD/MM/YYYY" <?= ($user->date_format ?? '') === 'DD/MM/YYYY' ? 'selected' : '' ?>>DD/MM/YYYY</option>
+                                                    <option value="YYYY-MM-DD" <?= ($user->date_format ?? 'YYYY-MM-DD') === 'YYYY-MM-DD' ? 'selected' : '' ?>>YYYY-MM-DD</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
 
+<?php $selectedTheme = $prefs['theme'] ?? 'dark'; ?>
+<?php $selectedColor = $prefs['accent_color'] ?? '#ef4444'; ?>
                     <!-- Appearance Tab -->
                     <div class="tab-pane fade" id="appearance">
                         <div class="stat-card">
                             <h5 class="mb-4"><i class="fas fa-palette me-2"></i>Appearance Settings</h5>
+
+                            <input type="hidden" name="theme" id="themeInput" value="<?= $selectedTheme ?>">
+                            <input type="hidden" name="accent_color" id="accentColorInput" value="<?= $selectedColor ?>">
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
@@ -147,7 +159,7 @@
                                     <div class="theme-selector">
                                         <div class="row">
                                             <div class="col-6 mb-3">
-                                                <div class="theme-option active" data-theme="dark">
+                                                <div class="theme-option <?= $selectedTheme === 'dark' ? 'active' : '' ?>" data-theme="dark">
                                                     <div class="theme-preview dark-theme">
                                                         <div class="preview-header"></div>
                                                         <div class="preview-sidebar"></div>
@@ -157,7 +169,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-6 mb-3">
-                                                <div class="theme-option" data-theme="light">
+                                                <div class="theme-option <?= $selectedTheme === 'light' ? 'active' : '' ?>" data-theme="light">
                                                     <div class="theme-preview light-theme">
                                                         <div class="preview-header"></div>
                                                         <div class="preview-sidebar"></div>
@@ -167,7 +179,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-6">
-                                                <div class="theme-option" data-theme="auto">
+                                                <div class="theme-option <?= $selectedTheme === 'auto' ? 'active' : '' ?>" data-theme="auto">
                                                     <div class="theme-preview auto-theme">
                                                         <div class="preview-header"></div>
                                                         <div class="preview-sidebar"></div>
@@ -192,11 +204,15 @@
                                                 '#ef4444' => 'Red',
                                                 '#8b5cf6' => 'Violet',
                                                 '#0ea5e9' => 'Sky',
+                                                '#ec4899' => 'Pink',
+                                                '#14b8a6' => 'Teal',
+                                                '#f97316' => 'Orange',
+                                                '#84cc16' => 'Lime',
                                             ];
                                             ?>
                                             <?php foreach($colors as $hex => $name): ?>
                                                 <div class="col-4 mb-3">
-                                                    <div class="color-option <?= $hex == '#6366f1' ? 'active' : '' ?>" data-color="<?= $hex ?>">
+                                                    <div class="color-option <?= $hex === $selectedColor ? 'active' : '' ?>" data-color="<?= $hex ?>">
                                                         <div class="color-preview" style="background-color: <?= $hex ?>;"></div>
                                                         <div class="color-name text-center small mt-1"><?= $name ?></div>
                                                     </div>
@@ -212,10 +228,10 @@
                                     <div class="mb-3">
                                         <label class="form-label">Density</label>
                                         <div class="btn-group w-100" role="group">
-                                            <input type="radio" class="btn-check" name="density" id="density-comfortable" checked>
+                                            <input type="radio" class="btn-check" name="density" id="density-comfortable" value="comfortable" <?= ($prefs['density'] ?? 'comfortable') === 'comfortable' ? 'checked' : '' ?>>
                                             <label class="btn btn-outline-secondary" for="density-comfortable">Comfortable</label>
 
-                                            <input type="radio" class="btn-check" name="density" id="density-compact">
+                                            <input type="radio" class="btn-check" name="density" id="density-compact" value="compact" <?= ($prefs['density'] ?? '') === 'compact' ? 'checked' : '' ?>>
                                             <label class="btn btn-outline-secondary" for="density-compact">Compact</label>
                                         </div>
                                     </div>
@@ -223,12 +239,12 @@
 
                                 <div class="col-md-6">
                                     <div class="form-check form-switch mb-3">
-                                        <input class="form-check-input" type="checkbox" id="animationsToggle" checked>
+                                        <input class="form-check-input" type="checkbox" id="animationsToggle" name="animations" value="1" <?= ($prefs['animations'] ?? '1') === '1' ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="animationsToggle">Enable animations</label>
                                     </div>
 
                                     <div class="form-check form-switch mb-3">
-                                        <input class="form-check-input" type="checkbox" id="sidebarCollapsedDefault">
+                                        <input class="form-check-input" type="checkbox" id="sidebarCollapsedDefault" name="sidebar_collapsed" value="1" <?= ($prefs['sidebar_collapsed'] ?? '') === '1' ? 'checked' : '' ?>>
                                         <label class="form-check-label" for="sidebarCollapsedDefault">Collapse sidebar by default</label>
                                     </div>
                                 </div>
@@ -239,7 +255,11 @@
                     <!-- Notifications Tab -->
                     <div class="tab-pane fade" id="notifications">
                         <div class="stat-card">
-                            <h5 class="mb-4"><i class="fas fa-bell me-2"></i>Notification Settings</h5>
+                            <h5 class="mb-4"><i class="fas fa-bell me-2"></i>Notification Settings <span class="badge bg-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h5>
+
+                            <div class="alert alert-info mb-4">
+                                <i class="fas fa-info-circle me-2"></i> Email notifications require a cron job to be set up. Contact your system administrator to configure email templates and scheduling.
+                            </div>
 
                             <div class="mb-4">
                                 <h6 class="mb-3">Email Notifications</h6>
@@ -448,44 +468,48 @@
                                 <h6 class="mb-3">Export Data</h6>
                                 <p class="small text-muted mb-3">Export all your data for backup or migration.</p>
                                 <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <button class="btn btn-outline-secondary w-100">
+                                    <div class="col-md-6 mb-3">
+                                        <a href="#" class="btn btn-outline-secondary w-100">
                                             <i class="fas fa-file-csv me-2"></i> Export as CSV
-                                        </button>
+                                        </a>
                                     </div>
-                                    <div class="col-md-4 mb-3">
-                                        <button class="btn btn-outline-secondary w-100">
-                                            <i class="fas fa-file-excel me-2"></i> Export as Excel
-                                        </button>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <button class="btn btn-outline-secondary w-100">
-                                            <i class="fas fa-file-archive me-2"></i> Full Backup
-                                        </button>
+                                    <div class="col-md-6 mb-3">
+                                        <a href="#" class="btn btn-outline-secondary w-100">
+                                            <i class="fas fa-file-code me-2"></i> Export as JSON
+                                        </a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <h6 class="mb-3">Import Data</h6>
-                                <p class="small text-muted mb-3">Import data from other project management tools.</p>
-                                <div class="mb-3">
-                                    <label for="importSource" class="form-label">Import From</label>
-                                    <select class="form-select" id="importSource">
-                                        <option value="">Select source...</option>
-                                        <option value="trello">Trello</option>
-                                        <option value="asana">Asana</option>
-                                        <option value="notion">Notion</option>
-                                        <option value="csv">CSV File</option>
-                                    </select>
-                                </div>
+                                <p class="small text-muted mb-3">Upload a previously exported CSV or JSON file.</p>
                                 <div class="mb-3">
                                     <label for="importFile" class="form-label">Upload File</label>
-                                    <input class="form-control" type="file" id="importFile">
+                                    <input class="form-control" type="file" id="importFile" accept=".csv,.json">
                                 </div>
-                                <button class="btn btn-outline-primary">
+                                <p class="small text-muted">Supported formats: CSV, JSON. Maximum file size: 50MB.</p>
+                                <button class="btn btn-outline-primary" type="button">
                                     <i class="fas fa-upload me-2"></i> Start Import
                                 </button>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6 class="mb-3">Import from Other Tools <span class="badge bg-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h6>
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i> Import from Trello, Asana, Notion, and other project management tools is under development.
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-2">
+                                        <button class="btn btn-outline-secondary w-100" disabled><i class="fab fa-trello me-2"></i> Trello</button>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <button class="btn btn-outline-secondary w-100" disabled><i class="fas fa-tasks me-2"></i> Asana</button>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <button class="btn btn-outline-secondary w-100" disabled><i class="fas fa-book me-2"></i> Notion</button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="mb-4">
@@ -495,31 +519,17 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <button class="btn btn-outline-danger w-100" id="deleteOldProjectsBtn">
+                                        <button class="btn btn-outline-danger w-100" id="deleteOldProjectsBtn" type="button">
                                             <i class="fas fa-trash me-2"></i> Delete Archived Projects
                                         </button>
                                         <div class="form-text">Projects archived more than 1 year ago</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <button class="btn btn-outline-danger w-100" id="clearTimeLogsBtn">
+                                        <button class="btn btn-outline-danger w-100" id="clearTimeLogsBtn" type="button">
                                             <i class="fas fa-clock me-2"></i> Clear Old Time Logs
                                         </button>
                                         <div class="form-text">Time logs older than 2 years</div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h6 class="mb-3">Storage Usage</h6>
-                                <div class="storage-usage">
-                                    <div class="d-flex justify-content-between mb-1">
-                                        <span class="small">Used: 24.5 MB</span>
-                                        <span class="small">Total: 1 GB</span>
-                                    </div>
-                                    <div class="progress" style="height: 8px;">
-                                        <div class="progress-bar" style="width: 2.45%;"></div>
-                                    </div>
-                                    <div class="small text-muted mt-1">2.45% of storage used</div>
                                 </div>
                             </div>
                         </div>
@@ -555,73 +565,6 @@
                                 </form>
                             </div>
 
-                            <div class="mb-4">
-                                <h6 class="mb-3">Two-Factor Authentication</h6>
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle me-2"></i> Two-factor authentication adds an extra layer of security to your account.
-                                </div>
-                                <div class="form-check form-switch mb-3">
-                                    <input class="form-check-input" type="checkbox" id="twoFactorToggle">
-                                    <label class="form-check-label" for="twoFactorToggle">Enable two-factor authentication</label>
-                                </div>
-                                <button class="btn btn-outline-secondary">
-                                    <i class="fas fa-qrcode me-2"></i> Setup Authenticator App
-                                </button>
-                            </div>
-
-                            <div class="mb-4">
-                                <h6 class="mb-3">Active Sessions</h6>
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-dark">
-                                        <thead>
-                                        <tr>
-                                            <th>Device</th>
-                                            <th>Location</th>
-                                            <th>Last Active</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <i class="fas fa-desktop me-2"></i> Windows Chrome
-                                            </td>
-                                            <td>New York, US</td>
-                                            <td>Just now</td>
-                                            <td><span class="badge bg-success">Current</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="fas fa-mobile-alt me-2"></i> iPhone Safari
-                                            </td>
-                                            <td>New York, US</td>
-                                            <td>2 hours ago</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="fas fa-sign-out-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="fas fa-desktop me-2"></i> MacOS Safari
-                                            </td>
-                                            <td>New York, US</td>
-                                            <td>1 week ago</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="fas fa-sign-out-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <button class="btn btn-outline-danger btn-sm">
-                                    <i class="fas fa-sign-out-alt me-1"></i> Logout All Other Devices
-                                </button>
-                            </div>
-
                             <div>
                                 <h6 class="mb-3">Danger Zone</h6>
                                 <div class="alert alert-danger">
@@ -629,22 +572,23 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <button class="btn btn-outline-danger w-100" id="deactivateAccountBtn">
+                                        <button class="btn btn-outline-danger w-100" id="deactivateAccountBtn" type="button">
                                             <i class="fas fa-user-slash me-2"></i> Deactivate Account
                                         </button>
-                                        <div class="form-text">Your data will be preserved for 30 days</div>
+                                        <div class="form-text">Not yet implemented</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <button class="btn btn-danger w-100" id="deleteAccountBtn">
+                                        <button class="btn btn-danger w-100" id="deleteAccountBtn" type="button">
                                             <i class="fas fa-trash me-2"></i> Delete Account
                                         </button>
-                                        <div class="form-text">All data will be permanently deleted</div>
+                                        <div class="form-text">Not yet implemented</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -868,31 +812,14 @@
             // Initialize tooltips
             $('[data-bs-toggle="tooltip"]').tooltip();
 
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
+            // Sidebar toggle - clicking the page heading also toggles
+            $('.top-bar h1').css('cursor', 'pointer').click(function() {
+                $('#sidebarToggle').click();
             });
 
-            // Check saved sidebar state
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
-            }
-
-            // Save settings
+            // Save settings - submit the form
             $('#saveSettingsBtn').click(function() {
-                showToast('Settings saved successfully!', 'success');
+                $('#settingsForm').submit();
             });
 
             // Theme selection
@@ -901,18 +828,18 @@
                 $(this).addClass('active');
 
                 const theme = $(this).data('theme');
+                $('#themeInput').val(theme);
+
                 if (theme === 'dark') {
                     $('html').attr('data-bs-theme', 'dark');
                 } else if (theme === 'light') {
                     $('html').attr('data-bs-theme', 'light');
                 } else {
-                    // Auto theme - would check system preference in real app
                     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                     $('html').attr('data-bs-theme', prefersDark ? 'dark' : 'light');
                 }
 
                 localStorage.setItem('theme', theme);
-                showToast(`Theme changed to ${theme}`, 'info');
             });
 
             // Color selection
@@ -921,9 +848,9 @@
                 $(this).addClass('active');
 
                 const color = $(this).data('color');
+                $('#accentColorInput').val(color);
                 document.documentElement.style.setProperty('--primary-color', color);
                 localStorage.setItem('accentColor', color);
-                showToast(`Accent color changed`, 'info');
             });
 
             // Change password
@@ -947,8 +874,16 @@
                     return;
                 }
 
-                showToast('Password changed successfully!', 'success');
-                $('#passwordForm')[0].reset();
+                $.post('/settings/change-password', {
+                    current_password: current,
+                    new_password: newPass,
+                    confirm_password: confirm
+                }).done(function() {
+                    showToast('Password changed successfully!', 'success');
+                    $('#passwordForm')[0].reset();
+                }).fail(function() {
+                    showToast('Failed to change password', 'danger');
+                });
             });
 
             // Dangerous actions
@@ -965,25 +900,22 @@
             });
 
             $('#deactivateAccountBtn').click(function() {
-                if (confirm('Deactivate your account? Your data will be preserved for 30 days.')) {
-                    showToast('Account deactivation scheduled', 'warning');
-                }
+                showToast('Account deactivation is not yet implemented', 'warning');
             });
 
             $('#deleteAccountBtn').click(function() {
-                if (confirm('Permanently delete your account and all data? This action cannot be undone.')) {
-                    showToast('Account deletion scheduled', 'danger');
-                }
+                showToast('Account deletion is not yet implemented', 'danger');
             });
 
-            // Logout other session
-            $('.btn-outline-danger').click(function() {
-                const device = $(this).closest('tr').find('td:first').text();
-                if (confirm(`Logout from ${device}?`)) {
-                    $(this).closest('tr').fadeOut(300, function() {
-                        $(this).remove();
-                        showToast('Session logged out', 'info');
-                    });
+            // Avatar preview
+            $('#avatarInput').change(function() {
+                const input = this;
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('.profile-avatar .user-avatar').html('<img src="' + e.target.result + '" style="width: 100%; height: 100%; object-fit: cover;">');
+                    };
+                    reader.readAsDataURL(input.files[0]);
                 }
             });
 

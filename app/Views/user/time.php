@@ -31,14 +31,15 @@
                 </button>
 
                 <div class="dropdown">
+                    <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= $initials ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -239,6 +240,7 @@
         </div> <!-- Close Main Row -->
 
     <!-- Manual Entry Modal -->
+    <div class="modal fade" id="manualEntryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -322,13 +324,6 @@
     <!-- Time Tracking JavaScript -->
     <script>
         $(document).ready(function() {
-            // Sidebar toggle logic (consistent across pages)
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
-            });
-
             // Timer variables
             let timerInterval = null;
             let currentLogId = localStorage.getItem('active_timer_log_id');

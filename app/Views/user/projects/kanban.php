@@ -12,8 +12,14 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="<?= site_url('projects') ?>" class="text-decoration-none text-muted">Projects</a></li>
-                        <li class="breadcrumb-item"><a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-decoration-none text-muted"><?= esc($project['name']) ?></a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">Kanban</li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">
+                            <select id="projectSelector" class="form-select form-select-sm d-inline-block" style="width: auto; background: transparent; color: #fff; border: 1px solid #475569;">
+                                <?php foreach ($projects as $p): ?>
+                                    <option value="<?= $p['id'] ?>" <?= $p['id'] == $project['id'] ? 'selected' : '' ?>><?= esc($p['name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <span class="ms-2">Kanban</span>
+                        </li>
                     </ol>
                 </nav>
             </div>
@@ -24,7 +30,7 @@
                 </button>
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)) ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
@@ -153,12 +159,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-            });
-
             // Initialize Sortable for each column
             const columns = ['todo', 'in_progress', 'review', 'done'];
             columns.forEach(status => {
@@ -193,6 +193,39 @@
                     $(`#count-${status}`).text($(`#${status}-list .kanban-card`).length);
                 });
             }
+
+            // Project selector redirect
+            $('#projectSelector').change(function() {
+                const projectId = $(this).val();
+                window.location.href = '<?= site_url('projects/kanban') ?>/' + projectId;
+            });
+
+            // Edit task
+            $(document).on('click', '.edit-task-btn', function(e) {
+                e.preventDefault();
+                const card = $(this).closest('.kanban-card');
+                $('#editTaskId').val(card.data('task-id'));
+                $('#editTaskTitle').val(card.find('.task-title').text().trim());
+                $('#editTaskDescription').val(card.data('description') || '');
+                $('#editTaskPriority').val(card.data('priority') || 'medium');
+                $('#editTaskDueDate').val(card.data('due-date') || '');
+                $('#editTaskModal').modal('show');
+            });
+
+            $('#saveTaskEditBtn').click(function() {
+                const id = $('#editTaskId').val();
+                $.post('<?= site_url('projects/task/update/') ?>' + id, {
+                    <?= csrf_token() ?>: '<?= csrf_hash() ?>',
+                    title: $('#editTaskTitle').val(),
+                    description: $('#editTaskDescription').val(),
+                    priority: $('#editTaskPriority').val(),
+                    due_date: $('#editTaskDueDate').val()
+                }, function(res) {
+                    if (res.status === 'success') {
+                        location.reload();
+                    }
+                });
+            });
         });
     </script>
 
@@ -217,13 +250,12 @@
             margin-right: 1.5rem;
         }
         .kanban-column {
-            background-color: #1e293b;
-            border-radius: 12px;
+            background-color: var(--bs-body-bg);
             padding: 1.25rem;
             height: 100%;
             display: flex;
             flex-direction: column;
-            border: 1px solid #334155;
+            border: 2px solid var(--border-color);
         }
         .kanban-cards {
             flex-grow: 1;
@@ -234,34 +266,85 @@
             width: 5px;
         }
         .kanban-cards::-webkit-scrollbar-thumb {
-            background: #475569;
-            border-radius: 10px;
+            background: var(--border-color);
         }
         .kanban-ghost {
             opacity: 0.4;
-            background: #6366f1 !important;
+            background: var(--primary-color) !important;
         }
         .breadcrumb-item + .breadcrumb-item::before {
-            color: #475569;
+            color: var(--border-color);
         }
         .modal-content {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            color: #f8fafc;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--border-color);
+            color: var(--bs-body-color);
         }
-        .modal-header { border-bottom: 1px solid #334155; }
-        .modal-footer { border-top: 1px solid #334155; }
+        .modal-header { border-bottom: 1px solid var(--border-color); }
+        .modal-footer { border-top: 1px solid var(--border-color); }
         .form-control, .form-select {
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            color: #f8fafc;
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--border-color);
+            color: var(--bs-body-color);
         }
         .form-control:focus, .form-select:focus {
-            background-color: #0f172a;
-            border-color: #6366f1;
-            color: #f8fafc;
+            background-color: var(--bs-body-bg);
+            border-color: var(--primary-color);
+            color: var(--bs-body-color);
             box-shadow: none;
         }
+        .kanban-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: grab;
+        }
+        .kanban-card:hover {
+            border-color: var(--primary-color);
+        }
     </style>
+
+<!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editTaskId">
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="editTaskTitle" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea id="editTaskDescription" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Priority</label>
+                        <select id="editTaskPriority" class="form-select">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Due Date</label>
+                        <input type="date" id="editTaskDueDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveTaskEditBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?= $this->include('layouts/user/footer') ?>

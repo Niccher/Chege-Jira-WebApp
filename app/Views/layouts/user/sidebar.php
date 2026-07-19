@@ -2,18 +2,18 @@
 <div class="sidebar" id="sidebar">
     <div class="brand">
         <i class="fas fa-cubes brand-icon"></i>
-        <span>ChegeOS</span>
+        <span>Chege Jira</span>
     </div>
     <nav class="nav flex-column">
         <a class="nav-link <?= (uri_string() == '' || uri_string() == 'home') ? 'active' : '' ?>" href="<?= site_url('home') ?>">
             <i class="fas fa-tachometer-alt nav-icon"></i>
             Dashboard
         </a>
-        <a class="nav-link <?= (strpos(uri_string(), 'projects') === 0) ? 'active' : '' ?>" href="<?= site_url('projects') ?>">
+        <a class="nav-link <?= (strpos(uri_string(), 'projects') === 0 && strpos(uri_string(), 'projects/kanban') !== 0) ? 'active' : '' ?>" href="<?= site_url('projects') ?>">
             <i class="fas fa-project-diagram nav-icon"></i>
             Projects
         </a>
-        <a class="nav-link <?= (uri_string() == 'kanban') ? 'active' : '' ?>" href="<?= site_url('kanban') ?>">
+        <a class="nav-link <?= (strpos(uri_string(), 'kanban') !== false) ? 'active' : '' ?>" href="<?= site_url('kanban') ?>">
             <i class="fas fa-th nav-icon"></i>
             Kanban
         </a>

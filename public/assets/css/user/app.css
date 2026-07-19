@@ -14,7 +14,7 @@
     --bs-border-radius-2xl: 0px;
     --bs-border-radius-pill: 0px;
     
-    --primary-color: #000000;
+    --primary-color: #ef4444;
     --success-color: #059669;
     --warning-color: #d97706;
     --danger-color: #dc2626;
@@ -27,7 +27,6 @@
     --bs-body-color: #f3f4f6;
     --bs-border-color: #262626;
     
-    --primary-color: #ffffff;
     --border-color: #262626;
     --card-bg: #121212;
 }
@@ -129,9 +128,13 @@ body {
     margin-left: var(--sidebar-width);
     padding: 2rem;
     transition: margin 0.2s ease-out;
+    flex: 1 0 auto;
 }
 
 .full-width {
+    margin-left: 0;
+}
+.main-content.full-width + footer {
     margin-left: 0;
 }
 
@@ -327,11 +330,16 @@ body {
 }
 
 footer {
-    margin-top: auto;
+    margin-left: var(--sidebar-width);
     padding: 1.5rem 0;
     border-top: 1px solid var(--border-color);
     background-color: var(--bs-body-bg);
-    width: 100%;
+    flex-shrink: 0;
+    min-height: 4.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: margin-left 0.2s ease-out;
 }
 
 /* Responsive */

@@ -1,5 +1,6 @@
 <?= $this->include('layouts/user/header', ['title' => 'Kanban Board • ChegeOS']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
+<?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
@@ -40,13 +41,12 @@
 
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= $initials ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="fas fa-cog me-2"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('auth/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                                 <div class="kanban-card-footer">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-assignee">
-                                            <div class="user-avatar" style="width: 24px; height: 24px; font-size: 0.7rem;">JD</div>
+                                            <div class="user-avatar" style="width: 24px; height: 24px; font-size: 0.7rem;"><?= $initials ?></div>
                                         </div>
                                         <div class="task-comments">
                                             <i class="fas fa-comment"></i> 3
@@ -729,28 +729,6 @@
         $(document).ready(function() {
             // Initialize tooltips
             $('[data-bs-toggle="tooltip"]').tooltip();
-
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
-            });
-
-            // Check saved sidebar state
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
-            }
 
             // New Task button
             $('#newTaskBtn').click(function() {

@@ -38,14 +38,15 @@
                 </div>
 
                 <div class="dropdown">
+                    <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= $initials ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -86,7 +87,7 @@
             <div class="col-md-6 col-lg-3">
                 <div class="stat-card h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Deleted</div>
-                    <div class="stat-value text-danger" id="deletedNotes">0</div>
+                    <div class="stat-value text-danger" id="deletedNotes"><?= $stats['deleted'] ?></div>
                     <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
                         <i class="fas fa-trash"></i> Trash
                     </div>
@@ -165,7 +166,7 @@
                         <?= csrf_field() ?>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0"><i class="fas fa-edit me-2"></i>New Note</h5>
-                            <button type="submit" class="btn btn-sm btn-primary" id="saveNoteBtn" disabled>
+                            <button type="submit" class="btn btn-sm btn-primary" id="saveNoteBtn">
                                 <i class="fas fa-save me-1"></i> Save Note
                             </button>
                         </div>
@@ -403,13 +404,6 @@
     <!-- Notes JavaScript -->
     <script>
         $(document).ready(function() {
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
-            });
-
             // Note item click -> Open Modal (Using Event Delegation)
             $(document).on('click', '.note-item', function() {
                 const noteId = $(this).data('note-id');
@@ -514,17 +508,6 @@
                 $('html, body').animate({
                     scrollTop: $("#noteTitle").offset().top - 100
                 }, 500);
-            });
-
-            // Toggle Save Note Button
-            $('#noteProject').on('change', function() {
-                const val = $(this).val();
-                if (val !== "") {
-                    $('#saveNoteBtn').prop('disabled', false);
-                    showToast('Project selected. You can now save your note.', 'info');
-                } else {
-                    $('#saveNoteBtn').prop('disabled', true);
-                }
             });
 
             // Toast notification function

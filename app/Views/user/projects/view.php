@@ -1,4 +1,26 @@
 <?= $this->include('layouts/user/header', ['title' => 'ChegeOS Dashboard • Project Details']) ?>
+<?php
+$initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1));
+if (!empty($user->last_name)) {
+    $initials .= strtoupper(substr($user->last_name, 0, 1));
+}
+
+function timeAgo($datetime) {
+    if (empty($datetime)) return 'N/A';
+    $diff = time() - strtotime($datetime);
+    if ($diff < 60) return 'Just now';
+    if ($diff < 3600) return round($diff / 60) . 'm ago';
+    if ($diff < 86400) return round($diff / 3600) . 'h ago';
+    if ($diff < 2592000) return round($diff / 86400) . 'd ago';
+    return round($diff / 2592000) . 'mo ago';
+}
+
+$weekHours = round(($time_stats['week_seconds'] ?? 0) / 3600, 1);
+$monthHours = round(($time_stats['month_seconds'] ?? 0) / 3600, 1);
+$totalHours = round(($time_stats['total_seconds'] ?? 0) / 3600, 1);
+$daysLogged = max($time_stats['days_logged'] ?? 1, 1);
+$avgDaily = round($totalHours / $daysLogged, 1);
+?>
 <?= $this->include('layouts/user/sidebar') ?>
 
     <!-- Main Content -->
@@ -21,11 +43,11 @@
                 </a>
                 <div class="dropdown">
                     <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        JD
+                        <?= $initials ?>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('profile') ?>"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="fas fa-cog me-2"></i> Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="<?= site_url('auth/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
@@ -78,7 +100,7 @@
                             <i class="fas fa-calendar-plus"></i>
                         </div>
                         <div>
-                            <div class="stat-value-sm">Jan 15</div>
+                            <div class="stat-value-sm"><?= date('M d', strtotime($project['created_at'])) ?></div>
                             <div class="stat-label-sm">Started</div>
                         </div>
                     </div>
@@ -92,7 +114,7 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div>
-                            <div class="stat-value-sm">Dec 31</div>
+                            <div class="stat-value-sm"><?= !empty($project['due_date']) ? date('M d', strtotime($project['due_date'])) : 'No deadline' ?></div>
                             <div class="stat-label-sm">Target</div>
                         </div>
                     </div>
@@ -106,7 +128,7 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <div>
-                            <div class="stat-value-sm">42.5h</div>
+                            <div class="stat-value-sm"><?= $totalHours ?>h</div>
                             <div class="stat-label-sm">Time Logged</div>
                         </div>
                     </div>
@@ -120,7 +142,7 @@
                             <i class="fas fa-history"></i>
                         </div>
                         <div>
-                            <div class="stat-value-sm">2h ago</div>
+                            <div class="stat-value-sm"><?= timeAgo($project['updated_at']) ?></div>
                             <div class="stat-label-sm">Updated</div>
                         </div>
                     </div>
@@ -200,52 +222,25 @@
                             </h2>
                             <div id="progressCollapse" class="accordion-collapse collapse show" data-bs-parent="#projectDetailsAccordion">
                                 <div class="accordion-body">
+                                    <?php if (!empty($milestones)): ?>
                                     <div class="row g-2">
+                                        <?php foreach ($milestones as $ms): ?>
                                         <div class="col-6">
                                             <div class="progress-item-compact">
                                                 <div class="d-flex justify-content-between small mb-1">
-                                                    <span>Backend</span>
-                                                    <span class="text-success">90%</span>
+                                                    <span><?= esc($ms['name']) ?></span>
+                                                    <span class="text-<?= $ms['progress'] >= 80 ? 'success' : ($ms['progress'] >= 40 ? 'warning' : 'danger') ?>"><?= $ms['progress'] ?>%</span>
                                                 </div>
                                                 <div class="progress" style="height: 4px;">
-                                                    <div class="progress-bar bg-success" style="width: 90%"></div>
+                                                    <div class="progress-bar bg-<?= $ms['progress'] >= 80 ? 'success' : ($ms['progress'] >= 40 ? 'warning' : 'danger') ?>" style="width: <?= $ms['progress'] ?>%"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="progress-item-compact">
-                                                <div class="d-flex justify-content-between small mb-1">
-                                                    <span>Frontend</span>
-                                                    <span class="text-primary">75%</span>
-                                                </div>
-                                                <div class="progress" style="height: 4px;">
-                                                    <div class="progress-bar bg-primary" style="width: 75%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="progress-item-compact">
-                                                <div class="d-flex justify-content-between small mb-1">
-                                                    <span>Testing</span>
-                                                    <span class="text-warning">50%</span>
-                                                </div>
-                                                <div class="progress" style="height: 4px;">
-                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="progress-item-compact">
-                                                <div class="d-flex justify-content-between small mb-1">
-                                                    <span>Documentation</span>
-                                                    <span class="text-danger">30%</span>
-                                                </div>
-                                                <div class="progress" style="height: 4px;">
-                                                    <div class="progress-bar bg-danger" style="width: 30%"></div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <?php endforeach; ?>
                                     </div>
+                                    <?php else: ?>
+                                        <div class="text-center text-muted small py-3">No milestones defined</div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -288,7 +283,7 @@
                                                     <td class="text-end small <?= $ms['status'] === 'completed' ? 'text-success' : 'text-warning' ?>">
                                                         <?= $ms['due_date'] ? date('M d', strtotime($ms['due_date'])) : 'N/A' ?>
                                                     </td>
-                                                    <td class="text-end small"><?= $ms['status'] === 'completed' ? '100%' : '0%' ?></td>
+                                                    <td class="text-end small"><?= $ms['progress'] ?>%</td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
@@ -316,30 +311,20 @@
                                         <i class="fas fa-plus me-1"></i> Add Note
                                     </button>
                                     <div class="notes-list-compact">
-                                        <div class="note-item-compact">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div class="small"><strong>Great progress on authentication!</strong></div>
-                                                <div class="text-muted small">2 days ago</div>
+                                        <?php if (!empty($project_notes)): ?>
+                                            <?php foreach ($project_notes as $note): ?>
+                                            <div class="note-item-compact <?= !empty($note['is_blocker']) ? 'blocker' : '' ?>">
+                                                <div class="d-flex justify-content-between align-items-start">
+                                                    <div class="small"><strong><?= esc($note['title'] ?? 'Note') ?></strong></div>
+                                                    <div class="text-muted small"><?= !empty($note['created_at']) ? timeAgo($note['created_at']) : '' ?></div>
+                                                </div>
+                                                <p class="small text-muted mb-1"><?= esc($note['content'] ?? $note['description'] ?? '') ?></p>
+                                                <?php if (!empty($note['is_blocker'])): ?><span class="badge bg-danger small">Blocker</span><?php endif; ?>
                                             </div>
-                                            <p class="small text-muted mb-1">Implemented JWT authentication with refresh tokens.</p>
-                                        </div>
-
-                                        <div class="note-item-compact">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div class="small"><strong>Mobile responsiveness needs work</strong></div>
-                                                <div class="text-muted small">1 week ago</div>
-                                            </div>
-                                            <p class="small text-muted mb-1">Dashboard needs optimization for mobile devices.</p>
-                                        </div>
-
-                                        <div class="note-item-compact blocker">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div class="small"><strong>API rate limiting issue</strong></div>
-                                                <div class="text-muted small">2 weeks ago</div>
-                                            </div>
-                                            <p class="small text-muted mb-1">GitHub API rate limiting causing issues. Need caching.</p>
-                                            <span class="badge bg-danger small">Blocker</span>
-                                        </div>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <div class="text-center text-muted small py-3">No notes yet</div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -381,14 +366,14 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-sm btn-outline-success w-100">
+                            <a href="<?= site_url('projects/analytics/' . $project['id']) ?>" class="btn btn-sm btn-outline-success w-100">
                                 <i class="fas fa-chart-line me-1"></i> Analytics
-                            </button>
+                            </a>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-sm btn-outline-danger w-100">
+                            <a href="<?= site_url('projects/archive/' . $project['id']) ?>" class="btn btn-sm btn-outline-danger w-100">
                                 <i class="fas fa-archive me-1"></i> Archive
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -406,19 +391,19 @@
                                     <div class="time-summary-compact">
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <span class="small">This Week</span>
-                                            <span class="small text-success">8.5h</span>
+                                            <span class="small text-success"><?= $weekHours ?>h</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <span class="small">This Month</span>
-                                            <span class="small text-primary">42.5h</span>
+                                            <span class="small text-primary"><?= $monthHours ?>h</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <span class="small">Total</span>
-                                            <span class="small text-warning">58.0h</span>
+                                            <span class="small text-warning"><?= $totalHours ?>h</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="small">Avg Daily</span>
-                                            <span class="small text-info">1.0h</span>
+                                            <span class="small text-info"><?= $avgDaily ?>h</span>
                                         </div>
                                     </div>
                                 </div>
@@ -438,29 +423,15 @@
                                         <div class="activity-item-compact">
                                             <div class="activity-dot bg-success"></div>
                                             <div class="activity-content">
-                                                <div class="small">Updated progress to 75%</div>
-                                                <div class="small text-muted">2 hours ago</div>
+                                                <div class="small">Project updated</div>
+                                                <div class="small text-muted"><?= timeAgo($project['updated_at']) ?></div>
                                             </div>
                                         </div>
                                         <div class="activity-item-compact">
                                             <div class="activity-dot bg-primary"></div>
                                             <div class="activity-content">
-                                                <div class="small">Added dashboard widget</div>
-                                                <div class="small text-muted">1 day ago</div>
-                                            </div>
-                                        </div>
-                                        <div class="activity-item-compact">
-                                            <div class="activity-dot bg-warning"></div>
-                                            <div class="activity-content">
-                                                <div class="small">Edited description</div>
-                                                <div class="small text-muted">3 days ago</div>
-                                            </div>
-                                        </div>
-                                        <div class="activity-item-compact">
-                                            <div class="activity-dot bg-info"></div>
-                                            <div class="activity-content">
-                                                <div class="small">Logged 3.5h work</div>
-                                                <div class="small text-muted">1 week ago</div>
+                                                <div class="small">Project created</div>
+                                                <div class="small text-muted"><?= timeAgo($project['created_at']) ?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -481,16 +452,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="addNoteForm">
+                    <form id="addNoteForm" action="<?= site_url('notes/store') ?>" method="POST">
+                        <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
                         <div class="mb-2">
-                            <input type="text" class="form-control form-control-sm" placeholder="Title (optional)">
+                            <input type="text" name="title" class="form-control form-control-sm" placeholder="Title (optional)">
                         </div>
                         <div class="mb-2">
-                            <textarea class="form-control form-control-sm" rows="3" placeholder="Note content..."></textarea>
+                            <textarea name="content" class="form-control form-control-sm" rows="3" placeholder="Note content..."></textarea>
                         </div>
                         <div class="mb-2">
                             <div class="form-check form-check-sm">
-                                <input class="form-check-input" type="checkbox" id="markBlocker">
+                                <input class="form-check-input" type="checkbox" name="is_blocker" id="markBlocker">
                                 <label class="form-check-label" for="markBlocker">
                                     Mark as blocker
                                 </label>
@@ -738,60 +710,51 @@
     <!-- JavaScript -->
     <script>
         $(document).ready(function() {
-            // Sidebar toggle
-            $('#sidebarToggle').click(function() {
-                $('#sidebar').toggleClass('sidebar-collapsed');
-                $('#mainContent').toggleClass('full-width');
-                const icon = $(this).find('i');
-                if (icon.hasClass('fa-bars')) {
-                    icon.removeClass('fa-bars').addClass('fa-times');
-                } else {
-                    icon.removeClass('fa-times').addClass('fa-bars');
-                }
-                localStorage.setItem('sidebarCollapsed', $('#sidebar').hasClass('sidebar-collapsed'));
-            });
-
-            if (localStorage.getItem('sidebarCollapsed') === 'true') {
-                $('#sidebar').addClass('sidebar-collapsed');
-                $('#mainContent').addClass('full-width');
-                $('#sidebarToggle i').removeClass('fa-bars').addClass('fa-times');
-            }
-
             // Add note modal
             $('#addNoteBtn').click(function() {
                 $('#addNoteModal').modal('show');
             });
 
-            // Save note
+            // Save note via AJAX
             $('#saveNoteBtn').click(function() {
-                const noteContent = $('#addNoteForm textarea').val().trim();
-                const isBlocker = $('#markBlocker').prop('checked');
+                const form = $('#addNoteForm');
+                const formData = form.serialize();
+                const noteContent = form.find('textarea[name="content"]').val().trim();
 
                 if (!noteContent) {
                     showToast('Please enter note content', 'warning');
                     return;
                 }
 
-                // Create new note item
-                const noteHtml = `
-                    <div class="note-item-compact ${isBlocker ? 'blocker' : ''}">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="small"><strong>New Note</strong></div>
-                            <div class="text-muted small">Just now</div>
-                        </div>
-                        <p class="small text-muted mb-1">${noteContent}</p>
-                        ${isBlocker ? '<span class="badge bg-danger small">Blocker</span>' : ''}
-                    </div>
-                `;
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        const isBlocker = $('#markBlocker').prop('checked');
+                        const title = form.find('input[name="title"]').val().trim() || 'Note';
 
-                // Prepend to notes list
-                $('.notes-list-compact').prepend(noteHtml);
+                        const noteHtml = `
+                            <div class="note-item-compact ${isBlocker ? 'blocker' : ''}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="small"><strong>${title}</strong></div>
+                                    <div class="text-muted small">Just now</div>
+                                </div>
+                                <p class="small text-muted mb-1">${noteContent}</p>
+                                ${isBlocker ? '<span class="badge bg-danger small">Blocker</span>' : ''}
+                            </div>
+                        `;
 
-                // Close modal and reset form
-                $('#addNoteModal').modal('hide');
-                $('#addNoteForm')[0].reset();
-
-                showToast('Note added successfully', 'success');
+                        $('.notes-list-compact').prepend(noteHtml);
+                        $('#addNoteModal').modal('hide');
+                        form[0].reset();
+                        showToast('Note added successfully', 'success');
+                    },
+                    error: function() {
+                        showToast('Failed to save note', 'danger');
+                    }
+                });
             });
 
             // Toast notification function

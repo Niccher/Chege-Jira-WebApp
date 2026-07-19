@@ -11,6 +11,7 @@ class UserModel extends ShieldUserModel
     protected $allowedFields = [
         'users.username', 'users.status', 'users.status_message', 'users.active', 'users.last_active', 'users.deleted_at',
         'first_name', 'last_name', 'bio', 'avatar', 'newsletter',
+        'timezone', 'date_format', 'preferences',
         'reset_hash', 'reset_expires_at',
     ];
 
