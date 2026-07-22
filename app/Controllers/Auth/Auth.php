@@ -14,7 +14,7 @@ class Auth extends BaseController
         }
 
         $data = [
-            'title' => 'Login • ChegeOS',
+            'title' => 'Login • Chege JIRA',
         ];
 
         return view('auth/login', $data);
@@ -85,7 +85,7 @@ class Auth extends BaseController
         }
 
         $data = [
-            'title' => 'Register • ChegeOS',
+            'title' => 'Register • Chege JIRA',
         ];
 
         return view('auth/register', $data);
@@ -134,7 +134,7 @@ class Auth extends BaseController
     public function verifyEmail()
     {
         $data = [
-            'title' => 'Verify Email • ChegeOS',
+            'title' => 'Verify Email • Chege JIRA',
             'email' => session()->getFlashdata('email') ?? '',
         ];
 
@@ -149,7 +149,7 @@ class Auth extends BaseController
         }
 
         $data = [
-            'title' => 'Forgot Password • ChegeOS',
+            'title' => 'Forgot Password • Chege JIRA',
         ];
 
         return view('auth/forgot_password', $data);
@@ -191,7 +191,7 @@ class Auth extends BaseController
         }
 
         $data = [
-            'title' => 'Reset Password • ChegeOS',
+            'title' => 'Reset Password • Chege JIRA',
             'token' => $token,
             'email' => $email,
         ];
@@ -233,7 +233,7 @@ class Auth extends BaseController
         }
 
         $data = [
-            'title' => 'Activate Account • ChegeOS',
+            'title' => 'Activate Account • Chege JIRA',
             'status' => $status,
             'email' => 'demo@chegeos.com', // Would come from database
         ];
@@ -244,7 +244,7 @@ class Auth extends BaseController
     public function lockedAccount()
     {
         $data = [
-            'title' => 'Account Locked • ChegeOS',
+            'title' => 'Account Locked • Chege JIRA',
         ];
 
         return view('auth/locked', $data);

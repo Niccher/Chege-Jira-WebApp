@@ -5,6 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /** @var RouteCollection $routes */
 
 $routes->get('/', 'Home::index');
+$routes->get('/features', 'Home::features');
+$routes->get('/setup', 'Home::setup');
+$routes->get('/faqs', 'Home::faqs');
 $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/home', 'User\Dashboard::index');
     $routes->get('/dashboard', 'User\Dashboard::index');

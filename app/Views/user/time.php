@@ -1,4 +1,4 @@
-<?= $this->include('layouts/user/header', ['title' => 'Time Tracking • ChegeOS']) ?>
+<?= $this->include('layouts/user/header', ['title' => 'Time Tracking • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
     <!-- Main Content -->
@@ -52,7 +52,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1"><i class="fas fa-clock me-2 text-primary"></i>Currently Tracking</h5>
-                            <p class="small text-muted mb-0">Working on: <span id="currentTask">ChegeOS Dashboard UI</span></p>
+                            <p class="small text-muted mb-0">Working on: <span id="currentTask">Chege JIRA Dashboard UI</span></p>
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="display-4 me-4" id="timerDisplay">00:00:00</div>

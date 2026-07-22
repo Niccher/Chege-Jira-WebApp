@@ -1,4 +1,4 @@
-// Main application JavaScript for ChegeOS
+// Main application JavaScript for Chege JIRA
 
 $(document).ready(function() {
     // Initialize tooltips

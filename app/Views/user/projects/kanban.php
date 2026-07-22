@@ -1,4 +1,4 @@
-<?= $this->include('layouts/user/header', ['title' => 'ChegeOS Dashboard • Kanban Board']) ?>
+<?= $this->include('layouts/user/header', ['title' => 'Chege JIRA Dashboard • Kanban Board']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
     <!-- Main Content -->

@@ -1,26 +1,18 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Verify Email • ChegeOS<?= $this->endSection() ?>
+<?= $this->section('title') ?>Verify Email • Chege JIRA<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <div class="auth-brand">
-        <div class="logo">
-            <i class="fas fa-cubes"></i>
-        </div>
-        <h1>ChegeOS</h1>
-        <p>Verify your email address</p>
-    </div>
-
     <div class="auth-card">
-        <div class="auth-header text-center">
-            <div class="verification-icon mb-3">
-                <div style="width: 80px; height: 80px; background-color: #6366f1; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-envelope fa-2x text-white"></i>
+        <div class="text-center mb-4">
+            <div class="mb-3">
+                <div style="width: 72px; height: 72px; background: rgba(99,102,241,0.15); display: inline-flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-envelope fa-2x" style="color: #6366f1;"></i>
                 </div>
             </div>
-            <h2>Check Your Email</h2>
-            <p>We've sent a verification link to:</p>
-            <p class="fw-bold" style="color: var(--primary-color);"><?= $email ?? 'your email address' ?></p>
+            <h3>Check Your Email</h3>
+            <div class="sub">We've sent a verification link to:</div>
+            <p class="fw-bold mt-2" style="color: var(--primary);"><?= $email ?? 'your email address' ?></p>
         </div>
 
         <div class="alert alert-info">
@@ -34,7 +26,7 @@
                 <form action="<?= site_url('auth/resend-verification') ?>" method="POST" id="resendForm">
                     <?= csrf_field() ?>
                     <input type="hidden" name="email" value="<?= $email ?? '' ?>">
-                    <button type="submit" class="btn btn-outline-primary w-100" id="resendBtn">
+                    <button type="submit" class="btn-auth" id="resendBtn">
                         <i class="fas fa-paper-plane me-2"></i> Resend Verification Email
                     </button>
                 </form>
@@ -44,16 +36,15 @@
                 <i class="fas fa-lightbulb me-1"></i>
                 Check your spam folder if you don't see the email within a few minutes.
             </div>
+
+            <div class="mt-4 text-center">
+                <a href="<?= site_url('auth/register') ?>" class="forgot-link">
+                    <i class="fas fa-edit me-1"></i> Register with Different Email
+                </a>
+            </div>
         </div>
 
-        <div class="mb-4">
-            <h6 class="mb-3">Need to update your email?</h6>
-            <a href="<?= site_url('auth/register') ?>" class="btn btn-outline-secondary w-100">
-                <i class="fas fa-edit me-2"></i> Register with Different Email
-            </a>
-        </div>
-
-        <div class="auth-footer">
+        <div class="auth-switch">
             Already verified? <a href="<?= site_url('auth/login') ?>">Sign in to your account</a>
         </div>
     </div>

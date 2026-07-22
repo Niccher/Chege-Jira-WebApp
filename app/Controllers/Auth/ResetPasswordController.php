@@ -22,7 +22,7 @@ class ResetPasswordController extends BaseController
         }
 
         $data = [
-            'title' => 'Reset Password • ChegeOS',
+            'title' => 'Reset Password • Chege JIRA',
             'token' => $token,
             'email' => $email,
         ];

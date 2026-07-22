@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>400 — Bad Request</title>
+    <title>503 — Service Unavailable</title>
     <meta name="robots" content="noindex, nofollow">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,7 +22,7 @@
         .error-code {
             font-family: 'JetBrains Mono', monospace;
             font-size: 7rem; font-weight: 700; line-height: 1;
-            color: #ef4444; margin-bottom: 1rem;
+            color: #d97706; margin-bottom: 1rem;
         }
         .error-box h1 { font-weight: 700; margin-bottom: 0.75rem; }
         .error-box p { color: #9ca3af; margin-bottom: 2rem; line-height: 1.7; }
@@ -48,15 +48,15 @@
 </head>
 <body>
     <div class="error-box">
-        <div class="error-code">400</div>
-        <h1>Bad Request</h1>
-        <p>The server could not understand your request due to invalid syntax.</p>
-        <a href="/" class="btn-error"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <div class="error-code">503</div>
+        <h1>Service Unavailable</h1>
+        <p>The server is temporarily unable to handle your request due to maintenance or capacity issues. Please try again shortly.</p>
+        <a href="/" class="btn-error"><i class="fas fa-sync-alt"></i> Try Again</a>
         <div class="error-detail">
             <?php if (ENVIRONMENT !== 'production' && isset($message) && $message): ?>
                 <?= nl2br(esc($message)) ?>
             <?php else: ?>
-                Please check the URL and try again.
+                The service may be undergoing maintenance. Check back soon.
             <?php endif; ?>
         </div>
     </div>

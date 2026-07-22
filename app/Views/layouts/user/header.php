@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'ChegeOS • Side-Project Dashboard') ?></title>
+    <title><?= esc($title ?? 'Chege JIRA • Side-Project Dashboard') ?></title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?= base_url('favicon.png') ?>">

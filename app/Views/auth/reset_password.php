@@ -1,20 +1,12 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Reset Password • ChegeOS<?= $this->endSection() ?>
+<?= $this->section('title') ?>Reset Password • Chege JIRA<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <div class="auth-brand">
-        <div class="logo">
-            <i class="fas fa-cubes"></i>
-        </div>
-        <h1>ChegeOS</h1>
-        <p>Create a new password</p>
-    </div>
-
     <div class="auth-card">
-        <div class="auth-header">
-            <h2>Reset Password</h2>
-            <p>Create a new password for your account.</p>
+        <div class="text-center mb-4">
+            <h3>Reset Password</h3>
+            <div class="sub">Create a new password for your account</div>
         </div>
 
         <?php if(session()->has('error')): ?>
@@ -42,7 +34,7 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">New Password</label>
-                <div class="input-group">
+                <div class="input-group-wrap">
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter new password" required autofocus>
                     <button type="button" class="password-toggle">
                         <i class="fas fa-eye"></i>
@@ -53,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                <div class="input-group">
+                <div class="input-group-wrap">
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
                     <button type="button" class="password-toggle">
                         <i class="fas fa-eye"></i>
@@ -64,19 +56,17 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 mb-3">
-                <i class="fas fa-key me-2"></i> Reset Password
+            <button type="submit" class="btn-auth mb-3">
+                <i class="fas fa-key"></i> Reset Password
             </button>
 
             <div class="alert alert-warning">
                 <i class="fas fa-shield-alt me-2"></i>
-                <small>
-                    For security reasons, make sure your new password is different from your previous passwords.
-                </small>
+                <small>For security, make sure your new password is different from previous ones.</small>
             </div>
         </form>
 
-        <div class="auth-footer">
+        <div class="auth-switch">
             Remember your password? <a href="<?= site_url('auth/login') ?>">Back to login</a>
         </div>
     </div>

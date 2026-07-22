@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>400 — Bad Request</title>
+    <title>500 — Internal Server Error</title>
     <meta name="robots" content="noindex, nofollow">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -48,15 +48,15 @@
 </head>
 <body>
     <div class="error-box">
-        <div class="error-code">400</div>
-        <h1>Bad Request</h1>
-        <p>The server could not understand your request due to invalid syntax.</p>
+        <div class="error-code">500</div>
+        <h1>Internal Server Error</h1>
+        <p>Something went wrong on our end. Please try again later. If the problem persists, contact the system administrator.</p>
         <a href="/" class="btn-error"><i class="fas fa-arrow-left"></i> Back to Home</a>
         <div class="error-detail">
             <?php if (ENVIRONMENT !== 'production' && isset($message) && $message): ?>
                 <?= nl2br(esc($message)) ?>
             <?php else: ?>
-                Please check the URL and try again.
+                An unexpected error occurred. The error has been logged.
             <?php endif; ?>
         </div>
     </div>

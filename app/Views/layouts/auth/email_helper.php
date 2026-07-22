@@ -14,9 +14,9 @@ if (!function_exists('sendActivationEmail')) {
     {
         $email = \Config\Services::email();
 
-        $email->setFrom('noreply@chegeos.com', 'ChegeOS');
+        $email->setFrom('noreply@chegeos.com', 'Chege JIRA');
         $email->setTo($user->email);
-        $email->setSubject('Activate Your ChegeOS Account');
+        $email->setSubject('Activate Your Chege JIRA Account');
 
         // Get the email content
         $emailContent = view('emails/activation', [
@@ -50,9 +50,9 @@ if (!function_exists('sendWelcomeEmail')) {
     {
         $email = \Config\Services::email();
 
-        $email->setFrom('welcome@chegeos.com', 'ChegeOS Team');
+        $email->setFrom('welcome@chegeos.com', 'Chege JIRA Team');
         $email->setTo($user->email);
-        $email->setSubject('Welcome to ChegeOS! 🎉');
+        $email->setSubject('Welcome to Chege JIRA! 🎉');
 
         $emailContent = view('emails/welcome', [
             'user' => $user

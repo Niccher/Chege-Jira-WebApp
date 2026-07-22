@@ -1,4 +1,4 @@
-<?= $this->include('layouts/user/header', ['title' => 'Edit Project • ChegeOS']) ?>
+<?= $this->include('layouts/user/header', ['title' => 'Edit Project • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 

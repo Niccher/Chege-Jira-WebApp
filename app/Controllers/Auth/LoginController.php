@@ -26,7 +26,7 @@ class LoginController extends ShieldLogin
             auth()->logout();
         }
         $data = [
-            'title' => 'Login • ChegeOS',
+            'title' => 'Login • Chege JIRA',
             'config' => config('Auth'),
         ];
         // Add session messages if any

@@ -487,6 +487,11 @@ class Auth extends ShieldAuth
         $session = session();
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
 
+        // If the URL is the root landing page, redirect to dashboard instead
+        if ($url === '/' || $url === rtrim(site_url('/'), '/ ')) {
+            $url = setting('Auth.redirects')['login'];
+        }
+
         return $this->getUrl($url);
     }
 

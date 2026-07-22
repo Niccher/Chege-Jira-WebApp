@@ -1,4 +1,4 @@
-<?= $this->include('layouts/user/header', ['title' => 'Kanban Board • ChegeOS']) ?>
+<?= $this->include('layouts/user/header', ['title' => 'Kanban Board • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 <?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram me-1"></i> ChegeOS Dashboard
+                                        <i class="fas fa-project-diagram me-1"></i> Chege JIRA Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -362,7 +362,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram me-1"></i> ChegeOS Dashboard
+                                        <i class="fas fa-project-diagram me-1"></i> Chege JIRA Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -440,7 +440,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram me-1"></i> ChegeOS Dashboard
+                                        <i class="fas fa-project-diagram me-1"></i> Chege JIRA Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -680,7 +680,7 @@
                             <div class="col-md-6">
                                 <label for="taskProject" class="form-label">Project</label>
                                 <select class="form-select" id="taskProject">
-                                    <option value="chegeos">ChegeOS Dashboard</option>
+                                    <option value="chegeos">Chege JIRA Dashboard</option>
                                     <option value="api">API Integration</option>
                                     <option value="mobile">Mobile App</option>
                                     <option value="portfolio">Portfolio Website</option>

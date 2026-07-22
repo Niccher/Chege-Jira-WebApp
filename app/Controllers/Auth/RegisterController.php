@@ -22,7 +22,7 @@ class RegisterController extends BaseController
         }
 
         $data = [
-            'title' => 'Register • ChegeOS',
+            'title' => 'Register • Chege JIRA',
         ];
 
         return view('\App\Views\auth\register', $data);

@@ -1,4 +1,4 @@
-<?= $this->include('layouts/user/header', ['title' => 'Analytics • ChegeOS']) ?>
+<?= $this->include('layouts/user/header', ['title' => 'Analytics • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
     <!-- Main Content -->

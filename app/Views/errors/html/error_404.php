@@ -1,84 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
-    <title><?= lang('Errors.pageNotFound') ?></title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        div.logo {
-            height: 200px;
-            width: 155px;
-            display: inline-block;
-            opacity: 0.08;
-            position: absolute;
-            top: 2rem;
-            left: 50%;
-            margin-left: -73px;
-        }
+        * { font-family: 'Space Grotesk', sans-serif; border-radius: 0 !important; }
         body {
-            height: 100%;
-            background: #fafafa;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #777;
-            font-weight: 300;
-        }
-        h1 {
-            font-weight: lighter;
-            letter-spacing: normal;
-            font-size: 3rem;
-            margin-top: 0;
-            margin-bottom: 0;
-            color: #222;
-        }
-        .wrap {
-            max-width: 1024px;
-            margin: 5rem auto;
+            background: #0a0a0a; color: #f3f4f6;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
             padding: 2rem;
-            background: #fff;
-            text-align: center;
-            border: 1px solid #efefef;
-            border-radius: 0.5rem;
-            position: relative;
+            background-image: linear-gradient(#262626 1px, transparent 1px),
+                              linear-gradient(90deg, #262626 1px, transparent 1px);
+            background-size: 50px 50px;
         }
-        pre {
-            white-space: normal;
-            margin-top: 1.5rem;
+        .error-box { max-width: 500px; width: 100%; text-align: center; }
+        .error-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 7rem; font-weight: 700; line-height: 1;
+            color: #6b7280; margin-bottom: 1rem;
         }
-        code {
-            background: #fafafa;
-            border: 1px solid #efefef;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            display: block;
+        .error-box h1 { font-weight: 700; margin-bottom: 0.75rem; }
+        .error-box p { color: #9ca3af; margin-bottom: 2rem; line-height: 1.7; }
+        .btn-error {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 2rem; background: #ef4444; color: #000;
+            font-weight: 700; text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+            text-decoration: none; border: 2px solid #ef4444;
+            transition: all 0.2s ease;
         }
-        p {
-            margin-top: 1.5rem;
+        .btn-error:hover {
+            background: transparent; color: #ef4444;
+            box-shadow: 4px 4px 0 #ef4444; transform: translate(-2px, -2px);
         }
-        .footer {
-            margin-top: 2rem;
-            border-top: 1px solid #efefef;
-            padding: 1em 2em 0 2em;
-            font-size: 85%;
-            color: #999;
+        .search-box {
+            display: flex; gap: 0.5rem; margin-top: 1.5rem;
+            justify-content: center;
         }
-        a:active,
-        a:link,
-        a:visited {
-            color: #dd4814;
+        .search-box input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #262626; color: #f3f4f6;
+            padding: 0.6rem 1rem; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem; flex: 1; max-width: 300px;
+        }
+        .search-box input:focus {
+            outline: none; border-color: #ef4444;
+        }
+        .search-box button {
+            background: #ef4444; color: #000; border: none;
+            padding: 0.6rem 1rem; font-family: 'JetBrains Mono', monospace;
+            font-weight: 700; cursor: pointer;
+        }
+        .error-detail {
+            margin-top: 2rem; padding-top: 1.5rem;
+            border-top: 1px dashed #262626;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+            color: #6b7280;
         }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1>404</h1>
-
-        <p>
-            <?php if (ENVIRONMENT !== 'production') : ?>
+    <div class="error-box">
+        <div class="error-code">404</div>
+        <h1>Page Not Found</h1>
+        <p>The page you are looking for does not exist or has been moved. Check the URL or navigate back.</p>
+        <a href="/" class="btn-error"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <div class="error-detail">
+            <?php if (ENVIRONMENT !== 'production' && isset($message) && $message): ?>
                 <?= nl2br(esc($message)) ?>
-            <?php else : ?>
-                <?= lang('Errors.sorryCannotFind') ?>
+            <?php else: ?>
+                The requested URL was not found on this server.
             <?php endif; ?>
-        </p>
+        </div>
     </div>
 </body>
 </html>

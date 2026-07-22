@@ -18,7 +18,7 @@ class ForgotPasswordController extends BaseController
         }
 
         $data = [
-            'title' => 'Forgot Password • ChegeOS',
+            'title' => 'Forgot Password • Chege JIRA',
         ];
 
         return view('\App\Views\auth\forgot_password', $data);
