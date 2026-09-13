@@ -45,7 +45,7 @@ class Auth extends ShieldAuth
      * View files
      * --------------------------------------------------------------------
      */
-//    public $views = [
+//    public array $views = [
 //        'login'                       => '\CodeIgniter\Shield\Views\login',
 //        'register'                    => '\CodeIgniter\Shield\Views\register',
 //        'layout'                      => '\CodeIgniter\Shield\Views\layout',
@@ -58,7 +58,7 @@ class Auth extends ShieldAuth
 //        'magic-link-message'          => '\CodeIgniter\Shield\Views\magic_link_message',
 //        'magic-link-email'            => '\CodeIgniter\Shield\Views\Email\magic_link_email',
 //    ];
-//    public $views = [
+//    public array $views = [
 //        'login'                       => 'auth/login',
 //        'register'                    => 'auth/register',
 //        'layout'                      => 'auth/layout',
@@ -70,7 +70,7 @@ class Auth extends ShieldAuth
 //        'action_email_2fa_show'       => 'auth/action_email_2fa_show',
 //        'action_email_2fa_email'      => 'auth/action_email_2fa_email',
 //    ];
-    public $views = [
+    public array $views = [
         'login'                       => '\App\Views\auth\login',
         'register'                    => '\App\Views\auth\register',
         'layout'                      => '\App\Views\layouts\auth\auth_template',
@@ -476,7 +476,7 @@ class Auth extends ShieldAuth
      *
      * @var class-string<UserModel>
      */
-    public $userProvider = UserModel::class;
+    public string $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected
