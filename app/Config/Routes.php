@@ -74,7 +74,7 @@ $routes->group('api', ['filter' => 'session'], function($routes) {
 });
 
 // Manager zone — requires login + manager role
-$routes->group('manage', ['filter' => 'session,manager'], function($routes) {
+$routes->group('manage', ['filter' => ['session', 'manager']], function($routes) {
     $routes->get('team', 'Manager\TeamDashboardController::index');
     $routes->get('tasks/assign', 'Manager\TaskAssignmentController::index');
     $routes->post('tasks/assign', 'Manager\TaskAssignmentController::assign');
@@ -87,7 +87,7 @@ $routes->group('manage', ['filter' => 'session,manager'], function($routes) {
 });
 
 // Admin zone — requires login + admin role
-$routes->group('admin', ['filter' => 'session,admin'], function($routes) {
+$routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
     $routes->get('/', 'Admin\UserManagementController::index');
     $routes->post('users/provision', 'Admin\UserManagementController::provision');
     $routes->post('users/(:num)/role', 'Admin\UserManagementController::assignRole/$1');
