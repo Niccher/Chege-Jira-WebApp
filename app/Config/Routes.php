@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'Home::index');
 $routes->get('/features', 'Home::features');
+$routes->get('/pricing', 'Home::pricing');
 $routes->get('/setup', 'Home::setup');
 $routes->get('/faqs', 'Home::faqs');
 $routes->get('/compare', 'Home::compare');

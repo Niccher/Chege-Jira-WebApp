@@ -1,60 +1,116 @@
 <?= $this->include('landing/header') ?>
 
-<div class="jumbotron jumbotron-ace" style="padding: 40px 0; background-color: #f4f6f9; border-bottom: 1px solid #e2e8f0; text-align: center;">
-    <div class="container">
-        <h1>Everything you need to ship software</h1>
-        <p>A deep dive into everything <?= esc(setting('App.siteName')) ?> can do for your agile team.</p>
+<!-- START PAGE HEADER -->
+<section class="py-5 bg-light border-bottom">
+    <div class="container text-center py-4">
+        <span class="badge bg-primary-lighten text-primary rounded-pill px-3 py-1 font-12 fw-semibold">Feature Deep Dive</span>
+        <h1 class="fw-bold mt-2 mb-2 display-6">Everything You Need to Ship High-Impact Software</h1>
+        <p class="text-muted font-16 lead w-75 mx-auto mb-0">Explore the full suite of agile sprint management, time tracking, and team collaboration tools built into <?= esc(setting('App.siteName')) ?>.</p>
     </div>
-</div>
+</section>
+<!-- END PAGE HEADER -->
 
-<div class="container" style="padding: 40px 0;">
-    <div class="row" style="margin-bottom: 50px;">
-        <div class="col-md-6">
-            <h3><i class="ace-icon fa fa-sitemap blue"></i> Projects & Epics</h3>
-            <p>
-                Group your work into manageable pieces. Create projects to represent distinct applications or teams. 
-                Use Epics to group related stories and bugs together, providing a high-level view of major feature initiatives.
-                Set strict deadlines, assign project leads, and track budget utilization.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h3><i class="ace-icon fa fa-columns blue"></i> Interactive Kanban</h3>
-            <p>
-                Say goodbye to clunky lists. Our drag-and-drop Kanban board allows you to visually transition 
-                work through your workflow. Instantly see blockers, assignees, and issue priorities without opening 
-                a single ticket.
-            </p>
-        </div>
-    </div>
+<section class="py-5">
+    <div class="container py-lg-4">
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-primary-lighten text-primary rounded-circle font-20">
+                            <i class="mdi mdi-view-column"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">Interactive Kanban Boards</h4>
+                    <p class="text-muted font-14">
+                        Drag and drop issues across customizable sprint columns. Filter tickets by assignee, priority, or milestone with instant reactive updates.
+                    </p>
+                </div>
+            </div>
 
-    <div class="row" style="margin-bottom: 50px;">
-        <div class="col-md-6">
-            <h3><i class="ace-icon fa fa-users blue"></i> Role-Based Permissions</h3>
-            <p>
-                Ensure data security with strict Role-Based Access Control (RBAC). 
-                <strong>Administrators</strong> have full system access, <strong>Managers</strong> can assign work and view reports, 
-                and <strong>Team Members</strong> are scoped strictly to executing tasks and logging time.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h3><i class="ace-icon fa fa-bar-chart blue"></i> Velocity & Reporting</h3>
-            <p>
-                Out-of-the-box reporting gives you insights into team velocity, time spent per epic, and sprint burndown. 
-                Export reports to PDF for stakeholder meetings, or view real-time charts directly on your dashboard.
-            </p>
-        </div>
-    </div>
+            <!-- Feature 2 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-success-lighten text-success rounded-circle font-20">
+                            <i class="mdi mdi-clock-outline"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">Time Logging & Billing</h4>
+                    <p class="text-muted font-14">
+                        Keep track of active work hours on every issue. View detailed logs per developer, calculate burn rates, and ensure accurate client billing.
+                    </p>
+                </div>
+            </div>
 
-    <div class="row text-center">
-        <div class="col-12">
-            <hr>
-            <h2>Ready to transform your workflow?</h2>
-            <div class="space-12"></div>
-            <a href="<?= site_url('auth/register') ?>" class="btn btn-primary btn-lg btn-round">
-                <i class="ace-icon fa fa-rocket"></i> Get Started Free
+            <!-- Feature 3 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-warning-lighten text-warning rounded-circle font-20">
+                            <i class="mdi mdi-shield-account"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">Granular RBAC Permissions</h4>
+                    <p class="text-muted font-14">
+                        Role-Based Access Control out-of-the-box. Separate permissions for System Admins, Project Managers, and Developers to protect confidential tasks.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-danger-lighten text-danger rounded-circle font-20">
+                            <i class="mdi mdi-bug-outline"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">Issue & Bug Tracking</h4>
+                    <p class="text-muted font-14">
+                        Categorize tickets as Bugs, Features, or Epics. Attach screenshots, track reproduction steps, and link directly to GitHub pull requests.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-info-lighten text-info rounded-circle font-20">
+                            <i class="mdi mdi-calendar-month"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">Milestones & Deadlines</h4>
+                    <p class="text-muted font-14">
+                        Map releases against timeline milestones. Use the integrated project calendar to stay ahead of upcoming sprint deadlines.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card feature-card p-4">
+                    <div class="avatar-sm mb-3">
+                        <span class="avatar-title bg-secondary-lighten text-secondary rounded-circle font-20">
+                            <i class="mdi mdi-file-pdf-box"></i>
+                        </span>
+                    </div>
+                    <h4 class="fw-bold">PDF Report Generation</h4>
+                    <p class="text-muted font-14">
+                        Generate professional stakeholder summary reports with one click. Export complete sprint velocity and hours metrics to PDF.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5 pt-3">
+            <h3 class="fw-bold mb-3">Ready to upgrade your team's agility?</h3>
+            <a href="<?= site_url('auth/register') ?>" class="btn btn-primary btn-lg rounded-pill px-4">
+                <i class="mdi mdi-rocket me-1"></i> Get Started Free
             </a>
         </div>
     </div>
-</div>
+</section>
 
 <?= $this->include('landing/footer') ?>

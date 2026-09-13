@@ -69,6 +69,19 @@ class Home extends BaseController
         ]);
     }
 
+    public function pricing()
+    {
+        if (auth()->loggedIn()) {
+            return redirect()->to('/home');
+        }
+
+        return view('landing/pricing', [
+            'pageTitle' => 'Pricing — ' . esc(setting('App.siteName')),
+            'metaDescription' => 'Chege Jira is 100% free and open-source. Transparent self-hosted pricing with zero hidden fees.',
+            'metaKeywords' => 'pricing, free, open source, self-hosted, agile',
+        ]);
+    }
+
     public function faqs()
     {
         if (auth()->loggedIn()) {

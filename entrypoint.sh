@@ -28,6 +28,11 @@ echo "MySQL is ready!"
 echo "Running database migrations..."
 cd /var/www/html
 php spark migrate --all 2>&1 || echo "WARNING: Migration encountered an issue. Check logs."
+
+# Run DemoSeeder (creates default admin account and demo projects safely)
+echo "Running database seeders..."
+php spark db:seed DemoSeeder 2>&1 || echo "NOTE: Seed data already exists or encountered an issue."
+
 echo "Setting up writable directories..."
 cd /var/www/html
 mkdir -p writable/uploads/avatars
