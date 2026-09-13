@@ -1,46 +1,62 @@
-<?= $this->extend('layouts/auth/auth_template') ?>
-
-<?= $this->section('title') ?>Forgot Password • Chege JIRA<?= $this->endSection() ?>
-
+<?= $this->extend(config('Auth')->views['layout']) ?>
+<?= $this->section('title') ?>Forgot Password<?= $this->endSection() ?>
 <?= $this->section('content') ?>
-    <div class="auth-card">
-        <div class="auth-header">
-            <h3>Forgot Password?</h3>
-            <div class="sub">Enter your email and we'll send you a reset link</div>
+
+<div id="forgot-box" class="forgot-box visible widget-box no-border">
+    <div class="widget-body">
+        <div class="widget-main">
+            <h4 class="header red lighter bigger">
+                <i class="ace-icon fa fa-key"></i>
+                Retrieve Password
+            </h4>
+
+            <div class="space-6"></div>
+            <p>
+                Enter your email and to receive instructions
+            </p>
+
+            <?php if (session('error')) : ?>
+                <div class="alert alert-danger">
+                    <i class="ace-icon fa fa-exclamation-circle"></i>
+                    <?= session('error') ?>
+                </div>
+            <?php endif ?>
+
+            <?php if (session('success')) : ?>
+                <div class="alert alert-success">
+                    <i class="ace-icon fa fa-check-circle"></i>
+                    <?= session('success') ?>
+                </div>
+            <?php endif ?>
+
+            <form action="<?= url_to('magic-link') ?>" method="post">
+                <?= csrf_field() ?>
+
+                <fieldset>
+                    <label class="block clearfix">
+                        <span class="block input-icon input-icon-right">
+                            <input type="email" class="form-control" name="email" placeholder="Email Address" required />
+                            <i class="ace-icon fa fa-envelope"></i>
+                        </span>
+                    </label>
+
+                    <div class="clearfix">
+                        <button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                            <i class="ace-icon fa fa-lightbulb-o"></i>
+                            <span class="bigger-110">Send Me!</span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div><!-- /.widget-main -->
+
+        <div class="toolbar center">
+            <a href="<?= url_to('login') ?>" class="back-to-login-link">
+                Back to login
+                <i class="ace-icon fa fa-arrow-right"></i>
+            </a>
         </div>
+    </div><!-- /.widget-body -->
+</div><!-- /.forgot-box -->
 
-        <?php if(session()->has('error')): ?>
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i> <?= session('error') ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if(session()->has('success')): ?>
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle me-2"></i> <?= session('success') ?>
-            </div>
-        <?php endif; ?>
-
-        <form action="<?= site_url('auth/forgot-password') ?>" method="POST" id="forgotPasswordForm">
-            <?= csrf_field() ?>
-
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required autofocus>
-            </div>
-
-            <button type="submit" class="btn-auth mb-3">
-                <i class="fas fa-paper-plane"></i> Send Reset Link
-            </button>
-
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>
-                <small>You will receive an email with instructions. The link expires in 1 hour.</small>
-            </div>
-        </form>
-
-        <div class="auth-switch">
-            Remember your password? <a href="<?= site_url('auth/login') ?>">Back to login</a>
-        </div>
-    </div>
 <?= $this->endSection() ?>

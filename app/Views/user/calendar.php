@@ -5,51 +5,51 @@
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Calendar</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
+            <div class="col-auto pull-right text-end mt-n1">
                 
             </div>
         </div>
         <!-- Calendar Stats -->
-        <div class="row mb-4 g-3">
+        <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">This Month</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">This Month</div>
                     <div class="stat-value" id="totalEvents"><?= $total_events ?></div>
-                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                    <div class="stat-change text-secondary  font-mono border-top pt-2">
                         <i class="fas fa-calendar-check"></i> Scheduled
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Completed</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Completed</div>
                     <div class="stat-value text-success" id="completedEvents"><?= $completed_count ?></div>
-                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                    <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
                         <i class="fas fa-check-circle"></i> Done
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Pending</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Pending</div>
                     <div class="stat-value text-warning" id="pendingEvents"><?= $pending_count ?></div>
-                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                    <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
                         <i class="fas fa-clock"></i> In Progress
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Overdue</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Overdue</div>
                     <div class="stat-value text-danger" id="overdueEvents"><?= $overdue_count ?></div>
-                    <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
+                    <div class="stat-change text-danger  font-mono border-top border-danger border-opacity-25 pt-2">
                         <i class="fas fa-exclamation-triangle"></i> Needs Action
                     </div>
                 </div>
@@ -57,20 +57,20 @@
         </div>
 
         <!-- Calendar Container -->
-        <div class="card card-body">
+        <div class="widget-box card-body">
             <!-- Calendar Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i><span id="calendarTitle">Calendar</span></h5>
-                <div class="d-flex align-items-center gap-3">
+            <div class="   space-4">
+                <h5 class="space-0"><i class="fas fa-calendar-alt pr-2"></i><span id="calendarTitle">Calendar</span></h5>
+                <div class="  ">
                     <!-- Activity Legend -->
-                    <div class="calendar-legend d-none d-lg-flex flex-wrap gap-2 small">
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-project-diagram text-info me-1"></i>Project</div>
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-play-circle text-primary me-1"></i>Start</div>
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-flag-checkered text-success me-1"></i>Goal</div>
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-sticky-note text-indigo me-1"></i>Note (P)</div>
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-lightbulb text-warning me-1"></i>Idea (G)</div>
-                        <div class="d-flex align-items-center me-2"><i class="fas fa-clock text-purple me-1" style="color: #8b5cf6;"></i>Time</div>
-                        <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-1"></i>Done</div>
+                    <div class="calendar-legend d-none d-lg-flex   small">
+                        <div class="  pr-2"><i class="fas fa-project-diagram text-info pr-1"></i>Project</div>
+                        <div class="  pr-2"><i class="fas fa-play-circle text-primary pr-1"></i>Start</div>
+                        <div class="  pr-2"><i class="fas fa-flag-checkered text-success pr-1"></i>Goal</div>
+                        <div class="  pr-2"><i class="fas fa-sticky-note text-indigo pr-1"></i>Note (P)</div>
+                        <div class="  pr-2"><i class="fas fa-lightbulb text-warning pr-1"></i>Idea (G)</div>
+                        <div class="  pr-2"><i class="fas fa-clock text-purple pr-1" style="color: #8b5cf6;"></i>Time</div>
+                        <div class=" "><i class="fas fa-check-circle text-success pr-1"></i>Done</div>
                     </div>
                 </div>
             </div>
@@ -79,10 +79,10 @@
         </div>
 
         <!-- Upcoming Events -->
-        <div class="row mt-4">
+        <div class="row ">
             <div class="col-lg-8">
-                <div class="card card-body">
-                    <h5 class="mb-3"><i class="fas fa-list-ul me-2"></i>Upcoming Events</h5>
+                <div class="widget-box card-body">
+                    <h5 class="space-3"><i class="fas fa-list-ul pr-2"></i>Upcoming Events</h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
                             <thead>
@@ -101,8 +101,8 @@
                                 <tr>
                                     <td class="small"><?= date('M d', strtotime($event['date'])) ?></td>
                                     <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="stat-icon m-0 me-2" style="width: 28px; height: 28px; background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; font-size: 12px; border-radius: 4px;">
+                                        <div class=" ">
+                                            <div class="stat-icon m-0 pr-2" style="width: 28px; height: 28px; background-color: rgba(255, 255, 255, 0.05); color: #cbd5e1; font-size: 12px; border-radius: 4px;">
                                                 <i class="fas <?= esc($event['icon'] ?? 'fa-circle') ?>"></i>
                                             </div>
                                             <div>
@@ -132,13 +132,13 @@
                         </table>
                     </div>
                     
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <button class="btn btn-sm btn-outline-secondary <?= $upcoming_current_page <= 1 ? 'disabled' : '' ?>" 
+                    <div class="   ">
+                        <button class="btn btn-sm btn btn-white btn-default <?= $upcoming_current_page <= 1 ? 'disabled' : '' ?>" 
                                 onclick="window.location.search = '?page_upcoming=<?= $upcoming_current_page - 1 ?>'">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         <span class="small text-muted">Page <?= $upcoming_current_page ?> of <?= $upcoming_total_pages ?></span>
-                        <button class="btn btn-sm btn-outline-secondary <?= $upcoming_current_page >= $upcoming_total_pages ? 'disabled' : '' ?>"
+                        <button class="btn btn-sm btn btn-white btn-default <?= $upcoming_current_page >= $upcoming_total_pages ? 'disabled' : '' ?>"
                                 onclick="window.location.search = '?page_upcoming=<?= $upcoming_current_page + 1 ?>'">
                             <i class="fas fa-chevron-right"></i>
                         </button>
@@ -147,8 +147,8 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card card-body">
-                    <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Distribution</h5>
+                <div class="widget-box card-body">
+                    <h5 class="space-3"><i class="fas fa-chart-pie pr-2"></i>Project Distribution</h5>
                     <div class="project-distribution">
                         <?php if (!empty($distribution)): ?>
                             <?php 
@@ -156,12 +156,12 @@
                             foreach ($distribution as $dist): 
                                 $percent = ($totalCount > 0) ? ($dist['count'] / $totalCount) * 100 : 0;
                             ?>
-                            <div class="distribution-item mt-3">
-                                <div class="d-flex justify-content-between">
+                            <div class="distribution-item ">
+                                <div class=" ">
                                     <span><?= esc($dist['name'] ?? 'General') ?></span>
                                     <span class="text-muted"><?= $dist['count'] ?> event<?= $dist['count'] == 1 ? '' : 's' ?></span>
                                 </div>
-                                <div class="progress mt-1" style="height: 6px;">
+                                <div class="progress " style="height: 6px;">
                                     <div class="progress-bar" style="width: <?= $percent ?>%; background-color: <?= $dist['color'] ?? '#6366f1' ?>;"></div>
                                 </div>
                             </div>
@@ -184,25 +184,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-calendar-plus me-2"></i>Add Event</h5>
+                    <h5 class="modal-title"><i class="fas fa-calendar-plus pr-2"></i>Add Event</h5>
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="eventForm" method="POST">
                         <?= csrf_field() ?>
                         <input type="hidden" id="eventId" name="id">
-                        <div class="mb-3">
+                        <div class="space-3">
                             <label for="eventTitle" class="form-label">Event Title *</label>
                             <input type="text" class="form-control" id="eventTitle" placeholder="Enter event title" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="space-3">
                             <label for="eventDescription" class="form-label">Description</label>
                             <textarea class="form-control" id="eventDescription" rows="2" placeholder="Describe the event..."></textarea>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row space-3">
                             <div class="col-md-6">
                                 <label for="eventProject" class="form-label">Project</label>
-                                <select class="form-select" id="eventProject" name="project_id">
+                                <select class="form-control" id="eventProject" name="project_id">
                                     <option value="">General / No Project</option>
                                     <?php if (!empty($projects)): ?>
                                         <?php foreach ($projects as $project): ?>
@@ -216,7 +216,7 @@
                                 <input type="date" class="form-control" id="eventDate" name="start_date" required>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row space-3">
                             <div class="col-md-6">
                                 <label for="eventStartTime" class="form-label">Start Time</label>
                                 <input type="time" class="form-control" id="eventStartTime" value="14:00">
@@ -226,9 +226,9 @@
                                 <input type="time" class="form-control" id="eventEndTime" name="end_time" value="16:00">
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="space-3">
                             <label for="eventStatus" class="form-label">Status</label>
-                            <select class="form-select" id="eventStatus">
+                            <select class="form-control" id="eventStatus">
                                 <option value="pending">Pending</option>
                                 <option value="in-progress">In Progress</option>
                                 <option value="completed">Completed</option>
@@ -256,14 +256,14 @@
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="detailsDesc" class="mb-3"></p>
-                    <div class="d-flex justify-content-between small text-muted mb-2">
-                        <span><i class="fas fa-clock me-1"></i> <span id="detailsTime"></span></span>
+                    <p id="detailsDesc" class="space-3"></p>
+                    <div class="  small text-muted space-2">
+                        <span><i class="fas fa-clock pr-1"></i> <span id="detailsTime"></span></span>
                         <span id="detailsType" class="badge"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" id="deleteEventBtn">Delete</button>
+                    <button type="button" class="btn btn btn-white btn-danger" id="deleteEventBtn">Delete</button>
                     <button type="button" class="btn btn-primary" id="editEventBtn">Edit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -295,8 +295,8 @@
                 eventContent: function(arg) {
                     let icon = arg.event.extendedProps.icon || 'fa-circle';
                     let arrayOfDomNodes = [
-                        $('<div>', { class: 'fc-event-main-inner d-flex align-items-center' })
-                            .append($('<i>', { class: 'fas ' + icon + ' me-1', style: 'font-size: 0.75rem;' }))
+                        $('<div>', { class: 'fc-event-main-inner  ' })
+                            .append($('<i>', { class: 'fas ' + icon + ' pr-1', style: 'font-size: 0.75rem;' }))
                             .append($('<span>', { class: 'fc-event-title text-truncate' }).text(arg.event.title))[0]
                     ];
                     return { domNodes: arrayOfDomNodes };
@@ -307,7 +307,7 @@
                     $('#eventId').val('');
                     $('#eventDate').val(info.startStr.split('T')[0]);
                     $('#eventForm').attr('action', '<?= site_url('calendar/event/store') ?>');
-                    $('#addEventModal .modal-title').html('<i class="fas fa-calendar-plus me-2"></i>Add Event');
+                    $('#addEventModal .modal-title').html('<i class="fas fa-calendar-plus pr-2"></i>Add Event');
                     $('#addEventModal').modal('show');
                 },
 
@@ -327,7 +327,7 @@
                             $('#eventDescription').val(props.description);
                             $('#eventDate').val(info.event.startStr.split('T')[0]);
                             $('#eventForm').attr('action', '<?= site_url('calendar/event/update/') ?>' + props.dbId);
-                            $('#addEventModal .modal-title').html('<i class="fas fa-edit me-2"></i>Edit Event');
+                            $('#addEventModal .modal-title').html('<i class="fas fa-edit pr-2"></i>Edit Event');
                             $('#addEventModal').modal('show');
                         });
 
@@ -407,12 +407,12 @@
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                        <div class="d-flex">
+                    <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                        <div class="">
                             <div class="toast-body">
                                 ${message}
                             </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                         </div>
                     </div>
                 `;

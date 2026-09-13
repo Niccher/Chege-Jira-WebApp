@@ -25,34 +25,34 @@ $avgDaily = round($totalHours / $daysLogged, 1);
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Project Details</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
-                <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-arrow-left me-1"></i> Back
-                </a> <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-warning btn-sm me-2">
-                    <i class="fas fa-edit me-1"></i> Edit
+            <div class="col-auto pull-right text-end mt-n1">
+                <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
+                    <i class="fas fa-arrow-left pr-1"></i> Back
+                </a> <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-warning btn-sm pr-2">
+                    <i class="fas fa-edit pr-1"></i> Edit
                 </a>
             </div>
         </div>
         <!-- Project Header (Compact) -->
-        <div class="row mb-3">
+        <div class="row space-3">
             <div class="col-lg-12">
-                <div class="card card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <div class="compact-avatar me-3" style="background-color: <?= esc($project['color'] ?? '#6366f1') ?>;">
+                <div class="widget-box card-body">
+                    <div class="  ">
+                        <div class=" ">
+                            <div class="compact-avatar pr-3" style="background-color: <?= esc($project['color'] ?? '#6366f1') ?>;">
                                 <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?>"></i>
                             </div>
                             <div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <h5 class="mb-0 me-2"><?= esc($project['name']) ?></h5>
+                                <div class="  space-1">
+                                    <h5 class="space-0 pr-2"><?= esc($project['name']) ?></h5>
                                     <span class="project-health health-good small"></span>
                                 </div>
-                                <p class="text-muted small mb-0"><?= esc($project['description']) ?></p>
-                                <div class="d-flex align-items-center gap-1 mt-1">
+                                <p class="text-muted small space-0"><?= esc($project['description']) ?></p>
+                                <div class="   ">
                                     <span class="badge bg-<?= $project['status'] === 'in_progress' ? 'success' : 'secondary' ?>"><?= ucfirst(str_replace('_', ' ', $project['status'])) ?></span>
                                     <span class="badge badge-primary"><?= ucfirst($project['priority']) ?> Priority</span>
                                     <?php foreach ($categories as $cat): ?>
@@ -62,9 +62,9 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                             </div>
                         </div>
                         <div class="text-end">
-                            <div class="h4 mb-0 text-success"><?= $project['progress'] ?>%</div>
+                            <div class="h4 space-0 text-success"><?= $project['progress'] ?>%</div>
                             <div class="small text-muted">Progress</div>
-                            <div class="progress mt-1" style="width: 100px; height: 4px;">
+                            <div class="progress " style="width: 100px; height: 4px;">
                                 <div class="progress-bar bg-success" style="width: <?= $project['progress'] ?>%"></div>
                             </div>
                         </div>
@@ -74,11 +74,11 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         </div>
 
         <!-- Quick Stats (Compact Grid) -->
-        <div class="row mb-3">
-            <div class="col-md-3 col-6 mb-2">
-                <div class="card card-body compact h-100">
-                    <div class="d-flex align-items-center">
-                        <div class="stat-icon-sm me-2" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
+        <div class="row space-3">
+            <div class="col-md-3 col-6 space-2">
+                <div class="widget-box card-body compact h-100">
+                    <div class=" ">
+                        <div class="stat-icon-sm pr-2" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
                             <i class="fas fa-calendar-plus"></i>
                         </div>
                         <div>
@@ -89,10 +89,10 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                 </div>
             </div>
 
-            <div class="col-md-3 col-6 mb-2">
-                <div class="card card-body compact h-100">
-                    <div class="d-flex align-items-center">
-                        <div class="stat-icon-sm me-2" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
+            <div class="col-md-3 col-6 space-2">
+                <div class="widget-box card-body compact h-100">
+                    <div class=" ">
+                        <div class="stat-icon-sm pr-2" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div>
@@ -103,10 +103,10 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                 </div>
             </div>
 
-            <div class="col-md-3 col-6 mb-2">
-                <div class="card card-body compact h-100">
-                    <div class="d-flex align-items-center">
-                        <div class="stat-icon-sm me-2" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
+            <div class="col-md-3 col-6 space-2">
+                <div class="widget-box card-body compact h-100">
+                    <div class=" ">
+                        <div class="stat-icon-sm pr-2" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div>
@@ -117,10 +117,10 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                 </div>
             </div>
 
-            <div class="col-md-3 col-6 mb-2">
-                <div class="card card-body compact h-100">
-                    <div class="d-flex align-items-center">
-                        <div class="stat-icon-sm me-2" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
+            <div class="col-md-3 col-6 space-2">
+                <div class="widget-box card-body compact h-100">
+                    <div class=" ">
+                        <div class="stat-icon-sm pr-2" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
                             <i class="fas fa-history"></i>
                         </div>
                         <div>
@@ -137,17 +137,17 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Left Column (Wider) -->
             <div class="col-lg-8">
                 <!-- Project Details (Expandable Sections) -->
-                <div class="card card-body compact mb-3">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Project Details</h6>
+                <div class="widget-box card-body compact space-3">
+                    <div class="   space-2">
+                        <h6 class="space-0"><i class="fas fa-info-circle pr-2"></i>Project Details</h6>
                         <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-sm btn-outline-warning">
-                            <i class="fas fa-edit me-1"></i> Edit
+                            <i class="fas fa-edit pr-1"></i> Edit
                         </a>
                     </div>
 
                     <!-- Basic Info Table -->
-                    <div class="table-responsive mb-3">
-                        <table class="table table-sm table-borderless mb-0">
+                    <div class="table-responsive space-3">
+                        <table class="table table-sm table-borderless space-0">
                             <tbody>
                             <tr>
                                 <td class="text-muted" style="width: 120px;">Status</td>
@@ -160,7 +160,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                 <td colspan="3">
                                     <?php if (!empty($project['repository_url'])): ?>
                                         <a href="<?= esc($project['repository_url']) ?>" target="_blank" class="small">
-                                            <i class="fab fa-github me-1"></i> <?= esc(parse_url($project['repository_url'], PHP_URL_HOST) . parse_url($project['repository_url'], PHP_URL_PATH)) ?>
+                                            <i class="fab fa-github pr-1"></i> <?= esc(parse_url($project['repository_url'], PHP_URL_HOST) . parse_url($project['repository_url'], PHP_URL_PATH)) ?>
                                         </a>
                                     <?php else: ?>
                                         <span class="text-muted small">No repository linked</span>
@@ -170,7 +170,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                             <tr>
                                 <td class="text-muted">Technology</td>
                                 <td colspan="3">
-                                    <div class="tech-tags d-flex flex-wrap gap-1">
+                                    <div class="tech-tags   ">
                                         <?php if (!empty($tech_stack)): ?>
                                             <?php foreach ($tech_stack as $tech): ?>
                                                 <span class="badge bg-dark"><?= esc($tech) ?></span>
@@ -185,7 +185,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                 <td class="text-muted">Categories</td>
                                 <td colspan="3">
                                     <?php foreach ($categories as $cat): ?>
-                                        <span class="badge badge-primary me-1"><?= ucfirst(str_replace('_', ' ', $cat)) ?></span>
+                                        <span class="badge badge-primary pr-1"><?= ucfirst(str_replace('_', ' ', $cat)) ?></span>
                                     <?php endforeach; ?>
                                 </td>
                             </tr>
@@ -199,7 +199,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#progressCollapse">
-                                    <i class="fas fa-tasks me-2"></i> Progress Breakdown
+                                    <i class="fas fa-tasks pr-2"></i> Progress Breakdown
                                 </button>
                             </h2>
                             <div id="progressCollapse" class="accordion-collapse collapse show" data-bs-parent="#projectDetailsAccordion">
@@ -209,7 +209,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                         <?php foreach ($milestones as $ms): ?>
                                         <div class="col-6">
                                             <div class="progress-item-compact">
-                                                <div class="d-flex justify-content-between small mb-1">
+                                                <div class="  small space-1">
                                                     <span><?= esc($ms['name']) ?></span>
                                                     <span class="text-<?= $ms['progress'] >= 80 ? 'success' : ($ms['progress'] >= 40 ? 'warning' : 'danger') ?>"><?= $ms['progress'] ?>%</span>
                                                 </div>
@@ -231,7 +231,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#milestonesCollapse">
-                                    <i class="fas fa-flag-checkered me-2"></i> Milestones 
+                                    <i class="fas fa-flag-checkered pr-2"></i> Milestones 
                                     <span class="badge badge-success ms-2 small">
                                         <?= count(array_filter($milestones, fn($ms) => $ms['status'] === 'completed')) ?>/<?= count($milestones) ?>
                                     </span>
@@ -240,7 +240,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                             <div id="milestonesCollapse" class="accordion-collapse collapse show" data-bs-parent="#projectDetailsAccordion">
                                 <div class="accordion-body">
                                     <div class="table-responsive">
-                                        <table class="table table-sm table-borderless mb-0">
+                                        <table class="table table-sm table-borderless space-0">
                                             <thead>
                                             <tr>
                                                 <th class="small text-muted" style="width: 30px;">Status</th>
@@ -284,23 +284,23 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#notesCollapse">
-                                    <i class="fas fa-sticky-note me-2"></i> Notes & Observations
+                                    <i class="fas fa-sticky-note pr-2"></i> Notes & Observations
                                 </button>
                             </h2>
                             <div id="notesCollapse" class="accordion-collapse collapse show" data-bs-parent="#projectDetailsAccordion">
                                 <div class="accordion-body">
-                                    <button class="btn btn-sm btn-outline-primary mb-2 w-100" id="addNoteBtn">
-                                        <i class="fas fa-plus me-1"></i> Add Note
+                                    <button class="btn btn-sm btn btn-white btn-primary space-2 w-100" id="addNoteBtn">
+                                        <i class="fas fa-plus pr-1"></i> Add Note
                                     </button>
                                     <div class="notes-list-compact">
                                         <?php if (!empty($project_notes)): ?>
                                             <?php foreach ($project_notes as $note): ?>
                                             <div class="note-item-compact <?= !empty($note['is_blocker']) ? 'blocker' : '' ?>">
-                                                <div class="d-flex justify-content-between align-items-start">
+                                                <div class="  align-items-start">
                                                     <div class="small"><strong><?= esc($note['title'] ?? 'Note') ?></strong></div>
                                                     <div class="text-muted small"><?= !empty($note['created_at']) ? timeAgo($note['created_at']) : '' ?></div>
                                                 </div>
-                                                <p class="small text-muted mb-1"><?= esc($note['content'] ?? $note['description'] ?? '') ?></p>
+                                                <p class="small text-muted space-1"><?= esc($note['content'] ?? $note['description'] ?? '') ?></p>
                                                 <?php if (!empty($note['is_blocker'])): ?><span class="badge badge-danger small">Blocker</span><?php endif; ?>
                                             </div>
                                             <?php endforeach; ?>
@@ -316,12 +316,12 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#descriptionCollapse">
-                                    <i class="fas fa-align-left me-2"></i> Description
+                                    <i class="fas fa-align-left pr-2"></i> Description
                                 </button>
                             </h2>
                             <div id="descriptionCollapse" class="accordion-collapse collapse show" data-bs-parent="#projectDetailsAccordion">
                                 <div class="accordion-body">
-                                    <p class="small text-muted mb-0">
+                                    <p class="small text-muted space-0">
                                         <?= nl2br(esc($project['description'])) ?>
                                     </p>
                                 </div>
@@ -334,27 +334,27 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Right Column (Compact) -->
             <div class="col-lg-4">
                 <!-- Quick Actions & Info -->
-                <div class="card card-body compact">
-                    <h6 class="mb-2"><i class="fas fa-bolt me-2"></i>Quick Actions</h6>
-                    <div class="row g-2 mb-3">
+                <div class="widget-box card-body compact">
+                    <h6 class="space-2"><i class="fas fa-bolt pr-2"></i>Quick Actions</h6>
+                    <div class="row g-2 space-3">
                         <div class="col-6">
                             <a href="<?= site_url('time?project_id=' . $project['id']) ?>" class="btn btn-sm btn-primary w-100">
-                                <i class="fas fa-clock me-1"></i> Time
+                                <i class="fas fa-clock pr-1"></i> Time
                             </a>
                         </div>
                         <div class="col-6">
                             <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-sm btn-info w-100">
-                                <i class="fas fa-columns me-1"></i> Tasks
+                                <i class="fas fa-columns pr-1"></i> Tasks
                             </a>
                         </div>
                         <div class="col-6">
                             <a href="<?= site_url('projects/analytics/' . $project['id']) ?>" class="btn btn-sm btn-outline-success w-100">
-                                <i class="fas fa-chart-line me-1"></i> Analytics
+                                <i class="fas fa-chart-line pr-1"></i> Analytics
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="<?= site_url('projects/archive/' . $project['id']) ?>" class="btn btn-sm btn-outline-danger w-100">
-                                <i class="fas fa-archive me-1"></i> Archive
+                            <a href="<?= site_url('projects/archive/' . $project['id']) ?>" class="btn btn-sm btn btn-white btn-danger w-100">
+                                <i class="fas fa-archive pr-1"></i> Archive
                             </a>
                         </div>
                     </div>
@@ -365,25 +365,25 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#timeCollapse">
-                                    <i class="fas fa-chart-pie me-2"></i> Time Summary
+                                    <i class="fas fa-chart-pie pr-2"></i> Time Summary
                                 </button>
                             </h2>
                             <div id="timeCollapse" class="accordion-collapse collapse show" data-bs-parent="#quickInfoAccordion">
                                 <div class="accordion-body">
                                     <div class="time-summary-compact">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <div class="   space-1">
                                             <span class="small">This Week</span>
                                             <span class="small text-success"><?= $weekHours ?>h</span>
                                         </div>
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <div class="   space-1">
                                             <span class="small">This Month</span>
                                             <span class="small text-primary"><?= $monthHours ?>h</span>
                                         </div>
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <div class="   space-1">
                                             <span class="small">Total</span>
                                             <span class="small text-warning"><?= $totalHours ?>h</span>
                                         </div>
-                                        <div class="d-flex justify-content-between align-items-center">
+                                        <div class="  ">
                                             <span class="small">Avg Daily</span>
                                             <span class="small text-info"><?= $avgDaily ?>h</span>
                                         </div>
@@ -396,7 +396,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-toggle="collapse" data-target="#activityCollapse">
-                                    <i class="fas fa-history me-2"></i> Recent Activity
+                                    <i class="fas fa-history pr-2"></i> Recent Activity
                                 </button>
                             </h2>
                             <div id="activityCollapse" class="accordion-collapse collapse show" data-bs-parent="#quickInfoAccordion">
@@ -430,19 +430,19 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h6 class="modal-title mb-0"><i class="fas fa-sticky-note me-2"></i>Add Note</h6>
+                    <h6 class="modal-title space-0"><i class="fas fa-sticky-note pr-2"></i>Add Note</h6>
                     <button type="button" class="btn-close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addNoteForm" action="<?= site_url('notes/store') ?>" method="POST">
                         <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
-                        <div class="mb-2">
+                        <div class="space-2">
                             <input type="text" name="title" class="form-control form-control-sm" placeholder="Title (optional)">
                         </div>
-                        <div class="mb-2">
+                        <div class="space-2">
                             <textarea name="content" class="form-control form-control-sm" rows="3" placeholder="Note content..."></textarea>
                         </div>
-                        <div class="mb-2">
+                        <div class="space-2">
                             <div class="form-check form-check-sm">
                                 <input class="form-check-input" type="checkbox" name="is_blocker" id="markBlocker">
                                 <label class="form-check-label" for="markBlocker">
@@ -494,11 +494,11 @@ $avgDaily = round($totalHours / $daysLogged, 1);
 
                         const noteHtml = `
                             <div class="note-item-compact ${isBlocker ? 'blocker' : ''}">
-                                <div class="d-flex justify-content-between align-items-start">
+                                <div class="  align-items-start">
                                     <div class="small"><strong>${title}</strong></div>
                                     <div class="text-muted small">Just now</div>
                                 </div>
-                                <p class="small text-muted mb-1">${noteContent}</p>
+                                <p class="small text-muted space-1">${noteContent}</p>
                                 ${isBlocker ? '<span class="badge badge-danger small">Blocker</span>' : ''}
                             </div>
                         `;
@@ -518,12 +518,12 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                        <div class="d-flex">
+                    <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                        <div class="">
                             <div class="toast-body">
                                 ${message}
                             </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                         </div>
                     </div>
                 `;

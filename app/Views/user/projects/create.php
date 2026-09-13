@@ -5,22 +5,22 @@
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>New Project</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
-                <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-arrow-left me-1"></i> Back
+            <div class="col-auto pull-right text-end mt-n1">
+                <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
+                    <i class="fas fa-arrow-left pr-1"></i> Back
                 </a>
             </div>
         </div>
         <!-- Project Creation Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="card card-body">
-                    <div class="mb-4">
-                        <h5 class="mb-2"><i class="fas fa-plus-circle me-2 text-primary"></i>Create New Coding Project</h5>
+                <div class="widget-box card-body">
+                    <div class="space-4">
+                        <h5 class="space-2"><i class="fas fa-plus-circle pr-2 text-primary"></i>Create New Coding Project</h5>
                         <p class="text-muted small">Track your development projects with detailed information</p>
                     </div>
 
@@ -28,14 +28,14 @@
                         <?= csrf_field() ?>
 
                         <!-- Basic Information -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-info-circle me-2"></i>Basic Information</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-info-circle pr-2"></i>Basic Information</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <!-- Project Name -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectName" class="form-label">
                                     Project Name <span class="text-danger">*</span>
                                 </label>
@@ -49,30 +49,30 @@
                             </div>
 
                             <!-- Short Description -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectDescription" class="form-label">
                                     Description / Goal <span class="text-danger">*</span>
                                 </label>
                                 <textarea class="form-control" id="projectDescription" name="description" rows="3"
                                           placeholder="What are you building? What problem does it solve?"
                                           required></textarea>
-                                <div class="form-text d-flex justify-content-between">
+                                <div class="form-text  ">
                                     <span>Briefly describe the project's purpose</span>
                                     <span id="descCounter">0/500</span>
                                 </div>
                             </div>
 
                             <!-- Technology Stack -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectTech" class="form-label">Technology Stack</label>
                                 <div class="tech-select-container">
-                                    <div class="selected-tech d-flex flex-wrap gap-2 mb-2" id="selectedTech">
+                                    <div class="selected-tech    space-2" id="selectedTech">
                                         <!-- Selected tech tags will appear here -->
                                     </div>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="techInput"
                                                placeholder="Type to add technologies (PHP, React, MySQL, etc.)">
-                                        <button class="btn btn-outline-secondary" type="button" id="addTech">
+                                        <button class="btn btn btn-white btn-default" type="button" id="addTech">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -83,19 +83,19 @@
                         </div>
 
                         <!-- Project Details -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-cog me-2"></i>Project Details</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-cog pr-2"></i>Project Details</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <div class="row">
                                 <!-- Status & Priority -->
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectStatus" class="form-label">
                                         Status <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="projectStatus" name="status" required>
+                                    <select class="form-control" id="projectStatus" name="status" required>
                                         <option value="">Select Status</option>
                                         <option value="planning">📋 Planning</option>
                                         <option value="in_progress" selected>🚀 In Progress</option>
@@ -106,11 +106,11 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectPriority" class="form-label">
                                         Priority <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="projectPriority" name="priority" required>
+                                    <select class="form-control" id="projectPriority" name="priority" required>
                                         <option value="">Select Priority</option>
                                         <option value="low">🟢 Low</option>
                                         <option value="medium" selected>🟡 Medium</option>
@@ -122,7 +122,7 @@
 
                             <!-- Dates -->
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectStartDate" class="form-label">Start Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar-plus"></i></span>
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectDueDate" class="form-label">Target Completion</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
@@ -142,20 +142,20 @@
                             </div>
 
                             <!-- Progress -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectProgress" class="form-label">
                                     Current Progress <span id="progressValue" class="badge badge-primary">0%</span>
                                 </label>
                                 <input type="range" class="form-range" id="projectProgress" name="progress"
                                        min="0" max="100" value="0" step="5">
-                                <div class="d-flex justify-content-between small text-muted">
+                                <div class="  small text-muted">
                                     <span>Not Started</span>
                                     <span>Complete</span>
                                 </div>
                             </div>
 
                             <!-- Repository -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectRepo" class="form-label">Repository URL</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fab fa-github"></i></span>
@@ -166,10 +166,10 @@
                             </div>
 
                             <!-- Categories/Tags -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectCategories" class="form-label">Project Categories</label>
                                 <div class="categories-container">
-                                    <div class="category-pills d-flex flex-wrap gap-2 mb-2">
+                                    <div class="category-pills    space-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="web_app" id="catWeb">
                                             <label class="form-check-label badge badge-primary" for="catWeb">
@@ -213,15 +213,15 @@
                         </div>
 
                         <!-- Milestones -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-flag-checkered me-2"></i>Project Milestones</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-flag-checkered pr-2"></i>Project Milestones</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <div id="milestonesContainer">
-                                <div class="milestone-entry card mb-3">
-                                    <div class="card-body">
+                                <div class="milestone-entry card space-3">
+                                    <div class="widget-box-body">
                                         <div class="row g-3">
                                             <div class="col-md-5">
                                                 <input type="text" class="form-control" placeholder="Milestone name"
@@ -232,7 +232,7 @@
                                                        name="milestones[0][due_date]">
                                             </div>
                                             <div class="col-md-3">
-                                                <select class="form-select" name="milestones[0][status]">
+                                                <select class="form-control" name="milestones[0][status]">
                                                     <option value="pending">Pending</option>
                                                     <option value="in_progress">In Progress</option>
                                                     <option value="completed">Completed</option>
@@ -247,32 +247,32 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="addMilestone">
-                                <i class="fas fa-plus me-1"></i> Add Another Milestone
+                            <button type="button" class="btn btn btn-white btn-default btn-sm" id="addMilestone">
+                                <i class="fas fa-plus pr-1"></i> Add Another Milestone
                             </button>
                             <div class="form-text">Break down your project into manageable milestones</div>
                         </div>
 
                         <!-- Notes & Observations -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-sticky-note me-2"></i>Notes & Observations</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-sticky-note pr-2"></i>Notes & Observations</h6>
                                 <div class="section-line"></div>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectNotes" class="form-label">Initial Notes</label>
                                 <textarea class="form-control" id="projectNotes" name="notes" rows="4"
                                           placeholder="Add any initial thoughts, blockers, or learning goals..."></textarea>
                                 <div class="form-text">Use this space to track challenges, lessons learned, or project-specific notes</div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="space-3">
                                 <label class="form-label">Known Blockers</label>
                                 <div class="blockers-container">
-                                    <div class="input-group mb-2">
+                                    <div class="input-group space-2">
                                         <input type="text" class="form-control blocker-input" placeholder="Add a blocker">
-                                        <button class="btn btn-outline-danger" type="button" id="addBlocker">
+                                        <button class="btn btn btn-white btn-danger" type="button" id="addBlocker">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -283,36 +283,36 @@
                         </div>
 
                         <!-- Form Actions -->
-                        <div class="d-flex justify-content-between align-items-center pt-4 border-top">
-                            <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary">
-                                <i class="fas fa-times me-1"></i> Cancel
+                        <div class="   pt-4 border-top">
+                            <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default">
+                                <i class="fas fa-times pr-1"></i> Cancel
                             </a>
                             <div>
-                                <button type="button" class="btn btn-outline-primary me-2" id="saveDraftBtn">
-                                    <i class="fas fa-save me-1"></i> Save Draft
+                                <button type="button" class="btn btn btn-white btn-primary pr-2" id="saveDraftBtn">
+                                    <i class="fas fa-save pr-1"></i> Save Draft
                                 </button>
                                 <button type="submit" class="btn btn-primary" id="createProjectBtn">
-                                    <i class="fas fa-rocket me-1"></i> Create Project
+                                    <i class="fas fa-rocket pr-1"></i> Create Project
                                 </button>
                             </div>
                         </div>
 
                         <!-- Quick Tips -->
-                        <div class="card card-body mt-4">
-                            <h6 class="mb-3"><i class="fas fa-lightbulb me-2 text-warning"></i>Quick Tips</h6>
+                        <div class="widget-box card-body ">
+                            <h6 class="space-3"><i class="fas fa-lightbulb pr-2 text-warning"></i>Quick Tips</h6>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="d-flex mb-3">
+                                    <div class=" space-3">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <i class="fas fa-check-circle text-success pr-2"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <small><strong>Set realistic milestones</strong> - Break large projects into smaller, achievable goals</small>
                                         </div>
                                     </div>
-                                    <div class="d-flex mb-3">
+                                    <div class=" space-3">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <i class="fas fa-check-circle text-success pr-2"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <small><strong>Track blockers early</strong> - Identify potential challenges before they delay your project</small>
@@ -320,17 +320,17 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="d-flex mb-3">
+                                    <div class=" space-3">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <i class="fas fa-check-circle text-success pr-2"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <small><strong>Link your repository</strong> - Connect to GitHub/GitLab for automatic activity tracking</small>
                                         </div>
                                     </div>
-                                    <div class="d-flex">
+                                    <div class="">
                                         <div class="flex-shrink-0">
-                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <i class="fas fa-check-circle text-success pr-2"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <small><strong>Update progress regularly</strong> - Keep your project status current for accurate insights</small>
@@ -436,8 +436,8 @@
             let milestoneCount = 1;
             $('#addMilestone').click(function() {
                 const template = `
-                    <div class="milestone-entry card mb-3">
-                        <div class="card-body">
+                    <div class="milestone-entry card space-3">
+                        <div class="widget-box-body">
                             <div class="row g-3">
                                 <div class="col-md-5">
                                     <input type="text" class="form-control" placeholder="Milestone name"
@@ -448,7 +448,7 @@
                                            name="milestones[${milestoneCount}][due_date]">
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" name="milestones[${milestoneCount}][status]">
+                                    <select class="form-control" name="milestones[${milestoneCount}][status]">
                                         <option value="pending">Pending</option>
                                         <option value="in_progress">In Progress</option>
                                         <option value="completed">Completed</option>
@@ -459,8 +459,8 @@
                                               name="milestones[${milestoneCount}][description]"></textarea>
                                 </div>
                                 <div class="col-12 text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-danger remove-milestone">
-                                        <i class="fas fa-trash me-1"></i> Remove
+                                    <button type="button" class="btn btn-sm btn btn-white btn-danger remove-milestone">
+                                        <i class="fas fa-trash pr-1"></i> Remove
                                     </button>
                                 </div>
                             </div>
@@ -529,7 +529,7 @@
                 }
 
                 // Show loading state
-                $('#createProjectBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Creating...');
+                $('#createProjectBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin pr-1"></i> Creating...');
             });
 
             // Save draft
@@ -547,12 +547,12 @@
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                        <div class="d-flex">
+                    <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                        <div class="">
                             <div class="toast-body">
                                 ${message}
                             </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                         </div>
                     </div>
                 `;

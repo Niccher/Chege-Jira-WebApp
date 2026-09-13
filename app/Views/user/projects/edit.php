@@ -5,38 +5,38 @@
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Edit Project</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
-                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-eye me-1"></i> View
-                </a> <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary btn-sm me-2">
-                    <i class="fas fa-arrow-left me-1"></i> All Projects
+            <div class="col-auto pull-right text-end mt-n1">
+                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn btn-white btn-default btn-sm pr-2">
+                    <i class="fas fa-eye pr-1"></i> View
+                </a> <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
+                    <i class="fas fa-arrow-left pr-1"></i> All Projects
                 </a>
             </div>
         </div>
         <!-- Project Header -->
-        <div class="row mb-4">
+        <div class="row space-4">
             <div class="col-lg-12">
-                <div class="card card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <div class="user-avatar me-3" style="width: 48px; height: 48px; background-color: <?= esc($project['color'] ?? '#6366f1') ?>; font-size: 20px;">
+                <div class="widget-box card-body">
+                    <div class="  ">
+                        <div class=" ">
+                            <div class="user-avatar pr-3" style="width: 48px; height: 48px; background-color: <?= esc($project['color'] ?? '#6366f1') ?>; font-size: 20px;">
                                 <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?>"></i>
                             </div>
                             <div>
-                                <h5 class="mb-1"><?= esc($project['name']) ?></h5>
-                                <p class="text-muted small mb-0">Last updated: <?= date('M d, H:i', strtotime($project['updated_at'])) ?></p>
+                                <h5 class="space-1"><?= esc($project['name']) ?></h5>
+                                <p class="text-muted small space-0">Last updated: <?= date('M d, H:i', strtotime($project['updated_at'])) ?></p>
                             </div>
                         </div>
-                        <div class="d-flex gap-2">
-                            <a href="<?= site_url('projects/time/' . $project['id']) ?>" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-clock me-1"></i> Track Time
+                        <div class=" ">
+                            <a href="<?= site_url('projects/time/' . $project['id']) ?>" class="btn btn btn-white btn-primary btn-sm">
+                                <i class="fas fa-clock pr-1"></i> Track Time
                             </a>
                             <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-outline-info btn-sm">
-                                <i class="fas fa-columns me-1"></i> Kanban
+                                <i class="fas fa-columns pr-1"></i> Kanban
                             </a>
                         </div>
                     </div>
@@ -47,9 +47,9 @@
         <!-- Project Edit Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="card card-body">
-                    <div class="mb-4">
-                        <h5 class="mb-2"><i class="fas fa-edit me-2 text-warning"></i>Update Project Details</h5>
+                <div class="widget-box card-body">
+                    <div class="space-4">
+                        <h5 class="space-2"><i class="fas fa-edit pr-2 text-warning"></i>Update Project Details</h5>
                         <p class="text-muted small">Current progress: <strong class="text-success">75% complete</strong></p>
                     </div>
 
@@ -58,14 +58,14 @@
                         <input type="hidden" name="id" value="<?= $project['id'] ?>">
 
                         <!-- Basic Information -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-info-circle me-2"></i>Basic Information</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-info-circle pr-2"></i>Basic Information</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <!-- Project Name -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectName" class="form-label">
                                     Project Name <span class="text-danger">*</span>
                                 </label>
@@ -77,23 +77,23 @@
                             </div>
 
                             <!-- Short Description -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectDescription" class="form-label">
                                     Description / Goal <span class="text-danger">*</span>
                                 </label>
                                 <textarea class="form-control" id="projectDescription" name="description" rows="3"
                                           required><?= esc($project['description']) ?></textarea>
-                                <div class="form-text d-flex justify-content-between">
+                                <div class="form-text  ">
                                     <span>Briefly describe the project's purpose</span>
                                     <span id="descCounter">142/500</span>
                                 </div>
                             </div>
 
                             <!-- Technology Stack -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectTech" class="form-label">Technology Stack</label>
                                 <div class="tech-select-container">
-                                    <div class="selected-tech d-flex flex-wrap gap-2 mb-2" id="selectedTech">
+                                    <div class="selected-tech    space-2" id="selectedTech">
                                         <?php if (!empty($tech_stack)): ?>
                                             <?php foreach ($tech_stack as $tech): ?>
                                             <div class="tech-tag">
@@ -106,7 +106,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="techInput"
                                                placeholder="Add another technology...">
-                                        <button class="btn btn-outline-secondary" type="button" id="addTech">
+                                        <button class="btn btn btn-white btn-default" type="button" id="addTech">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -116,19 +116,19 @@
                         </div>
 
                         <!-- Project Details -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-cog me-2"></i>Project Details</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-cog pr-2"></i>Project Details</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <div class="row">
                                 <!-- Status & Priority -->
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectStatus" class="form-label">
                                         Status <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="projectStatus" name="status" required>
+                                    <select class="form-control" id="projectStatus" name="status" required>
                                         <option value="planning" <?= $project['status'] === 'planning' ? 'selected' : '' ?>>📋 Planning</option>
                                         <option value="in_progress" <?= $project['status'] === 'in_progress' ? 'selected' : '' ?>>🚀 In Progress</option>
                                         <option value="testing" <?= $project['status'] === 'testing' ? 'selected' : '' ?>>🧪 Testing</option>
@@ -138,11 +138,11 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectPriority" class="form-label">
                                         Priority <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="projectPriority" name="priority" required>
+                                    <select class="form-control" id="projectPriority" name="priority" required>
                                         <option value="low" <?= $project['priority'] === 'low' ? 'selected' : '' ?>>🟢 Low</option>
                                         <option value="medium" <?= $project['priority'] === 'medium' ? 'selected' : '' ?>>🟡 Medium</option>
                                         <option value="high" <?= $project['priority'] === 'high' ? 'selected' : '' ?>>🟠 High</option>
@@ -153,7 +153,7 @@
 
                             <!-- Dates -->
                             <div class="row">
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectStartDate" class="form-label">Start Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar-plus"></i></span>
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-6 space-4">
                                     <label for="projectDueDate" class="form-label">Target Completion</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
@@ -176,20 +176,20 @@
                             </div>
 
                             <!-- Progress -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectProgress" class="form-label">
                                     Current Progress <span id="progressValue" class="badge badge-success"><?= $project['progress'] ?>%</span>
                                 </label>
                                 <input type="range" class="form-range" id="projectProgress" name="progress"
                                        min="0" max="100" value="<?= $project['progress'] ?>" step="5">
-                                <div class="d-flex justify-content-between small text-muted">
+                                <div class="  small text-muted">
                                     <span>Not Started</span>
                                     <span>Complete</span>
                                 </div>
                             </div>
 
                             <!-- Repository -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectRepo" class="form-label">Repository URL</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fab fa-github"></i></span>
@@ -199,17 +199,17 @@
                                 <?php if (!empty($project['repository_url'])): ?>
                                 <div class="form-text">
                                     <a href="<?= esc($project['repository_url']) ?>" target="_blank" class="small">
-                                        <i class="fas fa-external-link-alt me-1"></i> View Repository
+                                        <i class="fas fa-external-link-alt pr-1"></i> View Repository
                                     </a>
                                 </div>
                                 <?php endif; ?>
                             </div>
 
                             <!-- Categories/Tags -->
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectCategories" class="form-label">Project Categories</label>
                                 <div class="categories-container">
-                                    <div class="category-pills d-flex flex-wrap gap-2 mb-2">
+                                    <div class="category-pills    space-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="web_app" id="catWeb" <?= in_array('web_app', $categories) ? 'checked' : '' ?>>
                                             <label class="form-check-label badge badge-primary" for="catWeb">Web Application</label>
@@ -241,17 +241,17 @@
                         </div>
 
                         <!-- Milestones -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-flag-checkered me-2"></i>Project Milestones</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-flag-checkered pr-2"></i>Project Milestones</h6>
                                 <div class="section-line"></div>
                             </div>
 
                             <div id="milestonesContainer">
                                 <?php if (!empty($milestones)): ?>
                                     <?php foreach ($milestones as $index => $ms): ?>
-                                    <div class="milestone-entry card mb-3">
-                                        <div class="card-body">
+                                    <div class="milestone-entry card space-3">
+                                        <div class="widget-box-body">
                                             <div class="row g-3">
                                                 <div class="col-md-5">
                                                     <input type="text" class="form-control" value="<?= esc($ms['name']) ?>"
@@ -262,7 +262,7 @@
                                                            name="milestones[<?= $index ?>][due_date]">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <select class="form-select" name="milestones[<?= $index ?>][status]">
+                                                    <select class="form-control" name="milestones[<?= $index ?>][status]">
                                                         <option value="pending" <?= $ms['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
                                                         <option value="in_progress" <?= $ms['status'] === 'in_progress' ? 'selected' : '' ?>>In Progress</option>
                                                         <option value="completed" <?= $ms['status'] === 'completed' ? 'selected' : '' ?>>Completed</option>
@@ -272,8 +272,8 @@
                                                     <textarea class="form-control" rows="2" name="milestones[<?= $index ?>][description]"><?= esc($ms['description']) ?></textarea>
                                                 </div>
                                                 <div class="col-12 text-end">
-                                                    <button type="button" class="btn btn-sm btn-outline-danger remove-milestone">
-                                                        <i class="fas fa-trash me-1"></i> Remove
+                                                    <button type="button" class="btn btn-sm btn btn-white btn-danger remove-milestone">
+                                                        <i class="fas fa-trash pr-1"></i> Remove
                                                     </button>
                                                 </div>
                                             </div>
@@ -283,19 +283,19 @@
                                 <?php endif; ?>
                             </div>
 
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="addMilestone">
-                                <i class="fas fa-plus me-1"></i> Add Another Milestone
+                            <button type="button" class="btn btn btn-white btn-default btn-sm" id="addMilestone">
+                                <i class="fas fa-plus pr-1"></i> Add Another Milestone
                             </button>
                         </div>
 
                         <!-- Notes & Observations -->
-                        <div class="form-section mb-5">
-                            <div class="section-header mb-3">
-                                <h6><i class="fas fa-sticky-note me-2"></i>Notes & Observations</h6>
+                        <div class="form-section space-5">
+                            <div class="section-header space-3">
+                                <h6><i class="fas fa-sticky-note pr-2"></i>Notes & Observations</h6>
                                 <div class="section-line"></div>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="space-4">
                                 <label for="projectNotes" class="form-label">Project Notes</label>
                                 <textarea class="form-control" id="projectNotes" name="notes" rows="4">- Need to improve mobile responsiveness
 - Consider adding dark/light theme toggle
@@ -304,12 +304,12 @@
                                 <div class="form-text">Track challenges, lessons learned, or project-specific notes</div>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="space-3">
                                 <label class="form-label">Current Blockers</label>
                                 <div class="blockers-container">
-                                    <div class="input-group mb-2">
+                                    <div class="input-group space-2">
                                         <input type="text" class="form-control blocker-input" placeholder="Add a new blocker">
-                                        <button class="btn btn-outline-danger" type="button" id="addBlocker">
+                                        <button class="btn btn btn-white btn-danger" type="button" id="addBlocker">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </div>
@@ -333,42 +333,42 @@
                         </div>
 
                         <!-- Form Actions -->
-                        <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                        <div class="   pt-4 border-top">
                             <div>
-                                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-secondary">
-                                    <i class="fas fa-times me-1"></i> Cancel
+                                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn btn-white btn-default">
+                                    <i class="fas fa-times pr-1"></i> Cancel
                                 </a>
-                                <button type="button" class="btn btn-outline-danger ms-2" id="deleteProjectBtn">
-                                    <i class="fas fa-trash me-1"></i> Delete Project
+                                <button type="button" class="btn btn btn-white btn-danger ms-2" id="deleteProjectBtn">
+                                    <i class="fas fa-trash pr-1"></i> Delete Project
                                 </button>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-outline-primary me-2" id="saveDraftBtn">
-                                    <i class="fas fa-save me-1"></i> Save Changes
+                                <button type="button" class="btn btn btn-white btn-primary pr-2" id="saveDraftBtn">
+                                    <i class="fas fa-save pr-1"></i> Save Changes
                                 </button>
                                 <button type="submit" class="btn btn-warning" id="updateProjectBtn">
-                                    <i class="fas fa-check me-1"></i> Update Project
+                                    <i class="fas fa-check pr-1"></i> Update Project
                                 </button>
                             </div>
                         </div>
 
                         <!-- Change History -->
-                        <div class="card card-body mt-4">
-                            <h6 class="mb-3"><i class="fas fa-history me-2 text-info"></i>Recent Changes</h6>
+                        <div class="widget-box card-body ">
+                            <h6 class="space-3"><i class="fas fa-history pr-2 text-info"></i>Recent Changes</h6>
                             <div class="timeline small">
-                                <div class="d-flex mb-2">
+                                <div class=" space-2">
                                     <div class="text-muted" style="min-width: 120px;">2 hours ago</div>
                                     <div>Updated progress from 65% to 75%</div>
                                 </div>
-                                <div class="d-flex mb-2">
+                                <div class=" space-2">
                                     <div class="text-muted" style="min-width: 120px;">1 day ago</div>
                                     <div>Added "Project Setup" milestone</div>
                                 </div>
-                                <div class="d-flex mb-2">
+                                <div class=" space-2">
                                     <div class="text-muted" style="min-width: 120px;">3 days ago</div>
                                     <div>Changed priority from Medium to High</div>
                                 </div>
-                                <div class="d-flex">
+                                <div class="">
                                     <div class="text-muted" style="min-width: 120px;">Jan 15, 2024</div>
                                     <div>Project created</div>
                                 </div>
@@ -392,26 +392,26 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion</h5>
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle pr-2"></i>Confirm Deletion</h5>
                     <button type="button" class="btn-close btn-close-white" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete <strong>"<?= esc($project['name']) ?>"</strong>?</p>
                     <div class="alert alert-warning small">
-                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <i class="fas fa-exclamation-circle pr-2"></i>
                         This will permanently delete all project data, including:
-                        <ul class="mb-0 mt-1">
+                        <ul class="space-0 ">
                             <li>All time tracking entries</li>
                             <li>Task history and milestones</li>
                             <li>Project notes and attachments</li>
                         </ul>
                     </div>
-                    <p class="text-danger mb-0"><strong>This action cannot be undone!</strong></p>
+                    <p class="text-danger space-0"><strong>This action cannot be undone!</strong></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                        <i class="fas fa-trash me-1"></i> Delete Project
+                        <i class="fas fa-trash pr-1"></i> Delete Project
                     </button>
                 </div>
             </div>
@@ -507,8 +507,8 @@
             let milestoneCount = <?= count($milestones) ?>;
             $('#addMilestone').click(function() {
                 const template = `
-                    <div class="milestone-entry card mb-3">
-                        <div class="card-body">
+                    <div class="milestone-entry card space-3">
+                        <div class="widget-box-body">
                             <div class="row g-3">
                                 <div class="col-md-5">
                                     <input type="text" class="form-control" placeholder="Milestone name"
@@ -519,7 +519,7 @@
                                            name="milestones[${milestoneCount}][due_date]">
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" name="milestones[${milestoneCount}][status]">
+                                    <select class="form-control" name="milestones[${milestoneCount}][status]">
                                         <option value="pending">Pending</option>
                                         <option value="in_progress">In Progress</option>
                                         <option value="completed">Completed</option>
@@ -530,8 +530,8 @@
                                               name="milestones[${milestoneCount}][description]"></textarea>
                                 </div>
                                 <div class="col-12 text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-danger remove-milestone">
-                                        <i class="fas fa-trash me-1"></i> Remove
+                                    <button type="button" class="btn btn-sm btn btn-white btn-danger remove-milestone">
+                                        <i class="fas fa-trash pr-1"></i> Remove
                                     </button>
                                 </div>
                             </div>
@@ -606,7 +606,7 @@
                 }
 
                 // Show loading state
-                $('#updateProjectBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Updating...');
+                $('#updateProjectBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin pr-1"></i> Updating...');
             });
 
             // Save changes
@@ -618,12 +618,12 @@
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                        <div class="d-flex">
+                    <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                        <div class="">
                             <div class="toast-body">
                                 ${message}
                             </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                            <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                         </div>
                     </div>
                 `;

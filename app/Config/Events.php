@@ -53,3 +53,10 @@ Events::on('pre_system', static function (): void {
         }
     }
 });
+
+/*
+ * --------------------------------------------------------------------
+ * Shield Custom Events
+ * --------------------------------------------------------------------
+ */
+Events::on('register', ['App\Listeners\UserEvents', 'onUserRegistered']);

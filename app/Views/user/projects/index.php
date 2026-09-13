@@ -68,30 +68,30 @@
         <!-- Projects Tabs Section -->
         <div class="widget-box">
             <!-- Tabs Navigation -->
-            <ul class="nav nav-tabs mb-4" id="projectsTab" role="tablist">
+            <ul class="nav nav-tabs space-4" id="projectsTab" role="tablist">
                 <li class="">
                     <button class="active" id="all-tab" data-toggle="tab" data-target="#all" type="button" role="tab">
-                        <i class="fas fa-list me-1"></i> All Projects <span class="badge badge-default ms-1"><?= $stats['total'] ?></span>
+                        <i class="fas fa-list pr-1"></i> All Projects <span class="badge badge-default ms-1"><?= $stats['total'] ?></span>
                     </button>
                 </li>
                 <li class="">
                     <button class="" id="active-tab" data-toggle="tab" data-target="#active" type="button" role="tab">
-                        <i class="fas fa-play-circle me-1"></i> Active <span class="badge badge-success ms-1"><?= $stats['active'] ?></span>
+                        <i class="fas fa-play-circle pr-1"></i> Active <span class="badge badge-success ms-1"><?= $stats['active'] ?></span>
                     </button>
                 </li>
                 <li class="">
                     <button class="" id="pending-tab" data-toggle="tab" data-target="#pending" type="button" role="tab">
-                        <i class="fas fa-hourglass-half me-1"></i> Pending <span class="badge badge-warning ms-1"><?= $stats['pending'] ?></span>
+                        <i class="fas fa-hourglass-half pr-1"></i> Pending <span class="badge badge-warning ms-1"><?= $stats['pending'] ?></span>
                     </button>
                 </li>
                 <li class="">
                     <button class="" id="completed-tab" data-toggle="tab" data-target="#completed" type="button" role="tab">
-                        <i class="fas fa-check-circle me-1"></i> Completed <span class="badge badge-info ms-1"><?= $stats['completed'] ?></span>
+                        <i class="fas fa-check-circle pr-1"></i> Completed <span class="badge badge-info ms-1"><?= $stats['completed'] ?></span>
                     </button>
                 </li>
                 <li class="">
                     <button class="" id="archived-tab" data-toggle="tab" data-target="#archived" type="button" role="tab">
-                        <i class="fas fa-archive me-1"></i> Archived <span class="badge badge-default ms-1"><?= $stats['archived'] ?></span>
+                        <i class="fas fa-archive pr-1"></i> Archived <span class="badge badge-default ms-1"><?= $stats['archived'] ?></span>
                     </button>
                 </li>
             </ul>
@@ -122,8 +122,8 @@
                             <tr>
                                 <td colspan="7" class="text-center py-4">
                                     <div class="text-muted">No projects found. Create your first project to get started!</div>
-                                    <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm mt-3">
-                                        <i class="fas fa-plus me-1"></i> Create Project
+                                    <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm ">
+                                        <i class="fas fa-plus pr-1"></i> Create Project
                                     </a>
                                 </td>
                             </tr>
@@ -136,7 +136,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center">
+                                    <div class=" ">
                                         <div class="flex-shrink-0">
                                             <div class="user-avatar" style="width: 32px; height: 32px; background-color: <?= $project['color'] ?? '#6366f1' ?>;">
                                                 <i class="fas <?= $project['icon'] ?? 'fa-project-diagram' ?>"></i>
@@ -165,8 +165,8 @@
                                     <span class="badge <?= $status_classes[$project['status']] ?? 'bg-secondary' ?>"><?= $status_label ?></span>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center" style="min-width: 120px;">
-                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                    <div class=" " style="min-width: 120px;">
+                                        <div class="progress flex-grow-1 pr-2" style="height: 6px;">
                                             <?php 
                                             $prog_class = 'bg-primary';
                                             if($project['progress'] >= 100) $prog_class = 'bg-success';
@@ -210,7 +210,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="">
                         <?= $pager->links('all', 'bootstrap_full') ?>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
                 <!-- Active Projects Tab -->
                 <div class="tab-pane" id="active" role="tabpanel">
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i> Showing <strong><?= $stats['active'] ?> active projects</strong>. Active projects are those currently being worked on.
+                        <i class="fas fa-info-circle pr-2"></i> Showing <strong><?= $stats['active'] ?> active projects</strong>. Active projects are those currently being worked on.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
@@ -238,8 +238,8 @@
                                     <tr>
                                         <td><strong><?= esc($p['name']) ?></strong></td>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class=" ">
+                                                <div class="progress flex-grow-1 pr-2" style="height: 6px;">
                                                     <div class="progress-bar bg-success" style="width: <?= $p['progress'] ?>%"></div>
                                                 </div>
                                                 <span class="small"><?= $p['progress'] ?>%</span>
@@ -255,7 +255,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="">
                         <?= $pager->links('active', 'bootstrap_full') ?>
                     </div>
                 </div>
@@ -263,7 +263,7 @@
                 <!-- Pending Projects Tab -->
                 <div class="tab-pane" id="pending" role="tabpanel">
                     <div class="alert alert-warning">
-                        <i class="fas fa-clock me-2"></i> Showing <strong><?= $stats['pending'] ?> pending projects</strong>. These projects are on hold or in planning.
+                        <i class="fas fa-clock pr-2"></i> Showing <strong><?= $stats['pending'] ?> pending projects</strong>. These projects are on hold or in planning.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
@@ -282,7 +282,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="">
                         <?= $pager->links('pending', 'bootstrap_full') ?>
                     </div>
                 </div>
@@ -290,7 +290,7 @@
                 <!-- Completed Projects Tab -->
                 <div class="tab-pane" id="completed" role="tabpanel">
                     <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i> Showing <strong><?= $stats['completed'] ?> completed projects</strong>.
+                        <i class="fas fa-check-circle pr-2"></i> Showing <strong><?= $stats['completed'] ?> completed projects</strong>.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
@@ -301,7 +301,7 @@
                                     <?php foreach($completed_projects as $p): ?>
                                     <tr>
                                         <td><strong><?= esc($p['name']) ?></strong></td>
-                                        <td class="text-success"><i class="fas fa-check-circle me-1"></i> Completed</td>
+                                        <td class="text-success"><i class="fas fa-check-circle pr-1"></i> Completed</td>
                                         <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn btn-xs btn-info"><i class="fas fa-eye"></i></a></td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -309,7 +309,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="">
                         <?= $pager->links('completed', 'bootstrap_full') ?>
                     </div>
                 </div>
@@ -317,7 +317,7 @@
                 <!-- Archived Projects Tab -->
                 <div class="tab-pane" id="archived" role="tabpanel">
                     <div class="alert alert-secondary">
-                        <i class="fas fa-archive me-2"></i> Showing <strong><?= $stats['archived'] ?> archived projects</strong>.
+                        <i class="fas fa-archive pr-2"></i> Showing <strong><?= $stats['archived'] ?> archived projects</strong>.
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
@@ -336,7 +336,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-3">
+                    <div class="">
                         <?= $pager->links('archived', 'bootstrap_full') ?>
                     </div>
                 </div>
@@ -344,11 +344,11 @@
         </div>
 
         <!-- Project Tags Section -->
-        <div class="row mt-4">
+        <div class="row ">
             <div class="col-lg-12">
                 <div class="widget-box">
-                    <h5 class="mb-3"><i class="fas fa-tags me-2"></i>Project Categories & Tags</h5>
-                    <div class="d-flex flex-wrap gap-2">
+                    <h5 class="space-3"><i class="fas fa-tags pr-2"></i>Project Categories & Tags</h5>
+                    <div class="  ">
                         <?php if (empty($tagStats)): ?>
                             <span class="text-muted small">No tags found yet. Add categories when creating projects.</span>
                         <?php else: ?>
@@ -399,11 +399,11 @@
             function updateBulkActions() {
                 const checkedCount = $('.project-checkbox:checked').length;
                 if (checkedCount > 0) {
-                    $('#bulkActionsBtn').html(`<i class="fas fa-ellipsis-v me-1"></i> ${checkedCount} selected`);
-                    $('#bulkActionsBtn').removeClass('btn-outline-secondary').addClass('btn-primary');
+                    $('#bulkActionsBtn').html(`<i class="fas fa-ellipsis-v pr-1"></i> ${checkedCount} selected`);
+                    $('#bulkActionsBtn').removeClass('btn btn-white btn-default').addClass('btn-primary');
                 } else {
                     $('#bulkActionsBtn').html('<i class="fas fa-ellipsis-v"></i>');
-                    $('#bulkActionsBtn').removeClass('btn-primary').addClass('btn-outline-secondary');
+                    $('#bulkActionsBtn').removeClass('btn-primary').addClass('btn btn-white btn-default');
                 }
             }
 
@@ -451,12 +451,12 @@
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                <div class="d-flex">
+            <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                <div class="">
                     <div class="toast-body">
                         ${message}
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                 </div>
             </div>
         `;

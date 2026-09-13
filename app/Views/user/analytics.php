@@ -4,51 +4,51 @@
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Analytics</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
+            <div class="col-auto pull-right text-end mt-n1">
                 
             </div>
         </div>
         <!-- Key Metrics -->
-        <div class="row mb-4 g-3">
+        <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Total Projects</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Total Projects</div>
                     <div class="stat-value"><?= esc($totalProjects) ?></div>
-                    <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
+                    <div class="stat-change text-secondary  font-mono border-top pt-2">
                         <i class="fas fa-arrow-up"></i> <?= esc($thisMonthStarted) ?> this month
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Completion Rate</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Completion Rate</div>
                     <div class="stat-value text-success"><?= esc(round($completionRate)) ?>%</div>
-                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                    <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
                         <i class="fas fa-arrow-up"></i> Overall rate
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Hours Logged</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Hours Logged</div>
                     <div class="stat-value text-warning"><?= esc(number_format($totalHours, 1)) ?></div>
-                    <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
+                    <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
                         <i class="fas fa-clock"></i> Total hours
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label mb-2">Avg Daily Hours</div>
+                <div class="widget-box card-body h-100 p-4 border-dark">
+                    <div class="stat-label space-2">Avg Daily Hours</div>
                     <div class="stat-value text-success"><?= esc(number_format($avgDaily, 1)) ?></div>
-                    <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
+                    <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
                         <i class="fas fa-arrow-up"></i> Daily average
                     </div>
                 </div>
@@ -56,16 +56,16 @@
         </div>
 
         <!-- Charts Row 1 -->
-        <div class="row mb-4">
+        <div class="row space-4">
             <!-- Project Completion Chart -->
             <div class="col-lg-8">
-                <div class="card card-body h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Project Completion Trends</h5>
+                <div class="widget-box card-body h-100">
+                    <div class="   space-3">
+                        <h5 class="space-0"><i class="fas fa-chart-line pr-2"></i>Project Completion Trends</h5>
                         <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary active">Monthly</button>
-                            <button class="btn btn-outline-secondary">Quarterly</button>
-                            <button class="btn btn-outline-secondary">Yearly</button>
+                            <button class="btn btn btn-white btn-default active">Monthly</button>
+                            <button class="btn btn btn-white btn-default">Quarterly</button>
+                            <button class="btn btn btn-white btn-default">Yearly</button>
                         </div>
                     </div>
 
@@ -101,8 +101,8 @@
 
             <!-- Project Health Distribution -->
             <div class="col-lg-4">
-                <div class="card card-body h-100">
-                    <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Health Distribution</h5>
+                <div class="widget-box card-body h-100">
+                    <h5 class="space-3"><i class="fas fa-chart-pie pr-2"></i>Project Health Distribution</h5>
                     <div class="pie-chart-container">
                         <?php
                         $segments = [
@@ -154,31 +154,31 @@
         </div>
 
         <!-- Charts Row 2 -->
-        <div class="row mb-4">
+        <div class="row space-4">
             <!-- Time Distribution -->
             <div class="col-lg-6">
-                <div class="card card-body h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Time Distribution by Project</h5>
-                        <button class="btn btn-sm btn-outline-secondary">Details</button>
+                <div class="widget-box card-body h-100">
+                    <div class="   space-3">
+                        <h5 class="space-0"><i class="fas fa-clock pr-2"></i>Time Distribution by Project</h5>
+                        <button class="btn btn-sm btn btn-white btn-default">Details</button>
                     </div>
 
                     <div class="time-distribution">
                         <?php $isFirst = true; ?>
                         <?php foreach ($timeDistribution as $item): ?>
                         <?php $pct = $allTimeTotal > 0 ? round(($item['total_duration'] / $allTimeTotal) * 100) : 0; ?>
-                        <div class="distribution-item<?= $isFirst ? '' : ' mt-3' ?>">
+                        <div class="distribution-item<?= $isFirst ? '' : ' ' ?>">
                             <?php $isFirst = false; ?>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="project-icon me-2" style="background-color: <?= esc($item['color']) ?>;">
+                            <div class="  ">
+                                <div class=" ">
+                                    <div class="project-icon pr-2" style="background-color: <?= esc($item['color']) ?>;">
                                         <i class="fas fa-clock"></i>
                                     </div>
                                     <span><?= esc($item['name']) ?></span>
                                 </div>
                                 <span class="text-muted"><?= esc(number_format($item['total_duration'], 1)) ?> hrs (<?= $pct ?>%)</span>
                             </div>
-                            <div class="progress mt-1" style="height: 10px;">
+                            <div class="progress " style="height: 10px;">
                                 <div class="progress-bar" style="width: <?= $pct ?>%; background-color: <?= esc($item['color']) ?>;"></div>
                             </div>
                         </div>
@@ -189,8 +189,8 @@
 
             <!-- Productivity Heatmap -->
             <div class="col-lg-6">
-                <div class="card card-body h-100">
-                    <h5 class="mb-3"><i class="fas fa-calendar-alt me-2"></i>Monthly Activity Heatmap</h5>
+                <div class="widget-box card-body h-100">
+                    <h5 class="space-3"><i class="fas fa-calendar-alt pr-2"></i>Monthly Activity Heatmap</h5>
                     <div class="heatmap-container">
                         <div class="heatmap-header">
                             <div class="heatmap-months">
@@ -209,8 +209,8 @@
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="heatmap-footer mt-3">
-                            <div class="d-flex justify-content-between small text-muted">
+                        <div class="heatmap-footer ">
+                            <div class="  small text-muted">
                                 <span>Less</span>
                                 <div>
                                     <span class="heatmap-legend" style="background-color: #334155;"></span>
@@ -230,11 +230,11 @@
         <!-- Insights & Recommendations -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="card card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Insights & Recommendations</h5>
-                        <button class="btn btn-sm btn-outline-secondary">
-                            <i class="fas fa-sync me-1"></i> Refresh
+                <div class="widget-box card-body">
+                    <div class="   space-3">
+                        <h5 class="space-0"><i class="fas fa-lightbulb pr-2"></i>Insights & Recommendations</h5>
+                        <button class="btn btn-sm btn btn-white btn-default">
+                            <i class="fas fa-sync pr-1"></i> Refresh
                         </button>
                     </div>
 
@@ -242,51 +242,51 @@
                     <div class="row g-3">
                         <?php foreach ($insights as $insight): ?>
                         <div class="col-md-4">
-                            <div class="card card-body h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="<?= esc($insight['icon']) ?> text-<?= esc($insight['color']) ?> fs-5 me-2"></i>
-                                    <h6 class="mb-0 text-white font-mono"><?= esc($insight['title']) ?></h6>
+                            <div class="widget-box card-body h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
+                                <div class="  space-2">
+                                    <i class="<?= esc($insight['icon']) ?> text-<?= esc($insight['color']) ?> fs-5 pr-2"></i>
+                                    <h6 class="space-0 text-white font-mono"><?= esc($insight['title']) ?></h6>
                                 </div>
-                                <p class="small text-secondary mb-0"><?= esc($insight['message']) ?></p>
+                                <p class="small text-secondary space-0"><?= esc($insight['message']) ?></p>
                             </div>
                         </div>
                         <?php endforeach; ?>
                     </div>
                     <?php endif; ?>
 
-                    <div class="row g-3 mt-2">
+                    <div class="row g-3 ">
                         <div class="col-md-6">
-                            <div class="card card-body p-3 border-dark">
-                                <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-check-square text-success me-2"></i>Completed This Month</h6>
-                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                            <div class="widget-box card-body p-3 border-dark">
+                                <h6 class="font-mono text-white border-bottom pb-2 space-3"><i class="fas fa-check-square text-success pr-2"></i>Completed This Month</h6>
+                                <ul class="small text-secondary space-0 list-unstyled font-mono">
                                     <?php if (!empty($completedThisMonth)): ?>
                                     <?php foreach ($completedThisMonth as $item): ?>
-                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i><?= esc($item) ?></li>
+                                    <li class="space-2"><i class="fas fa-check text-success pr-2"></i><?= esc($item) ?></li>
                                     <?php endforeach; ?>
                                     <?php else: ?>
-                                    <li class="mb-2 text-muted">No projects completed this month</li>
+                                    <li class="space-2 text-muted">No projects completed this month</li>
                                     <?php endif; ?>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="card card-body p-3 border-dark">
-                                <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
-                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                            <div class="widget-box card-body p-3 border-dark">
+                                <h6 class="font-mono text-white border-bottom pb-2 space-3"><i class="fas fa-exclamation-triangle text-warning pr-2"></i>Need Attention</h6>
+                                <ul class="small text-secondary space-0 list-unstyled font-mono">
                                     <?php if (!empty($stalledTasks)): ?>
                                     <?php foreach ($stalledTasks as $item): ?>
-                                    <li class="mb-2"><i class="fas fa-circle text-danger ms-1 me-2" style="font-size: 8px;"></i><?= esc($item) ?></li>
+                                    <li class="space-2"><i class="fas fa-circle text-danger ms-1 pr-2" style="font-size: 8px;"></i><?= esc($item) ?></li>
                                     <?php endforeach; ?>
                                     <?php else: ?>
-                                    <li class="mb-2 text-muted">No stalled projects</li>
+                                    <li class="space-2 text-muted">No stalled projects</li>
                                     <?php endif; ?>
                                 </ul>
                                 <?php if (!empty($recentDone)): ?>
-                                <h6 class="font-mono text-white border-bottom pb-2 mb-3 mt-3"><i class="fas fa-history text-info me-2"></i>Recently Completed</h6>
-                                <ul class="small text-secondary mb-0 list-unstyled font-mono">
+                                <h6 class="font-mono text-white border-bottom pb-2 space-3 "><i class="fas fa-history text-info pr-2"></i>Recently Completed</h6>
+                                <ul class="small text-secondary space-0 list-unstyled font-mono">
                                     <?php foreach ($recentDone as $item): ?>
-                                    <li class="mb-2"><i class="fas fa-check-circle text-info me-2"></i><?= esc($item) ?></li>
+                                    <li class="space-2"><i class="fas fa-check-circle text-info pr-2"></i><?= esc($item) ?></li>
                                     <?php endforeach; ?>
                                 </ul>
                                 <?php endif; ?>
@@ -343,12 +343,12 @@
             function showToast(message, type = 'info') {
                 const toastId = 'toast-' + Date.now();
                 const toastHtml = `
-            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert">
-                <div class="d-flex">
+            <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
+                <div class="">
                     <div class="toast-body">
                         ${message}
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
                 </div>
             </div>
         `;

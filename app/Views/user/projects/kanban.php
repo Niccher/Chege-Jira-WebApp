@@ -4,11 +4,11 @@
 
     
         
-        <div class="row mb-2 mb-xl-3">
+        <div class="row space-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Dashboard</strong></h3>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
+            <div class="col-auto pull-right text-end mt-n1">
                 
             </div>
         </div>
@@ -19,8 +19,8 @@
                 <!-- To Do Column -->
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="todo">
-                        <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">TO DO <span class="badge badge-default ms-2" id="count-todo"><?= count($boardData['todo']) ?></span></h6>
+                        <div class="column-header    space-3">
+                            <h6 class="space-0">TO DO <span class="badge badge-default ms-2" id="count-todo"><?= count($boardData['todo']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="todo-list">
@@ -34,8 +34,8 @@
                 <!-- In Progress Column -->
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="in_progress">
-                        <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">IN PROGRESS <span class="badge badge-info ms-2" id="count-in_progress"><?= count($boardData['in_progress']) ?></span></h6>
+                        <div class="column-header    space-3">
+                            <h6 class="space-0">IN PROGRESS <span class="badge badge-info ms-2" id="count-in_progress"><?= count($boardData['in_progress']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="in_progress-list">
@@ -49,8 +49,8 @@
                 <!-- Review Column -->
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="review">
-                        <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">REVIEW <span class="badge badge-warning ms-2" id="count-review"><?= count($boardData['review']) ?></span></h6>
+                        <div class="column-header    space-3">
+                            <h6 class="space-0">REVIEW <span class="badge badge-warning ms-2" id="count-review"><?= count($boardData['review']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="review-list">
@@ -64,8 +64,8 @@
                 <!-- Done Column -->
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="done">
-                        <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0 text-success">DONE <span class="badge badge-success ms-2" id="count-done"><?= count($boardData['done']) ?></span></h6>
+                        <div class="column-header    space-3">
+                            <h6 class="space-0 text-success">DONE <span class="badge badge-success ms-2" id="count-done"><?= count($boardData['done']) ?></span></h6>
                         </div>
                         <div class="kanban-cards sortable-list" id="done-list">
                             <?php foreach ($boardData['done'] as $task): ?>
@@ -90,27 +90,27 @@
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="mb-3">
+                        <div class="space-3">
                             <label class="form-label">Task Title</label>
                             <input type="text" name="title" class="form-control" placeholder="What needs to be done?" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="space-3">
                             <label class="form-label">Description</label>
                             <textarea name="description" class="form-control" rows="3" placeholder="Additional details..."></textarea>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 space-3">
                                 <label class="form-label">Priority</label>
-                                <select name="priority" class="form-select">
+                                <select name="priority" class="form-control">
                                     <option value="low">Low</option>
                                     <option value="medium" selected>Medium</option>
                                     <option value="high">High</option>
                                     <option value="critical">Critical</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 space-3">
                                 <label class="form-label">Initial Status</label>
-                                <select name="status" class="form-select">
+                                <select name="status" class="form-control">
                                     <option value="todo">To Do</option>
                                     <option value="in_progress">In Progress</option>
                                     <option value="review">Review</option>
@@ -212,25 +212,25 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editTaskId">
-                <div class="mb-3">
+                <div class="space-3">
                     <label class="form-label">Title</label>
                     <input type="text" id="editTaskTitle" class="form-control" required>
                 </div>
-                <div class="mb-3">
+                <div class="space-3">
                     <label class="form-label">Description</label>
                     <textarea id="editTaskDescription" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 space-3">
                         <label class="form-label">Priority</label>
-                        <select id="editTaskPriority" class="form-select">
+                        <select id="editTaskPriority" class="form-control">
                             <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="high">High</option>
                             <option value="critical">Critical</option>
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 space-3">
                         <label class="form-label">Due Date</label>
                         <input type="date" id="editTaskDueDate" class="form-control">
                     </div>
