@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Settings • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php
 $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1));
 $timezones = DateTimeZone::listIdentifiers();
@@ -18,7 +19,7 @@ $timezones = DateTimeZone::listIdentifiers();
         <!-- Settings Navigation -->
         <div class="row mb-4">
             <div class="col-lg-3">
-                <div class="stat-card">
+                <div class="card card-body">
                     <nav class="nav flex-column settings-nav">
                         <a class="nav-link active" href="#profile" data-bs-toggle="tab">
                             <i class="fas fa-user me-2"></i> Profile
@@ -52,7 +53,7 @@ $timezones = DateTimeZone::listIdentifiers();
                 <div class="tab-content" id="settingsContent">
                     <!-- Profile Tab -->
                     <div class="tab-pane fade show active" id="profile">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-user me-2"></i>Profile Settings</h5>
 
                                 <div class="row mb-4">
@@ -127,7 +128,7 @@ $timezones = DateTimeZone::listIdentifiers();
 <?php $selectedColor = $prefs['accent_color'] ?? '#ef4444'; ?>
                     <!-- Appearance Tab -->
                     <div class="tab-pane fade" id="appearance">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-palette me-2"></i>Appearance Settings</h5>
 
                             <input type="hidden" name="theme" id="themeInput" value="<?= $selectedTheme ?>">
@@ -234,7 +235,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Notifications Tab -->
                     <div class="tab-pane fade" id="notifications">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-bell me-2"></i>Notification Settings <span class="badge bg-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h5>
 
                             <div class="alert alert-info mb-4">
@@ -295,7 +296,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Projects Tab -->
                     <div class="tab-pane fade" id="projects">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-project-diagram me-2"></i>Project Settings</h5>
 
                             <div class="mb-4">
@@ -375,7 +376,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Time Tracking Tab -->
                     <div class="tab-pane fade" id="time-tracking">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-clock me-2"></i>Time Tracking Settings</h5>
 
                             <div class="mb-4">
@@ -441,7 +442,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Data Management Tab -->
                     <div class="tab-pane fade" id="data">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-database me-2"></i>Data Management</h5>
 
                             <div class="mb-4">
@@ -517,7 +518,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Account & Security Tab -->
                     <div class="tab-pane fade" id="account">
-                        <div class="stat-card">
+                        <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-shield-alt me-2"></i>Account & Security</h5>
 
                             <div class="mb-4">
@@ -573,215 +574,6 @@ $timezones = DateTimeZone::listIdentifiers();
         </div>
     </div>
 
-    <style>
-        /* Settings Styles */
-        .settings-nav .nav-link {
-            padding: 0.75rem 1rem;
-            color: var(--bs-body-color);
-            border-radius: 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 0;
-            transition: none;
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-        }
-
-        .settings-nav .nav-link:last-child {
-            border-bottom: none;
-        }
-
-        .settings-nav .nav-link:hover {
-            background-color: var(--bs-secondary-bg);
-            color: var(--primary-color);
-        }
-
-        .settings-nav .nav-link.active {
-            background-color: var(--bs-body-bg);
-            color: var(--primary-color);
-            border-left: 4px solid var(--primary-color);
-            font-weight: bold;
-        }
-
-        /* Theme Selector */
-        .theme-option {
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0;
-            border: 1px solid transparent;
-            transition: none;
-        }
-
-        .theme-option:hover {
-            border-color: var(--border-color);
-        }
-
-        .theme-option.active {
-            border-color: var(--primary-color);
-            background-color: rgba(99, 102, 241, 0.05);
-        }
-
-        .theme-preview {
-            width: 100%;
-            height: 100px;
-            border-radius: 0;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border-color) !important;
-        }
-
-        .dark-theme {
-            background-color: #0f172a;
-        }
-
-        .light-theme {
-            background-color: #f8fafc;
-        }
-
-        .auto-theme {
-            background: linear-gradient(135deg, #0f172a 50%, #f8fafc 50%);
-        }
-
-        .theme-preview .preview-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .dark-theme .preview-header {
-            background-color: #1e293b;
-        }
-
-        .light-theme .preview-header {
-            background-color: #e2e8f0;
-        }
-
-        .auto-theme .preview-header {
-            background: linear-gradient(90deg, #1e293b 50%, #e2e8f0 50%);
-        }
-
-        .theme-preview .preview-sidebar {
-            position: absolute;
-            left: 0;
-            top: 20px;
-            bottom: 0;
-            width: 30px;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .dark-theme .preview-sidebar {
-            background-color: #334155;
-        }
-
-        .light-theme .preview-sidebar {
-            background-color: #cbd5e1;
-        }
-
-        .auto-theme .preview-sidebar {
-            background: linear-gradient(180deg, #334155 50%, #cbd5e1 50%);
-        }
-
-        .theme-preview .preview-content {
-            position: absolute;
-            left: 30px;
-            top: 20px;
-            right: 0;
-            bottom: 0;
-            background-color: transparent;
-        }
-
-        .theme-name {
-            font-weight: bold;
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-            margin-top: 0.5rem;
-        }
-
-        /* Color Selector */
-        .color-option {
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 0;
-            border: 1px solid transparent;
-            transition: none;
-        }
-
-        .color-option:hover {
-            border-color: var(--border-color);
-        }
-
-        .color-option.active {
-            border-color: var(--primary-color);
-            background-color: rgba(99, 102, 241, 0.05);
-        }
-
-        .color-preview {
-            width: 100%;
-            height: 40px;
-            border-radius: 0;
-            margin-bottom: 0.25rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .color-name {
-            color: var(--bs-secondary-color);
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        /* Storage usage */
-        .storage-usage {
-            padding: 1rem;
-            background-color: var(--card-bg);
-            border-radius: 0;
-            border: 1px solid var(--border-color);
-        }
-
-        .progress {
-            border-radius: 0;
-            background-color: var(--border-color);
-        }
-        
-        .progress-bar {
-            background-color: var(--primary-color);
-        }
-
-        /* Profile avatar */
-        .profile-avatar .user-avatar {
-            margin: 0 auto;
-            border-radius: 0;
-        }
-
-        /* Alert customization */
-        .alert {
-            border: 1px solid;
-            background-color: transparent;
-            border-radius: 0;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .alert-info {
-            border-color: var(--bs-info);
-            color: var(--bs-info);
-            border-left: 4px solid var(--bs-info);
-        }
-
-        .alert-warning {
-            border-color: var(--bs-warning);
-            color: var(--bs-warning);
-            border-left: 4px solid var(--bs-warning);
-        }
-
-        .alert-danger {
-            border-color: var(--bs-danger);
-            color: var(--bs-danger);
-            border-left: 4px solid var(--bs-danger);
-        }
-    </style>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
@@ -933,4 +725,4 @@ $timezones = DateTimeZone::listIdentifiers();
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

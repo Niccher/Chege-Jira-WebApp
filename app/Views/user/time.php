@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Time Tracking • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 
     
         
@@ -14,7 +15,7 @@
         <!-- Active Timer Section -->
         <div class="row mb-4">
             <div class="col-lg-12">
-                <div class="stat-card" id="activeTimerSection" style="display: none;">
+                <div class="card card-body" id="activeTimerSection" style="display: none;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1"><i class="fas fa-clock me-2 text-primary"></i>Currently Tracking</h5>
@@ -33,7 +34,7 @@
                 </div>
 
                 <!-- Quick Start Timer -->
-                <div class="stat-card" id="quickStartSection">
+                <div class="card card-body" id="quickStartSection">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1"><i class="fas fa-play-circle me-2 text-success"></i>Quick Start Timer</h5>
@@ -59,7 +60,7 @@
         <!-- Time Tracking Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Today (hrs)</div>
                     <div class="stat-value" id="todayTime"><?= $todayTime ?></div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
@@ -69,7 +70,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">This Week (hrs)</div>
                     <div class="stat-value text-primary" id="weekTime"><?= $weekTime ?></div>
                     <div class="stat-change text-primary mt-3 font-mono border-top border-primary border-opacity-25 pt-2">
@@ -79,7 +80,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">This Month (hrs)</div>
                     <div class="stat-value text-warning" id="monthTime"><?= $monthTime ?></div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
@@ -89,7 +90,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Avg Daily (hrs)</div>
                     <div class="stat-value text-success" id="avgDaily"><?= $avgDaily ?></div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -103,7 +104,7 @@
         <div class="row">
             <!-- Time Entries -->
             <div class="col-lg-8">
-                <div class="stat-card mb-4">
+                <div class="card card-body mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Time Entries</h5>
                         <div class="btn-group">
@@ -167,7 +168,7 @@
             <!-- Project Breakdown & Reports -->
             <div class="col-lg-4">
                 <!-- Project Time Breakdown -->
-                <div class="stat-card mb-4" id="projectBreakdownCard">
+                <div class="card card-body mb-4" id="projectBreakdownCard">
                     <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Time Breakdown</h5>
                     <div class="time-breakdown">
                         <?php if (empty($project_breakdown)): ?>
@@ -259,33 +260,6 @@
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <style>
-        /* Time Tracking Styles */
-        .breakdown-item, .distribution-item {
-            margin-bottom: 1rem;
-        }
-
-        .chart-bar {
-            width: 30px;
-            border-radius: 4px 4px 0 0;
-            transition: height 0.3s;
-        }
-
-        .weekly-chart {
-            padding: 1rem;
-        }
-
-        /* Timer animation */
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        .timer-pulse {
-            animation: pulse 2s infinite;
-        }
-    </style>
 
     <!-- Time Tracking JavaScript -->
     <script>
@@ -407,4 +381,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

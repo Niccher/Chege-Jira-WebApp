@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'New Project • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     
@@ -17,7 +18,7 @@
         <!-- Project Creation Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="mb-4">
                         <h5 class="mb-2"><i class="fas fa-plus-circle me-2 text-primary"></i>Create New Coding Project</h5>
                         <p class="text-muted small">Track your development projects with detailed information</p>
@@ -297,7 +298,7 @@
                         </div>
 
                         <!-- Quick Tips -->
-                        <div class="stat-card mt-4">
+                        <div class="card card-body mt-4">
                             <h6 class="mb-3"><i class="fas fa-lightbulb me-2 text-warning"></i>Quick Tips</h6>
                             <div class="row">
                                 <div class="col-md-6">
@@ -349,149 +350,6 @@
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <style>
-        /* Progress Steps */
-        .progress-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            flex: 1;
-        }
-
-        .progress-step.active .step-number {
-            background-color: #6366f1;
-            color: white;
-            border-color: #6366f1;
-        }
-
-        .step-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid #475569;
-            background-color: #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .step-label {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        .progress-step.active .step-label {
-            color: #e2e8f0;
-            font-weight: 500;
-        }
-
-        .progress-connector {
-            flex: 1;
-            height: 2px;
-            background-color: #475569;
-            margin: 0 1rem;
-            margin-top: 18px;
-        }
-
-        /* Form Sections */
-        .form-section {
-            padding: 1.5rem;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-radius: 8px;
-            border-left: 4px solid #6366f1;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-line {
-            flex-grow: 1;
-            height: 1px;
-            background-color: #334155;
-        }
-
-        /* Tech Tags */
-        .tech-tag {
-            display: inline-flex;
-            align-items: center;
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.85rem;
-            margin: 0.25rem;
-        }
-
-        .tech-tag .remove {
-            margin-left: 0.5rem;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .tech-tag .remove:hover {
-            color: #ef4444;
-        }
-
-        /* Milestone Cards */
-        .milestone-entry {
-            background-color: #0f172a;
-            border: 1px solid #334155;
-        }
-
-        .milestone-entry .card-body {
-            padding: 1rem;
-        }
-
-        /* Blockers */
-        .blocker-item {
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .blocker-item .remove {
-            color: #ef4444;
-            cursor: pointer;
-        }
-
-        /* Category Pills */
-        .category-pills .form-check {
-            margin: 0;
-        }
-
-        .category-pills .form-check-input {
-            display: none;
-        }
-
-        .category-pills .form-check-label {
-            cursor: pointer;
-            opacity: 0.7;
-            transition: all 0.2s;
-            padding: 0.5rem 1rem;
-        }
-
-        .category-pills .form-check-input:checked + .form-check-label {
-            opacity: 1;
-            transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .bg-purple {
-            background-color: #8b5cf6 !important;
-        }
-    </style>
 
     <!-- JavaScript -->
     <script>
@@ -708,4 +566,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

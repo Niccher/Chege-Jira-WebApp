@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Calendar • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     
@@ -15,7 +16,7 @@
         <!-- Calendar Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">This Month</div>
                     <div class="stat-value" id="totalEvents"><?= $total_events ?></div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
@@ -25,7 +26,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Completed</div>
                     <div class="stat-value text-success" id="completedEvents"><?= $completed_count ?></div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -35,7 +36,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Pending</div>
                     <div class="stat-value text-warning" id="pendingEvents"><?= $pending_count ?></div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
@@ -45,7 +46,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Overdue</div>
                     <div class="stat-value text-danger" id="overdueEvents"><?= $overdue_count ?></div>
                     <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
@@ -56,7 +57,7 @@
         </div>
 
         <!-- Calendar Container -->
-        <div class="stat-card">
+        <div class="card card-body">
             <!-- Calendar Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i><span id="calendarTitle">Calendar</span></h5>
@@ -80,7 +81,7 @@
         <!-- Upcoming Events -->
         <div class="row mt-4">
             <div class="col-lg-8">
-                <div class="stat-card">
+                <div class="card card-body">
                     <h5 class="mb-3"><i class="fas fa-list-ul me-2"></i>Upcoming Events</h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-dark">
@@ -146,7 +147,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="stat-card">
+                <div class="card card-body">
                     <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Distribution</h5>
                     <div class="project-distribution">
                         <?php if (!empty($distribution)): ?>
@@ -174,84 +175,6 @@
         </div>
     </div>
 
-    <style>
-        /* Calendar Styles */
-        .calendar-container {
-            background-color: transparent ;
-            border: none;
-            padding: 0;
-        }
-
-        /* FullCalendar Customizations */
-        .fc {
-            --fc-border-color: var(--border-color);
-            --fc-daygrid-event-dot-width: 8px;
-            --fc-list-event-dot-width: 8px;
-            --fc-page-bg-color: transparent;
-            --fc-neutral-bg-color: var(--card-bg);
-            --fc-today-bg-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .fc .fc-toolbar-title {
-            color: var(--bs-body-color);
-            font-size: 1.25rem;
-            font-weight: 600;
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-        }
-
-        .fc .fc-button-primary {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--bs-body-color);
-            text-transform: uppercase;
-            font-family: 'Space Grotesk', monospace;
-            font-size: 0.85rem;
-            border-radius: 0 !important;
-        }
-
-        .fc .fc-button-primary:hover {
-            background-color: var(--card-bg);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .fc .fc-button-primary:not(:disabled).fc-button-active, 
-        .fc .fc-button-primary:not(:disabled):active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: var(--bs-body-bg);
-        }
-
-        .fc .fc-col-header-cell-cushion {
-            color: #9ca3af;
-            padding: 10px 0;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        .fc .fc-daygrid-day-number {
-            color: var(--bs-body-color);
-            padding: 8px;
-            text-decoration: none;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .fc .fc-event {
-            border: none;
-            border-radius: 0;
-            padding: 2px 5px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: opacity 0.1s;
-        }
-
-        .fc .fc-event:hover {
-            opacity: 0.8;
-        }
-    </style>
     
     <!-- FullCalendar v6 -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
@@ -505,4 +428,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

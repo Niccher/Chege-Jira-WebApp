@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Kanban Board • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     
@@ -15,7 +16,7 @@
         <!-- Quick Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Total Tasks</div>
                     <div class="stat-value" id="totalTasks">24</div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
@@ -25,7 +26,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">In Progress</div>
                     <div class="stat-value text-warning" id="inProgress">8</div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
@@ -35,7 +36,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Blocked</div>
                     <div class="stat-value text-danger" id="blockedTasks">3</div>
                     <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
@@ -45,7 +46,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Completed</div>
                     <div class="stat-value text-success" id="completedTasks">13</div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -461,162 +462,6 @@
         </div>
     </div>
 
-    <style>
-        /* Kanban Board Styles */
-        .kanban-column {
-            background-color: var(--card-bg);
-            border-radius: 0;
-            border: 1px solid var(--border-color);
-            height: calc(100vh - 300px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .kanban-column-header {
-            padding: 1rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--bs-body-bg);
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-        }
-
-        .kanban-column-header h6 {
-            font-family: 'Space Grotesk', monospace;
-            font-weight: 700;
-        }
-
-        .kanban-column-body {
-            padding: 1rem;
-            flex-grow: 1;
-            overflow-y: auto;
-            background-color: var(--bs-body-bg);
-        }
-
-        .kanban-card {
-            background-color: var(--card-bg);
-            border-radius: 0;
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            margin-bottom: 1rem;
-            cursor: move;
-            transition: none;
-        }
-
-        .kanban-card:hover {
-            border-color: var(--bs-body-color);
-            box-shadow: 4px 4px 0 var(--border-color);
-            transform: translate(-2px, -2px);
-        }
-
-        .kanban-card.blocked-task {
-            border-left: 4px solid var(--bs-danger);
-            background-color: rgba(220, 53, 69, 0.05);
-        }
-
-        .kanban-card-header {
-            margin-bottom: 0.75rem;
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .task-title {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--bs-body-color);
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .task-project {
-            margin-top: 0.25rem;
-        }
-
-        .kanban-card-body {
-            margin-bottom: 0.75rem;
-        }
-
-        .kanban-card-body p {
-            font-size: 0.8rem;
-            color: var(--bs-secondary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .task-meta {
-            display: flex;
-            gap: 0.25rem;
-            flex-wrap: wrap;
-        }
-
-        .task-meta .badge {
-            font-size: 0.65rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0;
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-        }
-
-        .task-date {
-            font-size: 0.75rem;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .kanban-card-footer {
-            border-top: 1px solid var(--border-color);
-            padding-top: 0.75rem;
-        }
-
-        .task-progress {
-            width: 100%;
-        }
-
-        .task-progress .progress {
-            border-radius: 0;
-            background-color: var(--border-color);
-        }
-
-        .task-progress .progress-bar {
-            border-radius: 0;
-        }
-
-        .task-assignee .user-avatar {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.7rem;
-            border-radius: 0;
-            border: 1px solid var(--bs-body-color);
-            background: var(--card-bg);
-            color: var(--bs-body-color);
-        }
-
-        .task-comments {
-            font-size: 0.8rem;
-            color: var(--bs-secondary-color);
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        /* Scrollbar Styling */
-        .kanban-column-body::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .kanban-column-body::-webkit-scrollbar-track {
-            background: var(--bs-body-bg);
-            border-radius: 0;
-        }
-
-        .kanban-column-body::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 0;
-        }
-
-        .kanban-column-body::-webkit-scrollbar-thumb:hover {
-            background: var(--bs-secondary-color);
-        }
-    </style>
 
     <!-- New Task Modal -->
     <div class="modal fade" id="newTaskModal" tabindex="-1" aria-hidden="true">
@@ -821,4 +666,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Chege JIRA Dashboard • Project Details']) ?>
-<?php
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1));
 if (!empty($user->last_name)) {
     $initials .= strtoupper(substr($user->last_name, 0, 1));
@@ -40,7 +41,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         <!-- Project Header (Compact) -->
         <div class="row mb-3">
             <div class="col-lg-12">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div class="compact-avatar me-3" style="background-color: <?= esc($project['color'] ?? '#6366f1') ?>;">
@@ -76,7 +77,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         <!-- Quick Stats (Compact Grid) -->
         <div class="row mb-3">
             <div class="col-md-3 col-6 mb-2">
-                <div class="stat-card compact h-100">
+                <div class="card card-body compact h-100">
                     <div class="d-flex align-items-center">
                         <div class="stat-icon-sm me-2" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
                             <i class="fas fa-calendar-plus"></i>
@@ -90,7 +91,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 mb-2">
-                <div class="stat-card compact h-100">
+                <div class="card card-body compact h-100">
                     <div class="d-flex align-items-center">
                         <div class="stat-icon-sm me-2" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
                             <i class="fas fa-calendar-check"></i>
@@ -104,7 +105,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 mb-2">
-                <div class="stat-card compact h-100">
+                <div class="card card-body compact h-100">
                     <div class="d-flex align-items-center">
                         <div class="stat-icon-sm me-2" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
                             <i class="fas fa-clock"></i>
@@ -118,7 +119,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 mb-2">
-                <div class="stat-card compact h-100">
+                <div class="card card-body compact h-100">
                     <div class="d-flex align-items-center">
                         <div class="stat-icon-sm me-2" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
                             <i class="fas fa-history"></i>
@@ -137,7 +138,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Left Column (Wider) -->
             <div class="col-lg-8">
                 <!-- Project Details (Expandable Sections) -->
-                <div class="stat-card compact mb-3">
+                <div class="card card-body compact mb-3">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Project Details</h6>
                         <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-sm btn-outline-warning">
@@ -334,7 +335,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Right Column (Compact) -->
             <div class="col-lg-4">
                 <!-- Quick Actions & Info -->
-                <div class="stat-card compact">
+                <div class="card card-body compact">
                     <h6 class="mb-2"><i class="fas fa-bolt me-2"></i>Quick Actions</h6>
                     <div class="row g-2 mb-3">
                         <div class="col-6">
@@ -463,231 +464,6 @@ $avgDaily = round($totalHours / $daysLogged, 1);
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-    <style>
-        /* Compact Card Styles */
-        .stat-card.compact {
-            padding: 0.75rem 1rem;
-        }
-
-        .stat-card.compact h6 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-
-        /* Compact Avatar */
-        .compact-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        /* Small Stat Icons */
-        .stat-icon-sm {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-
-        .stat-value-sm {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-
-        .stat-label-sm {
-            font-size: 0.75rem;
-            color: #94a3b8;
-        }
-
-        /* Tech Tags */
-        .tech-tags .badge {
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            background-color: #1e293b;
-            border: 1px solid #334155;
-        }
-
-        /* Progress Items */
-        .progress-item-compact {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Notes List Compact */
-        .notes-list-compact {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .note-item-compact {
-            padding: 0.5rem;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-radius: 4px;
-            border-left: 3px solid #334155;
-        }
-
-        .note-item-compact.blocker {
-            border-left-color: #ef4444;
-            background-color: rgba(239, 68, 68, 0.05);
-        }
-
-        .note-item-compact.blocker .badge {
-            font-size: 0.65rem;
-            padding: 0.1rem 0.4rem;
-        }
-
-        /* Activity Timeline Compact */
-        .activity-timeline-compact {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .activity-item-compact {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
-        }
-
-        .activity-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-top: 0.35rem;
-            flex-shrink: 0;
-        }
-
-        .activity-content .small {
-            line-height: 1.3;
-        }
-
-        /* Time Summary */
-        .time-summary-compact .small {
-            font-size: 0.8rem;
-        }
-
-        /* Table Improvements */
-        .table-borderless td, .table-borderless th {
-            padding: 0.35rem 0.25rem;
-        }
-
-        .table-borderless tbody tr:not(:last-child) {
-            border-bottom: 1px solid #334155;
-        }
-
-        /* Small Badges */
-        .badge.small {
-            font-size: 0.7rem;
-            padding: 0.1rem 0.4rem;
-        }
-
-        /* Small Progress Bars */
-        .progress {
-            background-color: #334155;
-        }
-
-        /* Purple Badge */
-        .bg-purple {
-            background-color: #8b5cf6 !important;
-        }
-
-        /* Project Health Dot */
-        .project-health.small {
-            width: 8px;
-            height: 8px;
-        }
-
-        .project-health.small.health-good {
-            background-color: #10b981;
-        }
-
-        /* Button Spacing */
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        /* Modal Compact */
-        .modal-sm .modal-content {
-            background-color: #1e293b;
-            border: 1px solid #475569;
-        }
-
-        .modal-sm .modal-header {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #334155;
-        }
-
-        .modal-sm .modal-body {
-            padding: 1rem;
-        }
-
-        .modal-sm .modal-footer {
-            padding: 0.75rem 1rem;
-            border-top: 1px solid #334155;
-        }
-
-        .form-check-sm .form-check-input {
-            width: 0.85rem;
-            height: 0.85rem;
-            margin-top: 0.15rem;
-        }
-
-        .form-check-sm .form-check-label {
-            font-size: 0.85rem;
-        }
-
-        /* Accordion Styles */
-        .accordion-flush .accordion-item {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid #334155;
-        }
-
-        .accordion-flush .accordion-item:last-child {
-            border-bottom: none;
-        }
-
-        .accordion-button {
-            background-color: transparent;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            padding: 0.5rem 0;
-            box-shadow: none;
-        }
-
-        .accordion-button:not(.collapsed) {
-            background-color: transparent;
-            color: #e2e8f0;
-            box-shadow: none;
-        }
-
-        .accordion-button:focus {
-            box-shadow: none;
-            border-color: transparent;
-        }
-
-        .accordion-button::after {
-            background-size: 0.75rem;
-            width: 0.75rem;
-            height: 0.75rem;
-        }
-
-        .accordion-body {
-            padding: 0.75rem 0;
-            font-size: 0.85rem;
-        }
-    </style>
 
     <!-- JavaScript -->
     <script>
@@ -765,4 +541,4 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

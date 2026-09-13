@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Projects • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     
@@ -17,7 +18,7 @@
         <!-- Quick Stats Bar -->
         <div class="row mb-4">
             <div class="col-lg-12">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="row text-center">
                         <div class="col-md-3 col-6 mb-3 mb-md-0">
                             <div class="stat-value text-primary"><?= $stats['total'] ?></div>
@@ -41,7 +42,7 @@
         </div>
 
         <!-- Projects Tabs Section -->
-        <div class="stat-card">
+        <div class="card card-body">
             <!-- Tabs Navigation -->
             <ul class="nav nav-tabs mb-4" id="projectsTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -321,7 +322,7 @@
         <!-- Project Tags Section -->
         <div class="row mt-4">
             <div class="col-lg-12">
-                <div class="stat-card">
+                <div class="card card-body">
                     <h5 class="mb-3"><i class="fas fa-tags me-2"></i>Project Categories & Tags</h5>
                     <div class="d-flex flex-wrap gap-2">
                         <?php if (empty($tagStats)): ?>
@@ -447,4 +448,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

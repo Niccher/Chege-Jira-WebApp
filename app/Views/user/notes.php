@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Notes • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 
     
         
@@ -14,7 +15,7 @@
         <!-- Notes Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Total Notes</div>
                     <div class="stat-value" id="totalNotes"><?= $stats['total'] ?></div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
@@ -24,7 +25,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Starred</div>
                     <div class="stat-value text-warning" id="starredNotes"><?= $stats['starred'] ?></div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
@@ -34,7 +35,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Completed</div>
                     <div class="stat-value text-success" id="completedNotes"><?= $stats['completed'] ?></div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -44,7 +45,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Deleted</div>
                     <div class="stat-value text-danger" id="deletedNotes"><?= $stats['deleted'] ?></div>
                     <div class="stat-change text-danger mt-3 font-mono border-top border-danger border-opacity-25 pt-2">
@@ -58,7 +59,7 @@
         <div class="row" id="row_1">
             <!-- Notes List -->
             <div class="col-lg-4">
-                <div class="stat-card" style="height: calc(100vh - 300px); overflow-y: auto;">
+                <div class="card card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i>All Notes</h5>
                         <button class="btn btn-sm btn-outline-secondary" id="sortNotesBtn">
@@ -120,7 +121,7 @@
 
             <!-- Note Editor or New Note Form -->
             <div class="col-lg-8">
-                <div class="stat-card" style="height: calc(100vh - 300px); display: flex; flex-direction: column;">
+                <div class="card card-body" style="height: calc(100vh - 300px); display: flex; flex-direction: column;">
                     <form action="<?= site_url('notes/store') ?>" method="POST" id="newNoteForm" class="h-100 d-flex flex-column">
                         <?= csrf_field() ?>
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -226,136 +227,6 @@
         </div>
     </div>
 
-    <style>
-        /* Notes Styles */
-        .note-item {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: none;
-        }
-
-        .note-item:hover {
-            border-color: var(--bs-body-color);
-            box-shadow: 4px 4px 0 var(--border-color);
-            transform: translate(-2px, -2px);
-        }
-
-        .note-item.active {
-            border-color: var(--primary-color);
-            background-color: rgba(99, 102, 241, 0.05);
-        }
-
-        .note-item h6 {
-            font-family: 'Space Grotesk', monospace;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .completed-note {
-            opacity: 0.7;
-            border-left: 4px solid var(--bs-success);
-        }
-
-        .completed-note h6 {
-            text-decoration: line-through;
-        }
-
-        .note-meta {
-            text-align: right;
-            font-size: 0.8rem;
-            font-family: 'Space Grotesk', monospace;
-        }
-
-        .note-preview {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            font-size: 0.85rem;
-        }
-
-        .note-tags {
-            display: flex;
-            gap: 0.25rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .badge-sm {
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 0;
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-        }
-
-        .editor-toolbar {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0;
-            padding: 0.5rem;
-        }
-
-        .quick-note {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0;
-            padding: 1rem;
-            height: 120px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .quick-note-content {
-            flex-grow: 1;
-            overflow: hidden;
-            font-size: 0.9rem;
-        }
-
-        .quick-note-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 0.5rem;
-        }
-
-        #noteContent {
-            background-color: var(--bs-body-bg);
-            border: 1px solid var(--border-color);
-            color: var(--bs-body-color);
-            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-            resize: none;
-            border-radius: 0;
-        }
-        
-        #noteContent:focus {
-            border-color: var(--primary-color);
-            box-shadow: none;
-        }
-
-        /* Scrollbar Styling */
-        #notesList::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #notesList::-webkit-scrollbar-track {
-            background: var(--bs-body-bg);
-            border-radius: 0;
-        }
-
-        #notesList::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 0;
-        }
-        
-        #notesList::-webkit-scrollbar-thumb:hover {
-            background: var(--bs-secondary-color);
-        }
-    </style>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
@@ -485,4 +356,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

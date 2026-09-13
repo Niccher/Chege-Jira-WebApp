@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Edit Project • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
     
@@ -19,7 +20,7 @@
         <!-- Project Header -->
         <div class="row mb-4">
             <div class="col-lg-12">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
                             <div class="user-avatar me-3" style="width: 48px; height: 48px; background-color: <?= esc($project['color'] ?? '#6366f1') ?>; font-size: 20px;">
@@ -46,7 +47,7 @@
         <!-- Project Edit Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="mb-4">
                         <h5 class="mb-2"><i class="fas fa-edit me-2 text-warning"></i>Update Project Details</h5>
                         <p class="text-muted small">Current progress: <strong class="text-success">75% complete</strong></p>
@@ -352,7 +353,7 @@
                         </div>
 
                         <!-- Change History -->
-                        <div class="stat-card mt-4">
+                        <div class="card card-body mt-4">
                             <h6 class="mb-3"><i class="fas fa-history me-2 text-info"></i>Recent Changes</h6>
                             <div class="timeline small">
                                 <div class="d-flex mb-2">
@@ -636,4 +637,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

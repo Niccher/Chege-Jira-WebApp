@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header') ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 
     
         
@@ -16,7 +17,7 @@
         <!-- Quick Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-4 mb-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <div class="stat-label mb-2">Total Projects</div>
@@ -28,7 +29,7 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <div class="stat-label mb-2">Active Projects</div>
@@ -42,13 +43,13 @@
             <div class="col-md-4 mb-3">
                 <div class="row g-3 h-100">
                     <div class="col-12 h-50">
-                        <div class="stat-card p-3 border-dark d-flex justify-content-between align-items-center">
+                        <div class="card card-body p-3 border-dark d-flex justify-content-between align-items-center">
                             <div class="stat-label">Pending</div>
                             <div class="stat-value fs-4 text-warning" id="stalledProjects"><?= $stats['pending'] ?></div>
                         </div>
                     </div>
                     <div class="col-12 h-50">
-                        <div class="stat-card p-3 border-dark d-flex justify-content-between align-items-center">
+                        <div class="card card-body p-3 border-dark d-flex justify-content-between align-items-center">
                             <div class="stat-label">Archived</div>
                             <div class="stat-value fs-4 text-muted" id="archivedProjects"><?= $stats['archived'] ?></div>
                         </div>
@@ -68,7 +69,7 @@
 
                 <!-- Recent Activity Accordion -->
                 <div class="accordion mb-0" id="activityAccordion">
-                    <div class="accordion-item stat-card p-0" style="border: none;">
+                    <div class="accordion-item card card-body p-0" style="border: none;">
                         <h2 class="accordion-header p-3">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse" style="background: none; box-shadow: none; padding: 0; color: inherit; width: auto;">
                                 <h5 class="mb-0"><i class="fas fa-history me-2 text-warning"></i>Recent Activity</h5>
@@ -122,22 +123,3 @@
 
 <?= $this->include('layouts/user/footer') ?>
 
-<style>
-    .activity-timeline::before {
-        content: "";
-        position: absolute;
-        left: 20px;
-        top: 0;
-        bottom: 0;
-        width: 1px;
-        background: var(--border-color);
-        z-index: 1;
-    }
-    .activity-item:last-child {
-        margin-bottom: 0 !important;
-    }
-    .activity-legend i {
-        width: 14px;
-        text-align: center;
-    }
-</style>

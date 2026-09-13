@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Analytics • Chege JIRA']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 
     
         
@@ -14,7 +15,7 @@
         <!-- Key Metrics -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Total Projects</div>
                     <div class="stat-value"><?= esc($totalProjects) ?></div>
                     <div class="stat-change text-secondary mt-3 font-mono border-top pt-2">
@@ -24,7 +25,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Completion Rate</div>
                     <div class="stat-value text-success"><?= esc(round($completionRate)) ?>%</div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -34,7 +35,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Hours Logged</div>
                     <div class="stat-value text-warning"><?= esc(number_format($totalHours, 1)) ?></div>
                     <div class="stat-change text-warning mt-3 font-mono border-top border-warning border-opacity-25 pt-2">
@@ -44,7 +45,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="stat-card h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label mb-2">Avg Daily Hours</div>
                     <div class="stat-value text-success"><?= esc(number_format($avgDaily, 1)) ?></div>
                     <div class="stat-change text-success mt-3 font-mono border-top border-success border-opacity-25 pt-2">
@@ -58,7 +59,7 @@
         <div class="row mb-4">
             <!-- Project Completion Chart -->
             <div class="col-lg-8">
-                <div class="stat-card h-100">
+                <div class="card card-body h-100">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Project Completion Trends</h5>
                         <div class="btn-group btn-group-sm">
@@ -100,7 +101,7 @@
 
             <!-- Project Health Distribution -->
             <div class="col-lg-4">
-                <div class="stat-card h-100">
+                <div class="card card-body h-100">
                     <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Project Health Distribution</h5>
                     <div class="pie-chart-container">
                         <?php
@@ -156,7 +157,7 @@
         <div class="row mb-4">
             <!-- Time Distribution -->
             <div class="col-lg-6">
-                <div class="stat-card h-100">
+                <div class="card card-body h-100">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Time Distribution by Project</h5>
                         <button class="btn btn-sm btn-outline-secondary">Details</button>
@@ -188,7 +189,7 @@
 
             <!-- Productivity Heatmap -->
             <div class="col-lg-6">
-                <div class="stat-card h-100">
+                <div class="card card-body h-100">
                     <h5 class="mb-3"><i class="fas fa-calendar-alt me-2"></i>Monthly Activity Heatmap</h5>
                     <div class="heatmap-container">
                         <div class="heatmap-header">
@@ -229,7 +230,7 @@
         <!-- Insights & Recommendations -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="stat-card">
+                <div class="card card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Insights & Recommendations</h5>
                         <button class="btn btn-sm btn-outline-secondary">
@@ -241,7 +242,7 @@
                     <div class="row g-3">
                         <?php foreach ($insights as $insight): ?>
                         <div class="col-md-4">
-                            <div class="stat-card h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
+                            <div class="card card-body h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="<?= esc($insight['icon']) ?> text-<?= esc($insight['color']) ?> fs-5 me-2"></i>
                                     <h6 class="mb-0 text-white font-mono"><?= esc($insight['title']) ?></h6>
@@ -255,7 +256,7 @@
 
                     <div class="row g-3 mt-2">
                         <div class="col-md-6">
-                            <div class="stat-card p-3 border-dark">
+                            <div class="card card-body p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-check-square text-success me-2"></i>Completed This Month</h6>
                                 <ul class="small text-secondary mb-0 list-unstyled font-mono">
                                     <?php if (!empty($completedThisMonth)): ?>
@@ -270,7 +271,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="stat-card p-3 border-dark">
+                            <div class="card card-body p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Need Attention</h6>
                                 <ul class="small text-secondary mb-0 list-unstyled font-mono">
                                     <?php if (!empty($stalledTasks)): ?>
@@ -297,257 +298,6 @@
         </div>
     </div>
 
-    <style>
-        /* Analytics Styles */
-        .stat-change {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Chart Styles */
-        .chart-container {
-            padding: 1rem 0;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1rem;
-        }
-
-        .chart-legend {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            margin-right: 0.5rem;
-        }
-
-        .bar-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .chart-row {
-            display: grid;
-            grid-template-columns: 60px 1fr 60px;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .chart-label {
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-
-        .chart-bars {
-            display: flex;
-            height: 24px;
-            background-color: #334155;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .chart-bars .bar {
-            height: 100%;
-            transition: width 0.3s ease;
-        }
-
-        .chart-bars .bar:hover {
-            filter: brightness(1.2);
-        }
-
-        .chart-value {
-            text-align: right;
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-
-        /* Pie Chart */
-        .pie-chart-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .pie-chart {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            position: relative;
-            margin-right: 2rem;
-        }
-
-        .pie-center {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: #0f172a;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pie-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #e2e8f0;
-        }
-
-        .pie-label {
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-
-        .pie-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .pie-legend .legend-item {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Project Icons */
-        .project-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-        }
-
-        /* Heatmap */
-        .heatmap-container {
-            padding: 1rem 0;
-        }
-
-        .heatmap-header {
-            margin-bottom: 1rem;
-        }
-
-        .heatmap-months {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .heatmap-grid {
-            display: grid;
-            grid-template-columns: repeat(30, 1fr);
-            gap: 3px;
-            justify-content: center;
-        }
-
-        .heatmap-square {
-            width: 14px;
-            height: 14px;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .heatmap-square:hover {
-            transform: scale(1.2);
-        }
-
-        .heatmap-legend {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            display: inline-block;
-            margin: 0 2px;
-        }
-
-        /* Insights */
-        .insight-card {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            padding: 1rem;
-            height: 100%;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .insight-card.insight-positive {
-            border-left: 4px solid #10b981;
-        }
-
-        .insight-card.insight-warning {
-            border-left: 4px solid #f59e0b;
-        }
-
-        .insight-card.insight-info {
-            border-left: 4px solid #6366f1;
-        }
-
-        .insight-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background-color: rgba(16, 185, 129, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #10b981;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-
-        .insight-warning .insight-icon {
-            background-color: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-
-        .insight-info .insight-icon {
-            background-color: rgba(99, 102, 241, 0.2);
-            color: #6366f1;
-        }
-
-        .insight-content h6 {
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
-        }
-
-        .insight-content p, .insight-content ul {
-            margin-bottom: 0;
-        }
-
-        .insight-content ul {
-            padding-left: 1.2rem;
-        }
-
-        .insight-content li {
-            margin-bottom: 0.25rem;
-        }
-    </style>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
@@ -614,4 +364,4 @@
         });
     </script>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>

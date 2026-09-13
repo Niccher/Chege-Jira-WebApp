@@ -1,5 +1,6 @@
-<?= $this->include('layouts/user/header', ['title' => 'Chege JIRA Dashboard • Kanban Board']) ?>
-<?= $this->include('layouts/user/sidebar') ?>
+<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->section('content') ?>
+
 
     
         
@@ -200,81 +201,6 @@
         });
     </script>
 
-    <style>
-        .kanban-container {
-            height: calc(100vh - 120px);
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        .kanban-row {
-            height: 100%;
-            margin: 0;
-            padding: 10px;
-        }
-        .col-kanban {
-            width: 320px;
-            min-width: 320px;
-            max-width: 320px;
-            height: 100%;
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 1.5rem;
-        }
-        .kanban-column {
-            background-color: var(--bs-body-bg);
-            padding: 1.25rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            border: 2px solid var(--border-color);
-        }
-        .kanban-cards {
-            flex-grow: 1;
-            overflow-y: auto;
-            min-height: 200px;
-        }
-        .kanban-cards::-webkit-scrollbar {
-            width: 5px;
-        }
-        .kanban-cards::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-        }
-        .kanban-ghost {
-            opacity: 0.4;
-            background: var(--primary-color) !important;
-        }
-        .breadcrumb-item + .breadcrumb-item::before {
-            color: var(--border-color);
-        }
-        .modal-content {
-            background-color: var(--bs-body-bg);
-            border: 1px solid var(--border-color);
-            color: var(--bs-body-color);
-        }
-        .modal-header { border-bottom: 1px solid var(--border-color); }
-        .modal-footer { border-top: 1px solid var(--border-color); }
-        .form-control, .form-select {
-            background-color: var(--bs-body-bg);
-            border: 1px solid var(--border-color);
-            color: var(--bs-body-color);
-        }
-        .form-control:focus, .form-select:focus {
-            background-color: var(--bs-body-bg);
-            border-color: var(--primary-color);
-            color: var(--bs-body-color);
-            box-shadow: none;
-        }
-        .kanban-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 0.75rem;
-            margin-bottom: 0.75rem;
-            cursor: grab;
-        }
-        .kanban-card:hover {
-            border-color: var(--primary-color);
-        }
-    </style>
 
 <!-- Edit Task Modal -->
 <div class="modal fade" id="editTaskModal" tabindex="-1" aria-hidden="true">
@@ -318,4 +244,4 @@
     </div>
 </div>
 
-<?= $this->include('layouts/user/footer') ?>
+<?= $this->endSection() ?>
