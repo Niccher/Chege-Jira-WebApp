@@ -62,6 +62,8 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/features"><i class="fa fa-list"></i> Features</a></li>
+                <li><a href="/compare"><i class="fa fa-balance-scale"></i> Compare</a></li>
+                <li><a href="/community"><i class="fa fa-users"></i> Community</a></li>
                 <li><a href="/setup"><i class="fa fa-cogs"></i> Setup Guide</a></li>
                 <li><a href="/faqs"><i class="fa fa-question-circle"></i> FAQs</a></li>
                 <?php if(auth()->loggedIn()): ?>

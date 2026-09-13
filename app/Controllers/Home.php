@@ -43,6 +43,41 @@ class Home extends BaseController
         ]);
     }
 
+    public function compare()
+    {
+        if (auth()->loggedIn()) {
+            return redirect()->to('/home');
+        }
+
+        return view('landing/compare', [
+            'pageTitle' => 'Compare
+
+    public function compare()
+    {
+        if (auth()->loggedIn()) {
+            return redirect()->to('/home');
+        }
+
+        return view('landing/compare', [
+            'pageTitle' => 'Compare — ' . esc(setting('App.siteName')),
+            'metaDescription' => 'Compare Chege Jira against enterprise SaaS project trackers.',
+            'metaKeywords' => 'compare, alternative, project management, vs saas',
+        ]);
+    }
+
+    public function community()
+    {
+        if (auth()->loggedIn()) {
+            return redirect()->to('/home');
+        }
+
+        return view('landing/community', [
+            'pageTitle' => 'Community — ' . esc(setting('App.siteName')),
+            'metaDescription' => 'Join the community, contribute code, and report bugs.',
+            'metaKeywords' => 'community, github, open source, contribute',
+        ]);
+    }
+
     public function faqs()
     {
         if (auth()->loggedIn()) {

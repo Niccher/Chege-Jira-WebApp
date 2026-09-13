@@ -8,6 +8,8 @@ $routes->get('/', 'Home::index');
 $routes->get('/features', 'Home::features');
 $routes->get('/setup', 'Home::setup');
 $routes->get('/faqs', 'Home::faqs');
+$routes->get('/compare', 'Home::compare');
+$routes->get('/community', 'Home::community');
 $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/home', 'User\MyDashboardController::index');
     $routes->get('/dashboard', 'User\MyDashboardController::index');

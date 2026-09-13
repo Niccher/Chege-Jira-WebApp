@@ -74,4 +74,52 @@
     </div>
 </div>
 
+
+<!-- Open Source Philosophy -->
+<div class="container" style="padding-top: 50px; padding-bottom: 50px; border-top: 1px solid #e2e8f0;">
+    <div class="section-header">
+        <h2>Open Source by design. Private by default.</h2>
+        <p>Why pay per-seat licensing fees when you can own your data and your infrastructure?</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3 style="color: #2679b5;"><i class="fa fa-lock"></i> 100% Data Ownership</h3>
+            <p style="font-size: 16px; color: #555; line-height: 1.6;">
+                When you use cloud SaaS trackers, your proprietary code, bug reports, and unreleased feature plans live on someone else's servers. 
+                With <?= esc(setting('App.siteName')) ?>, you host it yourself. Your data never leaves your infrastructure, and no AI models will scrape your confidential issues.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h3 style="color: #2679b5;"><i class="fa fa-users"></i> Unlimited Seats ($0)</h3>
+            <p style="font-size: 16px; color: #555; line-height: 1.6;">
+                Enterprise SaaS trackers charge you exorbitant fees for every single user you add to your team. 
+                <?= esc(setting('App.siteName')) ?> scales with you for free. Add 10 users or 10,000 users. Your monthly cost remains exactly $0.
+            </p>
+        </div>
+    </div>
+    
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-6">
+            <h3 style="color: #2679b5;"><i class="fa fa-code"></i> Extensible & Transparent</h3>
+            <p style="font-size: 16px; color: #555; line-height: 1.6;">
+                Missing a feature? You don't have to wait years for a corporate product roadmap to catch up. 
+                Because the codebase is open-source (PHP 8 + CodeIgniter 4), your developers can easily audit the code, write custom plugins, or modify the core to fit your exact workflow.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h3 style="color: #2679b5;"><i class="fa fa-external-link"></i> No Vendor Lock-In</h3>
+            <p style="font-size: 16px; color: #555; line-height: 1.6;">
+                We don't trap your data. You have direct access to the MySQL/PostgreSQL database. 
+                Export your issues to CSV, JSON, or SQL at any time. If you decide to migrate away, you can do so freely.
+            </p>
+        </div>
+    </div>
+    
+    <div class="text-center" style="margin-top: 40px;">
+        <a href="/compare" class="btn btn-default btn-lg btn-round">See how we compare to Enterprise Trackers <i class="fa fa-arrow-right"></i></a>
+    </div>
+</div>
+
+
 <?= $this->include('landing/footer') ?>
