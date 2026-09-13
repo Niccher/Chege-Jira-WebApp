@@ -80,6 +80,7 @@ $routes->group('manage', ['filter' => 'session,manager'], function($routes) {
     $routes->post('approvals/(:num)/reject', 'Manager\WorkApprovalController::reject/$1');
     $routes->get('reports', 'Manager\ReportController::index');
     $routes->post('reports/generate', 'Manager\ReportController::generate');
+    $routes->get('reports/download/(:num)', 'Manager\ReportController::download/$1');
 });
 
 // Admin zone — requires login + admin role
