@@ -1,8 +1,11 @@
 # Environment variables
 .env
+.env.backup
+.env.testing
 
 # Dependencies
 vendor/
+node_modules/
 
 # User uploads and generated files
 writable/uploads/*
@@ -11,11 +14,13 @@ writable/reports/*
 !writable/reports/index.html
 public/uploads/avatars/*
 
-# Logs and Sessions
-writable/cache/
+# Logs, Cache, Sessions and Debug
+writable/cache/*
+!writable/cache/index.html
 writable/logs/*
 !writable/logs/index.html
-writable/session/
+writable/session/*
+!writable/session/index.html
 writable/debugbar/*
 !writable/debugbar/index.html
 
@@ -25,3 +30,7 @@ writable/debugbar/*
 *.swp
 .DS_Store
 Thumbs.db
+
+# Custom unused scripts
+refactor_*.py
+fix-*.sh
