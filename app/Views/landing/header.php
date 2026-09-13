@@ -62,6 +62,21 @@
         .bg-primary-lighten {
             background-color: rgba(114, 124, 245, 0.15) !important;
         }
+        .bg-success-lighten {
+            background-color: rgba(10, 207, 151, 0.15) !important;
+        }
+        .bg-danger-lighten {
+            background-color: rgba(250, 92, 124, 0.15) !important;
+        }
+        .bg-warning-lighten {
+            background-color: rgba(255, 188, 0, 0.15) !important;
+        }
+        .bg-info-lighten {
+            background-color: rgba(57, 175, 209, 0.15) !important;
+        }
+        .bg-dark-lighten {
+            background-color: rgba(49, 58, 70, 0.15) !important;
+        }
     </style>
 </head>
 <body class="loading" data-layout-config='{"darkMode":false}'>

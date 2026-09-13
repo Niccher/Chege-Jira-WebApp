@@ -1,61 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>403 Error | Chege Jira</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-
-    <link rel="stylesheet" href="<?= base_url('assets/hyper/css/app.min.css') ?>" />
-    <link rel="stylesheet" href="<?= base_url('assets/ace/font-awesome/4.5.0/css/font-awesome.min.css') ?>" />
-    <link rel="stylesheet" href="<?= base_url('assets/ace/css/fonts.googleapis.com.css') ?>" />
-    <link rel="stylesheet" href="<?= base_url('assets/hyper/css/app-dark.min.css') ?>" class="ace-main-stylesheet" id="main-ace-style" />
-    <!-- Removed modern-ace.css -->
+    <title>403 Access Forbidden | <?= esc(setting('App.siteName')) ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="<?= base_url('assets/hyper/images/favicon.ico') ?>">
+    <link href="<?= base_url('assets/hyper/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('assets/hyper/css/app.min.css') ?>" rel="stylesheet" type="text/css" id="light-style" />
 </head>
-<body class="no-skin">
-    <div class="main-container ace-save-state" id="main-container">
-        <div class="main-content">
-            <div class="main-content-inner">
-                <div class="page-content">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- PAGE CONTENT BEGINS -->
-                            <div class="error-container">
-                                <div class="well">
-                                    <h1 class="grey lighter smaller">
-                                        <span class="red bigger-125">
-                                            <i class="ace-icon fa fa-ban"></i>
-                                            403
-                                        </span>
-                                        Forbidden
-                                    </h1>
 
-                                    <hr />
-                                    <h3 class="lighter smaller">
-                                        You do not have permission to access this resource.
-                                    </h3>
-                                    
-                                    <div class="space"></div>
+<body class="loading authentication-bg" data-layout-config='{"darkMode":false}'>
+    <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-5 col-lg-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header pt-4 pb-4 text-center bg-primary">
+                            <a href="<?= site_url() ?>">
+                                <span class="text-white font-22 fw-bold">
+                                    <i class="mdi mdi-leaf"></i> <?= esc(setting('App.siteName')) ?>
+                                </span>
+                            </a>
+                        </div>
 
-                                    <div class="center">
-                                        <a href="javascript:history.back()" class="btn btn-grey">
-                                            <i class="ace-icon fa fa-arrow-left"></i>
-                                            Go Back
-                                        </a>
+                        <div class="card-body p-4 text-center">
+                            <img src="<?= base_url('assets/hyper/images/help-icon.svg') ?>" height="110" alt="Access Forbidden" class="my-3">
+                            <h1 class="text-warning fw-bold mt-2 display-6">403</h1>
+                            <h4 class="text-dark mt-2 fw-semibold">Access Forbidden</h4>
+                            <p class="text-muted font-14 mt-2 mb-4">
+                                You do not have the required permissions or role to access this restricted page or resource.
+                            </p>
 
-                                        <a href="<?= base_url() ?>" class="btn btn-primary">
-                                            <i class="ace-icon fa fa-tachometer"></i>
-                                            Dashboard
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a class="btn btn-info rounded-pill px-4" href="javascript:history.back()">
+                                    <i class="mdi mdi-arrow-left me-1"></i> Go Back
+                                </a>
+                                <a class="btn btn-primary rounded-pill px-4" href="<?= site_url('dashboard') ?>">
+                                    <i class="mdi mdi-home me-1"></i> Dashboard
+                                </a>
                             </div>
-                            <!-- PAGE CONTENT ENDS -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="footer footer-alt text-muted text-center">
+        <?= date('Y') ?> © <?= esc(setting('App.siteName')) ?>
+    </footer>
+
+    <script src="<?= base_url('assets/hyper/js/vendor.min.js') ?>"></script>
+    <script src="<?= base_url('assets/hyper/js/app.min.js') ?>"></script>
 </body>
 </html>

@@ -14,6 +14,8 @@ $routes->get('/community', 'Home::community');
 $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/home', 'User\MyDashboardController::index');
     $routes->get('/dashboard', 'User\MyDashboardController::index');
+    $routes->get('/user/dashboard', 'User\MyDashboardController::index');
+    $routes->get('/user/home', 'User\MyDashboardController::index');
     
     // Projects
     $routes->get('/projects', 'User\ProjectController::index');
