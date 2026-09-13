@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -20,7 +20,7 @@
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="todo">
                         <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">TO DO <span class="badge bg-secondary ms-2" id="count-todo"><?= count($boardData['todo']) ?></span></h6>
+                            <h6 class="mb-0">TO DO <span class="badge badge-default ms-2" id="count-todo"><?= count($boardData['todo']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="todo-list">
@@ -35,7 +35,7 @@
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="in_progress">
                         <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">IN PROGRESS <span class="badge bg-info ms-2" id="count-in_progress"><?= count($boardData['in_progress']) ?></span></h6>
+                            <h6 class="mb-0">IN PROGRESS <span class="badge badge-info ms-2" id="count-in_progress"><?= count($boardData['in_progress']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="in_progress-list">
@@ -50,7 +50,7 @@
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="review">
                         <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0">REVIEW <span class="badge bg-warning ms-2" id="count-review"><?= count($boardData['review']) ?></span></h6>
+                            <h6 class="mb-0">REVIEW <span class="badge badge-warning ms-2" id="count-review"><?= count($boardData['review']) ?></span></h6>
                             <button class="btn btn-sm btn-link text-muted p-0"><i class="fas fa-plus"></i></button>
                         </div>
                         <div class="kanban-cards sortable-list" id="review-list">
@@ -65,7 +65,7 @@
                 <div class="col-kanban">
                     <div class="kanban-column" data-status="done">
                         <div class="column-header d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="mb-0 text-success">DONE <span class="badge bg-success ms-2" id="count-done"><?= count($boardData['done']) ?></span></h6>
+                            <h6 class="mb-0 text-success">DONE <span class="badge badge-success ms-2" id="count-done"><?= count($boardData['done']) ?></span></h6>
                         </div>
                         <div class="kanban-cards sortable-list" id="done-list">
                             <?php foreach ($boardData['done'] as $task): ?>
@@ -87,7 +87,7 @@
                     <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
                     <div class="modal-header">
                         <h5 class="modal-title">Create New Task</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Create Task</button>
                     </div>
                 </form>
@@ -208,7 +208,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edit Task</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editTaskId">
@@ -237,7 +237,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-primary" id="saveTaskEditBtn">Save Changes</button>
             </div>
         </div>

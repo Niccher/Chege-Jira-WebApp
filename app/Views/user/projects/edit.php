@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -178,7 +178,7 @@
                             <!-- Progress -->
                             <div class="mb-4">
                                 <label for="projectProgress" class="form-label">
-                                    Current Progress <span id="progressValue" class="badge bg-success"><?= $project['progress'] ?>%</span>
+                                    Current Progress <span id="progressValue" class="badge badge-success"><?= $project['progress'] ?>%</span>
                                 </label>
                                 <input type="range" class="form-range" id="projectProgress" name="progress"
                                        min="0" max="100" value="<?= $project['progress'] ?>" step="5">
@@ -212,19 +212,19 @@
                                     <div class="category-pills d-flex flex-wrap gap-2 mb-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="web_app" id="catWeb" <?= in_array('web_app', $categories) ? 'checked' : '' ?>>
-                                            <label class="form-check-label badge bg-primary" for="catWeb">Web Application</label>
+                                            <label class="form-check-label badge badge-primary" for="catWeb">Web Application</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="api" id="catAPI" <?= in_array('api', $categories) ? 'checked' : '' ?>>
-                                            <label class="form-check-label badge bg-success" for="catAPI">API/Backend</label>
+                                            <label class="form-check-label badge badge-success" for="catAPI">API/Backend</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="mobile" id="catMobile" <?= in_array('mobile', $categories) ? 'checked' : '' ?>>
-                                            <label class="form-check-label badge bg-info" for="catMobile">Mobile App</label>
+                                            <label class="form-check-label badge badge-info" for="catMobile">Mobile App</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="learning" id="catLearning" <?= in_array('learning', $categories) ? 'checked' : '' ?>>
-                                            <label class="form-check-label badge bg-warning" for="catLearning">Learning Project</label>
+                                            <label class="form-check-label badge badge-warning" for="catLearning">Learning Project</label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="portfolio" id="catPortfolio" <?= in_array('portfolio', $categories) ? 'checked' : '' ?>>
@@ -232,7 +232,7 @@
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="freelance" id="catFreelance" <?= in_array('freelance', $categories) ? 'checked' : '' ?>>
-                                            <label class="form-check-label badge bg-danger" for="catFreelance">Freelance Work</label>
+                                            <label class="form-check-label badge badge-danger" for="catFreelance">Freelance Work</label>
                                         </div>
                                     </div>
                                     <input type="hidden" name="categories" id="projectCategories" value="<?= esc(implode(',', $categories)) ?>">
@@ -393,7 +393,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete <strong>"<?= esc($project['name']) ?>"</strong>?</p>
@@ -409,7 +409,7 @@
                     <p class="text-danger mb-0"><strong>This action cannot be undone!</strong></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
                         <i class="fas fa-trash me-1"></i> Delete Project
                     </button>

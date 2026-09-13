@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -144,7 +144,7 @@
                             <!-- Progress -->
                             <div class="mb-4">
                                 <label for="projectProgress" class="form-label">
-                                    Current Progress <span id="progressValue" class="badge bg-primary">0%</span>
+                                    Current Progress <span id="progressValue" class="badge badge-primary">0%</span>
                                 </label>
                                 <input type="range" class="form-range" id="projectProgress" name="progress"
                                        min="0" max="100" value="0" step="5">
@@ -172,25 +172,25 @@
                                     <div class="category-pills d-flex flex-wrap gap-2 mb-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="web_app" id="catWeb">
-                                            <label class="form-check-label badge bg-primary" for="catWeb">
+                                            <label class="form-check-label badge badge-primary" for="catWeb">
                                                 Web Application
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="api" id="catAPI">
-                                            <label class="form-check-label badge bg-success" for="catAPI">
+                                            <label class="form-check-label badge badge-success" for="catAPI">
                                                 API/Backend
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="mobile" id="catMobile">
-                                            <label class="form-check-label badge bg-info" for="catMobile">
+                                            <label class="form-check-label badge badge-info" for="catMobile">
                                                 Mobile App
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="learning" id="catLearning">
-                                            <label class="form-check-label badge bg-warning" for="catLearning">
+                                            <label class="form-check-label badge badge-warning" for="catLearning">
                                                 Learning Project
                                             </label>
                                         </div>
@@ -202,7 +202,7 @@
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="freelance" id="catFreelance">
-                                            <label class="form-check-label badge bg-danger" for="catFreelance">
+                                            <label class="form-check-label badge badge-danger" for="catFreelance">
                                                 Freelance Work
                                             </label>
                                         </div>

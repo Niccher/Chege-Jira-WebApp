@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 <?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -72,7 +72,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Design Dashboard Layout</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -89,8 +89,8 @@
                                     <p class="small">Create wireframes and design system for dashboard</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-warning">Medium</span>
-                                            <span class="badge bg-info">Design</span>
+                                            <span class="badge badge-warning">Medium</span>
+                                            <span class="badge badge-info">Design</span>
                                         </div>
                                         <div class="task-date small text-muted">
                                             <i class="fas fa-calendar me-1"></i> Mar 20
@@ -114,7 +114,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Setup Database Schema</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -131,7 +131,7 @@
                                     <p class="small">Design and implement database tables</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-primary">High</span>
+                                            <span class="badge badge-primary">High</span>
                                             <span class="badge bg-dark">Backend</span>
                                         </div>
                                         <div class="task-date small text-muted">
@@ -146,7 +146,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Research API Integrations</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -163,8 +163,8 @@
                                     <p class="small">Research GitHub, GitLab, and Jira APIs</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-secondary">Low</span>
-                                            <span class="badge bg-success">Research</span>
+                                            <span class="badge badge-default">Low</span>
+                                            <span class="badge badge-success">Research</span>
                                         </div>
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Implement Authentication</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -209,8 +209,8 @@
                                     <p class="small">JWT authentication and user management</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-primary">High</span>
-                                            <span class="badge bg-danger">Security</span>
+                                            <span class="badge badge-primary">High</span>
+                                            <span class="badge badge-danger">Security</span>
                                         </div>
                                         <div class="task-date small text-muted">
                                             <i class="fas fa-calendar me-1"></i> Today
@@ -232,7 +232,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Mobile App UI Design</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -249,8 +249,8 @@
                                     <p class="small">Create React Native UI components</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-warning">Medium</span>
-                                            <span class="badge bg-info">Mobile</span>
+                                            <span class="badge badge-warning">Medium</span>
+                                            <span class="badge badge-info">Mobile</span>
                                         </div>
                                         <div class="task-date small text-muted">
                                             <i class="fas fa-calendar me-1"></i> Mar 25
@@ -264,7 +264,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">API Rate Limiting</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -281,8 +281,8 @@
                                     <p class="small">Waiting for API documentation from team</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-primary">High</span>
-                                            <span class="badge bg-danger">Blocked</span>
+                                            <span class="badge badge-primary">High</span>
+                                            <span class="badge badge-danger">Blocked</span>
                                         </div>
                                         <div class="task-date small text-muted">
                                             <i class="fas fa-calendar me-1"></i> Mar 18
@@ -313,7 +313,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Dashboard Unit Tests</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -330,8 +330,8 @@
                                     <p class="small">Write unit tests for dashboard components</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-warning">Medium</span>
-                                            <span class="badge bg-success">Testing</span>
+                                            <span class="badge badge-warning">Medium</span>
+                                            <span class="badge badge-success">Testing</span>
                                         </div>
                                         <div class="task-date small text-muted">
                                             <i class="fas fa-calendar me-1"></i> Mar 19
@@ -345,7 +345,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Mobile App QA</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -362,8 +362,8 @@
                                     <p class="small">Quality assurance testing on iOS and Android</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-primary">High</span>
-                                            <span class="badge bg-info">QA</span>
+                                            <span class="badge badge-primary">High</span>
+                                            <span class="badge badge-info">QA</span>
                                         </div>
                                     </div>
                                 </div>
@@ -391,7 +391,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Project Setup</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -408,7 +408,7 @@
                                     <p class="small">Initial project setup and configuration</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-secondary">Low</span>
+                                            <span class="badge badge-default">Low</span>
                                             <span class="badge bg-dark">Setup</span>
                                         </div>
                                         <div class="task-date small text-success">
@@ -423,7 +423,7 @@
                                     <div class="d-flex justify-content-between align-items-start">
                                         <div class="task-title">Design System</div>
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -440,8 +440,8 @@
                                     <p class="small">Created color palette and typography system</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="task-meta">
-                                            <span class="badge bg-warning">Medium</span>
-                                            <span class="badge bg-info">Design</span>
+                                            <span class="badge badge-warning">Medium</span>
+                                            <span class="badge badge-info">Design</span>
                                         </div>
                                         <div class="task-date small text-success">
                                             <i class="fas fa-check me-1"></i> Mar 10
@@ -469,7 +469,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>New Task</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="newTaskForm">
@@ -519,7 +519,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="createTaskBtn">Create Task</button>
                 </div>
             </div>

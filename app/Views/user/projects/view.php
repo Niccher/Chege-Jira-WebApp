@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1));
@@ -22,7 +22,6 @@ $totalHours = round(($time_stats['total_seconds'] ?? 0) / 3600, 1);
 $daysLogged = max($time_stats['days_logged'] ?? 1, 1);
 $avgDaily = round($totalHours / $daysLogged, 1);
 ?>
-<?= $this->include('layouts/user/sidebar') ?>
 
     
         
@@ -55,9 +54,9 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                 <p class="text-muted small mb-0"><?= esc($project['description']) ?></p>
                                 <div class="d-flex align-items-center gap-1 mt-1">
                                     <span class="badge bg-<?= $project['status'] === 'in_progress' ? 'success' : 'secondary' ?>"><?= ucfirst(str_replace('_', ' ', $project['status'])) ?></span>
-                                    <span class="badge bg-primary"><?= ucfirst($project['priority']) ?> Priority</span>
+                                    <span class="badge badge-primary"><?= ucfirst($project['priority']) ?> Priority</span>
                                     <?php foreach ($categories as $cat): ?>
-                                        <span class="badge bg-info"><?= ucfirst($cat) ?></span>
+                                        <span class="badge badge-info"><?= ucfirst($cat) ?></span>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -152,9 +151,9 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                             <tbody>
                             <tr>
                                 <td class="text-muted" style="width: 120px;">Status</td>
-                                <td><span class="badge bg-success"><?= ucfirst(str_replace('_', ' ', $project['status'])) ?></span></td>
+                                <td><span class="badge badge-success"><?= ucfirst(str_replace('_', ' ', $project['status'])) ?></span></td>
                                 <td class="text-muted">Priority</td>
-                                <td><span class="badge bg-primary"><?= ucfirst($project['priority']) ?></span></td>
+                                <td><span class="badge badge-primary"><?= ucfirst($project['priority']) ?></span></td>
                             </tr>
                             <tr>
                                 <td class="text-muted">Repository</td>
@@ -186,7 +185,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                 <td class="text-muted">Categories</td>
                                 <td colspan="3">
                                     <?php foreach ($categories as $cat): ?>
-                                        <span class="badge bg-primary me-1"><?= ucfirst(str_replace('_', ' ', $cat)) ?></span>
+                                        <span class="badge badge-primary me-1"><?= ucfirst(str_replace('_', ' ', $cat)) ?></span>
                                     <?php endforeach; ?>
                                 </td>
                             </tr>
@@ -199,7 +198,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Progress Breakdown -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#progressCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#progressCollapse">
                                     <i class="fas fa-tasks me-2"></i> Progress Breakdown
                                 </button>
                             </h2>
@@ -231,9 +230,9 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Milestones -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#milestonesCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#milestonesCollapse">
                                     <i class="fas fa-flag-checkered me-2"></i> Milestones 
-                                    <span class="badge bg-success ms-2 small">
+                                    <span class="badge badge-success ms-2 small">
                                         <?= count(array_filter($milestones, fn($ms) => $ms['status'] === 'completed')) ?>/<?= count($milestones) ?>
                                     </span>
                                 </button>
@@ -284,7 +283,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Notes -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#notesCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#notesCollapse">
                                     <i class="fas fa-sticky-note me-2"></i> Notes & Observations
                                 </button>
                             </h2>
@@ -302,7 +301,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                                     <div class="text-muted small"><?= !empty($note['created_at']) ? timeAgo($note['created_at']) : '' ?></div>
                                                 </div>
                                                 <p class="small text-muted mb-1"><?= esc($note['content'] ?? $note['description'] ?? '') ?></p>
-                                                <?php if (!empty($note['is_blocker'])): ?><span class="badge bg-danger small">Blocker</span><?php endif; ?>
+                                                <?php if (!empty($note['is_blocker'])): ?><span class="badge badge-danger small">Blocker</span><?php endif; ?>
                                             </div>
                                             <?php endforeach; ?>
                                         <?php else: ?>
@@ -316,7 +315,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Description -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#descriptionCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#descriptionCollapse">
                                     <i class="fas fa-align-left me-2"></i> Description
                                 </button>
                             </h2>
@@ -365,7 +364,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Time Summary -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#timeCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#timeCollapse">
                                     <i class="fas fa-chart-pie me-2"></i> Time Summary
                                 </button>
                             </h2>
@@ -396,7 +395,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                         <!-- Recent Activity -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse">
+                                <button class="accordion-button" type="button" data-toggle="collapse" data-target="#activityCollapse">
                                     <i class="fas fa-history me-2"></i> Recent Activity
                                 </button>
                             </h2>
@@ -432,7 +431,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <div class="modal-content">
                 <div class="modal-header">
                     <h6 class="modal-title mb-0"><i class="fas fa-sticky-note me-2"></i>Add Note</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="addNoteForm" action="<?= site_url('notes/store') ?>" method="POST">
@@ -454,7 +453,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                     </form>
                 </div>
                 <div class="modal-footer py-2">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-sm btn-primary" id="saveNoteBtn">Save</button>
                 </div>
             </div>
@@ -500,7 +499,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
                                     <div class="text-muted small">Just now</div>
                                 </div>
                                 <p class="small text-muted mb-1">${noteContent}</p>
-                                ${isBlocker ? '<span class="badge bg-danger small">Blocker</span>' : ''}
+                                ${isBlocker ? '<span class="badge badge-danger small">Blocker</span>' : ''}
                             </div>
                         `;
 

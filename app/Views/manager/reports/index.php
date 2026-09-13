@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/user/app') ?>
+<?= $this->extend('layouts/ace/main') ?>
 
 <?= $this->section('content') ?>
 <div class="container-fluid py-4">
@@ -99,9 +99,9 @@
                                         <tr>
                                             <td class="ps-4">
                                                 <?php if ($report['type'] === 'pdf'): ?>
-                                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger"><i class="fas fa-file-pdf"></i> PDF</span>
+                                                    <span class="badge badge-danger bg-opacity-10 text-danger border border-danger"><i class="fas fa-file-pdf"></i> PDF</span>
                                                 <?php else: ?>
-                                                    <span class="badge bg-success bg-opacity-10 text-success border border-success"><i class="fas fa-file-csv"></i> CSV</span>
+                                                    <span class="badge badge-success bg-opacity-10 text-success border border-success"><i class="fas fa-file-csv"></i> CSV</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td>

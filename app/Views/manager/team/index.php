@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/user/app') ?>
+<?= $this->extend('layouts/ace/main') ?>
 
 <?= $this->section('content') ?>
 <div class="container-fluid py-4">
@@ -82,7 +82,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-end pe-4">
-                                                <span class="badge bg-success rounded-pill px-3 py-2 fs-6">
+                                                <span class="badge badge-success rounded-pill px-3 py-2 fs-6">
                                                     <?= $user['completed_tasks'] ?>
                                                 </span>
                                             </td>

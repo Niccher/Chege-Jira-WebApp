@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -115,7 +115,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark" id="timeEntriesTable">
+                        <table class="table table-hover table-striped table-bordered" id="timeEntriesTable">
                             <thead>
                             <tr>
                                 <th>Date / Time</th>
@@ -212,7 +212,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-clock me-2"></i>Manual Time Entry</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="manualEntryForm" action="<?= site_url('time/manual') ?>" method="POST">
@@ -250,7 +250,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="saveEntryBtn">Save Entry</button>
                 </div>
             </div>

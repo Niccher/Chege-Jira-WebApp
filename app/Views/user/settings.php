@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 <?php
@@ -21,25 +21,25 @@ $timezones = DateTimeZone::listIdentifiers();
             <div class="col-lg-3">
                 <div class="card card-body">
                     <nav class="nav flex-column settings-nav">
-                        <a class="nav-link active" href="#profile" data-bs-toggle="tab">
+                        <a class="nav-link active" href="#profile" data-toggle="tab">
                             <i class="fas fa-user me-2"></i> Profile
                         </a>
-                        <a class="nav-link" href="#appearance" data-bs-toggle="tab">
+                        <a class="nav-link" href="#appearance" data-toggle="tab">
                             <i class="fas fa-palette me-2"></i> Appearance
                         </a>
-                        <a class="nav-link" href="#notifications" data-bs-toggle="tab">
+                        <a class="nav-link" href="#notifications" data-toggle="tab">
                             <i class="fas fa-bell me-2"></i> Notifications
                         </a>
-                        <a class="nav-link" href="#projects" data-bs-toggle="tab">
+                        <a class="nav-link" href="#projects" data-toggle="tab">
                             <i class="fas fa-project-diagram me-2"></i> Projects
                         </a>
-                        <a class="nav-link" href="#time-tracking" data-bs-toggle="tab">
+                        <a class="nav-link" href="#time-tracking" data-toggle="tab">
                             <i class="fas fa-clock me-2"></i> Time Tracking
                         </a>
-                        <a class="nav-link" href="#data" data-bs-toggle="tab">
+                        <a class="nav-link" href="#data" data-toggle="tab">
                             <i class="fas fa-database me-2"></i> Data Management
                         </a>
-                        <a class="nav-link" href="#account" data-bs-toggle="tab">
+                        <a class="nav-link" href="#account" data-toggle="tab">
                             <i class="fas fa-shield-alt me-2"></i> Account & Security
                         </a>
                     </nav>
@@ -52,7 +52,7 @@ $timezones = DateTimeZone::listIdentifiers();
                 <form method="POST" action="/settings/update" enctype="multipart/form-data" id="settingsForm">
                 <div class="tab-content" id="settingsContent">
                     <!-- Profile Tab -->
-                    <div class="tab-pane fade show active" id="profile">
+                    <div class="tab-pane active" id="profile">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-user me-2"></i>Profile Settings</h5>
 
@@ -127,7 +127,7 @@ $timezones = DateTimeZone::listIdentifiers();
 <?php $selectedTheme = $prefs['theme'] ?? 'dark'; ?>
 <?php $selectedColor = $prefs['accent_color'] ?? '#ef4444'; ?>
                     <!-- Appearance Tab -->
-                    <div class="tab-pane fade" id="appearance">
+                    <div class="tab-pane" id="appearance">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-palette me-2"></i>Appearance Settings</h5>
 
@@ -234,9 +234,9 @@ $timezones = DateTimeZone::listIdentifiers();
                     </div>
 
                     <!-- Notifications Tab -->
-                    <div class="tab-pane fade" id="notifications">
+                    <div class="tab-pane" id="notifications">
                         <div class="card card-body">
-                            <h5 class="mb-4"><i class="fas fa-bell me-2"></i>Notification Settings <span class="badge bg-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h5>
+                            <h5 class="mb-4"><i class="fas fa-bell me-2"></i>Notification Settings <span class="badge badge-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h5>
 
                             <div class="alert alert-info mb-4">
                                 <i class="fas fa-info-circle me-2"></i> Email notifications require a cron job to be set up. Contact your system administrator to configure email templates and scheduling.
@@ -295,7 +295,7 @@ $timezones = DateTimeZone::listIdentifiers();
                     </div>
 
                     <!-- Projects Tab -->
-                    <div class="tab-pane fade" id="projects">
+                    <div class="tab-pane" id="projects">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-project-diagram me-2"></i>Project Settings</h5>
 
@@ -357,10 +357,10 @@ $timezones = DateTimeZone::listIdentifiers();
                                 <h6 class="mb-3">Project Categories</h6>
                                 <div class="mb-3">
                                     <div class="d-flex flex-wrap gap-2 mb-2">
-                                        <span class="badge bg-primary p-2">Web <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
-                                        <span class="badge bg-info p-2">Mobile <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
-                                        <span class="badge bg-success p-2">API <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
-                                        <span class="badge bg-warning p-2">Learning <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
+                                        <span class="badge badge-primary p-2">Web <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
+                                        <span class="badge badge-info p-2">Mobile <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
+                                        <span class="badge badge-success p-2">API <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
+                                        <span class="badge badge-warning p-2">Learning <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
                                         <span class="badge bg-dark p-2">Backend <button class="btn btn-sm btn-link p-0 ms-1 text-white">&times;</button></span>
                                     </div>
                                     <div class="input-group input-group-sm" style="width: 300px;">
@@ -375,7 +375,7 @@ $timezones = DateTimeZone::listIdentifiers();
                     </div>
 
                     <!-- Time Tracking Tab -->
-                    <div class="tab-pane fade" id="time-tracking">
+                    <div class="tab-pane" id="time-tracking">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-clock me-2"></i>Time Tracking Settings</h5>
 
@@ -441,7 +441,7 @@ $timezones = DateTimeZone::listIdentifiers();
                     </div>
 
                     <!-- Data Management Tab -->
-                    <div class="tab-pane fade" id="data">
+                    <div class="tab-pane" id="data">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-database me-2"></i>Data Management</h5>
 
@@ -476,7 +476,7 @@ $timezones = DateTimeZone::listIdentifiers();
                             </div>
 
                             <div class="mb-4">
-                                <h6 class="mb-3">Import from Other Tools <span class="badge bg-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h6>
+                                <h6 class="mb-3">Import from Other Tools <span class="badge badge-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h6>
                                 <div class="alert alert-info">
                                     <i class="fas fa-info-circle me-2"></i> Import from Trello, Asana, Notion, and other project management tools is under development.
                                 </div>
@@ -517,7 +517,7 @@ $timezones = DateTimeZone::listIdentifiers();
                     </div>
 
                     <!-- Account & Security Tab -->
-                    <div class="tab-pane fade" id="account">
+                    <div class="tab-pane" id="account">
                         <div class="card card-body">
                             <h5 class="mb-4"><i class="fas fa-shield-alt me-2"></i>Account & Security</h5>
 

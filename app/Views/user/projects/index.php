@@ -1,73 +1,97 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
+
+<?= $this->section('title') ?>Projects<?= $this->endSection() ?>
+
+<?= $this->section('breadcrumb') ?>
+    <li class="active">Projects</li>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
-    
-        
-        <div class="row mb-2 mb-xl-3">
-            <div class="col-auto d-none d-sm-block">
-                <h3><strong>Projects</strong></h3>
-            </div>
-            <div class="col-auto ms-auto text-end mt-n1">
-                <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm me-2" id="newProjectBtn">
-                    <i class="fas fa-plus me-1"></i> New Project
-                </a>
-            </div>
-        </div>
-        <!-- Quick Stats Bar -->
-        <div class="row mb-4">
-            <div class="col-lg-12">
-                <div class="card card-body">
-                    <div class="row text-center">
-                        <div class="col-md-3 col-6 mb-3 mb-md-0">
-                            <div class="stat-value text-primary"><?= $stats['total'] ?></div>
-                            <div class="stat-label">Total</div>
-                        </div>
-                        <div class="col-md-3 col-6 mb-3 mb-md-0">
-                            <div class="stat-value text-success"><?= $stats['active'] ?></div>
-                            <div class="stat-label">Active</div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="stat-value text-warning"><?= $stats['pending'] ?></div>
-                            <div class="stat-label">Pending</div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="stat-value text-danger"><?= $stats['archived'] ?></div>
-                            <div class="stat-label">Archived</div>
-                        </div>
-                    </div>
-                </div>
+<!-- Page header -->
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            <i class="ace-icon fa fa-folder-open"></i>
+            Projects
+            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary pull-right" id="newProjectBtn">
+                <i class="ace-icon fa fa-plus"></i>
+                New Project
+            </a>
+        </h3>
+        <div class="hr hr-8 dotted"></div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row">
+    <div class="col-xs-6 col-sm-3">
+        <div class="infobox infobox-blue">
+            <div class="infobox-icon"><i class="ace-icon fa fa-folder"></i></div>
+            <div class="infobox-data">
+                <span class="infobox-data-number"><?= $stats['total'] ?></span>
+                <div class="infobox-content">Total</div>
             </div>
         </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="infobox infobox-green">
+            <div class="infobox-icon"><i class="ace-icon fa fa-play-circle"></i></div>
+            <div class="infobox-data">
+                <span class="infobox-data-number"><?= $stats['active'] ?></span>
+                <div class="infobox-content">Active</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="infobox infobox-orange">
+            <div class="infobox-icon"><i class="ace-icon fa fa-clock-o"></i></div>
+            <div class="infobox-data">
+                <span class="infobox-data-number"><?= $stats['pending'] ?></span>
+                <div class="infobox-content">Pending</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="infobox infobox-red">
+            <div class="infobox-icon"><i class="ace-icon fa fa-archive"></i></div>
+            <div class="infobox-data">
+                <span class="infobox-data-number"><?= $stats['archived'] ?></span>
+                <div class="infobox-content">Archived</div>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Projects Tabs Section -->
-        <div class="card card-body">
+        <div class="widget-box">
             <!-- Tabs Navigation -->
             <ul class="nav nav-tabs mb-4" id="projectsTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
-                        <i class="fas fa-list me-1"></i> All Projects <span class="badge bg-secondary ms-1"><?= $stats['total'] ?></span>
+                <li class="">
+                    <button class="active" id="all-tab" data-toggle="tab" data-target="#all" type="button" role="tab">
+                        <i class="fas fa-list me-1"></i> All Projects <span class="badge badge-default ms-1"><?= $stats['total'] ?></span>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
-                        <i class="fas fa-play-circle me-1"></i> Active <span class="badge bg-success ms-1"><?= $stats['active'] ?></span>
+                <li class="">
+                    <button class="" id="active-tab" data-toggle="tab" data-target="#active" type="button" role="tab">
+                        <i class="fas fa-play-circle me-1"></i> Active <span class="badge badge-success ms-1"><?= $stats['active'] ?></span>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">
-                        <i class="fas fa-hourglass-half me-1"></i> Pending <span class="badge bg-warning ms-1"><?= $stats['pending'] ?></span>
+                <li class="">
+                    <button class="" id="pending-tab" data-toggle="tab" data-target="#pending" type="button" role="tab">
+                        <i class="fas fa-hourglass-half me-1"></i> Pending <span class="badge badge-warning ms-1"><?= $stats['pending'] ?></span>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">
-                        <i class="fas fa-check-circle me-1"></i> Completed <span class="badge bg-info ms-1"><?= $stats['completed'] ?></span>
+                <li class="">
+                    <button class="" id="completed-tab" data-toggle="tab" data-target="#completed" type="button" role="tab">
+                        <i class="fas fa-check-circle me-1"></i> Completed <span class="badge badge-info ms-1"><?= $stats['completed'] ?></span>
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="archived-tab" data-bs-toggle="tab" data-bs-target="#archived" type="button" role="tab">
-                        <i class="fas fa-archive me-1"></i> Archived <span class="badge bg-secondary ms-1"><?= $stats['archived'] ?></span>
+                <li class="">
+                    <button class="" id="archived-tab" data-toggle="tab" data-target="#archived" type="button" role="tab">
+                        <i class="fas fa-archive me-1"></i> Archived <span class="badge badge-default ms-1"><?= $stats['archived'] ?></span>
                     </button>
                 </li>
             </ul>
@@ -75,9 +99,9 @@
             <!-- Tab Content -->
             <div class="tab-content" id="projectsTabContent">
                 <!-- All Projects Tab -->
-                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div class="tab-pane active" id="all" role="tabpanel">
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark" id="projectsTable">
+                        <table class="table table-hover table-striped table-bordered" id="projectsTable">
                             <thead>
                             <tr>
                                 <th width="40">
@@ -168,14 +192,14 @@
                                     <?= $project['due_date'] ? date('M d, Y', strtotime($project['due_date'])) : '<span class="text-muted">No deadline</span>' ?>
                                 </td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-info" title="View">
+                                    <div class="btn-group">
+                                        <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn btn-xs btn-info" title="View">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-outline-warning" title="Edit">
+                                        <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn btn-xs btn-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button class="btn btn-outline-danger archive-btn" data-id="<?= $project['id'] ?>" title="Archive">
+                                        <button class="btn btn btn-xs btn-danger archive-btn" data-id="<?= $project['id'] ?>" title="Archive">
                                             <i class="fas fa-archive"></i>
                                         </button>
                                     </div>
@@ -192,12 +216,12 @@
                 </div>
 
                 <!-- Active Projects Tab -->
-                <div class="tab-pane fade" id="active" role="tabpanel">
+                <div class="tab-pane" id="active" role="tabpanel">
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i> Showing <strong><?= $stats['active'] ?> active projects</strong>. Active projects are those currently being worked on.
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark">
+                        <table class="table table-hover table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Project Name</th>
@@ -223,7 +247,7 @@
                                         </td>
                                         <td><span class="badge <?= $priority_classes[$p['priority']] ?? 'bg-secondary' ?>"><?= ucfirst($p['priority']) ?></span></td>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a>
+                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn btn-xs btn-info"><i class="fas fa-eye"></i></a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -237,12 +261,12 @@
                 </div>
 
                 <!-- Pending Projects Tab -->
-                <div class="tab-pane fade" id="pending" role="tabpanel">
+                <div class="tab-pane" id="pending" role="tabpanel">
                     <div class="alert alert-warning">
                         <i class="fas fa-clock me-2"></i> Showing <strong><?= $stats['pending'] ?> pending projects</strong>. These projects are on hold or in planning.
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark">
+                        <table class="table table-hover table-striped table-bordered">
                             <tbody>
                                 <?php if (empty($pending_projects)): ?>
                                     <tr><td colspan="3" class="text-center py-4 text-muted">No pending projects.</td></tr>
@@ -250,8 +274,8 @@
                                     <?php foreach($pending_projects as $p): ?>
                                     <tr>
                                         <td><strong><?= esc($p['name']) ?></strong></td>
-                                        <td><span class="badge bg-warning"><?= ucfirst($p['status']) ?></span></td>
-                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                        <td><span class="badge badge-warning"><?= ucfirst($p['status']) ?></span></td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn btn-xs btn-info"><i class="fas fa-eye"></i></a></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -264,12 +288,12 @@
                 </div>
 
                 <!-- Completed Projects Tab -->
-                <div class="tab-pane fade" id="completed" role="tabpanel">
+                <div class="tab-pane" id="completed" role="tabpanel">
                     <div class="alert alert-success">
                         <i class="fas fa-check-circle me-2"></i> Showing <strong><?= $stats['completed'] ?> completed projects</strong>.
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark">
+                        <table class="table table-hover table-striped table-bordered">
                             <tbody>
                                 <?php if (empty($completed_projects)): ?>
                                     <tr><td colspan="3" class="text-center py-4 text-muted">No completed projects yet.</td></tr>
@@ -278,7 +302,7 @@
                                     <tr>
                                         <td><strong><?= esc($p['name']) ?></strong></td>
                                         <td class="text-success"><i class="fas fa-check-circle me-1"></i> Completed</td>
-                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn btn-xs btn-info"><i class="fas fa-eye"></i></a></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -291,12 +315,12 @@
                 </div>
 
                 <!-- Archived Projects Tab -->
-                <div class="tab-pane fade" id="archived" role="tabpanel">
+                <div class="tab-pane" id="archived" role="tabpanel">
                     <div class="alert alert-secondary">
                         <i class="fas fa-archive me-2"></i> Showing <strong><?= $stats['archived'] ?> archived projects</strong>.
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark">
+                        <table class="table table-hover table-striped table-bordered">
                             <tbody>
                                 <?php if (empty($archived_projects)): ?>
                                     <tr><td colspan="3" class="text-center py-4 text-muted">No archived projects.</td></tr>
@@ -304,8 +328,8 @@
                                     <?php foreach($archived_projects as $p): ?>
                                     <tr>
                                         <td><strong><?= esc($p['name']) ?></strong></td>
-                                        <td><span class="badge bg-secondary">Archived</span></td>
-                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-info"><i class="fas fa-eye"></i></a></td>
+                                        <td><span class="badge badge-default">Archived</span></td>
+                                        <td><a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn btn-xs btn-info"><i class="fas fa-eye"></i></a></td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -322,7 +346,7 @@
         <!-- Project Tags Section -->
         <div class="row mt-4">
             <div class="col-lg-12">
-                <div class="card card-body">
+                <div class="widget-box">
                     <h5 class="mb-3"><i class="fas fa-tags me-2"></i>Project Categories & Tags</h5>
                     <div class="d-flex flex-wrap gap-2">
                         <?php if (empty($tagStats)): ?>
@@ -398,27 +422,27 @@
             });
 
             // View project button
-            $(document).on('click', '.btn-outline-info', function() {
+            $(document).on('click', '.btn btn-xs btn-info', function() {
                 const projectId = $(this).closest('tr').find('.project-checkbox').val();
                 window.location.href = '<?= site_url('projects/view/') ?>' + projectId;
             });
 
             // Edit project button
-            $(document).on('click', '.btn-outline-warning', function() {
+            $(document).on('click', '.btn btn-xs btn-warning', function() {
                 const projectId = $(this).closest('tr').find('.project-checkbox').val();
                 window.location.href = '<?= site_url('projects/edit/') ?>' + projectId;
             });
 
             // Archive/Activate project button
-            $(document).on('click', '.btn-outline-danger, .btn-outline-success', function() {
+            $(document).on('click', '.btn btn-xs btn-danger, .btn btn-xs btn-success', function() {
                 const projectName = $(this).closest('tr').find('strong').text();
-                const action = $(this).hasClass('btn-outline-danger') ? 'archived' : 'activated';
+                const action = $(this).hasClass('btn btn-xs btn-danger') ? 'archived' : 'activated';
                 showToast(`Project "${projectName}" ${action}`, 'success');
                 // In a real app, this would make an AJAX call
             });
 
             // Tab switching - update counts (simulated)
-            $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+            $('button[data-toggle="tab"]').on('shown.bs.tab', function(e) {
                 const target = $(e.target).attr('data-bs-target');
                 console.log(`Switched to tab: ${target}`);
             });

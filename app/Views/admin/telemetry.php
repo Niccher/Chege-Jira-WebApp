@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/user/app') ?>
+<?= $this->extend('layouts/ace/main') ?>
 
 <?= $this->section('content') ?>
 <div class="container-fluid py-4">

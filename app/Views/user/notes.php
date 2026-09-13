@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -176,7 +176,7 @@
                         <?= csrf_field() ?>
                         <div class="modal-header border-bottom border-secondary">
                             <input type="text" name="title" id="modalNoteTitle" class="form-control form-control-lg bg-transparent border-0 text-white font-weight-bold" required>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row mb-3">
@@ -218,7 +218,7 @@
                             </div>
                         </div>
                         <div class="modal-footer border-top border-secondary">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>

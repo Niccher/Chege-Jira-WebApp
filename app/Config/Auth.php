@@ -70,7 +70,7 @@ class Auth extends ShieldAuth
 //        'action_email_2fa_show'       => 'auth/action_email_2fa_show',
 //        'action_email_2fa_email'      => 'auth/action_email_2fa_email',
 //    ];
-    public array $views = [
+    public $views = [
         'login'                       => '\App\Views\auth\login',
         'register'                    => '\App\Views\auth\register',
         'layout'                      => '\App\Views\layouts\auth\auth_template',
@@ -476,7 +476,7 @@ class Auth extends ShieldAuth
      *
      * @var class-string<UserModel>
      */
-    public string $userProvider = UserModel::class;
+    public $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected

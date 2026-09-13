@@ -1,125 +1,210 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
+
+<?= $this->section('title') ?>Dashboard<?= $this->endSection() ?>
+
+<?= $this->section('breadcrumb') ?>
+    <li class="active">Dashboard</li>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
+<!-- Page header -->
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            <i class="ace-icon fa fa-tachometer"></i>
+            Dashboard
+            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary pull-right">
+                <i class="ace-icon fa fa-plus"></i>
+                New Project
+            </a>
+        </h3>
+        <div class="hr hr-8 dotted"></div>
+    </div>
+</div>
 
-    
-        
-        <div class="row mb-2 mb-xl-3">
-            <div class="col-auto d-none d-sm-block">
-                <h3><strong>Dashboard</strong></h3>
+<!-- Quick Stats -->
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h5 class="widget-title smaller">
+                    <i class="ace-icon fa fa-folder-open blue"></i>
+                    Total Projects
+                </h5>
             </div>
-            <div class="col-auto ms-auto text-end mt-n1">
-                <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm me-2">
-                    <i class="fas fa-plus me-1"></i> New Project
-                </a>
-            </div>
-        </div>
-        <!-- Quick Stats -->
-        <div class="row mb-4 g-3">
-            <div class="col-md-4 mb-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-label mb-2">Total Projects</div>
-                            <div class="stat-value" id="totalProjects"><?= $stats['total'] ?></div>
-                        </div>
-                        <i class="fas fa-project-diagram fs-3 text-secondary"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="stat-label mb-2">Active Projects</div>
-                            <div class="stat-value text-success" id="activeProjects"><?= $stats['active'] ?></div>
-                        </div>
-                        <i class="fas fa-play-circle fs-3 text-success"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <div class="row g-3 h-100">
-                    <div class="col-12 h-50">
-                        <div class="card card-body p-3 border-dark d-flex justify-content-between align-items-center">
-                            <div class="stat-label">Pending</div>
-                            <div class="stat-value fs-4 text-warning" id="stalledProjects"><?= $stats['pending'] ?></div>
-                        </div>
-                    </div>
-                    <div class="col-12 h-50">
-                        <div class="card card-body p-3 border-dark d-flex justify-content-between align-items-center">
-                            <div class="stat-label">Archived</div>
-                            <div class="stat-value fs-4 text-muted" id="archivedProjects"><?= $stats['archived'] ?></div>
-                        </div>
-                    </div>
+            <div class="widget-body">
+                <div class="widget-main padding-4">
+                    <span class="stat-value blue"><?= $stats['total'] ?></span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Main Dashboard Content -->
-        <div class="row">
-            <!-- Left Column: Projects & Focus -->
-            <div class="col-lg-8">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h5 class="widget-title smaller">
+                    <i class="ace-icon fa fa-play-circle green"></i>
+                    Active Projects
+                </h5>
             </div>
+            <div class="widget-body">
+                <div class="widget-main padding-4">
+                    <span class="stat-value green"><?= $stats['active'] ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Right Column: Activity & Heatmap -->
-            <div class="col-lg-4 mb-4">
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h5 class="widget-title smaller">
+                    <i class="ace-icon fa fa-clock-o orange"></i>
+                    Pending
+                </h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main padding-4">
+                    <span class="stat-value orange"><?= $stats['pending'] ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Recent Activity Accordion -->
-                <div class="accordion mb-0" id="activityAccordion">
-                    <div class="accordion-item card card-body p-0" style="border: none;">
-                        <h2 class="accordion-header p-3">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse" style="background: none; box-shadow: none; padding: 0; color: inherit; width: auto;">
-                                <h5 class="mb-0"><i class="fas fa-history me-2 text-warning"></i>Recent Activity</h5>
-                            </button>
-                        </h2>
-                        <div id="activityCollapse" class="accordion-collapse collapse show" data-bs-parent="#activityAccordion">
-                            <div class="accordion-body pt-0">
-                                <!-- Activity Legend -->
-                                <div class="activity-legend mb-4 p-2 rounded" style="background-color: rgba(30, 41, 59, 0.5); border: 1px solid #334155;">
-                                    <div class="d-flex flex-wrap gap-2 small">
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-plus-circle text-success me-1"></i>New</div>
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-check-double text-primary me-1"></i>Done</div>
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-archive text-muted me-1"></i>Arc</div>
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-play-circle text-info me-1"></i>Start</div>
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-flag-checkered text-success me-1"></i>Goal</div>
-                                        <div class="d-flex align-items-center me-2"><i class="fas fa-sticky-note text-warning me-1"></i>Note</div>
-                                        <div class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-1"></i>Task</div>
-                                    </div>
-                                </div>
+    <div class="col-xs-12 col-sm-6 col-md-3">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h5 class="widget-title smaller">
+                    <i class="ace-icon fa fa-archive grey"></i>
+                    Archived
+                </h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main padding-4">
+                    <span class="stat-value grey"><?= $stats['archived'] ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.row stats -->
 
-                                <div id="recentActivity">
-                                    <?php if (!empty($recentActivity)): ?>
-                                        <div class="activity-timeline">
-                                            <?php foreach ($recentActivity as $act): ?>
-                                            <div class="activity-item d-flex position-relative mb-4">
-                                                <div class="activity-icon-wrapper flex-shrink-0" style="z-index: 2;">
-                                                    <div class="stat-icon m-0" style="width: 40px; height: 40px; background-color: <?= $act['bg'] ?>; color: <?= $act['color'] ?>; font-size: 16px; border-radius: 50%; border: 2px solid #1e293b;">
-                                                        <i class="fas <?= $act['icon'] ?>"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div class="small fw-bold text-white"><?= esc($act['title']) ?></div>
-                                                        <span class="extra-small text-muted" style="font-size: 0.7rem;"><?= date('M d', strtotime($act['time'])) ?></span>
-                                                    </div>
-                                                    <div class="small text-muted mt-1" style="font-size: 0.8rem; line-height: 1.2;"><?= esc($act['description']) ?></div>
-                                                </div>
-                                            </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php else: ?>
-                                        <p class="text-center text-muted small py-3">No recent activity detected.</p>
+<div class="hr hr-dotted"></div>
+
+<!-- Main content row -->
+<div class="row">
+    <!-- Left: Recent Projects -->
+    <div class="col-xs-12 col-md-8">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5 class="widget-title">
+                    <i class="ace-icon fa fa-folder-open-o"></i>
+                    Recent Projects
+                </h5>
+                <div class="widget-toolbar">
+                    <a href="<?= site_url('projects') ?>" class="btn btn-xs btn-info">
+                        <i class="ace-icon fa fa-list"></i> All Projects
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <?php if (!empty($projects)): ?>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Status</th>
+                                <th>Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($projects as $project): ?>
+                            <tr>
+                                <td>
+                                    <a href="<?= site_url('projects/view/' . $project->id) ?>">
+                                        <?= esc($project->name) ?>
+                                    </a>
+                                    <?php if ($project->description): ?>
+                                        <br/><small class="lighter"><?= esc(substr($project->description, 0, 60)) ?>...</small>
                                     <?php endif; ?>
-                                </div>
+                                </td>
+                                <td>
+                                    <?php
+                                    $badgeClass = match($project->status ?? 'active') {
+                                        'active'   => 'badge-success',
+                                        'pending'  => 'badge-warning',
+                                        'done'     => 'badge-primary',
+                                        'archived' => 'badge-inverse',
+                                        default    => 'badge-info',
+                                    };
+                                    ?>
+                                    <span class="badge <?= $badgeClass ?>"><?= ucfirst($project->status ?? 'active') ?></span>
+                                </td>
+                                <td><small><?= date('M d, Y', strtotime($project->updated_at)) ?></small></td>
+                                <td>
+                                    <a href="<?= site_url('projects/view/' . $project->id) ?>" class="btn btn-xs btn-primary">
+                                        <i class="ace-icon fa fa-eye"></i>
+                                    </a>
+                                    <a href="<?= site_url('projects/kanban/' . $project->id) ?>" class="btn btn-xs btn-success">
+                                        <i class="ace-icon fa fa-columns"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php else: ?>
+                        <div class="alert alert-info">
+                            <i class="ace-icon fa fa-info-circle"></i>
+                            No projects yet. <a href="<?= site_url('projects/create') ?>">Create your first project</a>.
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Recent Activity -->
+    <div class="col-xs-12 col-md-4">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h5 class="widget-title">
+                    <i class="ace-icon fa fa-history orange"></i>
+                    Recent Activity
+                </h5>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main padding-0">
+                    <?php if (!empty($recentActivity)): ?>
+                    <ul class="list-unstyled spaced timeline-style2 padding-16">
+                        <?php foreach ($recentActivity as $act): ?>
+                        <li class="clearfix">
+                            <div class="time-label">
+                                <span class="label label-info"><?= date('M d', strtotime($act['time'])) ?></span>
+                            </div>
+                            <div class="timeline-details">
+                                <i class="ace-icon fa <?= $act['icon'] ?> purple"></i>
+                                <span class="action-name"><?= esc($act['title']) ?></span>
+                                <p class="lighter"><?= esc($act['description']) ?></p>
+                            </div>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php else: ?>
+                        <div class="padding-16">
+                            <div class="alert alert-info margin-0">
+                                <i class="ace-icon fa fa-info-circle"></i>
+                                No recent activity.
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-<?= $this->include('layouts/user/footer') ?>
-
+<?= $this->endSection() ?>

@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/appstack/main') ?>
+<?= $this->extend('layouts/ace/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -84,7 +84,7 @@
                 <div class="card card-body">
                     <h5 class="mb-3"><i class="fas fa-list-ul me-2"></i>Upcoming Events</h5>
                     <div class="table-responsive">
-                        <table class="table table-hover table-dark">
+                        <table class="table table-hover table-striped table-bordered">
                             <thead>
                             <tr>
                                 <th>Date</th>
@@ -112,7 +112,7 @@
                                         </div>
                                     </td>
                                     <td><span class="badge" style="background-color: <?= $event['color'] ?>"><?= esc($event['project']) ?></span></td>
-                                    <td><span class="badge bg-secondary"><?= ucfirst($event['type']) ?></span></td>
+                                    <td><span class="badge badge-default"><?= ucfirst($event['type']) ?></span></td>
                                     <td class="small">All Day</td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-info view-upcoming-btn" 
@@ -185,7 +185,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-calendar-plus me-2"></i>Add Event</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="eventForm" method="POST">
@@ -237,7 +237,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" id="saveEventBtn">Save Event</button>
                 </div>
             </div>
@@ -253,7 +253,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="detailsTitle">Event Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p id="detailsDesc" class="mb-3"></p>
@@ -265,7 +265,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" id="deleteEventBtn">Delete</button>
                     <button type="button" class="btn btn-primary" id="editEventBtn">Edit</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
