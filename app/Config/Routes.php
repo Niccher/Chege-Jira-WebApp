@@ -49,6 +49,9 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/analytics', 'User\AnalyticsController::index');
     $routes->get('/settings', 'User\SettingsController::index');
     $routes->post('/settings/update', 'User\SettingsController::update');
+    
+    // Secure Avatars
+    $routes->get('/avatar/(:segment)', 'User\AvatarController::show/$1');
 });
 
 // JSON API zone

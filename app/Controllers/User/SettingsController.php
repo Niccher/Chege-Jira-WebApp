@@ -33,12 +33,12 @@ class SettingsController extends BaseUserController
             $data['date_format'] = $this->request->getPost('date_format');
         }
 
-        // Handle avatar upload
+        // Handle avatar upload securely
         $avatar = $this->request->getFile('avatar');
         if ($avatar && $avatar->isValid() && !$avatar->hasMoved()) {
             $newName = $avatar->getRandomName();
-            $avatar->move(FCPATH . 'uploads/avatars', $newName);
-            $data['avatar'] = 'uploads/avatars/' . $newName;
+            $avatar->move(WRITEPATH . 'uploads/avatars', $newName);
+            $data['avatar'] = $newName; // Just store filename, controller handles path
         }
 
         // Gather preferences
