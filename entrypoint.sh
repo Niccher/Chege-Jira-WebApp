@@ -5,7 +5,13 @@ set -e
 echo "Waiting for MySQL to accept connections..."
 max_retries=30
 count=0
-while ! php -r "new PDO('mysql:host=mysql;port=3306', 'root', 'root_password');" 2>/dev/null; do
+
+export DB_HOST=${MYSQLHOST:-mysql}
+export DB_PORT=${MYSQLPORT:-3306}
+export DB_USER=${MYSQLUSER:-root}
+export DB_PASS=${MYSQLPASSWORD:-root_password}
+
+while ! php -r "new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT'), getenv('DB_USER'), getenv('DB_PASS'));" 2>/dev/null; do
     count=$((count + 1))
     if [ $count -ge $max_retries ]; then
         echo "ERROR: MySQL did not become ready in time. Starting Apache without migrations."
