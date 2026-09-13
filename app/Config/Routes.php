@@ -9,39 +9,88 @@ $routes->get('/features', 'Home::features');
 $routes->get('/setup', 'Home::setup');
 $routes->get('/faqs', 'Home::faqs');
 $routes->group('', ['filter' => 'session'], function($routes) {
-    $routes->get('/home', 'User\Dashboard::index');
-    $routes->get('/dashboard', 'User\Dashboard::index');
-    $routes->get('/projects', 'User\Dashboard::projects');
-    $routes->get('/projects/create', 'User\Dashboard::project_create');
-    $routes->post('/projects/store', 'User\Dashboard::project_store');
-    $routes->get('/projects/view/(:num)', 'User\Dashboard::project_view/$1');
-    $routes->get('/projects/kanban/(:num)', 'User\Dashboard::project_kanban/$1');
-    $routes->get('/projects/kanban', 'User\Dashboard::project_kanban');
-    $routes->post('/projects/task/move', 'User\Dashboard::task_move');
-    $routes->post('/projects/task/store', 'User\Dashboard::task_store');
-    $routes->post('/projects/task/update/(:num)', 'User\Dashboard::task_update/$1');
-    $routes->get('/projects/edit/(:num)', 'User\Dashboard::project_edit/$1');
-    $routes->post('/projects/update/(:num)', 'User\Dashboard::project_update/$1');
-    $routes->post('/projects/delete/(:num)', 'User\Dashboard::project_delete/$1');
-    $routes->get('/kanban', 'User\Dashboard::project_kanban');
-    $routes->get('/calendar', 'User\Dashboard::project_calendar');
-    $routes->get('/calendar/events', 'User\Dashboard::get_calendar_events');
-    $routes->post('/calendar/event/store', 'User\Dashboard::event_store');
-    $routes->post('/calendar/event/update/(:num)', 'User\Dashboard::event_update/$1');
-    $routes->post('/calendar/event/delete/(:num)', 'User\Dashboard::event_delete/$1');
-    $routes->get('/time', 'User\Dashboard::project_time_tracker');
-    $routes->post('/time/start', 'User\Dashboard::timer_start');
-    $routes->post('/time/stop/(:num)', 'User\Dashboard::timer_stop/$1');
-    $routes->post('/time/manual', 'User\Dashboard::timer_manual');
-    $routes->get('/notes', 'User\Dashboard::project_notes');
-    $routes->post('/notes/store', 'User\Dashboard::note_store');
-    $routes->post('/notes/update/(:num)', 'User\Dashboard::note_update/$1');
-    $routes->post('/notes/delete/(:num)', 'User\Dashboard::note_delete/$1');
-    $routes->post('/notes/star/(:num)', 'User\Dashboard::note_star/$1');
-    $routes->post('/notes/complete/(:num)', 'User\Dashboard::note_complete/$1');
-    $routes->get('/analytics', 'User\Dashboard::project_analytics');
-    $routes->get('/settings', 'User\Dashboard::project_settings');
-    $routes->post('/settings/update', 'User\Dashboard::settings_update');
+    $routes->get('/home', 'User\MyDashboardController::index');
+    $routes->get('/dashboard', 'User\MyDashboardController::index');
+    
+    // Projects
+    $routes->get('/projects', 'User\ProjectController::index');
+    $routes->get('/projects/create', 'User\ProjectController::create');
+    $routes->post('/projects/store', 'User\ProjectController::store');
+    $routes->get('/projects/view/(:num)', 'User\ProjectController::view/$1');
+    $routes->get('/projects/edit/(:num)', 'User\ProjectController::edit/$1');
+    $routes->post('/projects/update/(:num)', 'User\ProjectController::update/$1');
+    $routes->post('/projects/delete/(:num)', 'User\ProjectController::delete/$1');
+    
+    // Kanban
+    $routes->get('/projects/kanban/(:num)', 'User\KanbanController::index/$1');
+    $routes->get('/projects/kanban', 'User\KanbanController::index');
+    $routes->get('/kanban', 'User\KanbanController::index');
+    
+    // My Tasks
+    $routes->get('/my-tasks', 'User\MyTasksController::index');
+    
+    // Calendar
+    $routes->get('/calendar', 'User\CalendarController::index');
+    $routes->post('/calendar/event/store', 'User\CalendarController::storeEvent');
+    $routes->post('/calendar/event/update/(:num)', 'User\CalendarController::updateEvent/$1');
+    $routes->post('/calendar/event/delete/(:num)', 'User\CalendarController::deleteEvent/$1');
+    
+    // Time
+    $routes->get('/time', 'User\TimeTrackerController::index');
+    $routes->post('/time/manual', 'User\TimeTrackerController::logManual');
+    
+    // Notes
+    $routes->get('/notes', 'User\NoteController::index');
+    $routes->post('/notes/store', 'User\NoteController::store');
+    $routes->post('/notes/update/(:num)', 'User\NoteController::update/$1');
+    $routes->post('/notes/delete/(:num)', 'User\NoteController::delete/$1');
+    
+    // Analytics & Settings
+    $routes->get('/analytics', 'User\AnalyticsController::index');
+    $routes->get('/settings', 'User\SettingsController::index');
+    $routes->post('/settings/update', 'User\SettingsController::update');
+});
+
+// JSON API zone
+$routes->group('api', ['filter' => 'session'], function($routes) {
+    // Time
+    $routes->post('time/start', 'Api\TimeApiController::start');
+    $routes->post('time/stop/(:num)', 'Api\TimeApiController::stop/$1');
+    
+    // Calendar
+    $routes->get('calendar/events', 'Api\CalendarApiController::index');
+    
+    // Tasks
+    $routes->post('tasks/move', 'Api\TaskApiController::move');
+    $routes->post('tasks/store', 'Api\TaskApiController::store');
+    $routes->post('tasks/(:num)/update', 'Api\TaskApiController::update/$1');
+    
+    // Notes
+    $routes->post('notes/(:num)/star', 'Api\NoteApiController::toggleStar/$1');
+    $routes->post('notes/(:num)/complete', 'Api\NoteApiController::toggleComplete/$1');
+});
+
+// Manager zone — requires login + manager role
+$routes->group('manage', ['filter' => 'session,manager'], function($routes) {
+    $routes->get('team', 'Manager\TeamDashboardController::index');
+    $routes->get('tasks/assign', 'Manager\TaskAssignmentController::index');
+    $routes->post('tasks/assign', 'Manager\TaskAssignmentController::assign');
+    $routes->get('approvals', 'Manager\WorkApprovalController::index');
+    $routes->post('approvals/(:num)/approve', 'Manager\WorkApprovalController::approve/$1');
+    $routes->post('approvals/(:num)/reject', 'Manager\WorkApprovalController::reject/$1');
+    $routes->get('reports', 'Manager\ReportController::index');
+    $routes->post('reports/generate', 'Manager\ReportController::generate');
+});
+
+// Admin zone — requires login + admin role
+$routes->group('admin', ['filter' => 'session,admin'], function($routes) {
+    $routes->get('/', 'Admin\UserManagementController::index');
+    $routes->post('users/provision', 'Admin\UserManagementController::provision');
+    $routes->post('users/(:num)/role', 'Admin\UserManagementController::assignRole/$1');
+    $routes->post('users/(:num)/deactivate', 'Admin\UserManagementController::deactivate/$1');
+    $routes->get('audit-log', 'Admin\AuditLogController::index');
+    $routes->get('settings', 'Admin\SystemSettingsController::index');
+    $routes->post('settings/update', 'Admin\SystemSettingsController::update');
 });
 
 // Load default Shield routes, excluding those we'll customize

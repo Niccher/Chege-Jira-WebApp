@@ -10,13 +10,13 @@ class ProjectModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'user_id', 'name', 'description', 'tech_stack', 'status', 
         'priority', 'start_date', 'due_date', 'progress', 
         'repository_url', 'categories', 'icon', 'color', 
-        'budget', 'is_archived'
+        'budget', 'is_archived', 'deleted_at'
     ];
 
     // Dates
@@ -24,6 +24,7 @@ class ProjectModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules = [
@@ -192,17 +193,15 @@ class ProjectModel extends Model
 
         foreach ($notes as $n) {
             // New Note
-            if ($n['created_at'] === $n['updated_at']) {
-                $activity[] = [
-                    'type' => 'new_note',
-                    'title' => 'Idea Captured',
-                    'description' => 'Added new note: ' . $n['title'],
-                    'time' => $n['created_at'],
-                    'icon' => 'fa-sticky-note',
-                    'bg' => 'rgba(245, 158, 11, 0.2)',
-                    'color' => '#f59e0b'
-                ];
-            }
+            $activity[] = [
+                'type' => 'new_note',
+                'title' => 'Idea Captured',
+                'description' => 'Added new note: ' . $n['title'],
+                'time' => $n['created_at'],
+                'icon' => 'fa-sticky-note',
+                'bg' => 'rgba(245, 158, 11, 0.2)',
+                'color' => '#f59e0b'
+            ];
 
             // Note Completed
             if ($n['is_completed'] == 1) {

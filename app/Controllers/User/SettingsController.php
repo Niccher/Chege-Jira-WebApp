@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Controllers\User;
+
+use App\Models\UserModel;
+
+class SettingsController extends BaseUserController
+{
+    public function index()
+    {
+        $this->currentUser->preferences = $this->currentUser->preferences ?? [];
+        return view('user/settings', ['user' => $this->currentUser]);
+    }
+
+    public function update()
+    {
+        $model = new UserModel();
+        $data = [];
+
+        if ($this->request->getPost('first_name') !== null) {
+            $data['first_name'] = $this->request->getPost('first_name');
+        }
+        if ($this->request->getPost('last_name') !== null) {
+            $data['last_name'] = $this->request->getPost('last_name');
+        }
+        if ($this->request->getPost('bio') !== null) {
+            $data['bio'] = $this->request->getPost('bio');
+        }
+        if ($this->request->getPost('timezone') !== null) {
+            $data['timezone'] = $this->request->getPost('timezone');
+        }
+        if ($this->request->getPost('date_format') !== null) {
+            $data['date_format'] = $this->request->getPost('date_format');
+        }
+
+        // Handle avatar upload
+        $avatar = $this->request->getFile('avatar');
+        if ($avatar && $avatar->isValid() && !$avatar->hasMoved()) {
+            $newName = $avatar->getRandomName();
+            $avatar->move(FCPATH . 'uploads/avatars', $newName);
+            $data['avatar'] = 'uploads/avatars/' . $newName;
+        }
+
+        // Gather preferences
+        $preferences = is_array($this->currentUser->preferences) ? $this->currentUser->preferences : [];
+        $prefFields = ['theme', 'accent_color', 'density', 'animations', 'sidebar_collapsed',
+                       'notifications_email_project_updates', 'notifications_email_weekly_reports',
+                       'notifications_email_stalled', 'notifications_inapp_due_dates',
+                       'notifications_inapp_achievements', 'notifications_inapp_tips',
+                       'notification_digest', 'reminder_time',
+                       'default_priority', 'default_status', 'auto_archive_completed',
+                       'show_stalled_alerts', 'kanban_default_columns', 'kanban_card_density',
+                       'idle_timeout', 'rounding_interval', 'auto_break', 'timer_sound',
+                       'weekly_goal_hours', 'daily_goal_hours', 'auto_weekly_report', 'show_billable'];
+
+        foreach ($prefFields as $field) {
+            $val = $this->request->getPost($field);
+            if ($val !== null) {
+                $preferences[$field] = $val;
+            }
+        }
+        $data['preferences'] = json_encode($preferences);
+
+        if ($model->update($this->userId, $data)) {
+            return redirect()->to('/settings')->with('message', 'Settings saved successfully!');
+        }
+
+        return redirect()->back()->withInput()->with('errors', $model->errors());
+    }
+}

@@ -41,25 +41,17 @@ class AuthGroups extends ShieldAuthGroups
      * @see https://codeigniter4.github.io/shield/quick_start_guide/using_authorization/#change-available-groups for more info
      */
     public array $groups = [
-        'superadmin' => [
-            'title'       => 'Super Admin',
-            'description' => 'Complete control of the site.',
-        ],
         'admin' => [
-            'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+            'title'       => 'System Administrator',
+            'description' => 'Complete control of the platform settings, users, and audit logs.',
         ],
-        'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+        'manager' => [
+            'title'       => 'Project Manager',
+            'description' => 'Can assign tasks, verify work, and view team reports.',
         ],
         'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
-        ],
-        'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+            'title'       => 'Team Member',
+            'description' => 'Can execute tasks and log time.',
         ],
     ];
 
@@ -72,13 +64,15 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        'platform.settings' => 'Can manage system-wide settings',
+        'users.manage'      => 'Can create, edit, or delete users and assign roles',
+        'audit.view'        => 'Can view the audit log',
+        'projects.manage'   => 'Can create, edit, and archive projects',
+        'tasks.assign'      => 'Can assign tasks to other users',
+        'tasks.verify'      => 'Can approve or reject submitted work',
+        'reports.view'      => 'Can view and generate team reports',
+        'tasks.execute'     => 'Can update task status and complete tasks',
+        'time.log'          => 'Can log time against projects and tasks',
     ];
 
     /**
@@ -90,28 +84,24 @@ class AuthGroups extends ShieldAuthGroups
      * This defines group-level permissions.
      */
     public array $matrix = [
-        'superadmin' => [
-            'admin.*',
-            'users.*',
-            'beta.*',
-        ],
         'admin' => [
-            'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'beta.access',
+            'platform.*',
+            'users.*',
+            'audit.*',
+            'projects.*',
+            'tasks.*',
+            'reports.*',
+            'time.*',
         ],
-        'developer' => [
-            'admin.access',
-            'admin.settings',
-            'users.create',
-            'users.edit',
-            'beta.access',
+        'manager' => [
+            'projects.*',
+            'tasks.*',
+            'reports.*',
+            'time.*',
         ],
-        'user' => [],
-        'beta' => [
-            'beta.access',
+        'user' => [
+            'tasks.execute',
+            'time.log',
         ],
     ];
 }

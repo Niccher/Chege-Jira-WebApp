@@ -20,7 +20,13 @@ class TaskModel extends Model
         'status',
         'priority',
         'order_index',
-        'due_date'
+        'due_date',
+        'assigned_to',
+        'assigned_by',
+        'approved_by',
+        'approved_at',
+        'rejected_by',
+        'rejected_reason'
     ];
 
     // Dates
@@ -51,5 +57,37 @@ class TaskModel extends Model
         }
 
         return $board;
+    }
+
+    /**
+     * Get tasks assigned to a specific user
+     */
+    public function getAssignedToUser(int $userId)
+    {
+        return $this->select('tasks.*, projects.name as project_name, projects.color as project_color')
+                    ->join('projects', 'projects.id = tasks.project_id', 'left')
+                    ->where('assigned_to', $userId)
+                    ->orderBy('tasks.priority', 'DESC')
+                    ->orderBy('tasks.created_at', 'DESC')
+                    ->findAll();
+    }
+
+    /**
+     * Get tasks pending review (status = 'review')
+     */
+    public function getPendingReviews(int $managerId = null)
+    {
+        $query = $this->select('tasks.*, projects.name as project_name, users.first_name, users.last_name')
+                      ->join('projects', 'projects.id = tasks.project_id', 'left')
+                      ->join('users', 'users.id = tasks.assigned_to', 'left')
+                      ->where('tasks.status', 'review');
+                      
+        // In a more complex setup, you'd filter by the manager's assigned projects or team members.
+        // For now, if $managerId is passed, maybe they can only review tasks they assigned?
+        if ($managerId) {
+            $query->where('tasks.assigned_by', $managerId);
+        }
+
+        return $query->orderBy('tasks.updated_at', 'ASC')->findAll();
     }
 }
