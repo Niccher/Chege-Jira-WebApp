@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Activate Account • Chege JIRA<?= $this->endSection() ?>
+<?= $this->section('title') ?>Activate Account • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
     <div class="auth-card">
@@ -17,7 +17,7 @@
 
             <div class="alert alert-success">
                 <i class="fas fa-check-circle me-2"></i>
-                <strong>Welcome to Chege JIRA!</strong> Your account is now ready to use.
+                <strong>Welcome to <?= esc(setting('App.siteName')) ?>!</strong> Your account is now ready to use.
             </div>
 
             <div class="mb-4">
@@ -52,7 +52,7 @@
                             </div>
                             <div>
                                 <div class="small fw-bold">Take a quick tour</div>
-                                <div class="small text-muted">Learn how to use Chege JIRA features</div>
+                                <div class="small text-muted">Learn how to use <?= esc(setting('App.siteName')) ?> features</div>
                             </div>
                         </div>
                     </div>

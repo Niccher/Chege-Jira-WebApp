@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Login • Chege JIRA<?= $this->endSection() ?>
+<?= $this->section('title') ?>Login • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
     <p class="login-info">Sign in to continue to your dashboard.</p>

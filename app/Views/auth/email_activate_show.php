@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Verify Your Email • Chege JIRA<?= $this->endSection() ?>
+<?= $this->section('title') ?>Verify Your Email • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
     <div class="auth-card">

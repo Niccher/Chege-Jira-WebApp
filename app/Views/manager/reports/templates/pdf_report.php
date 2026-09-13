@@ -66,7 +66,7 @@
 <body>
 
     <div class="header">
-        <h1>Chege Jira - Team Performance Report</h1>
+        <h1><?= esc(setting('App.siteName')) ?> - Team Performance Report</h1>
         <div class="meta-info">
             Period: <?= date('F j, Y', strtotime($start)) ?> to <?= date('F j, Y', strtotime($end)) ?><br>
             Generated on: <?= date('F j, Y, g:i a') ?>
@@ -99,7 +99,7 @@
     </table>
 
     <div class="footer">
-        Confidential Internal Report • Chege Jira Project Management System
+        Confidential Internal Report • <?= esc(setting('App.siteName')) ?> Project Management System
     </div>
 
 </body>

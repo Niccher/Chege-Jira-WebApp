@@ -64,14 +64,14 @@
 </head>
 <body>
     <div class="header">
-        <h1 style="margin: 0; font-weight: 300;">Chege OS</h1>
+        <h1 style="margin: 0; font-weight: 300;"><?= esc(setting('App.siteName')) ?></h1>
         <p style="margin: 5px 0 0 0; opacity: 0.9;">Project & Productivity Tracker</p>
     </div>
 
     <div class="content">
         <h2 style="color: #438eb9; margin-top: 0;">Hello <?= esc($user->first_name ?? $user->username) ?>!</h2>
 
-        <p>Thank you for registering with Chege OS. To complete your account setup and access your dashboard, please verify your email address.</p>
+        <p>Thank you for registering with <?= esc(setting('App.siteName')) ?>. To complete your account setup and access your dashboard, please verify your email address.</p>
 
         <div style="text-align: center;">
             <a href="<?= site_url('auth/verify-email?token=' . $code . '&email=' . urlencode($user->email)) ?>" class="button">Activate My Account</a>
@@ -89,7 +89,7 @@
         <p style="font-size: 13px; color: #777;">If you did not create this account, please ignore this email.</p>
 
         <div class="footer">
-            <p>Best regards,<br><strong>The Chege OS Team</strong></p>
+            <p>Best regards,<br><strong>The <?= esc(setting('App.siteName')) ?> Team</strong></p>
             <p>This email was sent from <?= $ipAddress ?> on <?= date('F j, Y \a\t g:i A', strtotime($date)) ?></p>
         </div>
     </div>

@@ -13,7 +13,14 @@ class SystemSettingsController extends BaseController
 
     public function update()
     {
-        // Update logic will go here
-        return redirect()->back()->with('message', 'Settings updated.');
+        $siteName = $this->request->getPost('site_name');
+        
+        if (!empty($siteName)) {
+            // Use the settings library to store the app name in the database
+            setting('App.siteName', $siteName);
+            return redirect()->back()->with('message', 'Application settings updated successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Application name cannot be empty.');
     }
 }

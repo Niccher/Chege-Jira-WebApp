@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>404 Error | Chege OS</title>
+    <title>404 Error | <?= esc(setting('App.siteName')) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/bootstrap.min.css') ?>" />

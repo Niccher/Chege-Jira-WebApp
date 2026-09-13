@@ -21,6 +21,7 @@
     <!-- Ace Core Styles -->
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace.min.css') ?>" class="ace-main-stylesheet" id="main-ace-style" />
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace-skins.min.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/css/modern-ace.css') ?>" />
 
     <!-- Ace settings (must be in <head>) -->
     <script src="<?= base_url('assets/ace/js/ace-extra.min.js') ?>"></script>
@@ -59,7 +60,7 @@
                 <a href="<?= site_url('/') ?>" class="navbar-brand">
                     <small>
                         <i class="fa fa-cubes"></i>
-                        Chege <b>JIRA</b>
+                        <?= esc(setting('App.siteName') ?? 'Chege Jira') ?>
                     </small>
                 </a>
             </div>
@@ -77,15 +78,15 @@
                             <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                            <li>
-                                <a href="<?= site_url('settings') ?>">
+                            <li class="<?= url_is('settings*') ? 'active' : '' ?>">
+                    <a href="<?= site_url('settings') ?>">
                                     <i class="fa fa-cog"></i>
                                     Settings
                                 </a>
                             </li>
                             <li class="divider"></li>
-                            <li>
-                                <a href="<?= site_url('auth/logout') ?>">
+                            <li class="<?= url_is('auth/logout*') ? 'active' : '' ?>">
+                    <a href="<?= site_url('auth/logout') ?>">
                                     <i class="fa fa-power-off"></i>
                                     Logout
                                 </a>
@@ -113,7 +114,7 @@
             </script>
 
             <ul class="nav nav-list">
-                <li>
+                <li class="<?= url_is('home') ? 'active' : '' ?>">
                     <a href="<?= site_url('home') ?>">
                         <i class="menu-icon fa fa-tachometer"></i>
                         <span class="menu-text">Dashboard</span>
@@ -122,49 +123,49 @@
 
                 <li class="separator"></li>
 
-                <li>
+                <li class="<?= url_is('projects*') ? 'active' : '' ?>">
                     <a href="<?= site_url('projects') ?>">
                         <i class="menu-icon fa fa-folder-open"></i>
                         <span class="menu-text">Projects</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('kanban*') ? 'active' : '' ?>">
                     <a href="<?= site_url('kanban') ?>">
                         <i class="menu-icon fa fa-columns"></i>
                         <span class="menu-text">Kanban Board</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('my-tasks*') ? 'active' : '' ?>">
                     <a href="<?= site_url('my-tasks') ?>">
                         <i class="menu-icon fa fa-tasks"></i>
                         <span class="menu-text">My Tasks</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('calendar*') ? 'active' : '' ?>">
                     <a href="<?= site_url('calendar') ?>">
                         <i class="menu-icon fa fa-calendar"></i>
                         <span class="menu-text">Calendar</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('notes*') ? 'active' : '' ?>">
                     <a href="<?= site_url('notes') ?>">
                         <i class="menu-icon fa fa-sticky-note"></i>
                         <span class="menu-text">Notes</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('time*') ? 'active' : '' ?>">
                     <a href="<?= site_url('time') ?>">
                         <i class="menu-icon fa fa-clock-o"></i>
                         <span class="menu-text">Time Logs</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="<?= url_is('analytics*') ? 'active' : '' ?>">
                     <a href="<?= site_url('analytics') ?>">
                         <i class="menu-icon fa fa-bar-chart"></i>
                         <span class="menu-text">Analytics</span>
@@ -173,7 +174,7 @@
 
                 <li class="separator"></li>
 
-                <li>
+                <li class="<?= url_is('settings*') ? 'active' : '' ?>">
                     <a href="<?= site_url('settings') ?>">
                         <i class="menu-icon fa fa-cog"></i>
                         <span class="menu-text">Settings</span>
@@ -215,7 +216,7 @@
             <div class="footer-inner">
                 <div class="footer-content">
                     <span class="bigger-120">
-                        <span class="blue bolder">Chege</span> JIRA
+                        <?= esc(setting('App.siteName') ?? 'Chege Jira') ?>
                         &copy; <?= date('Y') ?>
                     </span>
                 </div>

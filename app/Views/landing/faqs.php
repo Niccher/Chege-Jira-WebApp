@@ -3,7 +3,7 @@
 <div class="jumbotron jumbotron-ace" style="padding: 40px 0;">
     <div class="container">
         <h1>Frequently Asked Questions</h1>
-        <p>Everything you need to know about Chege OS.</p>
+        <p>Everything you need to know about <?= esc(setting('App.siteName')) ?>.</p>
     </div>
 </div>
 
@@ -17,13 +17,13 @@
                         <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#faq-1">
                                 <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-                                &nbsp;Is Chege OS free?
+                                &nbsp;Is <?= esc(setting('App.siteName')) ?> free?
                             </a>
                         </h4>
                     </div>
                     <div class="panel-collapse collapse in" id="faq-1">
                         <div class="panel-body">
-                            Yes! Chege OS is 100% free and open-source. You can download the source code, inspect it, modify it, and run it on your own server without any licensing fees or subscriptions.
+                            Yes! <?= esc(setting('App.siteName')) ?> is 100% free and open-source. You can download the source code, inspect it, modify it, and run it on your own server without any licensing fees or subscriptions.
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="panel-collapse collapse" id="faq-2">
                         <div class="panel-body">
-                            Chege OS is built on a modern, lightweight, and robust stack:
+                            <?= esc(setting('App.siteName')) ?> is built on a modern, lightweight, and robust stack:
                             <ul class="spaced">
                                 <li><strong>Backend:</strong> CodeIgniter 4.6.4 (PHP 8.1+)</li>
                                 <li><strong>Database:</strong> MySQL 8.0 or PostgreSQL</li>
@@ -56,7 +56,7 @@
                         <h4 class="panel-title">
                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#faq-3">
                                 <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
-                                &nbsp;How do I install Chege OS?
+                                &nbsp;How do I install <?= esc(setting('App.siteName')) ?>?
                             </a>
                         </h4>
                     </div>

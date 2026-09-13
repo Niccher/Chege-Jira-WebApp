@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title><?= esc($pageTitle ?? 'Chege OS — Project & Productivity Tracker') ?></title>
+    <title><?= esc($pageTitle ?? '<?= esc(setting('App.siteName')) ?> — Project & Productivity Tracker') ?></title>
 
     <meta name="description" content="<?= esc($metaDescription ?? 'Self-hosted project management platform with Kanban boards, time tracking, notes, calendar, and analytics.') ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -56,7 +56,7 @@
                 <span class="icon-bar" style="background-color: #fff;"></span>
             </button>
             <a class="navbar-brand" href="/">
-                <i class="fa fa-leaf"></i> Chege OS
+                <i class="fa fa-leaf"></i> <?= esc(setting('App.siteName')) ?>
             </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">

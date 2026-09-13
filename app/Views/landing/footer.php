@@ -2,13 +2,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4 style="color: #fff; margin-bottom: 20px;"><i class="fa fa-leaf"></i> Chege OS</h4>
+                <h4 style="color: #fff; margin-bottom: 20px;"><i class="fa fa-leaf"></i> <?= esc(setting('App.siteName')) ?></h4>
                 <p>The self-hosted project management platform.</p>
                 <div style="margin-top: 20px;">
                     <a href="https://github.com/Niccher" target="_blank" style="margin: 0 10px; font-size: 24px;"><i class="fa fa-github"></i></a>
                 </div>
                 <hr style="border-color: #444; margin: 20px 0;">
-                <p class="mb-0">&copy; <?= date('Y') ?> Chege OS. All rights reserved.</p>
+                <p class="mb-0">&copy; <?= date('Y') ?> <?= esc(setting('App.siteName')) ?>. All rights reserved.</p>
             </div>
         </div>
     </div>

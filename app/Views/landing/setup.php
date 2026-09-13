@@ -3,7 +3,7 @@
 <div class="jumbotron jumbotron-ace" style="padding: 40px 0;">
     <div class="container">
         <h1>Setup Guide</h1>
-        <p>Deploy Chege OS to your own server in minutes.</p>
+        <p>Deploy <?= esc(setting('App.siteName')) ?> to your own server in minutes.</p>
     </div>
 </div>
 
@@ -16,7 +16,7 @@
                 </div>
                 <div class="widget-body">
                     <div class="widget-main padding-16">
-                        <p>The fastest and most reliable way to run Chege OS is using Docker and Docker Compose.</p>
+                        <p>The fastest and most reliable way to run <?= esc(setting('App.siteName')) ?> is using Docker and Docker Compose.</p>
                         
                         <ol class="spaced">
                             <li>

@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title><?= $this->renderSection('title') ?> | Chege JIRA</title>
+    <title><?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?></title>
 
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -18,6 +18,7 @@
 
     <!-- Ace Styles -->
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace.min.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/css/modern-ace.css') ?>" />
 
     <!-- Page-specific styles -->
     <?= $this->renderSection('head') ?>
@@ -32,7 +33,7 @@
                         <div class="center">
                             <h1>
                                 <i class="ace-icon fa fa-cubes blue"></i>
-                                <span class="blue bolder">Chege</span>
+                                <?= esc(setting('App.siteName')) ?>
                                 <span class="white" id="id-text2">JIRA</span>
                             </h1>
                             <h4 class="blue lighter" id="id-company-text">Project Management</h4>

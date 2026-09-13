@@ -82,7 +82,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Chege JIRA Dashboard
+                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -323,7 +323,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Chege JIRA Dashboard
+                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -401,7 +401,7 @@
                                         </div>
                                     </div>
                                     <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Chege JIRA Dashboard
+                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
                                     </div>
                                 </div>
                                 <div class="kanban-card-body">
@@ -485,7 +485,7 @@
                             <div class="col-md-6">
                                 <label for="taskProject" class="form-label">Project</label>
                                 <select class="form-control" id="taskProject">
-                                    <option value="chegeos">Chege JIRA Dashboard</option>
+                                    <option value="chegeos"><?= esc(setting('App.siteName')) ?> Dashboard</option>
                                     <option value="api">API Integration</option>
                                     <option value="mobile">Mobile App</option>
                                     <option value="portfolio">Portfolio Website</option>

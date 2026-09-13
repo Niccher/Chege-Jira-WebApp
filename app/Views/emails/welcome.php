@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Chege OS</title>
+    <title>Welcome to <?= esc(setting('App.siteName')) ?></title>
     <style>
         body {
             font-family: 'Open Sans', Arial, sans-serif;
@@ -58,13 +58,13 @@
 </head>
 <body>
     <div class="header">
-        <h1 style="margin: 0; font-weight: 300;">Welcome to Chege OS!</h1>
+        <h1 style="margin: 0; font-weight: 300;">Welcome to <?= esc(setting('App.siteName')) ?>!</h1>
     </div>
 
     <div class="content">
         <h2 style="color: #438eb9; margin-top: 0;">Hi <?= esc($user->first_name ?? $user->username) ?>,</h2>
 
-        <p>Welcome aboard! Your account has been successfully created. We are excited to have you on Chege OS, your new self-hosted project and productivity tracker.</p>
+        <p>Welcome aboard! Your account has been successfully created. We are excited to have you on <?= esc(setting('App.siteName')) ?>, your new self-hosted project and productivity tracker.</p>
 
         <p>Here are a few things you can do to get started:</p>
         
@@ -81,7 +81,7 @@
         <p>If you have any questions or need help setting up, simply reply to this email or check our documentation.</p>
 
         <div class="footer">
-            <p>Happy shipping!<br><strong>The Chege OS Team</strong></p>
+            <p>Happy shipping!<br><strong>The <?= esc(setting('App.siteName')) ?> Team</strong></p>
         </div>
     </div>
 </body>

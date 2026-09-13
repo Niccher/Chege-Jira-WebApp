@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/auth/auth_template') ?>
 
-<?= $this->section('title') ?>Register • Chege JIRA<?= $this->endSection() ?>
+<?= $this->section('title') ?>Register • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
     <p class="login-info">Create your account to get started.</p>

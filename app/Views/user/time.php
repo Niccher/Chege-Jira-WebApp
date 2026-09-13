@@ -19,7 +19,7 @@
                     <div class="  ">
                         <div>
                             <h5 class="space-1"><i class="fas fa-clock pr-2 text-primary"></i>Currently Tracking</h5>
-                            <p class="small text-muted space-0">Working on: <span id="currentTask">Chege JIRA Dashboard UI</span></p>
+                            <p class="small text-muted space-0">Working on: <span id="currentTask"><?= esc(setting('App.siteName')) ?> Dashboard UI</span></p>
                         </div>
                         <div class=" ">
                             <div class="display-4 pr-4" id="timerDisplay">00:00:00</div>
