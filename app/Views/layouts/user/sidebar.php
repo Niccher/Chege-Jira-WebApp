@@ -38,6 +38,10 @@
         <hr class="my-2 border-secondary">
         <div class="px-3 pb-2 pt-1 text-uppercase small text-muted fw-bold">Management</div>
         <?php if (auth()->user()->inGroup('manager', 'admin')): ?>
+            <a class="nav-link <?= (strpos(uri_string(), 'manage/team') === 0) ? 'active' : '' ?>" href="<?= site_url('manage/team') ?>">
+                <i class="fas fa-users nav-icon"></i>
+                Team Dashboard
+            </a>
             <a class="nav-link <?= (strpos(uri_string(), 'manage/approvals') === 0) ? 'active' : '' ?>" href="<?= site_url('manage/approvals') ?>">
                 <i class="fas fa-check-circle nav-icon"></i>
                 Approvals
@@ -48,7 +52,11 @@
             </a>
         <?php endif; ?>
         <?php if (auth()->user()->inGroup('admin')): ?>
-            <a class="nav-link <?= (strpos(uri_string(), 'admin') === 0 && strpos(uri_string(), 'admin/settings') === false) ? 'active' : '' ?>" href="<?= site_url('admin') ?>">
+            <a class="nav-link <?= (strpos(uri_string(), 'admin/telemetry') === 0) ? 'active' : '' ?>" href="<?= site_url('admin/telemetry') ?>">
+                <i class="fas fa-server nav-icon"></i>
+                System Telemetry
+            </a>
+            <a class="nav-link <?= (strpos(uri_string(), 'admin') === 0 && strpos(uri_string(), 'admin/settings') === false && strpos(uri_string(), 'admin/telemetry') === false) ? 'active' : '' ?>" href="<?= site_url('admin') ?>">
                 <i class="fas fa-users-cog nav-icon"></i>
                 Users & Roles
             </a>

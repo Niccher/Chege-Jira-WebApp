@@ -21,6 +21,12 @@ echo "MySQL is ready!"
 echo "Running database migrations..."
 cd /var/www/html
 php spark migrate --all 2>&1 || echo "WARNING: Migration encountered an issue. Check logs."
+echo "Setting up writable directories..."
+cd /var/www/html
+mkdir -p writable/uploads/avatars
+mkdir -p writable/reports
+chown -R www-data:www-data writable/
+chmod -R 775 writable/
 
 echo "Migrations complete. Starting Apache..."
 exec apache2-foreground

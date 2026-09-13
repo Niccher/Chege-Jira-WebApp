@@ -93,6 +93,7 @@ $routes->group('admin', ['filter' => 'session,admin'], function($routes) {
     $routes->post('users/(:num)/role', 'Admin\UserManagementController::assignRole/$1');
     $routes->post('users/(:num)/deactivate', 'Admin\UserManagementController::deactivate/$1');
     $routes->get('audit-log', 'Admin\AuditLogController::index');
+    $routes->get('telemetry', 'Admin\TelemetryController::index');
     $routes->get('settings', 'Admin\SystemSettingsController::index');
     $routes->post('settings/update', 'Admin\SystemSettingsController::update');
 });
