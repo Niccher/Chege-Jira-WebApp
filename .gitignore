@@ -1,17 +1,27 @@
+# Environment variables
 .env
-vendor/
-writable/cache/
-writable/logs/
-writable/session/
-.idea/
-.vscode/
-writable/debugbar/
 
-# Ignore writable logs and debugbar
+# Dependencies
+vendor/
+
+# User uploads and generated files
+writable/uploads/*
+!writable/uploads/index.html
+writable/reports/*
+!writable/reports/index.html
+public/uploads/avatars/*
+
+# Logs and Sessions
+writable/cache/
 writable/logs/*
 !writable/logs/index.html
+writable/session/
 writable/debugbar/*
 !writable/debugbar/index.html
 
-# Ignore uploaded avatars (user profile pictures)
-public/uploads/avatars/*
+# IDEs and OS files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
