@@ -5,36 +5,16 @@ $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . subs
 $timezones = DateTimeZone::listIdentifiers();
 ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="h4 mb-0">Settings</h1>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Settings</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
-                <button type="submit" form="settingsForm" class="btn btn-primary btn-sm me-2" id="saveSettingsBtn">
-                    <i class="fas fa-save me-1"></i> Save Changes
-                </button>
-
-                <div class="dropdown">
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= $initials ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item active" href="/settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                    </ul>
-                </div>
+            <div class="col-auto ms-auto text-end mt-n1">
+                
             </div>
         </div>
-
         <!-- Settings Navigation -->
         <div class="row mb-4">
             <div class="col-lg-3">

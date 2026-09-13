@@ -1,45 +1,16 @@
 <?= $this->include('layouts/user/header', ['title' => 'Chege JIRA Dashboard • Kanban Board']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="<?= site_url('projects') ?>" class="text-decoration-none text-muted">Projects</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">
-                            <select id="projectSelector" class="form-select form-select-sm d-inline-block" style="width: auto; background: transparent; color: #fff; border: 1px solid #475569;">
-                                <?php foreach ($projects as $p): ?>
-                                    <option value="<?= $p['id'] ?>" <?= $p['id'] == $project['id'] ? 'selected' : '' ?>><?= esc($p['name']) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <span class="ms-2">Kanban</span>
-                        </li>
-                    </ol>
-                </nav>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Dashboard</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
-                <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                    <i class="fas fa-plus me-1"></i> Add Task
-                </button>
-                <div class="dropdown">
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)) ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="<?= site_url('auth/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                    </ul>
-                </div>
+            <div class="col-auto ms-auto text-end mt-n1">
+                
             </div>
         </div>
-
         <!-- Kanban Board Container -->
         <div class="kanban-container pb-4">
             <div class="row kanban-row flex-nowrap overflow-auto py-2">

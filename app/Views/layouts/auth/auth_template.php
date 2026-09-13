@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +9,19 @@
     <link rel="icon" type="image/png" href="<?= base_url('favicon.png') ?>">
     <link rel="apple-touch-icon" href="<?= base_url('favicon.png') ?>">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    
+    <script>
+        const theme = localStorage.getItem('theme') || 'dark';
+        const stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.id = 'theme-stylesheet';
+        stylesheet.href = `<?= base_url('assets/css') ?>/${theme}.css`;
+        document.head.appendChild(stylesheet);
+    </script>
     <style>
         :root {
             --primary: #ef4444;
@@ -557,25 +564,26 @@
 </footer>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url('assets/js/app.js') ?>"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
-        // Theme toggle
+        // Theme toggle for AppStack
         $('#themeToggle').click(function() {
-            const html = $('html');
-            const current = html.attr('data-bs-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            html.attr('data-bs-theme', next);
+            let activeTheme = localStorage.getItem('theme') || 'dark';
+            let nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
+            
+            // Swap stylesheet
+            document.getElementById('theme-stylesheet').href = `<?= base_url('assets/css') ?>/${nextTheme}.css`;
+            
             const icon = $(this).find('i');
-            icon.removeClass('fa-moon fa-sun').addClass(next === 'dark' ? 'fa-moon' : 'fa-sun');
-            localStorage.setItem('theme', next);
+            icon.removeClass('fa-moon fa-sun').addClass(nextTheme === 'dark' ? 'fa-moon' : 'fa-sun');
+            localStorage.setItem('theme', nextTheme);
         });
 
         const saved = localStorage.getItem('theme');
         if (saved) {
-            $('html').attr('data-bs-theme', saved);
             const icon = $('#themeToggle i');
             icon.removeClass('fa-moon fa-sun').addClass(saved === 'dark' ? 'fa-moon' : 'fa-sun');
         }

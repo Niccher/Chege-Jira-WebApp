@@ -1,57 +1,16 @@
 <?= $this->include('layouts/user/header', ['title' => 'Notes • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="h4 mb-0">Notes</h1>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Notes</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
-                <div class="input-group input-group-sm me-3" style="width: 300px;">
-                    <input type="text" class="form-control" placeholder="Search notes..." id="notesSearch">
-                    <button class="btn btn-outline-secondary" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-
-                <button class="btn btn-primary btn-sm me-2" id="newNoteBtn">
-                    <i class="fas fa-plus me-1"></i> New Note
-                </button>
-
-                <div class="dropdown me-2">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fas fa-filter me-1"></i> Filter
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item active" href="#"><i class="fas fa-sticky-note me-2"></i> All Notes</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i> Starred</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-project-diagram me-2"></i> By Project</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-trash me-2"></i> Trash</a></li>
-                    </ul>
-                </div>
-
-                <div class="dropdown">
-                    <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= $initials ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                    </ul>
-                </div>
+            <div class="col-auto ms-auto text-end mt-n1">
+                
             </div>
         </div>
-
         <!-- Notes Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">

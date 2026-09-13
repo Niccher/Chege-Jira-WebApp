@@ -1,49 +1,16 @@
 <?= $this->include('layouts/user/header', ['title' => 'Analytics • Chege JIRA']) ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="h4 mb-0">Analytics</h1>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Analytics</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
-                <div class="dropdown me-2">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                        <i class="fas fa-calendar me-1"></i> Last 30 Days
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-day me-2"></i> Today</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar-week me-2"></i> This Week</a></li>
-                        <li><a class="dropdown-item active" href="#"><i class="fas fa-calendar-alt me-2"></i> Last 30 Days</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i> This Quarter</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-calendar me-2"></i> This Year</a></li>
-                    </ul>
-                </div>
-
-                <button class="btn btn-primary btn-sm me-2" id="exportAnalyticsBtn">
-                    <i class="fas fa-download me-1"></i> Export
-                </button>
-
-                <div class="dropdown">
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= esc(strtoupper(substr($user->name ?? $user->username ?? 'U', 0, 2))) ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-user me-2"></i> Profile</span></li>
-                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-cog me-2"></i> Settings</span></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><span class="dropdown-item" style="cursor:pointer;"><i class="fas fa-sign-out-alt me-2"></i> Logout</span></li>
-                    </ul>
-                </div>
+            <div class="col-auto ms-auto text-end mt-n1">
+                
             </div>
         </div>
-
         <!-- Key Metrics -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">

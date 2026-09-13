@@ -2,35 +2,16 @@
 <?= $this->include('layouts/user/sidebar') ?>
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="h4 mb-0">Calendar</h1>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Calendar</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
-                <button class="btn btn-primary btn-sm me-2" id="addEventBtn">
-                    <i class="fas fa-plus me-1"></i> Add Event
-                </button>
-
-                <div class="dropdown">
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= $initials ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="<?= site_url('auth/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                    </ul>
-                </div>
+            <div class="col-auto ms-auto text-end mt-n1">
+                
             </div>
         </div>
-
         <!-- Calendar Stats -->
         <div class="row mb-4 g-3">
             <div class="col-md-6 col-lg-3">

@@ -23,38 +23,20 @@ $avgDaily = round($totalHours / $daysLogged, 1);
 ?>
 <?= $this->include('layouts/user/sidebar') ?>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Top Bar -->
-        <div class="top-bar">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary me-3" id="sidebarToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h1 class="h4 mb-0">Project Details</h1>
+    
+        
+        <div class="row mb-2 mb-xl-3">
+            <div class="col-auto d-none d-sm-block">
+                <h3><strong>Project Details</strong></h3>
             </div>
-
-            <div class="d-flex align-items-center">
+            <div class="col-auto ms-auto text-end mt-n1">
                 <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary btn-sm me-2">
                     <i class="fas fa-arrow-left me-1"></i> Back
-                </a>
-                <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-warning btn-sm me-2">
+                </a> <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-warning btn-sm me-2">
                     <i class="fas fa-edit me-1"></i> Edit
                 </a>
-                <div class="dropdown">
-                    <div class="user-avatar dropdown-toggle" data-bs-toggle="dropdown">
-                        <?= $initials ?>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="<?= site_url('profile') ?>"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="fas fa-cog me-2"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="<?= site_url('auth/logout') ?>"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
-
         <!-- Project Header (Compact) -->
         <div class="row mb-3">
             <div class="col-lg-12">

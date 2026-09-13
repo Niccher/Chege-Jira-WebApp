@@ -1,83 +1,143 @@
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <div class="brand">
-        <i class="fas fa-cubes brand-icon"></i>
-        <span>Chege Jira</span>
+<nav id="sidebar" class="sidebar js-sidebar">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="<?= site_url('home') ?>">
+            <span class="align-middle"><i class="fas fa-cubes me-2"></i> Chege Jira</span>
+        </a>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                My Workspace
+            </li>
+            
+            <li class="sidebar-item <?= (uri_string() == '' || uri_string() == 'home') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('home') ?>">
+                    <i class="align-middle fas fa-tachometer-alt"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (strpos(uri_string(), 'projects') === 0 && strpos(uri_string(), 'projects/kanban') !== 0) ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('projects') ?>">
+                    <i class="align-middle fas fa-project-diagram"></i> <span class="align-middle">Projects</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (strpos(uri_string(), 'kanban') !== false) ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('kanban') ?>">
+                    <i class="align-middle fas fa-th"></i> <span class="align-middle">Kanban</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (uri_string() == 'calendar') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('calendar') ?>">
+                    <i class="align-middle fas fa-calendar-alt"></i> <span class="align-middle">Calendar</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (uri_string() == 'time') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('time') ?>">
+                    <i class="align-middle fas fa-clock"></i> <span class="align-middle">Time Tracking</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (uri_string() == 'notes') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('notes') ?>">
+                    <i class="align-middle fas fa-sticky-note"></i> <span class="align-middle">Notes</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item <?= (uri_string() == 'analytics') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('analytics') ?>">
+                    <i class="align-middle fas fa-chart-line"></i> <span class="align-middle">Analytics</span>
+                </a>
+            </li>
+
+            <?php if (auth()->user()->inGroup('admin', 'manager')): ?>
+                <li class="sidebar-header">
+                    Management
+                </li>
+                
+                <?php if (auth()->user()->inGroup('manager', 'admin')): ?>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'manage/team') === 0) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('manage/team') ?>">
+                            <i class="align-middle fas fa-users"></i> <span class="align-middle">Team Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'manage/approvals') === 0) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('manage/approvals') ?>">
+                            <i class="align-middle fas fa-check-circle"></i> <span class="align-middle">Approvals</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'manage/tasks/assign') === 0) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('manage/tasks/assign') ?>">
+                            <i class="align-middle fas fa-tasks"></i> <span class="align-middle">Assign Tasks</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'manage/reports') === 0) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('manage/reports') ?>">
+                            <i class="align-middle fas fa-file-invoice"></i> <span class="align-middle">Reports</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if (auth()->user()->inGroup('admin')): ?>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'admin/telemetry') === 0) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('admin/telemetry') ?>">
+                            <i class="align-middle fas fa-server"></i> <span class="align-middle">System Telemetry</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item <?= (strpos(uri_string(), 'admin') === 0 && strpos(uri_string(), 'admin/settings') === false && strpos(uri_string(), 'admin/telemetry') === false) ? 'active' : '' ?>">
+                        <a class="sidebar-link" href="<?= site_url('admin') ?>">
+                            <i class="align-middle fas fa-users-cog"></i> <span class="align-middle">Users & Roles</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <li class="sidebar-header">
+                System
+            </li>
+
+            <li class="sidebar-item <?= (uri_string() == 'settings') ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= site_url('settings') ?>">
+                    <i class="align-middle fas fa-cog"></i> <span class="align-middle">Settings</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-link text-danger" href="<?= site_url('logout') ?>">
+                    <i class="align-middle fas fa-sign-out-alt"></i> <span class="align-middle">Logout</span>
+                </a>
+            </li>
+        </ul>
     </div>
-    <nav class="nav flex-column">
-        <a class="nav-link <?= (uri_string() == '' || uri_string() == 'home') ? 'active' : '' ?>" href="<?= site_url('home') ?>">
-            <i class="fas fa-tachometer-alt nav-icon"></i>
-            Dashboard
+</nav>
+
+<!-- Begin AppStack Main Wrapper -->
+<div class="main">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand navbar-light navbar-bg">
+        <a class="sidebar-toggle js-sidebar-toggle">
+            <i class="hamburger align-self-center"></i>
         </a>
-        <a class="nav-link <?= (strpos(uri_string(), 'projects') === 0 && strpos(uri_string(), 'projects/kanban') !== 0) ? 'active' : '' ?>" href="<?= site_url('projects') ?>">
-            <i class="fas fa-project-diagram nav-icon"></i>
-            Projects
-        </a>
-        <a class="nav-link <?= (strpos(uri_string(), 'kanban') !== false) ? 'active' : '' ?>" href="<?= site_url('kanban') ?>">
-            <i class="fas fa-th nav-icon"></i>
-            Kanban
-        </a>
-        <a class="nav-link <?= (uri_string() == 'calendar') ? 'active' : '' ?>" href="<?= site_url('calendar') ?>">
-            <i class="fas fa-calendar-alt nav-icon"></i>
-            Calendar
-        </a>
-        <a class="nav-link <?= (uri_string() == 'time') ? 'active' : '' ?>" href="<?= site_url('time') ?>">
-            <i class="fas fa-clock nav-icon"></i>
-            Time Tracking
-        </a>
-        <a class="nav-link <?= (uri_string() == 'notes') ? 'active' : '' ?>" href="<?= site_url('notes') ?>">
-            <i class="fas fa-sticky-note nav-icon"></i>
-            Notes
-        </a>
-        <a class="nav-link <?= (uri_string() == 'analytics') ? 'active' : '' ?>" href="<?= site_url('analytics') ?>">
-            <i class="fas fa-chart-line nav-icon"></i>
-            Analytics
-        </a>
-        
-        <?php if (auth()->user()->inGroup('admin', 'manager')): ?>
-        <hr class="my-2 border-secondary">
-        <div class="px-3 pb-2 pt-1 text-uppercase small text-muted fw-bold">Management</div>
-        <?php if (auth()->user()->inGroup('manager', 'admin')): ?>
-            <a class="nav-link <?= (strpos(uri_string(), 'manage/team') === 0) ? 'active' : '' ?>" href="<?= site_url('manage/team') ?>">
-                <i class="fas fa-users nav-icon"></i>
-                Team Dashboard
-            </a>
-            <a class="nav-link <?= (strpos(uri_string(), 'manage/approvals') === 0) ? 'active' : '' ?>" href="<?= site_url('manage/approvals') ?>">
-                <i class="fas fa-check-circle nav-icon"></i>
-                Approvals
-            </a>
-            <a class="nav-link <?= (strpos(uri_string(), 'manage/tasks/assign') === 0) ? 'active' : '' ?>" href="<?= site_url('manage/tasks/assign') ?>">
-                <i class="fas fa-tasks nav-icon"></i>
-                Assign Tasks
-            </a>
-        <?php endif; ?>
-        <?php if (auth()->user()->inGroup('admin')): ?>
-            <a class="nav-link <?= (strpos(uri_string(), 'admin/telemetry') === 0) ? 'active' : '' ?>" href="<?= site_url('admin/telemetry') ?>">
-                <i class="fas fa-server nav-icon"></i>
-                System Telemetry
-            </a>
-            <a class="nav-link <?= (strpos(uri_string(), 'admin') === 0 && strpos(uri_string(), 'admin/settings') === false && strpos(uri_string(), 'admin/telemetry') === false) ? 'active' : '' ?>" href="<?= site_url('admin') ?>">
-                <i class="fas fa-users-cog nav-icon"></i>
-                Users & Roles
-            </a>
-        <?php endif; ?>
-        <?php endif; ?>
-    </nav>
-    <div class="mt-auto pt-3 border-top border-secondary">
-        <div class="nav flex-column">
-            <!-- Notifications (Phase 5 placeholder) -->
-            <a class="nav-link d-flex justify-content-between align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#notificationsModal">
-                <div><i class="fas fa-bell nav-icon"></i> Notifications</div>
-                <span class="badge bg-danger rounded-pill">3</span>
-            </a>
-            <a class="nav-link <?= (uri_string() == 'settings') ? 'active' : '' ?>" href="<?= site_url('settings') ?>">
-                <i class="fas fa-cog nav-icon"></i>
-                Settings
-            </a>
-            <a class="nav-link text-danger" href="<?= site_url('logout') ?>">
-                <i class="fas fa-sign-out-alt nav-icon"></i>
-                Logout
-            </a>
+
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav navbar-align">
+                <li class="nav-item">
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" id="themeToggle" style="width: 32px; height: 32px; padding: 0;">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                        <span class="text-dark">Hello, <?= esc(auth()->user()->username ?? 'User') ?></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="align-middle me-1 fas fa-cog"></i> Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="<?= site_url('logout') ?>">Log out</a>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
-</div>
+    </nav>
+    <main class="content">
+        <div class="container-fluid p-0">
