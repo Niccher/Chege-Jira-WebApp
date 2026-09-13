@@ -35,7 +35,19 @@ class TaskAssignmentController extends BaseController
         ];
 
         if ($taskModel->insert($data)) {
-            // Notification logic will go here in Phase 5
+            $taskId = $taskModel->getInsertID();
+            
+            \App\Services\AuditService::record('assign_task', 'tasks', $taskId, null, $data);
+            
+            if (!empty($data['assigned_to'])) {
+                \App\Services\NotificationService::send(
+                    $data['assigned_to'], 
+                    'task_assigned', 
+                    'New Task Assigned', 
+                    'You have been assigned a new task: "'.esc($data['title']).'".'
+                );
+            }
+            
             return redirect()->to('/manage/tasks/assign')->with('message', 'Task assigned successfully.');
         }
 
