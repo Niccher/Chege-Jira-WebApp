@@ -14,9 +14,9 @@ export DB_PASS=${MYSQLPASSWORD:-root_password}
 while ! php -r "new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT'), getenv('DB_USER'), getenv('DB_PASS'));" 2>/dev/null; do
     count=$((count + 1))
     if [ $count -ge $max_retries ]; then
-        echo "ERROR: MySQL did not become ready in time. Starting Apache without migrations."
-rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
-        exec apache2-foreground
+        echo "ERROR: MySQL did not become ready in time. Starting PHP-FPM and Nginx without migrations."
+        php-fpm -D
+        exec nginx -g "daemon off;"
     fi
     echo "MySQL not ready yet... retrying ($count/$max_retries)"
     sleep 2
@@ -35,6 +35,6 @@ mkdir -p writable/reports
 chown -R www-data:www-data writable/
 chmod -R 775 writable/
 
-echo "Migrations complete. Starting Apache..."
-rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
-exec apache2-foreground
+echo "Migrations complete. Starting PHP-FPM and Nginx..."
+php-fpm -D
+exec nginx -g "daemon off;"

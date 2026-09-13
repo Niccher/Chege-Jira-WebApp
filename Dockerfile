@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
-FROM php:8.3-apache
+FROM php:8.3-fpm
 
 # ── System dependencies ────────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
+        nginx \
         libicu-dev \
         libzip-dev \
         libpng-dev \
@@ -11,18 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         zip \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) intl mysqli pdo_mysql zip gd
+    && docker-php-ext-install -j$(nproc) intl mysqli pdo_mysql zip gd \
+    && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache modules
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod rewrite headers mpm_prefork || true
-
-# Move DocumentRoot to public/
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-        /etc/apache2/sites-available/*.conf \
-        /etc/apache2/apache2.conf \
-        /etc/apache2/conf-available/*.conf
+# Configure Nginx
+COPY nginx.conf /etc/nginx/sites-available/default
 
 WORKDIR /var/www/html
 
@@ -36,7 +30,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 COPY . /var/www/html
 
 RUN mkdir -p /var/www/html/writable \
-    && chown -R www-data:www-data /var/www/html/writable \
+    && chown -R www-data:www-data /var/www/html/writable /var/www/html/public \
     && chmod -R 775 /var/www/html/writable
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
