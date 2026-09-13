@@ -67,4 +67,45 @@ class SettingsController extends BaseUserController
 
         return redirect()->back()->withInput()->with('errors', $model->errors());
     }
+
+    public function changePassword()
+    {
+        $current = $this->request->getPost('current_password');
+        $newPass = $this->request->getPost('new_password');
+        $confirm = $this->request->getPost('confirm_password');
+
+        if (empty($current) || empty($newPass) || empty($confirm)) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'All password fields are required.'])->setStatusCode(400);
+        }
+
+        if (strlen($newPass) < 8) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Password must be at least 8 characters long.'])->setStatusCode(400);
+        }
+
+        if ($newPass !== $confirm) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'New passwords do not match.'])->setStatusCode(400);
+        }
+
+        $users = auth()->getProvider();
+        $user = $users->findById($this->userId);
+
+        if (!$user) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'User not found.'])->setStatusCode(404);
+        }
+
+        $credentials = [
+            'email'    => $user->email,
+            'password' => $current,
+        ];
+
+        $valid = auth('session')->check($credentials);
+        if (!$valid->isOK()) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Current password is incorrect.'])->setStatusCode(400);
+        }
+
+        $user->fill(['password' => $newPass]);
+        $users->save($user);
+
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Password changed successfully!']);
+    }
 }

@@ -49,7 +49,7 @@ $timezones = DateTimeZone::listIdentifiers();
             <!-- Settings Content -->
             <div class="col-lg-9">
 <?php $prefs = is_array($user->preferences) ? $user->preferences : []; ?>
-                <form method="POST" action="/settings/update" enctype="multipart/form-data" id="settingsForm">
+                <form method="POST" action="<?= site_url('settings/update') ?>" enctype="multipart/form-data" id="settingsForm">
                 <div class="tab-content" id="settingsContent">
                     <!-- Profile Tab -->
                     <div class="tab-pane active" id="profile">
@@ -646,15 +646,16 @@ $timezones = DateTimeZone::listIdentifiers();
                     return;
                 }
 
-                $.post('/settings/change-password', {
+                $.post('<?= site_url('settings/change-password') ?>', {
                     current_password: current,
                     new_password: newPass,
                     confirm_password: confirm
-                }).done(function() {
-                    showToast('Password changed successfully!', 'success');
+                }).done(function(res) {
+                    showToast(res.message || 'Password changed successfully!', 'success');
                     $('#passwordForm')[0].reset();
-                }).fail(function() {
-                    showToast('Failed to change password', 'danger');
+                }).fail(function(xhr) {
+                    const res = xhr.responseJSON;
+                    showToast(res && res.message ? res.message : 'Failed to change password', 'danger');
                 });
             });
 

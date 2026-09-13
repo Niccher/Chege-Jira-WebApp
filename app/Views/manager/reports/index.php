@@ -27,7 +27,7 @@
                     <h5 class="mb-0 fw-bold">Generate New Report</h5>
                 </div>
                 <div class="card-body">
-                    <form action="<?= base_url('manage/reports/generate') ?>" method="POST">
+                    <form action="<?= site_url('manage/reports/generate') ?>" method="POST">
                         <?= csrf_field() ?>
                         
                         <div class="mb-3">
@@ -114,7 +114,7 @@
                                                 <?= date('M j, Y g:i A', strtotime($report['created_at'])) ?>
                                             </td>
                                             <td class="text-end pe-4">
-                                                <a href="<?= base_url('manage/reports/download/' . $report['id']) ?>" class="btn btn-sm btn-outline-primary">
+                                                <a href="<?= site_url('manage/reports/download/' . $report['id']) ?>" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-download"></i> Download
                                                 </a>
                                             </td>

@@ -66,7 +66,7 @@
                                         <?= date('M j, Y g:i A', strtotime($task['updated_at'])) ?>
                                     </td>
                                     <td class="text-end">
-                                        <form action="<?= base_url('manage/approvals/'.$task['id'].'/approve') ?>" method="POST" class="d-inline">
+                                        <form action="<?= site_url('manage/approvals/'.$task['id'].'/approve') ?>" method="POST" class="d-inline">
                                             <?= csrf_field() ?>
                                             <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Approve this task?');">
                                                 <i class="fas fa-check"></i> Approve
@@ -82,7 +82,7 @@
                                 <div class="modal fade" id="rejectModal<?= $task['id'] ?>" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="<?= base_url('manage/approvals/'.$task['id'].'/reject') ?>" method="POST">
+                                            <form action="<?= site_url('manage/approvals/'.$task['id'].'/reject') ?>" method="POST">
                                                 <?= csrf_field() ?>
                                                 <div class="modal-header bg-danger text-white">
                                                     <h5 class="modal-title">Reject Task: <?= esc($task['title']) ?></h5>

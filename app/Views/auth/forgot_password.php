@@ -1,62 +1,45 @@
-<?= $this->extend(config('Auth')->views['layout']) ?>
-<?= $this->section('title') ?>Forgot Password<?= $this->endSection() ?>
+<?= $this->extend('layouts/hyper/auth_template') ?>
+
+<?= $this->section('title') ?>Forgot Password • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center mt-0 fw-bold">Reset Password</h4>
+        <p class="text-muted mb-4">Enter your email address and we'll send you instructions to reset your password.</p>
+    </div>
 
-<div id="forgot-box" class="forgot-box visible card no-border">
-    <div class="card-body">
-        <div class="p-3">
-            <h4 class="header red lighter bigger">
-                <i class="ace-icon fa fa-key"></i>
-                Retrieve Password
-            </h4>
-
-            <div class="space-6"></div>
-            <p>
-                Enter your email and to receive instructions
-            </p>
-
-            <?php if (session('error')) : ?>
-                <div class="alert alert-danger">
-                    <i class="ace-icon fa fa-exclamation-circle"></i>
-                    <?= session('error') ?>
-                </div>
-            <?php endif ?>
-
-            <?php if (session('success')) : ?>
-                <div class="alert alert-success">
-                    <i class="ace-icon fa fa-check-circle"></i>
-                    <?= session('success') ?>
-                </div>
-            <?php endif ?>
-
-            <form action="<?= url_to('magic-link') ?>" method="post">
-                <?= csrf_field() ?>
-
-                <fieldset>
-                    <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-                            <input type="email" class="form-control" name="email" placeholder="Email Address" required />
-                            <i class="ace-icon fa fa-envelope"></i>
-                        </span>
-                    </label>
-
-                    <div class="clearfix">
-                        <button type="submit" class="width-35 float-end btn btn-sm btn-danger">
-                            <i class="ace-icon fa fa-lightbulb-o"></i>
-                            <span class="bigger-110">Send Me!</span>
-                        </button>
-                    </div>
-                </fieldset>
-            </form>
-        </div><!-- /.p-3 -->
-
-        <div class="toolbar center">
-            <a href="<?= url_to('login') ?>" class="back-to-login-link">
-                Back to login
-                <i class="ace-icon fa fa-arrow-right"></i>
-            </a>
+    <?php if (session()->has('error')) : ?>
+        <div class="alert alert-danger" role="alert">
+            <i class="mdi mdi-alert-circle-outline me-2"></i>
+            <?= session('error') ?>
         </div>
-    </div><!-- /.card-body -->
-</div><!-- /.forgot-box -->
+    <?php endif ?>
 
+    <?php if (session()->has('success')) : ?>
+        <div class="alert alert-success" role="alert">
+            <i class="mdi mdi-check-circle-outline me-2"></i>
+            <?= session('success') ?>
+        </div>
+    <?php endif ?>
+
+    <form action="<?= site_url('auth/forgot-password') ?>" method="POST">
+        <?= csrf_field() ?>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input class="form-control" type="email" id="email" name="email" required="" placeholder="Enter your registered email">
+        </div>
+
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary w-100" type="submit">
+                <i class="fas fa-paper-plane me-1"></i> Send Instructions
+            </button>
+        </div>
+    </form>
+
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <p class="text-muted">Back to <a href="<?= site_url('auth/login') ?>" class="text-muted ms-1"><b>Log In</b></a></p>
+        </div>
+    </div>
 <?= $this->endSection() ?>

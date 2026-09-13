@@ -25,6 +25,9 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/projects/edit/(:num)', 'User\ProjectController::edit/$1');
     $routes->post('/projects/update/(:num)', 'User\ProjectController::update/$1');
     $routes->post('/projects/delete/(:num)', 'User\ProjectController::delete/$1');
+    $routes->get('/projects/archive/(:num)', 'User\ProjectController::archive/$1');
+    $routes->get('/projects/analytics/(:num)', 'User\AnalyticsController::index');
+    $routes->get('/projects/time/(:num)', 'User\TimeTrackerController::index');
     
     // Kanban
     $routes->get('/projects/kanban/(:num)', 'User\KanbanController::index/$1');
@@ -36,6 +39,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     
     // Calendar
     $routes->get('/calendar', 'User\CalendarController::index');
+    $routes->get('/calendar/events', 'Api\CalendarApiController::index');
     $routes->post('/calendar/event/store', 'User\CalendarController::storeEvent');
     $routes->post('/calendar/event/update/(:num)', 'User\CalendarController::updateEvent/$1');
     $routes->post('/calendar/event/delete/(:num)', 'User\CalendarController::deleteEvent/$1');
@@ -43,17 +47,27 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     // Time
     $routes->get('/time', 'User\TimeTrackerController::index');
     $routes->post('/time/manual', 'User\TimeTrackerController::logManual');
+    $routes->post('/time/start', 'Api\TimeApiController::start');
+    $routes->post('/time/stop/(:num)', 'Api\TimeApiController::stop/$1');
     
     // Notes
     $routes->get('/notes', 'User\NoteController::index');
     $routes->post('/notes/store', 'User\NoteController::store');
     $routes->post('/notes/update/(:num)', 'User\NoteController::update/$1');
     $routes->post('/notes/delete/(:num)', 'User\NoteController::delete/$1');
+    $routes->post('/notes/star/(:num)', 'Api\NoteApiController::toggleStar/$1');
+    $routes->post('/notes/complete/(:num)', 'Api\NoteApiController::toggleComplete/$1');
+    
+    // Direct Task AJAX aliases for Kanban & Projects
+    $routes->post('/projects/task/move', 'Api\TaskApiController::move');
+    $routes->post('/projects/task/store', 'Api\TaskApiController::store');
+    $routes->post('/projects/task/update/(:num)', 'Api\TaskApiController::update/$1');
     
     // Analytics & Settings
     $routes->get('/analytics', 'User\AnalyticsController::index');
     $routes->get('/settings', 'User\SettingsController::index');
     $routes->post('/settings/update', 'User\SettingsController::update');
+    $routes->post('/settings/change-password', 'User\SettingsController::changePassword');
     
     // Secure Avatars
     $routes->get('/avatar/(:segment)', 'User\AvatarController::show/$1');
@@ -78,8 +92,9 @@ $routes->group('api', ['filter' => 'session'], function($routes) {
     $routes->post('notes/(:num)/complete', 'Api\NoteApiController::toggleComplete/$1');
 });
 
-// Manager zone — requires login + manager role
-$routes->group('manage', ['filter' => ['session', 'manager']], function($routes) {
+// Manager zone — requires login + manager role (support both /manage and /manager)
+$managerRouteHandler = function($routes) {
+    $routes->get('/', 'Manager\TeamDashboardController::index');
     $routes->get('team', 'Manager\TeamDashboardController::index');
     $routes->get('tasks/assign', 'Manager\TaskAssignmentController::index');
     $routes->post('tasks/assign', 'Manager\TaskAssignmentController::assign');
@@ -89,7 +104,10 @@ $routes->group('manage', ['filter' => ['session', 'manager']], function($routes)
     $routes->get('reports', 'Manager\ReportController::index');
     $routes->post('reports/generate', 'Manager\ReportController::generate');
     $routes->get('reports/download/(:num)', 'Manager\ReportController::download/$1');
-});
+};
+
+$routes->group('manage', ['filter' => ['session', 'manager']], $managerRouteHandler);
+$routes->group('manager', ['filter' => ['session', 'manager']], $managerRouteHandler);
 
 // Admin zone — requires login + admin role
 $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
@@ -128,8 +146,9 @@ $routes->group('auth', static function ($routes) {
     // Email Verification - Using Shield's built-in routes
     $routes->get('verify-email', [\App\Controllers\Auth\AccountController::class, 'verifyEmailAction'], ['as' => 'verify-email']);
     
-    // Resend verification
+    // Resend verification (support both -verification and -activation)
     $routes->post('resend-verification', [\App\Controllers\Auth\AccountController::class, 'resendShieldActivation']);
+    $routes->post('resend-activation', [\App\Controllers\Auth\AccountController::class, 'resendShieldActivation']);
 
     // Email Verification Success
     $routes->get('verify-email-success', [\App\Controllers\Auth\AccountController::class, 'verifyEmailSuccess']);

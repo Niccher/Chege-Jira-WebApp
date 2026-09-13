@@ -189,4 +189,21 @@ class ProjectController extends BaseUserController
 
         return redirect()->back()->with('error', 'Could not delete project.');
     }
+
+    public function archive(int $id)
+    {
+        $projectModel = new ProjectModel();
+        
+        $project = $projectModel->where('id', $id)->where('user_id', $this->userId)->first();
+
+        if (!$project) {
+            return redirect()->to('/projects')->with('error', 'Project not found.');
+        }
+
+        $newArchiveStatus = empty($project['is_archived']) ? 1 : 0;
+        $projectModel->update($id, ['is_archived' => $newArchiveStatus]);
+
+        $statusMsg = $newArchiveStatus ? 'Project archived successfully.' : 'Project unarchived successfully.';
+        return redirect()->to('/projects')->with('message', $statusMsg);
+    }
 }
