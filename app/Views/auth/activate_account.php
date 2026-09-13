@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/auth/auth_template') ?>
+<?= $this->extend('layouts/hyper/auth_template') ?>
 
 <?= $this->section('title') ?>Activate Account • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 

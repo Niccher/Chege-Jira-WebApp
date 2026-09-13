@@ -1,104 +1,58 @@
-<?= $this->extend('layouts/auth/auth_template') ?>
+<?= $this->extend('layouts/hyper/auth_template') ?>
 
-<?= $this->section('title') ?>Register • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
+<?= $this->section('title') ?>Register<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <p class="login-info">Create your account to get started.</p>
+    <div class="text-center w-75 m-auto">
+        <h4 class="text-dark-50 text-center mt-0 fw-bold">Sign Up</h4>
+        <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute.</p>
+    </div>
 
-    <?php if(session()->has('errors')): ?>
-        <div class="alert alert-danger">
-            <i class="fa fa-exclamation-triangle"></i>
-            <ul class="margin-0 padding-10">
-                <?php foreach(session('errors') as $error): ?>
-                    <li><?= $error ?></li>
-                <?php endforeach; ?>
-            </ul>
+    <?php if(session()->has('error')): ?>
+        <div class="alert alert-danger" role="alert">
+            <i class="mdi mdi-alert-circle-outline me-2"></i>
+            <?= session('error') ?>
         </div>
     <?php endif; ?>
 
-    <form action="<?= site_url('auth/register') ?>" method="POST" id="registerForm">
+    <form action="<?= site_url('auth/register') ?>" method="POST">
         <?= csrf_field() ?>
 
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-6">
-                    <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-                            <input type="text" class="form-control" name="firstName" placeholder="First Name" required />
-                            <i class="ace-icon fa fa-user"></i>
-                        </span>
-                    </label>
-                </div>
-                <div class="col-xs-6">
-                    <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" required />
-                            <i class="ace-icon fa fa-user"></i>
-                        </span>
-                    </label>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input class="form-control" type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input class="form-control" type="email" id="email" name="email" required placeholder="Enter your email">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
+                <div class="input-group-text" data-password="false">
+                    <span class="password-eye"></span>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="block clearfix">
-                <span class="block input-icon input-icon-right">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" required />
-                    <i class="ace-icon fa fa-envelope"></i>
-                </span>
-            </label>
+        <div class="mb-3">
+            <label for="password_confirm" class="form-label">Confirm Password</label>
+            <div class="input-group input-group-merge">
+                <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="Re-enter your password">
+            </div>
         </div>
 
-        <div class="form-group">
-            <label class="block clearfix">
-                <span class="block input-icon input-icon-right">
-                    <input type="text" class="form-control" name="username" placeholder="Username" required />
-                    <i class="ace-icon fa fa-user-circle"></i>
-                </span>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label class="block clearfix">
-                <span class="block input-icon input-icon-right">
-                    <input type="password" class="form-control" name="password" placeholder="Password (min 8 characters)" required />
-                    <i class="ace-icon fa fa-lock"></i>
-                </span>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label class="block clearfix">
-                <span class="block input-icon input-icon-right">
-                    <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password" required />
-                    <i class="ace-icon fa fa-lock"></i>
-                </span>
-            </label>
-        </div>
-
-        <div class="form-group">
-            <label>
-                <input type="checkbox" class="ace" name="terms" required />
-                <span class="lbl">
-                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-                </span>
-            </label>
-        </div>
-
-        <div class="clearfix">
-            <button type="submit" class="width-100 btn btn-sm btn-primary">
-                <i class="ace-icon fa fa-user-plus"></i>
-                <span class="bigger-110">Create Account</span>
-            </button>
-        </div>
-
-        <div class="space-4"></div>
-        <div class="forgot-password-info">
-            Already have an account?
-            <a href="<?= site_url('auth/login') ?>">
-                <i class="ace-icon fa fa-arrow-right"></i>
-                Sign In
-            </a>
+        <div class="mb-3 text-center">
+            <button class="btn btn-primary w-100" type="submit"> Sign Up </button>
         </div>
     </form>
+    
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <p class="text-muted">Already have an account? <a href="<?= site_url('auth/login') ?>" class="text-muted ms-1"><b>Log In</b></a></p>
+        </div> <!-- end col -->
+    </div>
 <?= $this->endSection() ?>

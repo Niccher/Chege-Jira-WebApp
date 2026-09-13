@@ -9,7 +9,7 @@
 
 <div class="container" style="padding-bottom: 50px;">
     <div class="row">
-        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+        <div class="col-12 col-sm-10 col-sm-offset-1">
             <!-- #section:elements.accordion -->
             <div id="accordion" class="accordion-style1 panel-group">
                 <div class="panel panel-default">

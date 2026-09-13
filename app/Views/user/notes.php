@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -8,14 +8,14 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Notes</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Notes Stats -->
         <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Total Notes</div>
                     <div class="stat-value" id="totalNotes"><?= $stats['total'] ?></div>
                     <div class="stat-change text-secondary  font-mono border-top pt-2">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Starred</div>
                     <div class="stat-value text-warning" id="starredNotes"><?= $stats['starred'] ?></div>
                     <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Completed</div>
                     <div class="stat-value text-success" id="completedNotes"><?= $stats['completed'] ?></div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
@@ -45,7 +45,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Deleted</div>
                     <div class="stat-value text-danger" id="deletedNotes"><?= $stats['deleted'] ?></div>
                     <div class="stat-change text-danger  font-mono border-top border-danger border-opacity-25 pt-2">
@@ -59,7 +59,7 @@
         <div class="row" id="row_1">
             <!-- Notes List -->
             <div class="col-lg-4">
-                <div class="widget-box card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
+                <div class="card card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
                     <div class="   space-3">
                         <h5 class="space-0"><i class="fas fa-list-ul pr-2"></i>All Notes</h5>
                         <button class="btn btn-sm btn btn-white btn-default" id="sortNotesBtn">
@@ -121,7 +121,7 @@
 
             <!-- Note Editor or New Note Form -->
             <div class="col-lg-8">
-                <div class="widget-box card-body" style="height: calc(100vh - 300px); display: flex; flex-direction: column;">
+                <div class="card card-body" style="height: calc(100vh - 300px); display: flex; flex-direction: column;">
                     <form action="<?= site_url('notes/store') ?>" method="POST" id="newNoteForm" class="h-100  ">
                         <?= csrf_field() ?>
                         <div class="   space-3">

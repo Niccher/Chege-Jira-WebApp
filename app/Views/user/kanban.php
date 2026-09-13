@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 <?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -9,14 +9,14 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Kanban Board</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Quick Stats -->
         <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Total Tasks</div>
                     <div class="stat-value" id="totalTasks">24</div>
                     <div class="stat-change text-secondary  font-mono border-top pt-2">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">In Progress</div>
                     <div class="stat-value text-warning" id="inProgress">8</div>
                     <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Blocked</div>
                     <div class="stat-value text-danger" id="blockedTasks">3</div>
                     <div class="stat-change text-danger  font-mono border-top border-danger border-opacity-25 pt-2">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Completed</div>
                     <div class="stat-value text-success" id="completedTasks">13</div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">

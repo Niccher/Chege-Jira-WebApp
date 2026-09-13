@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 <?php
@@ -12,14 +12,14 @@ $timezones = DateTimeZone::listIdentifiers();
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Settings</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Settings Navigation -->
         <div class="row space-4">
             <div class="col-lg-3">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <nav class="nav  settings-nav">
                         <a class="nav-link active" href="#profile" data-toggle="tab">
                             <i class="fas fa-user pr-2"></i> Profile
@@ -53,7 +53,7 @@ $timezones = DateTimeZone::listIdentifiers();
                 <div class="tab-content" id="settingsContent">
                     <!-- Profile Tab -->
                     <div class="tab-pane active" id="profile">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-user pr-2"></i>Profile Settings</h5>
 
                                 <div class="row space-4">
@@ -128,7 +128,7 @@ $timezones = DateTimeZone::listIdentifiers();
 <?php $selectedColor = $prefs['accent_color'] ?? '#ef4444'; ?>
                     <!-- Appearance Tab -->
                     <div class="tab-pane" id="appearance">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-palette pr-2"></i>Appearance Settings</h5>
 
                             <input type="hidden" name="theme" id="themeInput" value="<?= $selectedTheme ?>">
@@ -235,7 +235,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Notifications Tab -->
                     <div class="tab-pane" id="notifications">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-bell pr-2"></i>Notification Settings <span class="badge badge-warning ms-2" style="font-size: 0.6rem; vertical-align: middle;">UNDER DEVELOPMENT</span></h5>
 
                             <div class="alert alert-info space-4">
@@ -296,7 +296,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Projects Tab -->
                     <div class="tab-pane" id="projects">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-project-diagram pr-2"></i>Project Settings</h5>
 
                             <div class="space-4">
@@ -376,7 +376,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Time Tracking Tab -->
                     <div class="tab-pane" id="time-tracking">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-clock pr-2"></i>Time Tracking Settings</h5>
 
                             <div class="space-4">
@@ -442,7 +442,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Data Management Tab -->
                     <div class="tab-pane" id="data">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-database pr-2"></i>Data Management</h5>
 
                             <div class="space-4">
@@ -518,7 +518,7 @@ $timezones = DateTimeZone::listIdentifiers();
 
                     <!-- Account & Security Tab -->
                     <div class="tab-pane" id="account">
-                        <div class="widget-box card-body">
+                        <div class="card card-body">
                             <h5 class="space-4"><i class="fas fa-shield-alt pr-2"></i>Account & Security</h5>
 
                             <div class="space-4">

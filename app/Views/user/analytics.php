@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -8,14 +8,14 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Analytics</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Key Metrics -->
         <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Total Projects</div>
                     <div class="stat-value"><?= esc($totalProjects) ?></div>
                     <div class="stat-change text-secondary  font-mono border-top pt-2">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Completion Rate</div>
                     <div class="stat-value text-success"><?= esc(round($completionRate)) ?>%</div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Hours Logged</div>
                     <div class="stat-value text-warning"><?= esc(number_format($totalHours, 1)) ?></div>
                     <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
@@ -45,7 +45,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Avg Daily Hours</div>
                     <div class="stat-value text-success"><?= esc(number_format($avgDaily, 1)) ?></div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
@@ -59,7 +59,7 @@
         <div class="row space-4">
             <!-- Project Completion Chart -->
             <div class="col-lg-8">
-                <div class="widget-box card-body h-100">
+                <div class="card card-body h-100">
                     <div class="   space-3">
                         <h5 class="space-0"><i class="fas fa-chart-line pr-2"></i>Project Completion Trends</h5>
                         <div class="btn-group btn-group-sm">
@@ -101,7 +101,7 @@
 
             <!-- Project Health Distribution -->
             <div class="col-lg-4">
-                <div class="widget-box card-body h-100">
+                <div class="card card-body h-100">
                     <h5 class="space-3"><i class="fas fa-chart-pie pr-2"></i>Project Health Distribution</h5>
                     <div class="pie-chart-container">
                         <?php
@@ -157,7 +157,7 @@
         <div class="row space-4">
             <!-- Time Distribution -->
             <div class="col-lg-6">
-                <div class="widget-box card-body h-100">
+                <div class="card card-body h-100">
                     <div class="   space-3">
                         <h5 class="space-0"><i class="fas fa-clock pr-2"></i>Time Distribution by Project</h5>
                         <button class="btn btn-sm btn btn-white btn-default">Details</button>
@@ -189,7 +189,7 @@
 
             <!-- Productivity Heatmap -->
             <div class="col-lg-6">
-                <div class="widget-box card-body h-100">
+                <div class="card card-body h-100">
                     <h5 class="space-3"><i class="fas fa-calendar-alt pr-2"></i>Monthly Activity Heatmap</h5>
                     <div class="heatmap-container">
                         <div class="heatmap-header">
@@ -230,7 +230,7 @@
         <!-- Insights & Recommendations -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <div class="   space-3">
                         <h5 class="space-0"><i class="fas fa-lightbulb pr-2"></i>Insights & Recommendations</h5>
                         <button class="btn btn-sm btn btn-white btn-default">
@@ -242,7 +242,7 @@
                     <div class="row g-3">
                         <?php foreach ($insights as $insight): ?>
                         <div class="col-md-4">
-                            <div class="widget-box card-body h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
+                            <div class="card card-body h-100 p-3 border-dark border-start border-4 border-<?= esc($insight['color']) ?>">
                                 <div class="  space-2">
                                     <i class="<?= esc($insight['icon']) ?> text-<?= esc($insight['color']) ?> fs-5 pr-2"></i>
                                     <h6 class="space-0 text-white font-mono"><?= esc($insight['title']) ?></h6>
@@ -256,7 +256,7 @@
 
                     <div class="row g-3 ">
                         <div class="col-md-6">
-                            <div class="widget-box card-body p-3 border-dark">
+                            <div class="card card-body p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 space-3"><i class="fas fa-check-square text-success pr-2"></i>Completed This Month</h6>
                                 <ul class="small text-secondary space-0 list-unstyled font-mono">
                                     <?php if (!empty($completedThisMonth)): ?>
@@ -271,7 +271,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="widget-box card-body p-3 border-dark">
+                            <div class="card card-body p-3 border-dark">
                                 <h6 class="font-mono text-white border-bottom pb-2 space-3"><i class="fas fa-exclamation-triangle text-warning pr-2"></i>Need Attention</h6>
                                 <ul class="small text-secondary space-0 list-unstyled font-mono">
                                     <?php if (!empty($stalledTasks)): ?>

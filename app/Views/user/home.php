@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 
 <?= $this->section('title') ?>Dashboard<?= $this->endSection() ?>
 
@@ -10,11 +10,11 @@
 
 <!-- Page header -->
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3 class="header smaller lighter blue">
             <i class="ace-icon fa fa-tachometer"></i>
             Dashboard
-            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary pull-right">
+            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary float-end">
                 <i class="ace-icon fa fa-plus"></i>
                 New Project
             </a>
@@ -25,64 +25,64 @@
 
 <!-- Quick Stats -->
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card transparent">
+            <div class="card-header card-header-flat">
                 <h5 class="widget-title smaller">
                     <i class="ace-icon fa fa-folder-open blue"></i>
                     Total Projects
                 </h5>
             </div>
-            <div class="widget-body">
-                <div class="widget-main padding-4">
+            <div class="card-body">
+                <div class="p-3 padding-4">
                     <span class="stat-value blue"><?= $stats['total'] ?></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card transparent">
+            <div class="card-header card-header-flat">
                 <h5 class="widget-title smaller">
                     <i class="ace-icon fa fa-play-circle green"></i>
                     Active Projects
                 </h5>
             </div>
-            <div class="widget-body">
-                <div class="widget-main padding-4">
+            <div class="card-body">
+                <div class="p-3 padding-4">
                     <span class="stat-value green"><?= $stats['active'] ?></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card transparent">
+            <div class="card-header card-header-flat">
                 <h5 class="widget-title smaller">
                     <i class="ace-icon fa fa-clock-o orange"></i>
                     Pending
                 </h5>
             </div>
-            <div class="widget-body">
-                <div class="widget-main padding-4">
+            <div class="card-body">
+                <div class="p-3 padding-4">
                     <span class="stat-value orange"><?= $stats['pending'] ?></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-flat">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="card transparent">
+            <div class="card-header card-header-flat">
                 <h5 class="widget-title smaller">
                     <i class="ace-icon fa fa-archive grey"></i>
                     Archived
                 </h5>
             </div>
-            <div class="widget-body">
-                <div class="widget-main padding-4">
+            <div class="card-body">
+                <div class="p-3 padding-4">
                     <span class="stat-value grey"><?= $stats['archived'] ?></span>
                 </div>
             </div>
@@ -95,9 +95,9 @@
 <!-- Main content row -->
 <div class="row">
     <!-- Left: Recent Projects -->
-    <div class="col-xs-12 col-md-8">
-        <div class="widget-box">
-            <div class="widget-header">
+    <div class="col-12 col-md-8">
+        <div class="card">
+            <div class="card-header">
                 <h5 class="widget-title">
                     <i class="ace-icon fa fa-folder-open-o"></i>
                     Recent Projects
@@ -108,8 +108,8 @@
                     </a>
                 </div>
             </div>
-            <div class="widget-body">
-                <div class="widget-main">
+            <div class="card-body">
+                <div class="p-3">
                     <?php if (!empty($projects)): ?>
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
@@ -168,16 +168,16 @@
     </div>
 
     <!-- Right: Recent Activity -->
-    <div class="col-xs-12 col-md-4">
-        <div class="widget-box">
-            <div class="widget-header">
+    <div class="col-12 col-md-4">
+        <div class="card">
+            <div class="card-header">
                 <h5 class="widget-title">
                     <i class="ace-icon fa fa-history orange"></i>
                     Recent Activity
                 </h5>
             </div>
-            <div class="widget-body">
-                <div class="widget-main padding-0">
+            <div class="card-body">
+                <div class="p-3 padding-0">
                     <?php if (!empty($recentActivity)): ?>
                     <ul class="list-unstyled spaced timeline-style2 padding-16">
                         <?php foreach ($recentActivity as $act): ?>

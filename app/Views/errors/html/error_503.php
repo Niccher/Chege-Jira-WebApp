@@ -6,11 +6,11 @@
     <title>503 Error | Chege Jira</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-    <link rel="stylesheet" href="<?= base_url('assets/ace/css/bootstrap.min.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/hyper/css/app.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/ace/font-awesome/4.5.0/css/font-awesome.min.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/fonts.googleapis.com.css') ?>" />
-    <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace.min.css') ?>" class="ace-main-stylesheet" id="main-ace-style" />
-    <link rel="stylesheet" href="<?= base_url('assets/css/modern-ace.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/hyper/css/app-dark.min.css') ?>" class="ace-main-stylesheet" id="main-ace-style" />
+    <!-- Removed modern-ace.css -->
 </head>
 <body class="no-skin">
     <div class="main-container ace-save-state" id="main-container">
@@ -18,7 +18,7 @@
             <div class="main-content-inner">
                 <div class="page-content">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-12">
                             <!-- PAGE CONTENT BEGINS -->
                             <div class="error-container">
                                 <div class="well">

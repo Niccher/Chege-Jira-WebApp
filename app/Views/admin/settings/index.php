@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 
 <?= $this->section('title') ?>
 System Settings
@@ -16,7 +16,7 @@ System Settings
 </div>
 
 <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="col-12 col-md-6">
         
         <?php if (session()->has('message')) : ?>
             <div class="alert alert-success">
@@ -36,13 +36,13 @@ System Settings
             </div>
         <?php endif; ?>
 
-        <div class="widget-box">
-            <div class="widget-header">
+        <div class="card">
+            <div class="card-header">
                 <h4 class="widget-title">General Settings</h4>
             </div>
 
-            <div class="widget-body">
-                <div class="widget-main">
+            <div class="card-body">
+                <div class="p-3">
                     <form action="<?= base_url('admin/settings/update') ?>" method="POST" class="form-horizontal" role="form">
                         <?= csrf_field() ?>
                         
@@ -50,8 +50,8 @@ System Settings
                             <label class="col-sm-3 control-label no-padding-right" for="site_name"> Application Name </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="site_name" name="site_name" placeholder="e.g. Chege Jira" class="col-xs-10 col-sm-12" value="<?= esc(setting('App.siteName')) ?>" required />
-                                <span class="help-block col-xs-12 col-sm-12 no-padding-left">This name will be displayed in the header, footer, and emails.</span>
+                                <input type="text" id="site_name" name="site_name" placeholder="e.g. Chege Jira" class="col-10 col-sm-12" value="<?= esc(setting('App.siteName')) ?>" required />
+                                <span class="help-block col-12 col-sm-12 no-padding-left">This name will be displayed in the header, footer, and emails.</span>
                             </div>
                         </div>
 

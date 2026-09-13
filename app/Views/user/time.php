@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 
@@ -8,14 +8,14 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Time Tracking</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Active Timer Section -->
         <div class="row space-4">
             <div class="col-lg-12">
-                <div class="widget-box card-body" id="activeTimerSection" style="display: none;">
+                <div class="card card-body" id="activeTimerSection" style="display: none;">
                     <div class="  ">
                         <div>
                             <h5 class="space-1"><i class="fas fa-clock pr-2 text-primary"></i>Currently Tracking</h5>
@@ -34,7 +34,7 @@
                 </div>
 
                 <!-- Quick Start Timer -->
-                <div class="widget-box card-body" id="quickStartSection">
+                <div class="card card-body" id="quickStartSection">
                     <div class="  ">
                         <div>
                             <h5 class="space-1"><i class="fas fa-play-circle pr-2 text-success"></i>Quick Start Timer</h5>
@@ -60,7 +60,7 @@
         <!-- Time Tracking Stats -->
         <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Today (hrs)</div>
                     <div class="stat-value" id="todayTime"><?= $todayTime ?></div>
                     <div class="stat-change text-secondary  font-mono border-top pt-2">
@@ -70,7 +70,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">This Week (hrs)</div>
                     <div class="stat-value text-primary" id="weekTime"><?= $weekTime ?></div>
                     <div class="stat-change text-primary  font-mono border-top border-primary border-opacity-25 pt-2">
@@ -80,7 +80,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">This Month (hrs)</div>
                     <div class="stat-value text-warning" id="monthTime"><?= $monthTime ?></div>
                     <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
@@ -90,7 +90,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Avg Daily (hrs)</div>
                     <div class="stat-value text-success" id="avgDaily"><?= $avgDaily ?></div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
@@ -104,7 +104,7 @@
         <div class="row">
             <!-- Time Entries -->
             <div class="col-lg-8">
-                <div class="widget-box card-body space-4">
+                <div class="card card-body space-4">
                     <div class="   space-3">
                         <h5 class="space-0"><i class="fas fa-history pr-2"></i>Recent Time Entries</h5>
                         <div class="btn-group">
@@ -168,7 +168,7 @@
             <!-- Project Breakdown & Reports -->
             <div class="col-lg-4">
                 <!-- Project Time Breakdown -->
-                <div class="widget-box card-body space-4" id="projectBreakdownCard">
+                <div class="card card-body space-4" id="projectBreakdownCard">
                     <h5 class="space-3"><i class="fas fa-chart-pie pr-2"></i>Project Time Breakdown</h5>
                     <div class="time-breakdown">
                         <?php if (empty($project_breakdown)): ?>

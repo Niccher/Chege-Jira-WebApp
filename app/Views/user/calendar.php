@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -9,14 +9,14 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Calendar</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 
             </div>
         </div>
         <!-- Calendar Stats -->
         <div class="row space-4 g-3">
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">This Month</div>
                     <div class="stat-value" id="totalEvents"><?= $total_events ?></div>
                     <div class="stat-change text-secondary  font-mono border-top pt-2">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Completed</div>
                     <div class="stat-value text-success" id="completedEvents"><?= $completed_count ?></div>
                     <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Pending</div>
                     <div class="stat-value text-warning" id="pendingEvents"><?= $pending_count ?></div>
                     <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="col-md-6 col-lg-3">
-                <div class="widget-box card-body h-100 p-4 border-dark">
+                <div class="card card-body h-100 p-4 border-dark">
                     <div class="stat-label space-2">Overdue</div>
                     <div class="stat-value text-danger" id="overdueEvents"><?= $overdue_count ?></div>
                     <div class="stat-change text-danger  font-mono border-top border-danger border-opacity-25 pt-2">
@@ -57,7 +57,7 @@
         </div>
 
         <!-- Calendar Container -->
-        <div class="widget-box card-body">
+        <div class="card card-body">
             <!-- Calendar Header -->
             <div class="   space-4">
                 <h5 class="space-0"><i class="fas fa-calendar-alt pr-2"></i><span id="calendarTitle">Calendar</span></h5>
@@ -81,7 +81,7 @@
         <!-- Upcoming Events -->
         <div class="row ">
             <div class="col-lg-8">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <h5 class="space-3"><i class="fas fa-list-ul pr-2"></i>Upcoming Events</h5>
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-bordered">
@@ -147,7 +147,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <h5 class="space-3"><i class="fas fa-chart-pie pr-2"></i>Project Distribution</h5>
                     <div class="project-distribution">
                         <?php if (!empty($distribution)): ?>

@@ -46,7 +46,7 @@
     </div>
 
     <div class="row text-center">
-        <div class="col-xs-12">
+        <div class="col-12">
             <hr>
             <h2>Ready to transform your workflow?</h2>
             <div class="space-12"></div>

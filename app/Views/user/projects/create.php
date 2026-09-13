@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -9,7 +9,7 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>New Project</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
                     <i class="fas fa-arrow-left pr-1"></i> Back
                 </a>
@@ -18,7 +18,7 @@
         <!-- Project Creation Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <div class="space-4">
                         <h5 class="space-2"><i class="fas fa-plus-circle pr-2 text-primary"></i>Create New Coding Project</h5>
                         <p class="text-muted small">Track your development projects with detailed information</p>
@@ -221,7 +221,7 @@
 
                             <div id="milestonesContainer">
                                 <div class="milestone-entry card space-3">
-                                    <div class="widget-box-body">
+                                    <div class="card-body">
                                         <div class="row g-3">
                                             <div class="col-md-5">
                                                 <input type="text" class="form-control" placeholder="Milestone name"
@@ -298,7 +298,7 @@
                         </div>
 
                         <!-- Quick Tips -->
-                        <div class="widget-box card-body ">
+                        <div class="card card-body ">
                             <h6 class="space-3"><i class="fas fa-lightbulb pr-2 text-warning"></i>Quick Tips</h6>
                             <div class="row">
                                 <div class="col-md-6">
@@ -437,7 +437,7 @@
             $('#addMilestone').click(function() {
                 const template = `
                     <div class="milestone-entry card space-3">
-                        <div class="widget-box-body">
+                        <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-5">
                                     <input type="text" class="form-control" placeholder="Milestone name"

@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1));
@@ -29,7 +29,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Project Details</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
                     <i class="fas fa-arrow-left pr-1"></i> Back
                 </a> <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-warning btn-sm pr-2">
@@ -40,7 +40,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         <!-- Project Header (Compact) -->
         <div class="row space-3">
             <div class="col-lg-12">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <div class="  ">
                         <div class=" ">
                             <div class="compact-avatar pr-3" style="background-color: <?= esc($project['color'] ?? '#6366f1') ?>;">
@@ -76,7 +76,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
         <!-- Quick Stats (Compact Grid) -->
         <div class="row space-3">
             <div class="col-md-3 col-6 space-2">
-                <div class="widget-box card-body compact h-100">
+                <div class="card card-body compact h-100">
                     <div class=" ">
                         <div class="stat-icon-sm pr-2" style="background-color: rgba(99, 102, 241, 0.2); color: #6366f1;">
                             <i class="fas fa-calendar-plus"></i>
@@ -90,7 +90,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 space-2">
-                <div class="widget-box card-body compact h-100">
+                <div class="card card-body compact h-100">
                     <div class=" ">
                         <div class="stat-icon-sm pr-2" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
                             <i class="fas fa-calendar-check"></i>
@@ -104,7 +104,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 space-2">
-                <div class="widget-box card-body compact h-100">
+                <div class="card card-body compact h-100">
                     <div class=" ">
                         <div class="stat-icon-sm pr-2" style="background-color: rgba(245, 158, 11, 0.2); color: #f59e0b;">
                             <i class="fas fa-clock"></i>
@@ -118,7 +118,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             </div>
 
             <div class="col-md-3 col-6 space-2">
-                <div class="widget-box card-body compact h-100">
+                <div class="card card-body compact h-100">
                     <div class=" ">
                         <div class="stat-icon-sm pr-2" style="background-color: rgba(239, 68, 68, 0.2); color: #ef4444;">
                             <i class="fas fa-history"></i>
@@ -137,7 +137,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Left Column (Wider) -->
             <div class="col-lg-8">
                 <!-- Project Details (Expandable Sections) -->
-                <div class="widget-box card-body compact space-3">
+                <div class="card card-body compact space-3">
                     <div class="   space-2">
                         <h6 class="space-0"><i class="fas fa-info-circle pr-2"></i>Project Details</h6>
                         <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-sm btn-outline-warning">
@@ -334,7 +334,7 @@ $avgDaily = round($totalHours / $daysLogged, 1);
             <!-- Right Column (Compact) -->
             <div class="col-lg-4">
                 <!-- Quick Actions & Info -->
-                <div class="widget-box card-body compact">
+                <div class="card card-body compact">
                     <h6 class="space-2"><i class="fas fa-bolt pr-2"></i>Quick Actions</h6>
                     <div class="row g-2 space-3">
                         <div class="col-6">

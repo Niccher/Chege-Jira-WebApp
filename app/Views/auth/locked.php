@@ -2,9 +2,9 @@
 <?= $this->section('title') ?>Account Locked<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<div id="locked-box" class="login-box visible widget-box no-border">
-    <div class="widget-body">
-        <div class="widget-main center">
+<div id="locked-box" class="login-box visible card no-border">
+    <div class="card-body">
+        <div class="p-3 center">
             <h4 class="header red lighter bigger">
                 <i class="ace-icon fa fa-lock"></i>
                 Account Locked
@@ -25,7 +25,7 @@
                 <i class="ace-icon fa fa-arrow-left"></i> Return to Login
             </a>
             
-        </div><!-- /.widget-main -->
-    </div><!-- /.widget-body -->
+        </div><!-- /.p-3 -->
+    </div><!-- /.card-body -->
 </div>
 <?= $this->endSection() ?>

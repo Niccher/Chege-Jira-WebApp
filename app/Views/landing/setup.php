@@ -10,12 +10,12 @@
 <div class="container" style="padding-bottom: 50px;">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="widget-box">
-                <div class="widget-header widget-header-blue widget-header-flat">
+            <div class="card">
+                <div class="card-header card-header-blue card-header-flat">
                     <h4 class="widget-title lighter">Docker Installation (Recommended)</h4>
                 </div>
-                <div class="widget-body">
-                    <div class="widget-main padding-16">
+                <div class="card-body">
+                    <div class="p-3 padding-16">
                         <p>The fastest and most reliable way to run <?= esc(setting('App.siteName')) ?> is using Docker and Docker Compose.</p>
                         
                         <ol class="spaced">

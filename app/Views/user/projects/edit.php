@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 <?= $this->section('content') ?>
 
 <?php $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
@@ -9,7 +9,7 @@
             <div class="col-auto d-none d-sm-block">
                 <h3><strong>Edit Project</strong></h3>
             </div>
-            <div class="col-auto pull-right text-end mt-n1">
+            <div class="col-auto float-end text-end mt-n1">
                 <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn btn-white btn-default btn-sm pr-2">
                     <i class="fas fa-eye pr-1"></i> View
                 </a> <a href="<?= site_url('projects') ?>" class="btn btn btn-white btn-default btn-sm pr-2">
@@ -20,7 +20,7 @@
         <!-- Project Header -->
         <div class="row space-4">
             <div class="col-lg-12">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <div class="  ">
                         <div class=" ">
                             <div class="user-avatar pr-3" style="width: 48px; height: 48px; background-color: <?= esc($project['color'] ?? '#6366f1') ?>; font-size: 20px;">
@@ -47,7 +47,7 @@
         <!-- Project Edit Form -->
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <div class="widget-box card-body">
+                <div class="card card-body">
                     <div class="space-4">
                         <h5 class="space-2"><i class="fas fa-edit pr-2 text-warning"></i>Update Project Details</h5>
                         <p class="text-muted small">Current progress: <strong class="text-success">75% complete</strong></p>
@@ -251,7 +251,7 @@
                                 <?php if (!empty($milestones)): ?>
                                     <?php foreach ($milestones as $index => $ms): ?>
                                     <div class="milestone-entry card space-3">
-                                        <div class="widget-box-body">
+                                        <div class="card-body">
                                             <div class="row g-3">
                                                 <div class="col-md-5">
                                                     <input type="text" class="form-control" value="<?= esc($ms['name']) ?>"
@@ -353,7 +353,7 @@
                         </div>
 
                         <!-- Change History -->
-                        <div class="widget-box card-body ">
+                        <div class="card card-body ">
                             <h6 class="space-3"><i class="fas fa-history pr-2 text-info"></i>Recent Changes</h6>
                             <div class="timeline small">
                                 <div class=" space-2">
@@ -508,7 +508,7 @@
             $('#addMilestone').click(function() {
                 const template = `
                     <div class="milestone-entry card space-3">
-                        <div class="widget-box-body">
+                        <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-5">
                                     <input type="text" class="form-control" placeholder="Milestone name"

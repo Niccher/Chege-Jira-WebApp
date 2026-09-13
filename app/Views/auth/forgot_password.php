@@ -2,9 +2,9 @@
 <?= $this->section('title') ?>Forgot Password<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<div id="forgot-box" class="forgot-box visible widget-box no-border">
-    <div class="widget-body">
-        <div class="widget-main">
+<div id="forgot-box" class="forgot-box visible card no-border">
+    <div class="card-body">
+        <div class="p-3">
             <h4 class="header red lighter bigger">
                 <i class="ace-icon fa fa-key"></i>
                 Retrieve Password
@@ -41,14 +41,14 @@
                     </label>
 
                     <div class="clearfix">
-                        <button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                        <button type="submit" class="width-35 float-end btn btn-sm btn-danger">
                             <i class="ace-icon fa fa-lightbulb-o"></i>
                             <span class="bigger-110">Send Me!</span>
                         </button>
                     </div>
                 </fieldset>
             </form>
-        </div><!-- /.widget-main -->
+        </div><!-- /.p-3 -->
 
         <div class="toolbar center">
             <a href="<?= url_to('login') ?>" class="back-to-login-link">
@@ -56,7 +56,7 @@
                 <i class="ace-icon fa fa-arrow-right"></i>
             </a>
         </div>
-    </div><!-- /.widget-body -->
+    </div><!-- /.card-body -->
 </div><!-- /.forgot-box -->
 
 <?= $this->endSection() ?>

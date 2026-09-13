@@ -2,9 +2,9 @@
 <?= $this->section('title') ?>Verify Email<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<div id="verify-box" class="login-box visible widget-box no-border">
-    <div class="widget-body">
-        <div class="widget-main">
+<div id="verify-box" class="login-box visible card no-border">
+    <div class="card-body">
+        <div class="p-3">
             <h4 class="header blue lighter bigger">
                 <i class="ace-icon fa fa-envelope green"></i>
                 Verify Your Email
@@ -40,7 +40,7 @@
                     </button>
                 </div>
             </form>
-        </div><!-- /.widget-main -->
+        </div><!-- /.p-3 -->
 
         <div class="toolbar clearfix">
             <div>
@@ -50,6 +50,6 @@
                 </a>
             </div>
         </div>
-    </div><!-- /.widget-body -->
+    </div><!-- /.card-body -->
 </div>
 <?= $this->endSection() ?>

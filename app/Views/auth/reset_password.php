@@ -2,9 +2,9 @@
 <?= $this->section('title') ?>Reset Password<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-<div id="reset-box" class="forgot-box visible widget-box no-border">
-    <div class="widget-body">
-        <div class="widget-main">
+<div id="reset-box" class="forgot-box visible card no-border">
+    <div class="card-body">
+        <div class="p-3">
             <h4 class="header red lighter bigger">
                 <i class="ace-icon fa fa-key"></i>
                 Set New Password
@@ -42,14 +42,14 @@
                     </label>
 
                     <div class="clearfix">
-                        <button type="submit" class="width-40 pull-right btn btn-sm btn-danger">
+                        <button type="submit" class="width-40 float-end btn btn-sm btn-danger">
                             <i class="ace-icon fa fa-save"></i>
                             <span class="bigger-110">Update</span>
                         </button>
                     </div>
                 </fieldset>
             </form>
-        </div><!-- /.widget-main -->
+        </div><!-- /.p-3 -->
 
         <div class="toolbar center">
             <a href="<?= url_to('login') ?>" class="back-to-login-link">
@@ -57,7 +57,7 @@
                 <i class="ace-icon fa fa-arrow-right"></i>
             </a>
         </div>
-    </div><!-- /.widget-body -->
+    </div><!-- /.card-body -->
 </div>
 
 <?= $this->endSection() ?>

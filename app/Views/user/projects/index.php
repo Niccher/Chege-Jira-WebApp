@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/ace/main') ?>
+<?= $this->extend('layouts/hyper/main') ?>
 
 <?= $this->section('title') ?>Projects<?= $this->endSection() ?>
 
@@ -12,11 +12,11 @@
 
 <!-- Page header -->
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-12">
         <h3 class="header smaller lighter blue">
             <i class="ace-icon fa fa-folder-open"></i>
             Projects
-            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary pull-right" id="newProjectBtn">
+            <a href="<?= site_url('projects/create') ?>" class="btn btn-sm btn-primary float-end" id="newProjectBtn">
                 <i class="ace-icon fa fa-plus"></i>
                 New Project
             </a>
@@ -27,7 +27,7 @@
 
 <!-- Quick Stats -->
 <div class="row">
-    <div class="col-xs-6 col-sm-3">
+    <div class="col-6 col-sm-3">
         <div class="infobox infobox-blue">
             <div class="infobox-icon"><i class="ace-icon fa fa-folder"></i></div>
             <div class="infobox-data">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3">
+    <div class="col-6 col-sm-3">
         <div class="infobox infobox-green">
             <div class="infobox-icon"><i class="ace-icon fa fa-play-circle"></i></div>
             <div class="infobox-data">
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3">
+    <div class="col-6 col-sm-3">
         <div class="infobox infobox-orange">
             <div class="infobox-icon"><i class="ace-icon fa fa-clock-o"></i></div>
             <div class="infobox-data">
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-sm-3">
+    <div class="col-6 col-sm-3">
         <div class="infobox infobox-red">
             <div class="infobox-icon"><i class="ace-icon fa fa-archive"></i></div>
             <div class="infobox-data">
@@ -66,7 +66,7 @@
 </div>
 
         <!-- Projects Tabs Section -->
-        <div class="widget-box">
+        <div class="card">
             <!-- Tabs Navigation -->
             <ul class="nav nav-tabs space-4" id="projectsTab" role="tablist">
                 <li class="">
@@ -346,7 +346,7 @@
         <!-- Project Tags Section -->
         <div class="row ">
             <div class="col-lg-12">
-                <div class="widget-box">
+                <div class="card">
                     <h5 class="space-3"><i class="fas fa-tags pr-2"></i>Project Categories & Tags</h5>
                     <div class="  ">
                         <?php if (empty($tagStats)): ?>
