@@ -70,7 +70,7 @@ class Auth extends ShieldAuth
 //        'action_email_2fa_show'       => 'auth/action_email_2fa_show',
 //        'action_email_2fa_email'      => 'auth/action_email_2fa_email',
 //    ];
-    public $views = [
+    public array $views = [
         'login'                       => '\App\Views\auth\login',
         'register'                    => '\App\Views\auth\register',
         'layout'                      => '\App\Views\layouts\auth\auth_template',
