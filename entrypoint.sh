@@ -15,6 +15,7 @@ while ! php -r "new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('D
     count=$((count + 1))
     if [ $count -ge $max_retries ]; then
         echo "ERROR: MySQL did not become ready in time. Starting Apache without migrations."
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
         exec apache2-foreground
     fi
     echo "MySQL not ready yet... retrying ($count/$max_retries)"
@@ -35,4 +36,5 @@ chown -R www-data:www-data writable/
 chmod -R 775 writable/
 
 echo "Migrations complete. Starting Apache..."
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
 exec apache2-foreground
