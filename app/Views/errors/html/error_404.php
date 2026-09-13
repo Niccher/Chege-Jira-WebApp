@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta charset="utf-8" />
-    <title>404 Error | <?= esc(setting('App.siteName')) ?></title>
+    <title>404 Error | Chege Jira</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/bootstrap.min.css') ?>" />
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/fonts.googleapis.com.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace.min.css') ?>" class="ace-main-stylesheet" id="main-ace-style" />
     <link rel="stylesheet" href="<?= base_url('assets/ace/css/ace-skins.min.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/css/modern-ace.css') ?>" />
 </head>
 <body class="no-skin">
     <div class="main-container ace-save-state" id="main-container">

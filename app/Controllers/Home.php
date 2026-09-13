@@ -50,15 +50,6 @@ class Home extends BaseController
         }
 
         return view('landing/compare', [
-            'pageTitle' => 'Compare
-
-    public function compare()
-    {
-        if (auth()->loggedIn()) {
-            return redirect()->to('/home');
-        }
-
-        return view('landing/compare', [
             'pageTitle' => 'Compare — ' . esc(setting('App.siteName')),
             'metaDescription' => 'Compare Chege Jira against enterprise SaaS project trackers.',
             'metaKeywords' => 'compare, alternative, project management, vs saas',
