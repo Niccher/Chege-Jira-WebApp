@@ -476,7 +476,7 @@ class Auth extends ShieldAuth
      *
      * @var class-string<UserModel>
      */
-    public $userProvider = UserModel::class;
+    public string $userProvider = UserModel::class;
 
     /**
      * Returns the URL that a user should be redirected
