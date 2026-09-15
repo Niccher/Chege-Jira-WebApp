@@ -139,6 +139,31 @@ class SearchApiController extends BaseController
                 ];
             }
 
+            // 5. Search Project Wiki / Docs
+            if ($db->tableExists('project_wiki_pages')) {
+                $wikiPages = $db->table('project_wiki_pages')
+                    ->select('project_wiki_pages.id, project_wiki_pages.project_id, project_wiki_pages.title, project_wiki_pages.slug, project_wiki_pages.version, projects.name as project_name')
+                    ->join('projects', 'projects.id = project_wiki_pages.project_id', 'left')
+                    ->groupStart()
+                        ->like('project_wiki_pages.title', $cleanQuery)
+                        ->orLike('project_wiki_pages.content', $cleanQuery)
+                    ->groupEnd()
+                    ->limit(4)
+                    ->get()->getResultArray();
+
+                foreach ($wikiPages as $wp) {
+                    $results[] = [
+                        'category' => 'Wiki & Docs',
+                        'title'    => $wp['title'],
+                        'subtitle' => ($wp['project_name'] ? esc($wp['project_name']) . ' • ' : '') . 'Documentation (v' . $wp['version'] . ')',
+                        'icon'     => 'uil-book-open text-success',
+                        'badge'    => 'v' . $wp['version'],
+                        'badge_class' => 'bg-success-lighten text-success',
+                        'url'      => site_url('projects/wiki/' . $wp['project_id'] . '/page/' . $wp['slug']),
+                    ];
+                }
+            }
+
             // 5. Search Team Members (if Manager/Admin or general search)
             $users = $db->table('users')
                 ->select('users.id, users.username, auth_identities.secret as email')

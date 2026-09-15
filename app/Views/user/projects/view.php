@@ -52,6 +52,9 @@ $priorityClass = match($project['priority'] ?? 'medium') {
                 <a href="<?= site_url('projects/sprints/' . $project['id']) ?>" class="btn btn-outline-primary rounded-pill me-1">
                     <i class="mdi mdi-layer-group me-1"></i> Sprints & Backlog
                 </a>
+                <a href="<?= site_url('projects/wiki/' . $project['id']) ?>" class="btn btn-outline-success rounded-pill me-1">
+                    <i class="mdi mdi-book-open-outline me-1"></i> Wiki & Docs
+                </a>
                 <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-outline-info rounded-pill me-1">
                     <i class="mdi mdi-view-column me-1"></i> Kanban
                 </a>
