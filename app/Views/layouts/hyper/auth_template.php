@@ -3,217 +3,121 @@
 ]) ?>
 
 <style>
-    .auth-fluid {
-        position: relative;
-        display: flex;
-        align-items: stretch;
+    .auth-page-container {
         min-height: calc(100vh - 140px);
-        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2.5rem 1rem;
+        background: #f4f6fa;
     }
-    .auth-fluid .auth-fluid-form-box {
-        max-width: 520px;
+    .auth-main-card {
         width: 100%;
-        border-radius: 0;
-        z-index: 2;
-        padding: 3rem 2.5rem;
-        background-color: var(--bs-body-bg, #ffffff);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        max-width: 960px;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 35px rgba(15, 23, 42, 0.08);
+        border: 1px solid rgba(226, 232, 240, 0.8);
     }
-    .auth-fluid .auth-fluid-right {
-        flex: 1;
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    .auth-form-column {
+        padding: 2.5rem;
+    }
+    @media (min-width: 768px) {
+        .auth-form-column {
+            padding: 3rem 3.25rem;
+        }
+    }
+    .auth-showcase-column {
+        background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+        padding: 3rem 2.5rem;
+        color: #ffffff;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 4rem;
-        color: #ffffff;
         position: relative;
         overflow: hidden;
     }
-    .auth-fluid-right::before {
+    .auth-showcase-column::before {
         content: '';
         position: absolute;
-        top: -20%;
-        right: -10%;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(0,0,0,0) 70%);
+        top: -30%;
+        right: -30%;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
         border-radius: 50%;
         pointer-events: none;
     }
-    .auth-fluid-right::after {
-        content: '';
-        position: absolute;
-        bottom: -15%;
-        left: -10%;
-        width: 450px;
-        height: 450px;
-        background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(0,0,0,0) 70%);
-        border-radius: 50%;
-        pointer-events: none;
-    }
-    .feature-card-glass {
+    .auth-feature-pill {
+        display: flex;
+        align-items: center;
+        padding: 0.65rem 0.85rem;
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 1.25rem;
-        transition: transform 0.2s ease;
+        border-radius: 10px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 0.75rem;
     }
-    .feature-card-glass:hover {
-        transform: translateY(-2px);
-        background: rgba(255, 255, 255, 0.08);
+    .auth-feature-pill i {
+        font-size: 18px;
+        margin-right: 0.65rem;
     }
 </style>
 
-<div class="auth-fluid">
-    <!-- Auth Form Pane -->
-    <div class="auth-fluid-form-box">
-        <!-- Header Logo & Quick Nav -->
-        <div class="mb-4 pb-2 border-bottom">
-            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                <a href="<?= site_url() ?>" class="d-inline-flex align-items-center text-decoration-none">
-                    <img src="<?= base_url('assets/img/app_logo.jpg') ?>" alt="Logo" class="rounded-circle me-2 shadow-sm" style="width: 38px; height: 38px; object-fit: cover;">
-                    <span class="font-20 fw-bold text-body">
-                        <?= esc(setting('App.siteName')) ?>
+<div class="auth-page-container">
+    <div class="auth-main-card">
+        <div class="row g-0">
+            <!-- Left Form Column -->
+            <div class="col-lg-6 col-md-12 auth-form-column d-flex flex-column justify-content-center">
+                <?= $this->renderSection('content') ?>
+            </div>
+
+            <!-- Right Brand Showcase Column (Desktop Only) -->
+            <div class="col-lg-6 d-none d-lg-flex auth-showcase-column">
+                <div>
+                    <span class="badge bg-white bg-opacity-15 text-white px-3 py-1 rounded-pill font-12 mb-3">
+                        <i class="mdi mdi-rocket-launch me-1 text-info"></i> Agile Project Management
                     </span>
-                </a>
-                
-                <div class="d-flex align-items-center gap-1">
-                    <a href="<?= site_url('/') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="Return to Homepage">
-                        <i class="mdi mdi-home-outline me-1"></i>Home
-                    </a>
-                    <a href="<?= site_url('features') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="Explore Features">
-                        <i class="mdi mdi-star-outline me-1"></i>Features
-                    </a>
-                    <a href="<?= site_url('pricing') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="View Pricing">
-                        <i class="mdi mdi-tag-outline me-1"></i>Pricing
-                    </a>
-                    <a href="<?= site_url('setup') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary d-none d-sm-inline-flex" title="Setup Guide">
-                        <i class="mdi mdi-book-open-outline me-1"></i>Setup
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Auth Content Area -->
-        <div class="my-auto py-2">
-            <?= $this->renderSection('content') ?>
-        </div>
-
-        <!-- Footer & Cross-Navigation -->
-        <div class="mt-4 pt-3 border-top">
-            <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 font-12 text-muted mb-2">
-                <a href="<?= site_url('/') ?>" class="text-muted text-decoration-none">Home</a>
-                <span>•</span>
-                <a href="<?= site_url('features') ?>" class="text-muted text-decoration-none">Features</a>
-                <span>•</span>
-                <a href="<?= site_url('pricing') ?>" class="text-muted text-decoration-none">Pricing</a>
-                <span>•</span>
-                <a href="<?= site_url('setup') ?>" class="text-muted text-decoration-none">Setup Guide</a>
-                <span>•</span>
-                <a href="<?= site_url('faqs') ?>" class="text-muted text-decoration-none">FAQs</a>
-                <span>•</span>
-                <a href="<?= site_url('compare') ?>" class="text-muted text-decoration-none">Compare</a>
-            </div>
-            <div class="d-flex justify-content-between align-items-center font-12 text-muted">
-                <span><?= date('Y') ?> © <?= esc(setting('App.siteName')) ?></span>
-                <span class="badge bg-light text-secondary font-11">v1.2.0</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Auth Showcase / Brand Pane -->
-    <div class="auth-fluid-right d-none d-lg-flex">
-        <div>
-            <span class="badge bg-primary-lighten text-info px-3 py-1 font-12 rounded-pill mb-3">
-                <i class="mdi mdi-rocket-launch me-1"></i> Agile Project Management
-            </span>
-            <h1 class="display-6 fw-bold text-white mb-2">
-                Supercharge Team Velocity & Visibility
-            </h1>
-            <p class="text-white-50 font-16 mb-4" style="max-width: 600px;">
-                Track sprints, coordinate tasks with interactive Kanban boards, log effort, and ship software reliably.
-            </p>
-        </div>
-
-        <!-- Feature Showcase Cards -->
-        <div class="row g-3 my-auto" style="max-width: 700px;">
-            <div class="col-md-6">
-                <div class="feature-card-glass h-100">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="avatar-xs bg-primary text-white rounded d-flex align-items-center justify-content-center me-2">
-                            <i class="mdi mdi-view-column"></i>
-                        </div>
-                        <h6 class="text-white mb-0 fw-bold">Interactive Kanban</h6>
-                    </div>
-                    <p class="text-white-50 font-13 mb-0">
-                        Smooth drag-and-drop workflow with customizable statuses, priority flags, and real-time updates.
+                    <h3 class="fw-bold text-white mb-2" style="letter-spacing: -0.5px;">
+                        Supercharge Your Team's Engineering Velocity
+                    </h3>
+                    <p class="text-white-50 font-14 mb-4">
+                        Coordinate sprints, organize tasks with drag-and-drop Kanban, track worklogs, and deliver software reliably.
                     </p>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="feature-card-glass h-100">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="avatar-xs bg-success text-white rounded d-flex align-items-center justify-content-center me-2">
-                            <i class="mdi mdi-timer-outline"></i>
+                    <div class="mt-4">
+                        <div class="auth-feature-pill">
+                            <i class="mdi mdi-view-column text-info"></i>
+                            <div>
+                                <strong class="d-block text-white font-13">Interactive Kanban &amp; Sprints</strong>
+                                <span class="text-white-50 font-12">Seamless drag-and-drop task workflows</span>
+                            </div>
                         </div>
-                        <h6 class="text-white mb-0 fw-bold">Worklogs & Time Tracking</h6>
-                    </div>
-                    <p class="text-white-50 font-13 mb-0">
-                        Live stopwatch timers, automated daily pacing metrics, and instant PDF sprint reporting.
-                    </p>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="feature-card-glass h-100">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="avatar-xs bg-warning text-white rounded d-flex align-items-center justify-content-center me-2">
-                            <i class="mdi mdi-shield-check-outline"></i>
+                        <div class="auth-feature-pill">
+                            <i class="mdi mdi-timer-outline text-success"></i>
+                            <div>
+                                <strong class="d-block text-white font-13">Built-in Time Tracking &amp; Metrics</strong>
+                                <span class="text-white-50 font-12">Stopwatch logs and automated sprint reports</span>
+                            </div>
                         </div>
-                        <h6 class="text-white mb-0 fw-bold">Enterprise Security</h6>
-                    </div>
-                    <p class="text-white-50 font-13 mb-0">
-                        Role-based access controls for Developers, Managers, and Admins with full audit trails.
-                    </p>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="feature-card-glass h-100">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="avatar-xs bg-info text-white rounded d-flex align-items-center justify-content-center me-2">
-                            <i class="mdi mdi-chart-bell-curve"></i>
+                        <div class="auth-feature-pill mb-0">
+                            <i class="mdi mdi-shield-check-outline text-warning"></i>
+                            <div>
+                                <strong class="d-block text-white font-13">Enterprise Access &amp; Data Privacy</strong>
+                                <span class="text-white-50 font-12">Role-based controls and complete data ownership</span>
+                            </div>
                         </div>
-                        <h6 class="text-white mb-0 fw-bold">Live Telemetry</h6>
                     </div>
-                    <p class="text-white-50 font-13 mb-0">
-                        Real-time MySQL container diagnostics, container memory telemetry, and workload health.
-                    </p>
                 </div>
-            </div>
-        </div>
 
-        <!-- Testimonial Quote -->
-        <div class="pt-4 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-between">
-            <div>
-                <div class="text-warning mb-1">
-                    <i class="mdi mdi-star"></i>
-                    <i class="mdi mdi-star"></i>
-                    <i class="mdi mdi-star"></i>
-                    <i class="mdi mdi-star"></i>
-                    <i class="mdi mdi-star"></i>
+                <div class="pt-4 mt-4 border-top border-white border-opacity-10 d-flex justify-content-between align-items-center font-12 text-white-50">
+                    <span><?= date('Y') ?> © <?= esc(setting('App.siteName')) ?></span>
+                    <span class="badge bg-white bg-opacity-10 text-white font-11">v1.2.0 • MIT</span>
                 </div>
-                <p class="text-white-50 font-13 mb-0 fst-italic">
-                    "The simplest and fastest agile platform we've used for coordinating engineering tasks."
-                </p>
-            </div>
-            <div class="text-end">
-                <span class="badge bg-success-lighten text-success font-12">Production Ready</span>
             </div>
         </div>
     </div>

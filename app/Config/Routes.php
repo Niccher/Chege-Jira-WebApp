@@ -28,6 +28,7 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/projects', 'User\ProjectController::index');
     $routes->get('/projects/create', 'User\ProjectController::create');
     $routes->get('/projects/health', 'User\ProjectController::health');
+    $routes->get('/projects/telemetry-live', 'User\ProjectController::telemetryLive');
     $routes->post('/projects/store', 'User\ProjectController::store');
     $routes->post('/projects/portal/generate', 'PortalController::generate');
     $routes->post('/projects/portal/revoke/(:num)', 'PortalController::revoke/$1');

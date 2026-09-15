@@ -4,8 +4,8 @@
 
 <?= $this->section('content') ?>
 
-<div class="text-center mb-4">
-    <h3 class="fw-bold text-body mb-1">Welcome back!</h3>
+<div class="mb-4">
+    <h3 class="fw-bold text-dark mb-1">Welcome back</h3>
     <p class="text-muted font-14">Enter your credentials to access your workspace.</p>
 </div>
 
@@ -38,7 +38,7 @@
     <?= csrf_field() ?>
 
     <div class="mb-3">
-        <label for="email" class="form-label fw-semibold font-13">Email address <span class="text-danger">*</span></label>
+        <label for="email" class="form-label fw-semibold font-13">Email Address <span class="text-danger">*</span></label>
         <div class="input-group">
             <span class="input-group-text"><i class="mdi mdi-email-outline"></i></span>
             <input class="form-control" type="email" id="email" name="email" value="<?= old('email') ?>" required placeholder="name@company.com" autofocus autocomplete="email">
@@ -62,7 +62,7 @@
     <div class="mb-3">
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="remember" name="remember" <?= old('remember', 'on') === 'on' ? 'checked' : '' ?>>
-            <label class="form-check-label font-13" for="remember">Keep me logged in on this device</label>
+            <label class="form-check-label font-13" for="remember">Keep me signed in</label>
         </div>
     </div>
 
@@ -73,9 +73,9 @@
     </div>
 </form>
 
-<div class="text-center mt-3">
+<div class="text-center mt-3 pt-3 border-top">
     <p class="text-muted font-14 mb-0">
-        Don't have an account yet? 
+        Don't have an account? 
         <a href="<?= site_url('auth/register') ?>" class="text-primary fw-bold ms-1">Create Account</a>
     </p>
 </div>

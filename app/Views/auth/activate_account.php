@@ -10,20 +10,8 @@
                     <i class="mdi mdi-check-decagram-outline font-36"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-body mb-1">Account Activated!</h3>
+            <h3 class="fw-bold text-dark mb-1">Account Activated!</h3>
             <p class="text-muted font-14">Your workspace account has been verified and activated successfully.</p>
-        </div>
-
-        <div class="card border border-success-subtle bg-success-subtle bg-opacity-10 mb-4">
-            <div class="card-body p-3">
-                <div class="d-flex align-items-center">
-                    <i class="mdi mdi-shield-check font-24 text-success me-2"></i>
-                    <div>
-                        <div class="fw-semibold text-success font-14">Welcome to <?= esc(setting('App.siteName')) ?>!</div>
-                        <div class="text-muted font-12">Your workspace is ready. You can now access your projects and agile boards.</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="d-grid gap-2 mb-3">
@@ -42,15 +30,8 @@
                     <i class="mdi mdi-information-outline font-36"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-body mb-1">Already Activated</h3>
-            <p class="text-muted font-14">This account is already active and ready to use.</p>
-        </div>
-
-        <div class="alert alert-info d-flex align-items-center mb-4" role="alert">
-            <i class="mdi mdi-information-outline font-20 me-2 text-info"></i>
-            <div class="font-13">
-                Your account is in good standing. You can sign in immediately with your credentials.
-            </div>
+            <h3 class="fw-bold text-dark mb-1">Already Activated</h3>
+            <p class="text-muted font-14">This account is active. You can sign in immediately.</p>
         </div>
 
         <div class="d-grid mb-3">
@@ -66,13 +47,8 @@
                     <i class="mdi mdi-alert-circle-outline font-36"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-body mb-1">Invalid Activation Link</h3>
-            <p class="text-muted font-14">The verification link is invalid or may have already been used.</p>
-        </div>
-
-        <div class="alert alert-danger mb-4" role="alert">
-            <i class="mdi mdi-alert-circle-outline me-2"></i>
-            <strong>Activation failed:</strong> Please request a new activation link below or contact support.
+            <h3 class="fw-bold text-dark mb-1">Invalid Activation Link</h3>
+            <p class="text-muted font-14">The link is invalid or may have already been used.</p>
         </div>
 
         <div class="mb-3">
@@ -95,13 +71,8 @@
                     <i class="mdi mdi-timer-sand-empty font-36"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-body mb-1">Activation Link Expired</h3>
-            <p class="text-muted font-14">For security reasons, activation links expire after 24 hours.</p>
-        </div>
-
-        <div class="alert alert-warning mb-4" role="alert">
-            <i class="mdi mdi-clock-alert-outline me-2"></i>
-            Please request a fresh activation link below to complete your registration.
+            <h3 class="fw-bold text-dark mb-1">Activation Link Expired</h3>
+            <p class="text-muted font-14">Activation links expire after 24 hours.</p>
         </div>
 
         <div class="mb-3">
@@ -124,21 +95,13 @@
                     <i class="mdi mdi-alert-circle-outline font-36"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-body mb-1">Activation Error</h3>
+            <h3 class="fw-bold text-dark mb-1">Activation Error</h3>
             <p class="text-muted font-14">An unexpected issue occurred while processing your activation.</p>
-        </div>
-
-        <div class="alert alert-danger mb-4" role="alert">
-            <i class="mdi mdi-alert-circle-outline me-2"></i>
-            Please try signing in or registering again.
         </div>
 
         <div class="d-grid gap-2 mb-3">
             <a href="<?= site_url('auth/login') ?>" class="btn btn-primary btn-lg rounded-pill fw-semibold">
                 <i class="mdi mdi-login me-1"></i> Return to Sign In
-            </a>
-            <a href="<?= site_url('auth/register') ?>" class="btn btn-outline-secondary rounded-pill font-13">
-                <i class="mdi mdi-account-plus-outline me-1"></i> Register Again
             </a>
         </div>
     <?php endif; ?>

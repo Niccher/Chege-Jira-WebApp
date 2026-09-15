@@ -39,6 +39,9 @@ $priorityClass = match($project['priority'] ?? 'medium') {
     'medium' => 'bg-info-lighten text-info',
     default => 'bg-secondary-lighten text-secondary',
 };
+
+$hasValidDue = !empty($project['due_date']) && $project['due_date'] !== '0000-00-00' && $project['due_date'] !== '0000-00-00 00:00:00' && strtotime($project['due_date']) > 0;
+$dueTs = $hasValidDue ? strtotime($project['due_date']) : null;
 ?>
 
 <?php
@@ -65,7 +68,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     <i class="mdi mdi-pencil me-1"></i> Edit Project
                 </a>
             </div>
-            <h4 class="page-title"><i class="uil-briefcase me-2 text-primary"></i> Project Details</h4>
+            <h4 class="page-title"><i class="mdi mdi-briefcase-outline me-2 text-primary"></i> Project Details</h4>
         </div>
     </div>
 </div>
@@ -107,7 +110,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                                 <?php if (!empty($categories)): ?>
                                     <?php foreach ($categories as $cat): ?>
                                         <span class="badge bg-secondary-lighten text-secondary font-11">
-                                            <i class="uil-tag-alt me-1"></i><?= ucfirst(str_replace('_', ' ', $cat)) ?>
+                                            <i class="mdi mdi-tag-outline me-1"></i><?= ucfirst(str_replace('_', ' ', $cat)) ?>
                                         </span>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
@@ -134,11 +137,11 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-primary-lighten text-primary rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-calendar-plus font-22"></i>
+                        <i class="mdi mdi-calendar-plus font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Start Date">Started</h5>
-                <h4 class="mt-3 mb-1 fw-bold"><?= !empty($project['created_at']) ? date('M d, Y', strtotime($project['created_at'])) : 'N/A' ?></h4>
+                <h4 class="mt-3 mb-1 fw-bold"><?= !empty($project['created_at']) && strtotime($project['created_at']) > 0 ? date('M d, Y', strtotime($project['created_at'])) : 'N/A' ?></h4>
                 <p class="mb-0 text-muted font-13">
                     <span class="text-primary me-1"><i class="mdi mdi-clock-outline"></i> Created</span>
                 </p>
@@ -151,13 +154,13 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-success-lighten text-success rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-calendar-check font-22"></i>
+                        <i class="mdi mdi-calendar-check font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Target Deadline">Target Date</h5>
-                <h4 class="mt-3 mb-1 fw-bold"><?= !empty($project['due_date']) ? date('M d, Y', strtotime($project['due_date'])) : 'No deadline' ?></h4>
+                <h4 class="mt-3 mb-1 fw-bold"><?= $hasValidDue ? date('M d, Y', $dueTs) : '<span class="text-muted font-16 fw-normal">Not Set</span>' ?></h4>
                 <p class="mb-0 text-muted font-13">
-                    <span class="text-success me-1"><i class="mdi mdi-flag-outline"></i> Milestone target</span>
+                    <span class="<?= $hasValidDue ? 'text-success' : 'text-muted' ?> me-1"><i class="mdi mdi-flag-outline"></i> <?= $hasValidDue ? 'Milestone target' : 'Flexible timeline' ?></span>
                 </p>
             </div>
         </div>
@@ -168,7 +171,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-warning-lighten text-warning rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-clock font-22"></i>
+                        <i class="mdi mdi-clock-outline font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Time Logged">Time Logged</h5>
@@ -185,7 +188,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-info-lighten text-info rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-history font-22"></i>
+                        <i class="mdi mdi-history font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Last Updated">Last Updated</h5>
@@ -207,7 +210,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header d-flex justify-content-between align-items-center bg-transparent border-bottom py-3">
                 <h5 class="header-title mb-0">
-                    <i class="uil-info-circle me-1 text-primary"></i> Project Overview
+                    <i class="mdi mdi-information-outline me-1 text-primary"></i> Project Overview
                 </h5>
                 <a href="<?= site_url('projects/edit/' . $projectSlug) ?>" class="btn btn-sm btn-outline-warning rounded-pill">
                     <i class="mdi mdi-pencil me-1"></i> Edit Details
@@ -260,7 +263,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     <div class="accordion-item border rounded mb-2">
                         <h2 class="accordion-header" id="headingMilestones">
                             <button class="accordion-button fw-bold text-body" type="button" data-bs-toggle="collapse" data-bs-target="#milestonesCollapse" aria-expanded="true" aria-controls="milestonesCollapse">
-                                <i class="uil-check-square me-2 text-primary"></i> Milestones (<?= count(array_filter($milestones ?? [], fn($ms) => ($ms['status'] ?? '') === 'completed')) ?> / <?= count($milestones ?? []) ?>)
+                                <i class="mdi mdi-checkbox-marked-circle-outline me-2 text-primary"></i> Milestones (<?= count(array_filter($milestones ?? [], fn($ms) => ($ms['status'] ?? '') === 'completed')) ?> / <?= count($milestones ?? []) ?>)
                             </button>
                         </h2>
                         <div id="milestonesCollapse" class="accordion-collapse collapse show" aria-labelledby="headingMilestones" data-bs-parent="#projectDetailsAccordion">
@@ -286,6 +289,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                                                     'in_progress' => 'bg-primary-lighten text-primary',
                                                     default => 'bg-secondary-lighten text-secondary',
                                                 };
+                                                $msHasDue = !empty($ms['due_date']) && $ms['due_date'] !== '0000-00-00' && strtotime($ms['due_date']) > 0;
                                             ?>
                                             <tr>
                                                 <td>
@@ -300,7 +304,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                                                     <?php endif; ?>
                                                 </td>
                                                 <td class="text-end text-muted">
-                                                    <?= !empty($ms['due_date']) ? date('M d, Y', strtotime($ms['due_date'])) : 'N/A' ?>
+                                                    <?= $msHasDue ? date('M d, Y', strtotime($ms['due_date'])) : 'N/A' ?>
                                                 </td>
                                                 <td class="text-end">
                                                     <span class="fw-semibold text-body"><?= $msProgress ?>%</span>
@@ -321,7 +325,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     <div class="accordion-item border rounded mb-2">
                         <h2 class="accordion-header" id="headingNotes">
                             <button class="accordion-button collapsed fw-bold text-body" type="button" data-bs-toggle="collapse" data-bs-target="#notesCollapse" aria-expanded="false" aria-controls="notesCollapse">
-                                <i class="uil-notes me-2 text-warning"></i> Notes & Scratchpad
+                                <i class="mdi mdi-note-text-outline me-2 text-warning"></i> Notes &amp; Scratchpad
                             </button>
                         </h2>
                         <div id="notesCollapse" class="accordion-collapse collapse" aria-labelledby="headingNotes" data-bs-parent="#projectDetailsAccordion">
@@ -355,7 +359,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     <div class="accordion-item border rounded mb-2">
                         <h2 class="accordion-header" id="headingPortal">
                             <button class="accordion-button collapsed fw-bold text-body" type="button" data-bs-toggle="collapse" data-bs-target="#portalCollapse" aria-expanded="false" aria-controls="portalCollapse">
-                                <i class="uil-share-alt me-2 text-info"></i> Client Portal Links (<?= count($portal_tokens ?? []) ?>)
+                                <i class="mdi mdi-share-variant-outline me-2 text-info"></i> Client Portal Links (<?= count($portal_tokens ?? []) ?>)
                             </button>
                         </h2>
                         <div id="portalCollapse" class="accordion-collapse collapse" aria-labelledby="headingPortal" data-bs-parent="#projectDetailsAccordion">
@@ -441,7 +445,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     <div class="accordion-item border rounded">
                         <h2 class="accordion-header" id="headingDesc">
                             <button class="accordion-button collapsed fw-bold text-body" type="button" data-bs-toggle="collapse" data-bs-target="#descriptionCollapse" aria-expanded="false" aria-controls="descriptionCollapse">
-                                <i class="uil-align-left me-2 text-info"></i> Full Description
+                                <i class="mdi mdi-text-box-outline me-2 text-info"></i> Full Description
                             </button>
                         </h2>
                         <div id="descriptionCollapse" class="accordion-collapse collapse" aria-labelledby="headingDesc" data-bs-parent="#projectDetailsAccordion">
@@ -465,7 +469,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-transparent border-bottom py-3">
                 <h5 class="header-title mb-0">
-                    <i class="uil-bolt me-1 text-primary"></i> Quick Actions
+                    <i class="mdi mdi-lightning-bolt me-1 text-primary"></i> Quick Actions
                 </h5>
             </div>
             <div class="card-body">
@@ -498,7 +502,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-transparent border-bottom py-3">
                 <h5 class="header-title mb-0">
-                    <i class="uil-stopwatch me-1 text-primary"></i> Time Summary
+                    <i class="mdi mdi-timer-outline me-1 text-primary"></i> Time Summary
                 </h5>
             </div>
             <div class="card-body">
@@ -530,7 +534,7 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
         <div class="modal-content border-0 shadow">
             <div class="modal-header border-bottom py-3">
                 <h5 class="modal-title font-16" id="addNoteModalLabel">
-                    <i class="uil-notes me-1 text-primary"></i> Add Project Note
+                    <i class="mdi mdi-note-text-outline me-1 text-primary"></i> Add Project Note
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

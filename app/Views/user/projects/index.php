@@ -16,7 +16,7 @@
                     <i class="mdi mdi-plus me-1"></i> New Project
                 </a>
             </div>
-            <h4 class="page-title"><i class="uil-briefcase me-2 text-primary"></i> Projects Workspace</h4>
+            <h4 class="page-title"><i class="mdi mdi-briefcase-outline me-2 text-primary"></i> Projects Workspace</h4>
         </div>
     </div>
 </div>
@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-primary-lighten text-primary rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-folder font-22"></i>
+                        <i class="mdi mdi-folder-outline font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Total Projects">Total Projects</h5>
@@ -45,7 +45,7 @@
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-success-lighten text-success rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-play-circle font-22"></i>
+                        <i class="mdi mdi-play-circle-outline font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Active Projects">In Progress</h5>
@@ -62,7 +62,7 @@
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-warning-lighten text-warning rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-clock font-22"></i>
+                        <i class="mdi mdi-clock-outline font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Pending Projects">Pending / Planning</h5>
@@ -79,7 +79,7 @@
             <div class="card-body">
                 <div class="float-end">
                     <div class="avatar-sm bg-danger-lighten text-danger rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="uil-archive font-22"></i>
+                        <i class="mdi mdi-archive-outline font-22"></i>
                     </div>
                 </div>
                 <h5 class="text-muted fw-normal mt-0" title="Archived Projects">Archived</h5>
@@ -191,7 +191,7 @@
                             <?php if (empty($projects)): ?>
                                 <tr>
                                     <td colspan="6" class="text-center py-5 text-muted">
-                                        <i class="uil-folder-open font-28 d-block mb-2"></i>
+                                        <i class="mdi mdi-folder-open-outline font-28 d-block mb-2"></i>
                                         <h5><?= esc($emptyMessage) ?></h5>
                                         <p class="font-14 mb-3">Organize tasks and sprints with a new project workspace.</p>
                                         <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm rounded-pill px-3">
@@ -237,7 +237,10 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <?php if (!empty($project['due_date'])): ?>
+                                            <?php 
+                                            $hasDue = !empty($project['due_date']) && $project['due_date'] !== '0000-00-00' && $project['due_date'] !== '0000-00-00 00:00:00' && strtotime($project['due_date']) > 0;
+                                            ?>
+                                            <?php if ($hasDue): ?>
                                                 <?php 
                                                 $dueTimestamp = strtotime($project['due_date']);
                                                 $isOverdue = $dueTimestamp < time() && !in_array($project['status'], ['completed', 'abandoned']);
