@@ -13,10 +13,11 @@ if (!function_exists('sendActivationEmail')) {
     function sendActivationEmail(User $user, string $token): bool
     {
         $email = \Config\Services::email();
+        $siteName = setting('App.siteName') ?? 'Chege';
 
-        $email->setFrom('noreply@chegeos.com', '<?= esc(setting('App.siteName')) ?>');
+        $email->setFrom('noreply@chegeos.com', $siteName);
         $email->setTo($user->email);
-        $email->setSubject('Activate Your <?= esc(setting('App.siteName')) ?> Account');
+        $email->setSubject('Activate Your ' . $siteName . ' Account');
 
         // Get the email content
         $emailContent = view('emails/activation', [
@@ -49,10 +50,11 @@ if (!function_exists('sendWelcomeEmail')) {
     function sendWelcomeEmail(User $user): bool
     {
         $email = \Config\Services::email();
+        $siteName = setting('App.siteName') ?? 'Chege';
 
-        $email->setFrom('welcome@chegeos.com', '<?= esc(setting('App.siteName')) ?> Team');
+        $email->setFrom('welcome@chegeos.com', $siteName . ' Team');
         $email->setTo($user->email);
-        $email->setSubject('Welcome to <?= esc(setting('App.siteName')) ?>! 🎉');
+        $email->setSubject('Welcome to ' . $siteName . '! 🎉');
 
         $emailContent = view('emails/welcome', [
             'user' => $user

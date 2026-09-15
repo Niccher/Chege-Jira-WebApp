@@ -72,7 +72,7 @@
                                                 <i class="fas fa-check"></i> Approve
                                             </button>
                                         </form>
-                                        <button type="button" class="btn btn-sm btn-outline-danger ms-1" data-bs-toggle="modal" data-target="#rejectModal<?= $task['id'] ?>">
+                                        <button type="button" class="btn btn-sm btn-outline-danger ms-1" data-bs-toggle="modal" data-bs-target="#rejectModal<?= $task['id'] ?>">
                                             <i class="fas fa-times"></i> Reject
                                         </button>
                                     </td>
@@ -86,7 +86,7 @@
                                                 <?= csrf_field() ?>
                                                 <div class="modal-header bg-danger text-white">
                                                     <h5 class="modal-title">Reject Task: <?= esc($task['title']) ?></h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Close"></button>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="mb-3">
@@ -95,7 +95,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                                                     <button type="submit" class="btn btn-danger">Reject Task</button>
                                                 </div>
                                             </form>

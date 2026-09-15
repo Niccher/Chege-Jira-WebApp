@@ -1,669 +1,532 @@
 <?= $this->extend('layouts/hyper/main') ?>
+
+<?= $this->section('title') ?>Kanban Board • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
-<?php $user = auth()->user(); $initials = strtoupper(substr($user->first_name ?? $user->username, 0, 1) . substr($user->last_name ?? '', 0, 1)); ?>
+<?php 
+$user = auth()->user(); 
+$initials = strtoupper(substr($user->first_name ?? $user->username ?? 'U', 0, 1) . substr($user->last_name ?? '', 0, 1)); 
+?>
 
-    
-        
-        <div class="row space-2 mb-xl-3">
-            <div class="col-auto d-none d-sm-block">
-                <h3><strong>Kanban Board</strong></h3>
+<!-- Page Header -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <button type="button" class="btn btn-primary rounded-pill" id="newTaskBtn">
+                    <i class="mdi mdi-plus-circle me-1"></i> New Task
+                </button>
             </div>
-            <div class="col-auto float-end text-end mt-n1">
-                
+            <h4 class="page-title">
+                <i class="uil-columns me-2 text-primary"></i> Workspace Kanban Board
+            </h4>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats Overview -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card widget-flat h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="float-end">
+                    <div class="avatar-sm bg-primary-lighten text-primary rounded d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-format-list-checks font-22"></i>
+                    </div>
+                </div>
+                <h6 class="text-muted text-uppercase mt-0 font-12 fw-semibold">Total Tasks</h6>
+                <h3 class="my-2" id="totalTasks">24</h3>
+                <p class="mb-0 text-muted font-13">
+                    <span class="text-primary me-1"><i class="mdi mdi-checkbox-marked-circle-outline"></i></span>
+                    <span>All Active Tasks</span>
+                </p>
             </div>
         </div>
-        <!-- Quick Stats -->
-        <div class="row space-4 g-3">
-            <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label space-2">Total Tasks</div>
-                    <div class="stat-value" id="totalTasks">24</div>
-                    <div class="stat-change text-secondary  font-mono border-top pt-2">
-                        <i class="fas fa-tasks"></i> All Active
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card widget-flat h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="float-end">
+                    <div class="avatar-sm bg-warning-lighten text-warning rounded d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-progress-clock font-22"></i>
                     </div>
                 </div>
+                <h6 class="text-muted text-uppercase mt-0 font-12 fw-semibold">In Progress</h6>
+                <h3 class="my-2 text-warning" id="inProgress">8</h3>
+                <p class="mb-0 text-muted font-13">
+                    <span class="text-warning me-1"><i class="mdi mdi-run-fast"></i></span>
+                    <span>Currently Active</span>
+                </p>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label space-2">In Progress</div>
-                    <div class="stat-value text-warning" id="inProgress">8</div>
-                    <div class="stat-change text-warning  font-mono border-top border-warning border-opacity-25 pt-2">
-                        <i class="fas fa-spinner"></i> Being worked on
+    <div class="col-md-6 col-xl-3">
+        <div class="card widget-flat h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="float-end">
+                    <div class="avatar-sm bg-danger-lighten text-danger rounded d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-alert-circle-outline font-22"></i>
                     </div>
                 </div>
+                <h6 class="text-muted text-uppercase mt-0 font-12 fw-semibold">Blocked</h6>
+                <h3 class="my-2 text-danger" id="blockedTasks">3</h3>
+                <p class="mb-0 text-muted font-13">
+                    <span class="text-danger me-1"><i class="mdi mdi-alert"></i></span>
+                    <span>Requires Action</span>
+                </p>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label space-2">Blocked</div>
-                    <div class="stat-value text-danger" id="blockedTasks">3</div>
-                    <div class="stat-change text-danger  font-mono border-top border-danger border-opacity-25 pt-2">
-                        <i class="fas fa-exclamation-triangle"></i> Needs attention
+    <div class="col-md-6 col-xl-3">
+        <div class="card widget-flat h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="float-end">
+                    <div class="avatar-sm bg-success-lighten text-success rounded d-flex align-items-center justify-content-center">
+                        <i class="mdi mdi-check-all font-22"></i>
                     </div>
                 </div>
+                <h6 class="text-muted text-uppercase mt-0 font-12 fw-semibold">Completed</h6>
+                <h3 class="my-2 text-success" id="completedTasks">13</h3>
+                <p class="mb-0 text-muted font-13">
+                    <span class="text-success me-1"><i class="mdi mdi-check-decagram"></i></span>
+                    <span>Done & Verified</span>
+                </p>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="col-md-6 col-lg-3">
-                <div class="card card-body h-100 p-4 border-dark">
-                    <div class="stat-label space-2">Completed</div>
-                    <div class="stat-value text-success" id="completedTasks">13</div>
-                    <div class="stat-change text-success  font-mono border-top border-success border-opacity-25 pt-2">
-                        <i class="fas fa-check-circle"></i> Done
+<!-- Search / Filter Bar -->
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-text"><i class="mdi mdi-magnify"></i></span>
+            <input type="text" class="form-control" id="taskSearch" placeholder="Search tasks on board...">
+        </div>
+    </div>
+</div>
+
+<!-- Kanban Board Container -->
+<div class="kanban-board mb-4" id="kanbanBoard">
+    <div class="row g-3">
+        <!-- Planning Column -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 h-100 kanban-column">
+                <div class="card-header bg-primary text-white py-2 px-3 d-flex justify-content-between align-items-center rounded-top">
+                    <h6 class="mb-0 text-white font-14"><i class="mdi mdi-clipboard-text-outline me-1"></i> Planning</h6>
+                    <span class="badge bg-white text-primary font-12 rounded-pill">5</span>
+                </div>
+                <div class="card-body p-2 kanban-column-body d-flex flex-column gap-2" style="min-height: 450px; background-color: var(--bs-tertiary-bg, rgba(0,0,0,0.02));">
+                    <div class="card mb-0 shadow-none border kanban-card" data-task-id="1" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-body">Design Dashboard Layout</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
+                            </div>
+                            <p class="font-12 text-muted mb-2">Create wireframes and design system for dashboard</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-warning-lighten text-warning font-11">Medium</span>
+                                    <span class="badge bg-info-lighten text-info font-11">Design</span>
+                                </div>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Mar 20</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-0 shadow-none border kanban-card" data-task-id="2" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-body">Setup Database Schema</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> E-commerce Backend
+                            </div>
+                            <p class="font-12 text-muted mb-2">Design and implement database tables & migrations</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-danger-lighten text-danger font-11">High</span>
+                                    <span class="badge bg-dark text-white font-11">Backend</span>
+                                </div>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Mar 22</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="$('#newTaskModal').modal('show')">
+                            <i class="mdi mdi-plus me-1"></i> Add Task
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Kanban Board -->
-        <div class="kanban-board" id="kanbanBoard">
-            <div class="row">
-                <!-- Planning Column -->
-                <div class="col-lg-3 space-4">
-                    <div class="kanban-column">
-                        <div class="kanban-column-header bg-primary">
-                            <h6 class="space-0"><i class="fas fa-clipboard-list pr-2"></i>Planning</h6>
-                            <span class="badge bg-light text-dark">5</span>
-                        </div>
-                        <div class="kanban-column-body">
-                            <div class="kanban-card" data-task-id="1" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Design Dashboard Layout</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Create wireframes and design system for dashboard</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-warning">Medium</span>
-                                            <span class="badge badge-info">Design</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Mar 20
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kanban-card-footer">
-                                    <div class="  ">
-                                        <div class="task-assignee">
-                                            <div class="user-avatar" style="width: 24px; height: 24px; font-size: 0.7rem;"><?= $initials ?></div>
-                                        </div>
-                                        <div class="task-comments">
-                                            <i class="fas fa-comment"></i> 3
-                                        </div>
-                                    </div>
+        <!-- In Progress Column -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 h-100 kanban-column">
+                <div class="card-header bg-warning text-dark py-2 px-3 d-flex justify-content-between align-items-center rounded-top">
+                    <h6 class="mb-0 text-dark font-14"><i class="mdi mdi-progress-wrench me-1"></i> In Progress</h6>
+                    <span class="badge bg-dark text-white font-12 rounded-pill">8</span>
+                </div>
+                <div class="card-body p-2 kanban-column-body d-flex flex-column gap-2" style="min-height: 450px; background-color: var(--bs-tertiary-bg, rgba(0,0,0,0.02));">
+                    <div class="card mb-0 shadow-none border kanban-card" data-task-id="4" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-body">Implement Authentication</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <div class="kanban-card" data-task-id="2" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Setup Database Schema</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> E-commerce Backend
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Design and implement database tables</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-primary">High</span>
-                                            <span class="badge bg-dark">Backend</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Mar 22
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> E-commerce Backend
                             </div>
-
-                            <div class="kanban-card" data-task-id="3" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Research API Integrations</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> API Integration
-                                    </div>
+                            <p class="font-12 text-muted mb-2">JWT auth tokens & secure session handling</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-danger-lighten text-danger font-11">High</span>
+                                    <span class="badge bg-primary-lighten text-primary font-11">Security</span>
                                 </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Research GitHub, GitLab, and Jira APIs</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-default">Low</span>
-                                            <span class="badge badge-success">Research</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center ">
-                                <button class="btn btn-sm btn btn-white btn-default w-100">
-                                    <i class="fas fa-plus pr-1"></i> Add Task
-                                </button>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Today</div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- In Progress Column -->
-                <div class="col-lg-3 space-4">
-                    <div class="kanban-column">
-                        <div class="kanban-column-header bg-warning">
-                            <h6 class="space-0"><i class="fas fa-spinner pr-2"></i>In Progress</h6>
-                            <span class="badge bg-light text-dark">8</span>
-                        </div>
-                        <div class="kanban-column-body">
-                            <div class="kanban-card" data-task-id="4" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Implement Authentication</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> E-commerce Backend
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">JWT authentication and user management</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-primary">High</span>
-                                            <span class="badge badge-danger">Security</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Today
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kanban-card-footer">
-                                    <div class="task-progress">
-                                        <div class="progress" style="height: 4px;">
-                                            <div class="progress-bar bg-success" style="width: 75%"></div>
-                                        </div>
-                                        <div class="small text-muted">75% complete</div>
-                                    </div>
+                    <div class="card mb-0 shadow-none border kanban-card border-start border-danger border-2" data-task-id="6" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-danger">API Rate Limiting</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <div class="kanban-card" data-task-id="5" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Mobile App UI Design</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Mobile App
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Create React Native UI components</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-warning">Medium</span>
-                                            <span class="badge badge-info">Mobile</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Mar 25
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> API Integration
                             </div>
-
-                            <div class="kanban-card blocked-task" data-task-id="6" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">API Rate Limiting</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> API Integration
-                                    </div>
+                            <p class="font-12 text-muted mb-2">Waiting for provider API keys documentation</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-danger text-white font-11">Blocked</span>
                                 </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Waiting for API documentation from team</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-primary">High</span>
-                                            <span class="badge badge-danger">Blocked</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Mar 18
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-center ">
-                                <button class="btn btn-sm btn btn-white btn-default w-100">
-                                    <i class="fas fa-plus pr-1"></i> Add Task
-                                </button>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Mar 18</div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-auto pt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="$('#newTaskModal').modal('show')">
+                            <i class="mdi mdi-plus me-1"></i> Add Task
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Testing Column -->
-                <div class="col-lg-3 space-4">
-                    <div class="kanban-column">
-                        <div class="kanban-column-header bg-info">
-                            <h6 class="space-0"><i class="fas fa-vial pr-2"></i>Testing</h6>
-                            <span class="badge bg-light text-dark">4</span>
-                        </div>
-                        <div class="kanban-column-body">
-                            <div class="kanban-card" data-task-id="7" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Dashboard Unit Tests</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Write unit tests for dashboard components</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-warning">Medium</span>
-                                            <span class="badge badge-success">Testing</span>
-                                        </div>
-                                        <div class="task-date small text-muted">
-                                            <i class="fas fa-calendar pr-1"></i> Mar 19
-                                        </div>
-                                    </div>
+        <!-- Testing Column -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 h-100 kanban-column">
+                <div class="card-header bg-info text-white py-2 px-3 d-flex justify-content-between align-items-center rounded-top">
+                    <h6 class="mb-0 text-white font-14"><i class="mdi mdi-test-tube me-1"></i> Testing</h6>
+                    <span class="badge bg-white text-info font-12 rounded-pill">3</span>
+                </div>
+                <div class="card-body p-2 kanban-column-body d-flex flex-column gap-2" style="min-height: 450px; background-color: var(--bs-tertiary-bg, rgba(0,0,0,0.02));">
+                    <div class="card mb-0 shadow-none border kanban-card" data-task-id="7" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-body">Unit Tests for Billing</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <div class="kanban-card" data-task-id="8" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Mobile App QA</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Mobile App
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Quality assurance testing on iOS and Android</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-primary">High</span>
-                                            <span class="badge badge-info">QA</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> Finance Core
                             </div>
-
-                            <div class="text-center ">
-                                <button class="btn btn-sm btn btn-white btn-default w-100">
-                                    <i class="fas fa-plus pr-1"></i> Add Task
-                                </button>
+                            <p class="font-12 text-muted mb-2">Write PHPUnit test suite for invoicing calculation</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-info-lighten text-info font-11">Testing</span>
+                                </div>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Mar 21</div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-auto pt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="$('#newTaskModal').modal('show')">
+                            <i class="mdi mdi-plus me-1"></i> Add Task
+                        </button>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Finished Column -->
-                <div class="col-lg-3 space-4">
-                    <div class="kanban-column">
-                        <div class="kanban-column-header bg-success">
-                            <h6 class="space-0"><i class="fas fa-check-circle pr-2"></i>Finished</h6>
-                            <span class="badge bg-light text-dark">13</span>
-                        </div>
-                        <div class="kanban-column-body">
-                            <div class="kanban-card" data-task-id="9" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Project Setup</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> <?= esc(setting('App.siteName')) ?> Dashboard
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Initial project setup and configuration</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-default">Low</span>
-                                            <span class="badge bg-dark">Setup</span>
-                                        </div>
-                                        <div class="task-date small text-success">
-                                            <i class="fas fa-check pr-1"></i> Mar 15
-                                        </div>
-                                    </div>
+        <!-- Finished Column -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 h-100 kanban-column">
+                <div class="card-header bg-success text-white py-2 px-3 d-flex justify-content-between align-items-center rounded-top">
+                    <h6 class="mb-0 text-white font-14"><i class="mdi mdi-check-all me-1"></i> Finished</h6>
+                    <span class="badge bg-white text-success font-12 rounded-pill">13</span>
+                </div>
+                <div class="card-body p-2 kanban-column-body d-flex flex-column gap-2" style="min-height: 450px; background-color: var(--bs-tertiary-bg, rgba(0,0,0,0.02));">
+                    <div class="card mb-0 shadow-none border kanban-card bg-light-subtle" data-task-id="8" draggable="true" style="cursor: grab;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="task-title font-14 fw-semibold text-decoration-line-through text-muted">CI/CD Pipeline Setup</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-link text-muted p-0" data-bs-toggle="dropdown">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item small" href="#"><i class="mdi mdi-pencil me-1"></i> Edit</a></li>
+                                        <li><a class="dropdown-item small text-danger" href="#"><i class="mdi mdi-trash-can me-1"></i> Delete</a></li>
+                                    </ul>
                                 </div>
                             </div>
-
-                            <div class="kanban-card" data-task-id="10" draggable="true">
-                                <div class="kanban-card-header">
-                                    <div class="  align-items-start">
-                                        <div class="task-title">Design System</div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-link text-muted p-0" data-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-edit pr-2"></i> Edit</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="fas fa-trash pr-2"></i> Delete</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="task-project small text-muted">
-                                        <i class="fas fa-project-diagram pr-1"></i> Portfolio Website
-                                    </div>
-                                </div>
-                                <div class="kanban-card-body">
-                                    <p class="small">Created color palette and typography system</p>
-                                    <div class="  ">
-                                        <div class="task-meta">
-                                            <span class="badge badge-warning">Medium</span>
-                                            <span class="badge badge-info">Design</span>
-                                        </div>
-                                        <div class="task-date small text-success">
-                                            <i class="fas fa-check pr-1"></i> Mar 10
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="task-project font-12 text-muted mb-2">
+                                <i class="mdi mdi-folder-outline me-1"></i> DevOps
                             </div>
-
-                            <div class="text-center ">
-                                <button class="btn btn-sm btn btn-white btn-default w-100">
-                                    <i class="fas fa-plus pr-1"></i> Add Task
-                                </button>
+                            <p class="font-12 text-muted mb-2">Automated deployment via GitHub Actions & Docker</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="task-meta d-flex gap-1">
+                                    <span class="badge bg-success-lighten text-success font-11">Complete</span>
+                                </div>
+                                <div class="font-12 text-muted"><i class="mdi mdi-calendar me-1"></i>Mar 14</div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="mt-auto pt-2">
+                        <button class="btn btn-sm btn-outline-secondary w-100" onclick="$('#newTaskModal').modal('show')">
+                            <i class="mdi mdi-plus me-1"></i> Add Task
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-
-    <!-- New Task Modal -->
-    <div class="modal fade" id="newTaskModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-plus-circle pr-2"></i>New Task</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="newTaskForm">
-                        <div class="space-3">
-                            <label for="taskTitle" class="form-label">Task Title *</label>
-                            <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title" required>
+<!-- New Task Modal -->
+<div class="modal fade" id="newTaskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title text-white"><i class="mdi mdi-plus-circle me-1"></i> New Kanban Task</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="newTaskForm">
+                    <div class="mb-3">
+                        <label for="taskTitle" class="form-label fw-semibold">Task Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskDescription" class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe the task..."></textarea>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="taskProject" class="form-label fw-semibold">Project</label>
+                            <select class="form-select" id="taskProject">
+                                <option value="chegeos"><?= esc(setting('App.siteName')) ?> Dashboard</option>
+                                <option value="api">API Integration</option>
+                                <option value="mobile">Mobile App</option>
+                                <option value="portfolio">Portfolio Website</option>
+                                <option value="ecommerce">E-commerce Backend</option>
+                            </select>
                         </div>
-                        <div class="space-3">
-                            <label for="taskDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe the task..."></textarea>
+                        <div class="col-md-6">
+                            <label for="taskColumn" class="form-label fw-semibold">Column</label>
+                            <select class="form-select" id="taskColumn">
+                                <option value="planning">Planning</option>
+                                <option value="progress">In Progress</option>
+                                <option value="testing">Testing</option>
+                                <option value="finished">Finished</option>
+                            </select>
                         </div>
-                        <div class="row space-3">
-                            <div class="col-md-6">
-                                <label for="taskProject" class="form-label">Project</label>
-                                <select class="form-control" id="taskProject">
-                                    <option value="chegeos"><?= esc(setting('App.siteName')) ?> Dashboard</option>
-                                    <option value="api">API Integration</option>
-                                    <option value="mobile">Mobile App</option>
-                                    <option value="portfolio">Portfolio Website</option>
-                                    <option value="ecommerce">E-commerce Backend</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="taskColumn" class="form-label">Column</label>
-                                <select class="form-control" id="taskColumn">
-                                    <option value="planning">Planning</option>
-                                    <option value="progress">In Progress</option>
-                                    <option value="testing">Testing</option>
-                                    <option value="finished">Finished</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="taskPriority" class="form-label fw-semibold">Priority</label>
+                            <select class="form-select" id="taskPriority">
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
                         </div>
-                        <div class="row space-3">
-                            <div class="col-md-6">
-                                <label for="taskPriority" class="form-label">Priority</label>
-                                <select class="form-control" id="taskPriority">
-                                    <option value="high">High</option>
-                                    <option value="medium" selected>Medium</option>
-                                    <option value="low">Low</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="taskDueDate" class="form-label">Due Date</label>
-                                <input type="date" class="form-control" id="taskDueDate">
-                            </div>
+                        <div class="col-md-6">
+                            <label for="taskDueDate" class="form-label fw-semibold">Due Date</label>
+                            <input type="date" class="form-control" id="taskDueDate">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="createTaskBtn">Create Task</button>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="createTaskBtn">Create Task</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;"></div>
 
-    <!-- Kanban Page JavaScript -->
-    <script>
-        $(document).ready(function() {
-            // Initialize tooltips
-            $('[data-bs-toggle="tooltip"]').tooltip();
+<script>
+$(document).ready(function() {
+    $('#newTaskBtn').on('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('newTaskModal'));
+        modal.show();
+    });
 
-            // New Task button
-            $('#newTaskBtn').click(function() {
-                $('#newTaskModal').modal('show');
-            });
+    $('#createTaskBtn').on('click', function() {
+        const taskTitle = $('#taskTitle').val().trim();
+        if (!taskTitle) {
+            showToast('Please enter a task title', 'danger');
+            return;
+        }
 
-            // Create task
-            $('#createTaskBtn').click(function() {
-                const taskTitle = $('#taskTitle').val();
-                const description = $('#taskDescription').val();
-                const project = $('#taskProject').val();
-                const column = $('#taskColumn').val();
+        showToast(`Task "${taskTitle}" created successfully!`, 'success');
+        $('#newTaskForm')[0].reset();
+        bootstrap.Modal.getInstance(document.getElementById('newTaskModal')).hide();
+    });
 
-                if (!taskTitle) {
-                    showToast('Please enter a task title', 'danger');
-                    return;
-                }
-
-                showToast(`Task "${taskTitle}" created successfully!`, 'success');
-
-                // Reset form and close modal
-                $('#newTaskForm')[0].reset();
-                $('#newTaskModal').modal('hide');
-            });
-
-            // Task search
-            $('#taskSearch').on('keyup', function() {
-                const searchTerm = $(this).val().toLowerCase();
-
-                $('.kanban-card').each(function() {
-                    const cardText = $(this).text().toLowerCase();
-                    if (cardText.includes(searchTerm) || searchTerm === '') {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-
-            // Drag and drop simulation (visual only)
-            let draggedTask = null;
-
-            $('.kanban-card').on('dragstart', function(e) {
-                draggedTask = $(this);
-                setTimeout(() => {
-                    $(this).addClass('dragging');
-                }, 0);
-            });
-
-            $('.kanban-card').on('dragend', function() {
-                $(this).removeClass('dragging');
-                draggedTask = null;
-            });
-
-            $('.kanban-column-body').on('dragover', function(e) {
-                e.preventDefault();
-                $(this).addClass('drag-over');
-            });
-
-            $('.kanban-column-body').on('dragleave', function() {
-                $(this).removeClass('drag-over');
-            });
-
-            $('.kanban-column-body').on('drop', function(e) {
-                e.preventDefault();
-                $(this).removeClass('drag-over');
-
-                if (draggedTask) {
-                    $(this).append(draggedTask);
-                    const columnName = $(this).closest('.kanban-column').find('.kanban-column-header h6').text();
-                    showToast(`Task moved to ${columnName}`, 'info');
-
-                    // Update counts (simulated)
-                    updateColumnCounts();
-                }
-            });
-
-            function updateColumnCounts() {
-                // Simulate updating counts
-                $('.kanban-column').each(function() {
-                    const count = $(this).find('.kanban-card:visible').length;
-                    $(this).find('.kanban-column-header .badge').text(count);
-                });
+    $('#taskSearch').on('keyup', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        $('.kanban-card').each(function() {
+            const cardText = $(this).text().toLowerCase();
+            if (cardText.includes(searchTerm) || searchTerm === '') {
+                $(this).show();
+            } else {
+                $(this).hide();
             }
+        });
+    });
 
-            // Task dropdown actions
-            $(document).on('click', '.kanban-card .dropdown-item', function(e) {
-                e.stopPropagation();
-                const action = $(this).text().trim();
-                const taskTitle = $(this).closest('.kanban-card').find('.task-title').text();
+    // Drag and drop
+    let draggedTask = null;
 
-                if (action.includes('Edit')) {
-                    showToast(`Editing task: ${taskTitle}`, 'warning');
-                } else if (action.includes('Delete')) {
-                    if (confirm(`Delete task "${taskTitle}"?`)) {
-                        $(this).closest('.kanban-card').fadeOut(300, function() {
-                            $(this).remove();
-                            updateColumnCounts();
-                        });
-                        showToast(`Task "${taskTitle}" deleted`, 'danger');
-                    }
-                }
-            });
+    $('.kanban-card').on('dragstart', function(e) {
+        draggedTask = $(this);
+        setTimeout(() => $(this).addClass('opacity-50'), 0);
+    });
 
-            // Toast notification function
-            function showToast(message, type = 'info') {
-                const toastId = 'toast-' + Date.now();
-                const toastHtml = `
-            <div id="${toastId}" class="toast  text-bg-${type} border-0" role="alert">
-                <div class="">
+    $('.kanban-card').on('dragend', function() {
+        $(this).removeClass('opacity-50');
+        draggedTask = null;
+    });
+
+    $('.kanban-column-body').on('dragover', function(e) {
+        e.preventDefault();
+        $(this).addClass('bg-light');
+    });
+
+    $('.kanban-column-body').on('dragleave', function() {
+        $(this).removeClass('bg-light');
+    });
+
+    $('.kanban-column-body').on('drop', function(e) {
+        e.preventDefault();
+        $(this).removeClass('bg-light');
+
+        if (draggedTask) {
+            $(this).find('.mt-auto').before(draggedTask);
+            const columnName = $(this).closest('.kanban-column').find('.card-header h6').text().trim();
+            showToast(`Task moved to ${columnName}`, 'info');
+            updateColumnCounts();
+        }
+    });
+
+    function updateColumnCounts() {
+        $('.kanban-column').each(function() {
+            const count = $(this).find('.kanban-card:visible').length;
+            $(this).find('.card-header .badge').text(count);
+        });
+    }
+
+    $(document).on('click', '.kanban-card .dropdown-item', function(e) {
+        e.stopPropagation();
+        const action = $(this).text().trim();
+        const taskTitle = $(this).closest('.kanban-card').find('.task-title').text();
+
+        if (action.includes('Edit')) {
+            showToast(`Editing task: ${taskTitle}`, 'warning');
+        } else if (action.includes('Delete')) {
+            if (confirm(`Delete task "${taskTitle}"?`)) {
+                $(this).closest('.kanban-card').fadeOut(300, function() {
+                    $(this).remove();
+                    updateColumnCounts();
+                });
+                showToast(`Task "${taskTitle}" deleted`, 'danger');
+            }
+        }
+    });
+
+    function showToast(message, type = 'info') {
+        const toastId = 'toast-' + Date.now();
+        const toastHtml = `
+            <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
                     <div class="toast-body">
                         ${message}
                     </div>
-                    <button type="button" class="btn-close btn-close-white pr-2 m-auto" data-dismiss="toast"></button>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         `;
-
-                $('.toast-container').append(toastHtml);
-                const toast = new bootstrap.Toast(document.getElementById(toastId));
-                toast.show();
-
-                $(`#${toastId}`).on('hidden.bs.toast', function() {
-                    $(this).remove();
-                });
-            }
-
-            // Initialize column counts
-            updateColumnCounts();
+        $('.toast-container').append(toastHtml);
+        const toastEl = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+        $(toastEl).on('hidden.bs.toast', function() {
+            $(this).remove();
         });
-    </script>
+    }
+
+    updateColumnCounts();
+});
+</script>
 
 <?= $this->endSection() ?>
