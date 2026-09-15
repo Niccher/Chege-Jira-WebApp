@@ -19,25 +19,27 @@ class TeamDashboardController extends BaseController
         $pendingTasks = $taskModel->whereIn('status', ['in_progress', 'review'])->countAllResults();
         
         // 2. Performance Leaderboard (Rank workers by approved/completed tasks)
-        $leaderboardQuery = $db->query("
-            SELECT 
-                u.id as user_id,
-                COALESCE(
-                    NULLIF(TRIM(CONCAT(COALESCE(u.first_name, ''), ' ', COALESCE(u.last_name, ''))), ''),
-                    u.username,
-                    i.secret,
-                    'Team Member'
-                ) as username,
-                COUNT(t.id) as completed_tasks
-            FROM users u
-            LEFT JOIN auth_identities i ON u.id = i.user_id AND i.type = 'email_password'
-            LEFT JOIN tasks t ON u.id = t.assigned_to AND t.status IN ('approved', 'done')
-            GROUP BY u.id, u.first_name, u.last_name, u.username, i.secret
-            ORDER BY completed_tasks DESC
-            LIMIT 10
-        ");
-        
-        $leaderboard = $leaderboardQuery->getResultArray();
+        $leaderboard = [];
+        try {
+            $leaderboardQuery = $db->query("
+                SELECT 
+                    u.id as user_id,
+                    COALESCE(
+                        NULLIF(TRIM(CONCAT(COALESCE(u.first_name, ''), ' ', COALESCE(u.last_name, ''))), ''),
+                        u.username,
+                        'Team Member'
+                    ) as username,
+                    COUNT(t.id) as completed_tasks
+                FROM users u
+                LEFT JOIN tasks t ON u.id = t.assigned_to AND t.status IN ('approved', 'done')
+                GROUP BY u.id, u.first_name, u.last_name, u.username
+                ORDER BY completed_tasks DESC
+                LIMIT 10
+            ");
+            $leaderboard = $leaderboardQuery->getResultArray();
+        } catch (\Throwable $e) {
+            log_message('error', 'Team leaderboard query error: ' . $e->getMessage());
+        }
 
         return view('manager/team/index', [
             'totalTasks' => $totalTasks,

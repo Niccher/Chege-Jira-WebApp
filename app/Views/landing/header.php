@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title><?= esc($pageTitle ?? (setting('App.siteName') . ' — Project & Productivity Tracker')) ?></title>
+    <title><?= esc($pageTitle ?? (setting('App.siteName') . ' — Modern Agile Project Management Platform')) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= esc($metaDescription ?? 'Self-hosted project management platform with Kanban boards, time tracking, notes, calendar, and analytics.') ?>" />
+    <meta name="description" content="<?= esc($metaDescription ?? 'Supercharge team velocity with interactive Kanban boards, sprint analytics, live stopwatch time tracking, and team workload coordination.') ?>" />
+    <meta name="keywords" content="agile project management, kanban board, sprint planner, jira alternative, team collaboration, time tracker, codeigniter 4, developer workflow">
+    <meta name="author" content="<?= esc(setting('App.siteName')) ?> Team">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#727cf5">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:title" content="<?= esc($pageTitle ?? (setting('App.siteName') . ' — Modern Agile Project Management')) ?>">
+    <meta property="og:description" content="<?= esc($metaDescription ?? 'Supercharge team velocity with interactive Kanban boards, sprint analytics, and live time tracking.') ?>">
+    <meta property="og:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?= current_url() ?>">
+    <meta name="twitter:title" content="<?= esc($pageTitle ?? (setting('App.siteName') . ' — Modern Agile Project Management')) ?>">
+    <meta name="twitter:description" content="<?= esc($metaDescription ?? 'Supercharge team velocity with interactive Kanban boards, sprint analytics, and live time tracking.') ?>">
+    <meta name="twitter:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="<?= base_url('assets/hyper/images/favicon.ico') ?>">
+    <link rel="shortcut icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
+    <link rel="apple-touch-icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
 
     <!-- App css -->
     <link href="<?= base_url('assets/hyper/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />

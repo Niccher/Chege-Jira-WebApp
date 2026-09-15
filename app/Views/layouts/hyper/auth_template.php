@@ -4,10 +4,28 @@
     <meta charset="utf-8" />
     <title><?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= esc(setting('App.siteName')) ?> - Agile Project Management & Team Collaboration" />
+    <meta name="description" content="<?= esc(setting('App.siteName')) ?> - Secure Authentication & Agile Workspace Access" />
+    <meta name="keywords" content="agile project management, kanban board, sprint planner, jira alternative, team collaboration, authentication">
+    <meta name="author" content="<?= esc(setting('App.siteName')) ?> Team">
+    <meta name="theme-color" content="#727cf5">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:title" content="<?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?>">
+    <meta property="og:description" content="<?= esc(setting('App.siteName')) ?> - Secure Authentication & Agile Workspace Access">
+    <meta property="og:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?= current_url() ?>">
+    <meta name="twitter:title" content="<?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?>">
+    <meta name="twitter:description" content="<?= esc(setting('App.siteName')) ?> - Secure Authentication & Agile Workspace Access">
+    <meta name="twitter:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="<?= base_url('assets/hyper/images/favicon.ico') ?>">
+    <link rel="shortcut icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
+    <link rel="apple-touch-icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
 
     <!-- App css -->
     <link href="<?= base_url('assets/hyper/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />

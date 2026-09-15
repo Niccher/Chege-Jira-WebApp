@@ -161,9 +161,9 @@
                     <?php elseif ($currentTab === 'email'): ?>
                         <!-- 3. EMAIL & SMTP SETTINGS -->
                         <h5 class="fw-bold text-body mb-3">
-                            <i class="mdi mdi-email-fast text-primary me-2"></i> Outbound Email & SMTP Gateway
+                            <i class="mdi mdi-email-fast text-primary me-2"></i> Outbound Email & SMTP Gateway Configuration
                         </h5>
-                        <form action="<?= site_url('admin/settings/update') ?>" method="POST">
+                        <form action="<?= site_url('admin/settings/update') ?>" method="POST" class="mb-4">
                             <?= csrf_field() ?>
                             <input type="hidden" name="tab" value="email">
 
@@ -178,31 +178,74 @@
                                 </div>
                             </div>
 
-                            <div class="row g-3 mb-4">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold" for="smtp_host">SMTP Host Server</label>
-                                    <input type="text" id="smtp_host" name="smtp_host" class="form-control" placeholder="smtp.mailtrap.io or smtp.sendgrid.net" value="<?= esc(setting('Email.SMTPHost') ?? 'localhost') ?>">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold" for="protocol">Mail Transport Protocol</label>
+                                    <select id="protocol" name="protocol" class="form-select">
+                                        <option value="smtp" <?= (setting('Email.protocol') === 'smtp' || !setting('Email.protocol')) ? 'selected' : '' ?>>SMTP (Recommended)</option>
+                                        <option value="mail" <?= (setting('Email.protocol') === 'mail') ? 'selected' : '' ?>>PHP Native Mail</option>
+                                        <option value="sendmail" <?= (setting('Email.protocol') === 'sendmail') ? 'selected' : '' ?>>Sendmail</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label fw-bold" for="smtp_host">SMTP Server Host</label>
+                                    <input type="text" id="smtp_host" name="smtp_host" class="form-control font-monospace" placeholder="smtp.mailtrap.io or smtp.gmail.com" value="<?= esc(setting('Email.SMTPHost') ?? 'localhost') ?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label fw-bold" for="smtp_port">SMTP Port</label>
                                     <input type="number" id="smtp_port" name="smtp_port" class="form-control" value="<?= (int)(setting('Email.SMTPPort') ?? 587) ?>">
                                 </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-5">
+                                    <label class="form-label fw-bold" for="smtp_user">SMTP Username</label>
+                                    <input type="text" id="smtp_user" name="smtp_user" class="form-control" placeholder="API key or SMTP user" value="<?= esc(setting('Email.SMTPUser') ?? '') ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold" for="smtp_pass">SMTP Password / API Key</label>
+                                    <div class="input-group">
+                                        <input type="password" id="smtp_pass" name="smtp_pass" class="form-control" placeholder="<?= setting('Email.SMTPPass') ? '••••••••••••' : 'Enter SMTP password' ?>">
+                                    </div>
+                                    <div class="form-text font-11 text-muted">Leave blank to keep existing password.</div>
+                                </div>
                                 <div class="col-md-3">
-                                    <label class="form-label fw-bold" for="smtp_crypto">Encryption</label>
+                                    <label class="form-label fw-bold" for="smtp_crypto">Security Protocol</label>
                                     <select id="smtp_crypto" name="smtp_crypto" class="form-select">
-                                        <option value="tls" <?= (setting('Email.SMTPCrypto') === 'tls' || !setting('Email.SMTPCrypto')) ? 'selected' : '' ?>>TLS (Recommended)</option>
-                                        <option value="ssl" <?= (setting('Email.SMTPCrypto') === 'ssl') ? 'selected' : '' ?>>SSL</option>
-                                        <option value="none" <?= (setting('Email.SMTPCrypto') === 'none') ? 'selected' : '' ?>>None</option>
+                                        <option value="tls" <?= (setting('Email.SMTPCrypto') === 'tls' || !setting('Email.SMTPCrypto')) ? 'selected' : '' ?>>TLS (Port 587)</option>
+                                        <option value="ssl" <?= (setting('Email.SMTPCrypto') === 'ssl') ? 'selected' : '' ?>>SSL (Port 465)</option>
+                                        <option value="none" <?= (setting('Email.SMTPCrypto') === 'none') ? 'selected' : '' ?>>None (Port 25)</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="text-end border-top pt-3">
                                 <button class="btn btn-primary px-4" type="submit">
-                                    <i class="mdi mdi-content-save me-1"></i> Save Email Gateway
+                                    <i class="mdi mdi-content-save me-1"></i> Save SMTP Configuration
                                 </button>
                             </div>
                         </form>
+
+                        <!-- Send Test Email Tool -->
+                        <div class="card bg-light border-0 mt-4">
+                            <div class="card-body p-3">
+                                <h6 class="fw-bold mb-2 text-dark">
+                                    <i class="mdi mdi-send-check text-success me-1"></i> Dispatch Test Email
+                                </h6>
+                                <p class="text-muted font-13 mb-3">Send a styled verification email to confirm that your SMTP credentials and delivery routing are functioning properly.</p>
+                                <form action="<?= site_url('admin/settings/send-test-email') ?>" method="POST" class="row g-2 align-items-center">
+                                    <?= csrf_field() ?>
+                                    <div class="col-md-8 col-lg-6">
+                                        <input type="email" name="test_recipient" class="form-control form-control-sm" placeholder="recipient@example.com" value="<?= esc(auth()->user()->email ?? '') ?>" required>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-sm btn-success">
+                                            <i class="mdi mdi-paper-plane me-1"></i> Send Test Message
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     <?php elseif ($currentTab === 'project'): ?>
                         <!-- 4. WORKFLOWS & PROJECT SETTINGS -->
@@ -245,11 +288,11 @@
                         </form>
 
                     <?php elseif ($currentTab === 'maintenance'): ?>
-                        <!-- 5. MAINTENANCE CONTROLS -->
+                        <!-- 5. MAINTENANCE & BACKUPS -->
                         <h5 class="fw-bold text-body mb-3">
                             <i class="mdi mdi-alert-octagon text-danger me-2"></i> Platform Maintenance Controls
                         </h5>
-                        <form action="<?= site_url('admin/settings/update') ?>" method="POST">
+                        <form action="<?= site_url('admin/settings/update') ?>" method="POST" class="mb-4">
                             <?= csrf_field() ?>
                             <input type="hidden" name="tab" value="maintenance">
 
@@ -269,7 +312,7 @@
 
                             <div class="mb-4">
                                 <label class="form-label fw-bold" for="maintenance_notice">Maintenance Notice Broadcast</label>
-                                <textarea id="maintenance_notice" name="maintenance_notice" rows="3" class="form-control" placeholder="We are currently performing scheduled maintenance. Please check back shortly."><?= esc(setting('App.maintenanceNotice') ?? 'We are currently performing scheduled system updates. Service will resume shortly.') ?></textarea>
+                                <textarea id="maintenance_notice" name="maintenance_notice" rows="2" class="form-control" placeholder="We are currently performing scheduled maintenance. Please check back shortly."><?= esc(setting('App.maintenanceNotice') ?? 'We are currently performing scheduled system updates. Service will resume shortly.') ?></textarea>
                             </div>
 
                             <div class="text-end border-top pt-3">
@@ -278,6 +321,61 @@
                                 </button>
                             </div>
                         </form>
+
+                        <!-- Database Backups Manager -->
+                        <div class="border-top pt-4 mt-4">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1"><i class="mdi mdi-database-export text-primary me-2"></i> Database Snapshots & Backups</h5>
+                                    <p class="text-muted font-13 mb-0">Generate instant compressed SQL database dumps or automate via CLI/Cron: <code>php spark db:backup</code></p>
+                                </div>
+                                <form action="<?= site_url('admin/settings/backup/create') ?>" method="POST" class="d-inline">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="btn btn-sm btn-primary rounded-pill shadow-sm">
+                                        <i class="mdi mdi-plus-circle me-1"></i> Create Backup Now
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0 font-13 border rounded">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-3">Backup File</th>
+                                            <th>Size</th>
+                                            <th>Created</th>
+                                            <th class="text-end pe-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (empty($backups)): ?>
+                                            <tr>
+                                                <td colspan="4" class="text-center py-4 text-muted">
+                                                    <i class="mdi mdi-folder-zip-outline fa-2x mb-1 d-block opacity-50"></i>
+                                                    No database snapshots generated yet. Click <strong>Create Backup Now</strong> above.
+                                                </td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <?php foreach ($backups as $b): ?>
+                                                <tr>
+                                                    <td class="ps-3">
+                                                        <i class="mdi mdi-file-document-outline text-primary me-1"></i>
+                                                        <code><?= esc($b['filename']) ?></code>
+                                                    </td>
+                                                    <td><span class="badge bg-light text-secondary"><?= esc($b['size']) ?></span></td>
+                                                    <td><?= esc($b['created']) ?></td>
+                                                    <td class="text-end pe-3">
+                                                        <a href="<?= site_url('admin/settings/backup/download/' . urlencode($b['filename'])) ?>" class="btn btn-xs btn-outline-primary py-1 px-2">
+                                                            <i class="mdi mdi-download me-1"></i> Download
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     <?php endif; ?>
 
                 </div>

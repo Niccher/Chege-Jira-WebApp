@@ -57,13 +57,13 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="avatar avatar-sm bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px;">
-                                                <?= strtoupper(substr($task['first_name'] ?? 'U', 0, 1)) ?>
+                                                <?= strtoupper(substr($task['first_name'] ?? $task['username'] ?? 'U', 0, 1)) ?>
                                             </div>
-                                            <?= esc($task['first_name'] . ' ' . $task['last_name']) ?>
+                                            <?= esc(trim(($task['first_name'] ?? '') . ' ' . ($task['last_name'] ?? '')) ?: ($task['username'] ?? 'Team Member')) ?>
                                         </div>
                                     </td>
                                     <td>
-                                        <?= date('M j, Y g:i A', strtotime($task['updated_at'])) ?>
+                                        <?= date('M j, Y g:i A', strtotime($task['updated_at'] ?? $task['created_at'] ?? 'now')) ?>
                                     </td>
                                     <td class="text-end">
                                         <form action="<?= site_url('manage/approvals/'.$task['id'].'/approve') ?>" method="POST" class="d-inline">

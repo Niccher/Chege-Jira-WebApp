@@ -10,7 +10,9 @@ class WorkApprovalController extends BaseController
     public function index()
     {
         $taskModel = new TaskModel();
-        $tasks = $taskModel->getPendingReviews(auth()->id());
+        $currentUser = auth()->user();
+        $managerId = ($currentUser && $currentUser->inGroup('admin')) ? null : auth()->id();
+        $tasks = $taskModel->getPendingReviews($managerId);
 
         return view('manager/approvals/index', ['tasks' => $tasks]);
     }

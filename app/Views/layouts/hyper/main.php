@@ -14,7 +14,30 @@
     <meta name="description" content="<?= esc(setting('App.siteName')) ?> - Agile Project Management" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="<?= base_url('assets/hyper/images/favicon.ico') ?>">
+    <link rel="shortcut icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
+    <link rel="apple-touch-icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
+
+    <!-- Primary Meta Tags & SEO -->
+    <meta name="title" content="<?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?>">
+    <meta name="description" content="<?= esc(setting('App.siteDesc') ?? 'Agile Project Management & Team Velocity Platform') ?>">
+    <meta name="keywords" content="agile, kanban board, sprint planning, project management, issue tracker, time tracking, jira alternative, team collaboration">
+    <meta name="author" content="<?= esc(setting('App.siteName')) ?> Team">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#727cf5">
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:title" content="<?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?>">
+    <meta property="og:description" content="<?= esc(setting('App.siteDesc') ?? 'Agile Project Management & Team Velocity Platform') ?>">
+    <meta property="og:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?= current_url() ?>">
+    <meta name="twitter:title" content="<?= $this->renderSection('title') ?> | <?= esc(setting('App.siteName')) ?>">
+    <meta name="twitter:description" content="<?= esc(setting('App.siteDesc') ?? 'Agile Project Management & Team Velocity Platform') ?>">
+    <meta name="twitter:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
 
     <!-- third party css -->
     <?= $this->renderSection('css') ?>
@@ -67,6 +90,18 @@
             align-items: center;
             height: 70px;
         }
+        /* Robust Sidebar Active Highlighting */
+        .side-nav .side-nav-item.menuitem-active > .side-nav-link,
+        .side-nav .side-nav-item > .side-nav-link.active {
+            color: #727cf5 !important;
+            font-weight: 600 !important;
+            background-color: rgba(114, 124, 245, 0.12) !important;
+            border-left: 3px solid #727cf5 !important;
+        }
+        .side-nav .side-nav-item.menuitem-active > .side-nav-link i,
+        .side-nav .side-nav-item > .side-nav-link.active i {
+            color: #727cf5 !important;
+        }
     </style>
 
     <?= $this->renderSection('head') ?>
@@ -76,58 +111,75 @@
     <div class="wrapper">
         <!-- ========== Left Sidebar Start ========== -->
         <div class="leftside-menu">
-            <a href="<?= site_url('dashboard') ?>" class="logo text-center logo-light py-3">
-                <span class="logo-lg text-white font-20 fw-bold">
-                    <i class="mdi mdi-leaf text-success me-1"></i> <?= esc(setting('App.siteName')) ?>
+            <a href="<?= site_url('dashboard') ?>" class="logo text-center logo-light py-3 d-flex align-items-center justify-content-center">
+                <img src="<?= base_url('assets/img/app_logo.jpg') ?>" alt="Logo" class="rounded-circle me-2 shadow-sm" style="width: 32px; height: 32px; object-fit: cover;">
+                <span class="logo-lg text-white font-18 fw-bold">
+                    <?= esc(setting('App.siteName')) ?>
                 </span>
-                <span class="logo-sm text-white font-20 fw-bold">
-                    <i class="mdi mdi-leaf text-success"></i>
+                <span class="logo-sm text-white font-18 fw-bold">
+                    <?= strtoupper(substr(setting('App.siteName') ?? 'C', 0, 1)) ?>
                 </span>
             </a>
 
             <div class="h-100" id="leftside-menu-container" data-simplebar>
+                <?php 
+                    $uri = uri_string();
+                    $isDash = in_array($uri, ['dashboard', 'home', 'user/dashboard', 'user/home', '']);
+                    $isKanban = str_contains($uri, 'kanban');
+                    $isProjects = (str_starts_with($uri, 'projects') && !$isKanban);
+                    $isTime = str_starts_with($uri, 'time');
+                    $isCal = str_starts_with($uri, 'calendar');
+                    $isNotes = str_starts_with($uri, 'notes');
+                    $isAnalytics = str_starts_with($uri, 'analytics');
+                    $isTeam = str_contains($uri, 'team');
+                    $isApprovals = str_contains($uri, 'approvals');
+                    $isReports = str_contains($uri, 'reports');
+                    $isAdminSettings = str_contains($uri, 'admin/settings');
+                    $isAdminTelemetry = str_contains($uri, 'admin/telemetry');
+                    $isProfile = ($uri === 'settings' || $uri === 'user/settings');
+                ?>
                 <!--- Sidemenu -->
                 <ul class="side-nav">
                     <li class="side-nav-title side-nav-item">Core Workspace</li>
                     
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('dashboard') ?>" class="side-nav-link <?= uri_string() === 'dashboard' || uri_string() === 'home' || uri_string() === 'user/dashboard' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isDash ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('dashboard') ?>" class="side-nav-link <?= $isDash ? 'active' : '' ?>">
                             <i class="uil-home-alt text-primary"></i>
                             <span> Dashboard </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('projects') ?>" class="side-nav-link <?= strpos(uri_string(), 'projects') === 0 && strpos(uri_string(), 'kanban') === false ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isProjects ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('projects') ?>" class="side-nav-link <?= $isProjects ? 'active' : '' ?>">
                             <i class="uil-briefcase text-success"></i>
                             <span> Projects </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('kanban') ?>" class="side-nav-link <?= strpos(uri_string(), 'kanban') !== false ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isKanban ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('kanban') ?>" class="side-nav-link <?= $isKanban ? 'active' : '' ?>">
                             <i class="uil-clipboard-alt text-info"></i>
                             <span> Kanban Board </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('time') ?>" class="side-nav-link <?= uri_string() === 'time' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isTime ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('time') ?>" class="side-nav-link <?= $isTime ? 'active' : '' ?>">
                             <i class="uil-clock text-warning"></i>
                             <span> Time Tracker </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('calendar') ?>" class="side-nav-link <?= uri_string() === 'calendar' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isCal ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('calendar') ?>" class="side-nav-link <?= $isCal ? 'active' : '' ?>">
                             <i class="uil-calender text-danger"></i>
                             <span> Calendar </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('notes') ?>" class="side-nav-link <?= uri_string() === 'notes' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isNotes ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('notes') ?>" class="side-nav-link <?= $isNotes ? 'active' : '' ?>">
                             <i class="uil-notes text-secondary"></i>
                             <span> Scratch Notes </span>
                         </a>
                     </li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('analytics') ?>" class="side-nav-link <?= uri_string() === 'analytics' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isAnalytics ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('analytics') ?>" class="side-nav-link <?= $isAnalytics ? 'active' : '' ?>">
                             <i class="uil-chart-line text-purple"></i>
                             <span> Analytics </span>
                         </a>
@@ -135,20 +187,20 @@
 
                     <?php if ($isManager): ?>
                         <li class="side-nav-title side-nav-item mt-2">Team Management</li>
-                        <li class="side-nav-item">
-                            <a href="<?= site_url('manager/team') ?>" class="side-nav-link <?= strpos(uri_string(), 'manager/team') !== false ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= $isTeam ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('manager/team') ?>" class="side-nav-link <?= $isTeam ? 'active' : '' ?>">
                                 <i class="uil-users-alt text-success"></i>
                                 <span> Team Workload </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="<?= site_url('manager/approvals') ?>" class="side-nav-link <?= strpos(uri_string(), 'manager/approvals') !== false ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= $isApprovals ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('manager/approvals') ?>" class="side-nav-link <?= $isApprovals ? 'active' : '' ?>">
                                 <i class="uil-check-circle text-info"></i>
                                 <span> Work Approvals </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="<?= site_url('manager/reports') ?>" class="side-nav-link <?= strpos(uri_string(), 'manager/reports') !== false ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= $isReports ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('manager/reports') ?>" class="side-nav-link <?= $isReports ? 'active' : '' ?>">
                                 <i class="uil-file-alt text-warning"></i>
                                 <span> Sprint Reports </span>
                             </a>
@@ -157,14 +209,14 @@
 
                     <?php if ($isAdmin): ?>
                         <li class="side-nav-title side-nav-item mt-2">Administration</li>
-                        <li class="side-nav-item">
-                            <a href="<?= site_url('admin/settings') ?>" class="side-nav-link <?= strpos(uri_string(), 'admin/settings') !== false ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= $isAdminSettings ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('admin/settings') ?>" class="side-nav-link <?= $isAdminSettings ? 'active' : '' ?>">
                                 <i class="uil-sliders-v-alt text-danger"></i>
                                 <span> System Settings </span>
                             </a>
                         </li>
-                        <li class="side-nav-item">
-                            <a href="<?= site_url('admin/telemetry') ?>" class="side-nav-link <?= strpos(uri_string(), 'admin/telemetry') !== false ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= $isAdminTelemetry ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('admin/telemetry') ?>" class="side-nav-link <?= $isAdminTelemetry ? 'active' : '' ?>">
                                 <i class="uil-server text-light"></i>
                                 <span> Telemetry & Logs </span>
                             </a>
@@ -172,8 +224,8 @@
                     <?php endif; ?>
 
                     <li class="side-nav-title side-nav-item mt-2">User Settings</li>
-                    <li class="side-nav-item">
-                        <a href="<?= site_url('settings') ?>" class="side-nav-link <?= uri_string() === 'settings' ? 'active' : '' ?>">
+                    <li class="side-nav-item <?= $isProfile ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('settings') ?>" class="side-nav-link <?= $isProfile ? 'active' : '' ?>">
                             <i class="uil-cog text-info"></i>
                             <span> Profile & Security </span>
                         </a>

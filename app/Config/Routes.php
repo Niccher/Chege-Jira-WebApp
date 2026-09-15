@@ -119,6 +119,9 @@ $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
     $routes->get('telemetry', 'Admin\TelemetryController::index');
     $routes->get('settings', 'Admin\SystemSettingsController::index');
     $routes->post('settings/update', 'Admin\SystemSettingsController::update');
+    $routes->post('settings/send-test-email', 'Admin\SystemSettingsController::sendTestEmail');
+    $routes->post('settings/backup/create', 'Admin\SystemSettingsController::createBackup');
+    $routes->get('settings/backup/download/(:segment)', 'Admin\SystemSettingsController::downloadBackup/$1');
 });
 
 // Load default Shield routes, excluding those we'll customize

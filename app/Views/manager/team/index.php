@@ -73,10 +73,10 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                                                        <?= strtoupper(substr($user['username'], 0, 1)) ?>
+                                                        <?= strtoupper(substr($user['username'] ?? 'U', 0, 1)) ?>
                                                     </div>
                                                     <div>
-                                                        <h6 class="mb-0"><?= esc($user['username']) ?></h6>
+                                                        <h6 class="mb-0"><?= esc($user['username'] ?? 'Team Member') ?></h6>
                                                         <small class="text-muted">User ID: <?= $user['user_id'] ?></small>
                                                     </div>
                                                 </div>
