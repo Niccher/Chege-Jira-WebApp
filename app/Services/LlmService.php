@@ -10,10 +10,10 @@ class LlmService
     protected string $baseUrl;
     protected string $apiKey;
 
-    public function __construct()
+    public function __construct(?string $baseUrl = null, ?string $apiKey = null)
     {
-        $this->baseUrl = rtrim(env('ML_SERVICE_URL', 'http://ml-chege-jira:8000'), '/');
-        $this->apiKey  = env('ML_API_KEY', 'chege_jira_ml_super_secret_key_2026');
+        $this->baseUrl = rtrim($baseUrl ?? setting('Ml.serviceUrl') ?? env('ML_SERVICE_URL', 'http://ml-chege-jira:8000'), '/');
+        $this->apiKey  = $apiKey ?? setting('Ml.apiKey') ?? env('ML_API_KEY', 'chege_jira_ml_super_secret_key_2026');
     }
 
     /**
@@ -57,11 +57,27 @@ class LlmService
     }
 
     /**
+     * Trigger background download of a GGUF model
+     */
+    public function downloadModel(string $modelKey): array
+    {
+        return $this->request('POST', "/api/v1/admin/models/{$modelKey}/download");
+    }
+
+    /**
      * Pre-load model into cache
      */
     public function preloadModel(string $modelKey): array
     {
         return $this->request('POST', "/api/v1/admin/models/{$modelKey}/cache");
+    }
+
+    /**
+     * Reload model in RAM cache
+     */
+    public function reloadModel(string $modelKey): array
+    {
+        return $this->request('POST', "/api/v1/admin/models/{$modelKey}/reload");
     }
 
     /**

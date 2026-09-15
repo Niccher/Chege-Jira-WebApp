@@ -10,13 +10,13 @@
             <div class="page-title-box d-flex align-items-center justify-content-between">
                 <div>
                     <h4 class="page-title mb-0">
-                        <i class="uil-brain text-primary me-2"></i> AI Engine Diagnostics & LLM Telemetry
+                        <i class="mdi mdi-brain text-purple me-2"></i> AI Engine Diagnostics & LLM Telemetry
                     </h4>
-                    <p class="text-muted font-13 mb-0">Live container vitals, GGUF model memory allocations, and llama-cpp-python runtime status.</p>
+                    <p class="text-muted font-13 mb-0">Live container vitals, GGUF model memory allocations, downloads, and llama-cpp-python runtime status.</p>
                 </div>
                 <div>
                     <a href="<?= site_url('admin/ai/settings') ?>" class="btn btn-sm btn-outline-primary rounded-pill me-2">
-                        <i class="mdi mdi-cog me-1"></i> AI Settings
+                        <i class="mdi mdi-tune-vertical me-1"></i> AI Settings
                     </a>
                     <button class="btn btn-sm btn-primary rounded-pill shadow-sm" onclick="window.location.reload();">
                         <i class="mdi mdi-refresh me-1"></i> Refresh Metrics
@@ -49,8 +49,8 @@
                 <div>
                     <h5 class="my-0 text-warning fw-bold">AI Microservice Offline / Unreachable</h5>
                     <p class="mb-0 text-muted font-13">
-                        Could not connect to FastAPI container at <code><?= esc(env('ML_SERVICE_URL', 'http://ml-chege-jira:8000')) ?></code>. 
-                        Error: <?= esc($errorMsg ?? 'Connection refused') ?>. Ensure the <code>ml-chege-jira</code> container is running.
+                        Could not connect to FastAPI container at <code><?= esc(setting('Ml.serviceUrl') ?? env('ML_SERVICE_URL', 'http://ml-chege-jira:8000')) ?></code>. 
+                        Error: <?= esc($errorMsg ?? 'Connection refused') ?>. Ensure the <code>ml-chege-jira</code> container is running and verify its URL in <a href="<?= site_url('admin/ai/settings') ?>" class="fw-bold text-warning text-decoration-underline">AI Settings</a>.
                     </p>
                 </div>
             </div>
@@ -149,15 +149,17 @@
         </div>
     </div>
 
-    <!-- Models Table -->
+    <!-- Models Management Table -->
     <div class="row">
         <div class="col-12">
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-transparent border-bottom d-flex justify-content-between align-items-center">
-                    <h5 class="card-title my-0">
-                        <i class="mdi mdi-database me-1 text-primary"></i> GGUF Model Registry & Memory Cache
-                    </h5>
-                    <span class="text-muted font-12">Multi-model lazy cache with asyncio concurrency isolation</span>
+                    <div>
+                        <h5 class="card-title my-0">
+                            <i class="mdi mdi-database me-1 text-primary"></i> Model Downloads & Memory Cache Management
+                        </h5>
+                        <span class="text-muted font-12">Download open-source GGUF models directly to disk, preload into memory, or hot-reload runtime weights</span>
+                    </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -165,13 +167,13 @@
                             <thead class="table-light font-12 text-uppercase text-muted">
                                 <tr>
                                     <th>Model Key</th>
-                                    <th>Filename</th>
-                                    <th>Disk File</th>
+                                    <th>GGUF File</th>
+                                    <th>Disk Status</th>
                                     <th>Size</th>
                                     <th>RAM Status</th>
-                                    <th>Total Requests</th>
+                                    <th>Requests</th>
                                     <th>Avg Latency</th>
-                                    <th class="text-end">Cache Actions</th>
+                                    <th class="text-end">Model Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,9 +195,11 @@
                                             <td class="font-13 text-muted"><?= esc($m['file'] ?? '') ?></td>
                                             <td>
                                                 <?php if (!empty($m['exists_on_disk'])): ?>
-                                                    <span class="badge bg-success-lighten text-success"><i class="mdi mdi-check me-1"></i>Present</span>
+                                                    <span class="badge bg-success-lighten text-success"><i class="mdi mdi-check me-1"></i>Present on Disk</span>
+                                                <?php elseif (($m['download_status'] ?? '') === 'downloading'): ?>
+                                                    <span class="badge bg-warning text-dark"><i class="mdi mdi-loading mdi-spin me-1"></i>Downloading (<?= $m['download_progress_pct'] ?? 0 ?>%)</span>
                                                 <?php else: ?>
-                                                    <span class="badge bg-danger-lighten text-danger"><i class="mdi mdi-close me-1"></i>Missing</span>
+                                                    <span class="badge bg-danger-lighten text-danger"><i class="mdi mdi-close me-1"></i>Not Downloaded</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td class="font-13"><?= esc($m['size_gb'] ?? 0) ?> GB</td>
@@ -211,29 +215,51 @@
                                                 <?= !empty($m['avg_duration_ms']) ? esc($m['avg_duration_ms']) . ' ms' : '-' ?>
                                             </td>
                                             <td class="text-end">
-                                                <?php if (!empty($m['exists_on_disk'])): ?>
-                                                    <?php if (!empty($m['loaded_in_ram'])): ?>
+                                                <div class="btn-group btn-group-sm">
+                                                    <?php if (empty($m['exists_on_disk'])): ?>
+                                                        <!-- Download Model -->
                                                         <form method="post" action="<?= site_url('admin/ai/cache-action') ?>" class="d-inline">
                                                             <?= csrf_field() ?>
-                                                            <input type="hidden" name="action" value="evict">
+                                                            <input type="hidden" name="action" value="download">
                                                             <input type="hidden" name="model_key" value="<?= esc($mKey) ?>">
-                                                            <button type="submit" class="btn btn-xs btn-outline-danger">
-                                                                <i class="mdi mdi-eject me-1"></i> Evict from RAM
+                                                            <button type="submit" class="btn btn-outline-primary" <?= ($m['download_status'] ?? '') === 'downloading' ? 'disabled' : '' ?>>
+                                                                <i class="mdi mdi-download me-1"></i> Download GGUF
                                                             </button>
                                                         </form>
                                                     <?php else: ?>
-                                                        <form method="post" action="<?= site_url('admin/ai/cache-action') ?>" class="d-inline">
-                                                            <?= csrf_field() ?>
-                                                            <input type="hidden" name="action" value="preload">
-                                                            <input type="hidden" name="model_key" value="<?= esc($mKey) ?>">
-                                                            <button type="submit" class="btn btn-xs btn-outline-primary">
-                                                                <i class="mdi mdi-lightning-bolt me-1"></i> Pre-load
-                                                            </button>
-                                                        </form>
+                                                        <?php if (!empty($m['loaded_in_ram'])): ?>
+                                                            <!-- Reload in RAM -->
+                                                            <form method="post" action="<?= site_url('admin/ai/cache-action') ?>" class="d-inline">
+                                                                <?= csrf_field() ?>
+                                                                <input type="hidden" name="action" value="reload">
+                                                                <input type="hidden" name="model_key" value="<?= esc($mKey) ?>">
+                                                                <button type="submit" class="btn btn-outline-warning" title="Reload model weights in RAM">
+                                                                    <i class="mdi mdi-reload me-1"></i> Reload
+                                                                </button>
+                                                            </form>
+
+                                                            <!-- Evict from RAM -->
+                                                            <form method="post" action="<?= site_url('admin/ai/cache-action') ?>" class="d-inline ms-1">
+                                                                <?= csrf_field() ?>
+                                                                <input type="hidden" name="action" value="evict">
+                                                                <input type="hidden" name="model_key" value="<?= esc($mKey) ?>">
+                                                                <button type="submit" class="btn btn-outline-danger" title="Evict from RAM to free memory">
+                                                                    <i class="mdi mdi-eject me-1"></i> Evict
+                                                                </button>
+                                                            </form>
+                                                        <?php else: ?>
+                                                            <!-- Preload into RAM -->
+                                                            <form method="post" action="<?= site_url('admin/ai/cache-action') ?>" class="d-inline">
+                                                                <?= csrf_field() ?>
+                                                                <input type="hidden" name="action" value="preload">
+                                                                <input type="hidden" name="model_key" value="<?= esc($mKey) ?>">
+                                                                <button type="submit" class="btn btn-outline-success">
+                                                                    <i class="mdi mdi-lightning-bolt me-1"></i> Pre-load into RAM
+                                                                </button>
+                                                            </form>
+                                                        <?php endif; ?>
                                                     <?php endif; ?>
-                                                <?php else: ?>
-                                                    <span class="font-12 text-muted">Run download script</span>
-                                                <?php endif; ?>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

@@ -368,14 +368,14 @@
                         </li>
                         <li class="side-nav-item <?= $isAdminAiTelemetry ? 'menuitem-active' : '' ?>">
                             <a href="<?= site_url('admin/ai/telemetry') ?>" class="side-nav-link <?= $isAdminAiTelemetry ? 'active' : '' ?>">
-                                <i class="uil-brain text-purple"></i>
-                                <span> AI Engine Diagnostics </span>
+                                <i class="mdi mdi-brain text-purple font-16"></i>
+                                <span> AI Diagnostics </span>
                             </a>
                         </li>
                         <li class="side-nav-item <?= $isAdminAiSettings ? 'menuitem-active' : '' ?>">
                             <a href="<?= site_url('admin/ai/settings') ?>" class="side-nav-link <?= $isAdminAiSettings ? 'active' : '' ?>">
-                                <i class="uil-cpu text-info"></i>
-                                <span> AI Engine Settings </span>
+                                <i class="mdi mdi-tune-vertical text-info font-16"></i>
+                                <span> AI Settings </span>
                             </a>
                         </li>
                     <?php endif; ?>
