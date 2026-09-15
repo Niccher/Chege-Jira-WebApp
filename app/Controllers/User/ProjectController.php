@@ -107,6 +107,7 @@ class ProjectController extends BaseUserController
         $activeSprint = $sprintModel->getActiveSprint($projectId);
         $portalTokenModel = new \App\Models\PortalTokenModel();
         $portalTokens = $portalTokenModel->getTokensForProject($projectId);
+        $health = $projectModel->getProjectHealth($projectId);
 
         $data = [
             'user'          => $this->currentUser,

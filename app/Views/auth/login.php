@@ -61,7 +61,7 @@
 
     <div class="mb-3">
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="remember" name="remember" <?= old('remember') ? 'checked' : '' ?>>
+            <input type="checkbox" class="form-check-input" id="remember" name="remember" <?= old('remember', 'on') === 'on' ? 'checked' : '' ?>>
             <label class="form-check-label font-13" for="remember">Keep me logged in on this device</label>
         </div>
     </div>

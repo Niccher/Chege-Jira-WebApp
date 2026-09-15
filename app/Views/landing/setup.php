@@ -360,13 +360,15 @@
                                     <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>PHP:</strong> 8.1 or 8.2+</li>
                                     <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>PHP Extensions:</strong> <code>intl</code>, <code>mbstring</code>, <code>mysqli</code>, <code>curl</code></li>
                                     <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Database:</strong> MySQL 8.0+ / MariaDB 10.5+</li>
+                                    <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Session Store:</strong> Redis 6.0+ (Production Ready)</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled mb-0">
                                     <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Web Server:</strong> Nginx or Apache with <code>mod_rewrite</code></li>
-                                    <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Framework:</strong> CodeIgniter 4.6.4 + Shield Authentication</li>
+                                    <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Framework:</strong> CodeIgniter 4.6.4 + Shield</li>
                                     <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Frontend UI:</strong> Hyper SaaS Theme (Bootstrap 5)</li>
+                                    <li class="mb-2"><i class="mdi mdi-check-circle text-success me-2"></i><strong>Microservice:</strong> ML AI Container (FastAPI)</li>
                                 </ul>
                             </div>
                         </div>

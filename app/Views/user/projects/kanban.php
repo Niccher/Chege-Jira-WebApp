@@ -207,71 +207,107 @@
     </div>
 </div>
 
-<!-- Scripts -->
+<?= $this->endSection() ?>
+
+<?= $this->section('js') ?>
+<!-- SortableJS CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
-$(document).ready(function() {
-    const columns = ['todo', 'in_progress', 'review', 'done'];
-    columns.forEach(status => {
-        const el = document.getElementById(status + '-list');
-        if (el) {
-            new Sortable(el, {
-                group: 'kanban',
-                animation: 150,
-                ghostClass: 'opacity-50',
-                onEnd: function(evt) {
-                    const taskId = evt.item.dataset.taskId;
-                    const newStatus = evt.to.closest('.kanban-column').dataset.status;
-                    const order = Array.from(evt.to.children).indexOf(evt.item);
+(function() {
+    function initKanban() {
+        if (typeof $ === 'undefined' || typeof Sortable === 'undefined') {
+            setTimeout(initKanban, 50);
+            return;
+        }
 
-                    $.post('<?= site_url('projects/task/move') ?>', {
-                        <?= csrf_token() ?>: '<?= csrf_hash() ?>',
-                        task_id: taskId,
-                        status: newStatus,
-                        order: order
-                    }, function(res) {
-                        if (res.status === 'success') {
-                            updateColumnCounts();
-                        }
-                    });
-                }
+        const columns = ['todo', 'in_progress', 'review', 'done'];
+        columns.forEach(status => {
+            const el = document.getElementById(status + '-list');
+            if (el) {
+                new Sortable(el, {
+                    group: 'kanban',
+                    animation: 200,
+                    ghostClass: 'bg-light-subtle',
+                    chosenClass: 'shadow-lg',
+                    dragClass: 'opacity-75',
+                    handle: '.kanban-card',
+                    onEnd: function(evt) {
+                        const taskId = evt.item.dataset.taskId;
+                        const colEl = evt.to.closest('.kanban-column');
+                        if (!colEl) return;
+                        const newStatus = colEl.dataset.status;
+                        const order = Array.from(evt.to.children).indexOf(evt.item);
+
+                        $.post('<?= site_url('projects/task/move') ?>', {
+                            <?= csrf_token() ?>: '<?= csrf_hash() ?>',
+                            task_id: taskId,
+                            status: newStatus,
+                            order: order
+                        }, function(res) {
+                            if (res && res.status === 'success') {
+                                updateColumnCounts();
+                            }
+                        }).fail(function(xhr) {
+                            console.error('Task move failed:', xhr);
+                        });
+                    }
+                });
+            }
+        });
+
+        function updateColumnCounts() {
+            columns.forEach(status => {
+                const count = $(`#${status}-list .kanban-card`).length;
+                $(`#count-${status}`).text(count);
             });
         }
-    });
 
-    function updateColumnCounts() {
-        columns.forEach(status => {
-            $(`#count-${status}`).text($(`#${status}-list .kanban-card`).length);
+        // Edit task modal trigger
+        $(document).on('click', '.edit-task-btn', function(e) {
+            e.preventDefault();
+            const card = $(this).closest('.kanban-card');
+            $('#editTaskId').val(card.data('task-id'));
+            $('#editTaskTitle').val(card.find('.task-title').text().trim());
+            $('#editTaskDescription').val(card.data('description') || '');
+            $('#editTaskPriority').val(card.data('priority') || 'medium');
+            $('#editTaskDueDate').val(card.data('due-date') || '');
+            const modalEl = document.getElementById('editTaskModal');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        });
+
+        $('#saveTaskEditBtn').on('click', function() {
+            const id = $('#editTaskId').val();
+            const btn = $(this);
+            btn.prop('disabled', true).html('<i class="mdi mdi-spin mdi-loading me-1"></i> Saving...');
+
+            $.post('<?= site_url('projects/task/update/') ?>' + id, {
+                <?= csrf_token() ?>: '<?= csrf_hash() ?>',
+                title: $('#editTaskTitle').val(),
+                description: $('#editTaskDescription').val(),
+                priority: $('#editTaskPriority').val(),
+                due_date: $('#editTaskDueDate').val()
+            }, function(res) {
+                if (res && res.status === 'success') {
+                    location.reload();
+                } else {
+                    alert(res.message || 'Error updating task');
+                    btn.prop('disabled', false).text('Save Changes');
+                }
+            }).fail(function() {
+                alert('Server communication error');
+                btn.prop('disabled', false).text('Save Changes');
+            });
         });
     }
 
-    // Edit task modal trigger
-    $(document).on('click', '.edit-task-btn', function(e) {
-        e.preventDefault();
-        const card = $(this).closest('.kanban-card');
-        $('#editTaskId').val(card.data('task-id'));
-        $('#editTaskTitle').val(card.find('.task-title').text().trim());
-        $('#editTaskDescription').val(card.data('description') || '');
-        $('#editTaskPriority').val(card.data('priority') || 'medium');
-        $('#editTaskDueDate').val(card.data('due-date') || '');
-        new bootstrap.Modal(document.getElementById('editTaskModal')).show();
-    });
-
-    $('#saveTaskEditBtn').on('click', function() {
-        const id = $('#editTaskId').val();
-        $.post('<?= site_url('projects/task/update/') ?>' + id, {
-            <?= csrf_token() ?>: '<?= csrf_hash() ?>',
-            title: $('#editTaskTitle').val(),
-            description: $('#editTaskDescription').val(),
-            priority: $('#editTaskPriority').val(),
-            due_date: $('#editTaskDueDate').val()
-        }, function(res) {
-            if (res.status === 'success') {
-                location.reload();
-            }
-        });
-    });
-});
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initKanban);
+    } else {
+        initKanban();
+    }
+})();
 </script>
-
 <?= $this->endSection() ?>

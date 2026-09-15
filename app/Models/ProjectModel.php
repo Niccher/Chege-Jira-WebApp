@@ -526,4 +526,29 @@ class ProjectModel extends Model
 
         return $results;
     }
+
+    /**
+     * Get computed health metrics for a single project by ID
+     */
+    public function getProjectHealth(int $projectId): array
+    {
+        $project = $this->find($projectId);
+        if (!$project) {
+            return [
+                'score'       => 100,
+                'status'      => 'healthy',
+                'label'       => 'Healthy',
+                'badge_class' => 'bg-success-lighten text-success',
+                'icon'        => 'mdi-check-circle',
+                'risks'       => [],
+            ];
+        }
+
+        $taskModel = new TaskModel();
+        $sprintModel = new SprintModel();
+        $tasks = $taskModel->where('project_id', $projectId)->findAll();
+        $activeSprint = $sprintModel->getActiveSprint($projectId);
+
+        return $this->calculateHealthScore($project, $tasks, $activeSprint);
+    }
 }

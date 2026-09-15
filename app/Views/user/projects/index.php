@@ -145,6 +145,25 @@
             'on_hold'     => 'bg-warning',
             'abandoned'   => 'bg-danger'
         ];
+
+        if (!function_exists('projectInitialsAvatarBadge')) {
+            function projectInitialsAvatarBadge(array $project, string $size = 'avatar-sm'): string {
+                $name = trim($project['name'] ?? 'Project');
+                $clean = preg_replace('/[^a-zA-Z0-9\s]/', '', $name);
+                $words = preg_split('/\s+/', trim($clean));
+                if (!empty($words[0]) && !empty($words[1])) {
+                    $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                } else {
+                    $initials = strtoupper(substr($clean, 0, 2) ?: 'PJ');
+                }
+                $color = !empty($project['color']) ? $project['color'] : '#727cf5';
+                return '<div class="' . $size . ' me-2 flex-shrink-0 d-inline-block align-middle">
+                            <span class="avatar-title rounded-circle shadow-sm" style="background-color: ' . esc($color) . '; color: #fff; font-weight: 700; font-size: 13px;">
+                                ' . esc($initials) . '
+                            </span>
+                        </div>';
+            }
+        }
         ?>
 
         <div class="tab-content">
@@ -179,11 +198,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="avatar-sm me-3 flex-shrink-0">
-                                                    <span class="avatar-title rounded-circle shadow-sm" style="background-color: <?= esc($project['color'] ?? '#727cf5') ?>; color: #fff;">
-                                                        <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?> font-16"></i>
-                                                    </span>
-                                                </div>
+                                                <?= projectInitialsAvatarBadge($project, 'avatar-sm') ?>
                                                 <div>
                                                     <h5 class="m-0 font-14">
                                                         <a href="<?= site_url('projects/view/' . (!empty($project['slug']) ? $project['slug'] : $project['id'])) ?>" class="text-body fw-bold text-decoration-none">
@@ -215,9 +230,18 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="font-13 text-muted">
-                                                <?= $project['due_date'] ? date('M d, Y', strtotime($project['due_date'])) : '—' ?>
-                                            </span>
+                                            <?php if (!empty($project['due_date'])): ?>
+                                                <?php 
+                                                $dueTimestamp = strtotime($project['due_date']);
+                                                $isOverdue = $dueTimestamp < time() && !in_array($project['status'], ['completed', 'abandoned']);
+                                                ?>
+                                                <span class="font-13 fw-semibold <?= $isOverdue ? 'text-danger' : 'text-muted' ?>">
+                                                    <i class="mdi <?= $isOverdue ? 'mdi-alert-circle-outline' : 'mdi-calendar-clock' ?> me-1"></i>
+                                                    <?= date('d M Y', $dueTimestamp) ?>
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="font-12 text-muted fst-italic">No Due Date</span>
+                                            <?php endif; ?>
                                         </td>
                                         <td class="text-end pe-3">
                                             <?php $pTarget = !empty($project['slug']) ? $project['slug'] : $project['id']; ?>
@@ -267,9 +291,12 @@
                                     <?php $actTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="text-body fw-bold">
-                                                <?= esc($p['name']) ?>
-                                            </a>
+                                            <div class="d-flex align-items-center">
+                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
+                                                <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="text-body fw-bold">
+                                                    <?= esc($p['name']) ?>
+                                                </a>
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -313,9 +340,12 @@
                                     <?php $pendTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="text-body fw-bold">
-                                                <?= esc($p['name']) ?>
-                                            </a>
+                                            <div class="d-flex align-items-center">
+                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
+                                                <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="text-body fw-bold">
+                                                    <?= esc($p['name']) ?>
+                                                </a>
+                                            </div>
                                         </td>
                                         <td><span class="badge bg-warning"><?= ucfirst(str_replace('_', ' ', $p['status'])) ?></span></td>
                                         <td class="text-end pe-3">
@@ -351,9 +381,12 @@
                                     <?php $compTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="text-body fw-bold">
-                                                <?= esc($p['name']) ?>
-                                            </a>
+                                            <div class="d-flex align-items-center">
+                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
+                                                <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="text-body fw-bold">
+                                                    <?= esc($p['name']) ?>
+                                                </a>
+                                            </div>
                                         </td>
                                         <td><span class="badge bg-success"><i class="mdi mdi-check-circle me-1"></i> Completed</span></td>
                                         <td class="text-end pe-3">
@@ -389,9 +422,12 @@
                                     <?php $archTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $archTarget) ?>" class="text-body fw-bold">
-                                                <?= esc($p['name']) ?>
-                                            </a>
+                                            <div class="d-flex align-items-center">
+                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
+                                                <a href="<?= site_url('projects/view/' . $archTarget) ?>" class="text-body fw-bold">
+                                                    <?= esc($p['name']) ?>
+                                                </a>
+                                            </div>
                                         </td>
                                         <td><span class="badge bg-secondary">Archived</span></td>
                                         <td class="text-end pe-3">

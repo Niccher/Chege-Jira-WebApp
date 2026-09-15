@@ -37,7 +37,7 @@
             position: relative;
             display: flex;
             align-items: stretch;
-            min-height: 100vh;
+            min-height: calc(100vh - 70px);
             overflow-x: hidden;
         }
         .auth-fluid .auth-fluid-form-box {
@@ -95,10 +95,73 @@
             transform: translateY(-2px);
             background: rgba(255, 255, 255, 0.08);
         }
-    </style>
+    
+        .landing-navbar {
+            padding: 16px 0;
+            background-color: #313a46;
+            box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
+        }
+        .landing-navbar .nav-link { 
+            color: rgba(255,255,255,.7); 
+            font-weight: 500;
+            padding: 8px 16px !important;
+            transition: all .2s;
+        }
+        .landing-navbar .nav-link:hover,
+        .landing-navbar .nav-link.active { 
+            color: #fff; 
+            font-weight: 600;
+        }
+        .landing-navbar .navbar-brand { 
+            color: #fff; 
+            font-weight: 700; 
+            font-size: 22px; 
+            letter-spacing: -0.5px;
+        }
+</style>
 </head>
 
 <body class="loading">
+
+    <!-- NAVBAR START -->
+    <nav class="navbar navbar-expand-lg landing-navbar sticky-top">
+        <div class="container">
+            <!-- logo -->
+            <a href="<?= site_url() ?>" class="navbar-brand me-4">
+                <i class="mdi mdi-leaf text-success me-1"></i> <?= esc(setting('App.siteName')) ?>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu text-white font-22"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link <?= uri_string() === '' ? 'active' : '' ?>" href="<?= site_url() ?>">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= uri_string() === 'features' ? 'active' : '' ?>" href="<?= site_url('features') ?>">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= uri_string() === 'pricing' ? 'active' : '' ?>" href="<?= site_url('pricing') ?>">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= uri_string() === 'setup' ? 'active' : '' ?>" href="<?= site_url('setup') ?>">Setup</a>
+                    </li>
+                    <?php if (auth()->loggedIn()): ?>
+                        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                            <a href="<?= site_url('user/dashboard') ?>" class="btn btn-primary btn-sm rounded-pill px-3">
+                                <i class="mdi mdi-view-dashboard me-1"></i> Dashboard
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- NAVBAR END -->
+
     <div class="auth-fluid">
         <!-- Auth Form Pane -->
         <div class="auth-fluid-form-box">
@@ -249,6 +312,49 @@
             </div>
         </div>
     </div>
+
+
+    <!-- FOOTER START -->
+    <footer class="bg-dark py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <h4 class="text-white mb-3"><i class="mdi mdi-leaf text-success me-1"></i> <?= esc(setting('App.siteName')) ?></h4>
+                    <p class="text-muted w-75">Self-hosted, open-source agile project management platform built for engineering teams who value speed, flexibility, and complete data privacy.</p>
+                </div>
+                <div class="col-lg-2 col-md-4 mt-4 mt-lg-0">
+                    <h5 class="text-white mb-3">Product</h5>
+                    <ul class="list-unstyled text-muted mb-0">
+                        <li class="mb-2"><a href="<?= site_url('features') ?>" class="text-muted">Features</a></li>
+                        <li class="mb-2"><a href="<?= site_url('pricing') ?>" class="text-muted">Pricing</a></li>
+                        <li class="mb-2"><a href="<?= site_url('compare') ?>" class="text-muted">Compare</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mt-4 mt-lg-0">
+                    <h5 class="text-white mb-3">Resources</h5>
+                    <ul class="list-unstyled text-muted mb-0">
+                        <li class="mb-2"><a href="<?= site_url('setup') ?>" class="text-muted">Setup Guide</a></li>
+                        <li class="mb-2"><a href="<?= site_url('faqs') ?>" class="text-muted">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
+                    <h5 class="text-white mb-3">Platform Specs</h5>
+                    <ul class="list-unstyled text-muted mb-0">
+                        <li class="mb-2"><span class="badge bg-primary-lighten text-primary">WebApp: v1.2.0</span></li>
+                        <li class="mb-2"><span class="badge bg-success-lighten text-success">ML Engine: v1.2.0</span></li>
+                        <li class="mb-2"><span class="badge bg-warning-lighten text-warning">Redis 6.0 Session</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row mt-5 pt-3 border-top border-secondary">
+                <div class="col-12 text-center">
+                    <p class="text-muted mb-0">&copy; <?= date('Y') ?> <?= esc(setting('App.siteName')) ?>. Released under the MIT Open Source License.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER END -->
 
     <!-- bundle -->
     <script src="<?= base_url('assets/hyper/js/vendor.min.js') ?>"></script>

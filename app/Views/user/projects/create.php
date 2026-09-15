@@ -120,7 +120,7 @@
 
                             <div class="col-md-6">
                                 <label for="projectDueDate" class="form-label fw-semibold">Target Completion</label>
-                                <input type="date" class="form-control" id="projectDueDate" name="due_date">
+                                <input type="date" class="form-control" id="projectDueDate" name="due_date" value="<?= date('Y-m-d', strtotime('+60 days')) ?>">
                                 <div class="form-text">Leave blank if no strict deadline.</div>
                             </div>
                         </div>

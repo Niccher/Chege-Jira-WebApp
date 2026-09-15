@@ -540,17 +540,26 @@
             <!-- content -->
 
             <!-- Footer Start -->
-            <footer class="footer py-3 border-top">
+            <footer class="footer py-4 border-top">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12 text-center font-14">
-                            <span class="text-muted"><i class="mdi mdi-calendar-today text-primary me-1"></i> <?= date('l, F j, Y') ?></span>
-                            <span class="mx-2 text-muted">•</span>
+                    <div class="row align-items-center">
+                        <div class="col-md-4 text-center text-md-start mb-2 mb-md-0 font-14">
                             <span><?= date('Y') ?> © <strong><?= esc(setting('App.siteName')) ?></strong></span>
-                            <span class="mx-2 text-muted">•</span>
-                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#appVersionModal" class="badge bg-primary-lighten text-primary text-decoration-none px-2 py-1 font-12" title="View Version & Changelog">
-                                <i class="mdi mdi-tag-outline me-1"></i>v1.0.0
-                            </a>
+                            <br>
+                            <span class="text-muted font-12">Agile Workspace & ML Telemetry Platform</span>
+                        </div>
+                        <div class="col-md-4 text-center mb-2 mb-md-0 font-14">
+                            <a href="<?= site_url('features') ?>" class="text-muted text-decoration-none mx-2 hover-primary">Features</a>
+                            <a href="<?= site_url('setup') ?>" class="text-muted text-decoration-none mx-2 hover-primary">Setup Guide</a>
+                            <a href="<?= site_url('admin/telemetry') ?>" class="text-muted text-decoration-none mx-2 hover-primary">System Status</a>
+                        </div>
+                        <div class="col-md-4 text-center text-md-end font-14">
+                            <span class="badge bg-primary-lighten text-primary text-decoration-none px-2 py-1 font-12 me-1">
+                                WebApp: v1.2.0
+                            </span>
+                            <span class="badge bg-success-lighten text-success text-decoration-none px-2 py-1 font-12">
+                                ML Engine: v1.2.0
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -569,7 +578,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title text-white" id="appVersionModalLabel">
-                        <i class="mdi mdi-information-outline me-1"></i> <?= esc(setting('App.siteName')) ?> v1.0.0
+                        <i class="mdi mdi-information-outline me-1"></i> <?= esc(setting('App.siteName')) ?> v1.2.0
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

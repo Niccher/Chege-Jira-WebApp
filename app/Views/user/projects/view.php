@@ -77,8 +77,15 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
             <div class="card-body p-4">
                 <div class="d-md-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center mb-3 mb-md-0">
-                        <div class="avatar-md rounded d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="background-color: <?= esc($project['color'] ?? '#727cf5') ?>20; color: <?= esc($project['color'] ?? '#727cf5') ?>;">
-                            <i class="fas <?= esc($project['icon'] ?? 'fa-project-diagram') ?> font-24"></i>
+                        <?php
+                        $cleanName = preg_replace('/[^a-zA-Z0-9\s]/', '', $project['name'] ?? 'Project');
+                        $pWords = preg_split('/\s+/', trim($cleanName));
+                        $pInitials = !empty($pWords[0]) && !empty($pWords[1]) 
+                            ? strtoupper(substr($pWords[0], 0, 1) . substr($pWords[1], 0, 1))
+                            : strtoupper(substr($cleanName, 0, 2) ?: 'PJ');
+                        ?>
+                        <div class="avatar-md rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 shadow-sm" style="background-color: <?= esc($project['color'] ?? '#727cf5') ?>; color: #fff; font-weight: 800; font-size: 20px;">
+                            <?= esc($pInitials) ?>
                         </div>
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
