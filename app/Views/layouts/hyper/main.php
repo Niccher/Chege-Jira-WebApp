@@ -24,6 +24,16 @@
     <link href="<?= base_url('assets/hyper/css/app.min.css') ?>" rel="stylesheet" type="text/css" id="light-style" />
     <link href="<?= base_url('assets/hyper/css/app-dark.min.css') ?>" rel="stylesheet" type="text/css" id="dark-style" disabled="disabled" />
     
+    <script>
+        (function() {
+            var theme = localStorage.getItem('hyper_theme');
+            if (theme === 'dark') {
+                document.getElementById('light-style')?.setAttribute('disabled', 'disabled');
+                document.getElementById('dark-style')?.removeAttribute('disabled');
+            }
+        })();
+    </script>
+    
     <style>
         .side-nav .side-nav-link i {
             font-size: 1.1rem;
@@ -49,6 +59,13 @@
             color: #8391a2;
             font-weight: 700;
             padding: 12px 20px 6px;
+        }
+        #theme-toggle-btn {
+            cursor: pointer;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            height: 70px;
         }
     </style>
 
@@ -174,7 +191,13 @@
             <div class="content">
                 <!-- Topbar Start -->
                 <div class="navbar-custom">
-                    <ul class="list-unstyled topbar-menu float-end mb-0">
+                    <ul class="list-unstyled topbar-menu float-end mb-0 d-flex align-items-center">
+                        <li class="notification-list me-1">
+                            <a class="nav-link end-bar-toggle" href="javascript:void(0);" id="theme-toggle-btn" title="Toggle Light / Dark Theme" role="button">
+                                <i class="uil-moon font-22" id="theme-toggle-icon"></i>
+                            </a>
+                        </li>
+
                         <li class="dropdown notification-list">
                             <a class="nav-link dropdown-toggle nav-user arrow-none me-0 d-flex align-items-center" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <span class="account-user-avatar me-2"> 
@@ -279,6 +302,59 @@
     <!-- bundle -->
     <script src="<?= base_url('assets/hyper/js/vendor.min.js') ?>"></script>
     <script src="<?= base_url('assets/hyper/js/app.min.js') ?>"></script>
+    
+    <script>
+        (function() {
+            var toggleBtn = document.getElementById('theme-toggle-btn');
+            var toggleIcon = document.getElementById('theme-toggle-icon');
+            var lightStyle = document.getElementById('light-style');
+            var darkStyle = document.getElementById('dark-style');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    if (lightStyle) lightStyle.setAttribute('disabled', 'disabled');
+                    if (darkStyle) darkStyle.removeAttribute('disabled');
+                    if (toggleIcon) {
+                        toggleIcon.className = 'uil-sun font-22 text-warning';
+                    }
+                    document.body.setAttribute('data-layout-config', JSON.stringify({
+                        "leftSideBarTheme": "dark",
+                        "layoutBoxed": false,
+                        "leftSidebarCondensed": false,
+                        "leftSidebarScrollable": false,
+                        "darkMode": true,
+                        "showRightSidebarOnStart": true
+                    }));
+                } else {
+                    if (darkStyle) darkStyle.setAttribute('disabled', 'disabled');
+                    if (lightStyle) lightStyle.removeAttribute('disabled');
+                    if (toggleIcon) {
+                        toggleIcon.className = 'uil-moon font-22';
+                    }
+                    document.body.setAttribute('data-layout-config', JSON.stringify({
+                        "leftSideBarTheme": "dark",
+                        "layoutBoxed": false,
+                        "leftSidebarCondensed": false,
+                        "leftSidebarScrollable": false,
+                        "darkMode": false,
+                        "showRightSidebarOnStart": true
+                    }));
+                }
+            }
+
+            var currentTheme = localStorage.getItem('hyper_theme') || 'light';
+            applyTheme(currentTheme);
+
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var newTheme = (localStorage.getItem('hyper_theme') === 'dark') ? 'light' : 'dark';
+                    localStorage.setItem('hyper_theme', newTheme);
+                    applyTheme(newTheme);
+                });
+            }
+        })();
+    </script>
     
     <?= $this->renderSection('js') ?>
 </body>
