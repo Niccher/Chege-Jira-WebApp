@@ -155,6 +155,70 @@
             margin-left: 70px !important;
             width: calc(100% - 70px) !important;
         }
+
+        /* Global Command Palette & Spotlight Search */
+        .topbar-search-btn {
+            background: rgba(152, 166, 173, 0.1);
+            border: 1px solid rgba(152, 166, 173, 0.25);
+            color: #6c757d;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .topbar-search-btn:hover {
+            background: rgba(114, 124, 245, 0.1);
+            border-color: #727cf5;
+            color: #727cf5;
+        }
+        body.dark-theme .topbar-search-btn,
+        html.dark-theme .topbar-search-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #aab8c5;
+        }
+        .palette-item {
+            transition: all 0.15s ease;
+            color: inherit;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .palette-item:hover, .palette-item.active {
+            background-color: rgba(114, 124, 245, 0.12) !important;
+            border-color: rgba(114, 124, 245, 0.25) !important;
+        }
+        .palette-item.active .palette-title {
+            color: #727cf5 !important;
+        }
+        .palette-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8391a2;
+            padding: 10px 12px 4px;
+        }
+        body.dark-theme #commandPaletteModal .modal-content,
+        html.dark-theme #commandPaletteModal .modal-content {
+            background-color: #313a46 !important;
+            color: #ced4da;
+        }
+        body.dark-theme #commandPaletteModal .modal-footer,
+        html.dark-theme #commandPaletteModal .modal-footer {
+            background-color: #272e38 !important;
+            border-top-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        body.dark-theme #commandPaletteModal input,
+        html.dark-theme #commandPaletteModal input {
+            color: #fff !important;
+        }
+        body.dark-theme .palette-item .palette-title,
+        html.dark-theme .palette-item .palette-title {
+            color: #dee2e6 !important;
+        }
     </style>
 
     <?= $this->renderSection('head') ?>
@@ -295,8 +359,28 @@
         <div class="content-page">
             <div class="content">
                 <!-- Topbar Start -->
-                <div class="navbar-custom">
+                <div class="navbar-custom d-flex align-items-center justify-content-between px-3">
+                    <div class="d-flex align-items-center">
+                        <button class="button-menu-mobile open-left me-2">
+                            <i class="mdi mdi-menu font-20"></i>
+                        </button>
+
+                        <!-- Command Palette Trigger Button -->
+                        <div class="topbar-search-btn d-none d-sm-inline-flex" id="global-search-trigger" title="Quick Search or Commands (Ctrl + K)">
+                            <i class="uil-search me-2 font-16"></i>
+                            <span>Search or type <strong class="text-primary">&gt;</strong> for commands...</span>
+                            <span class="badge bg-secondary-lighten text-muted font-11 ms-3 px-1 border">Ctrl+K</span>
+                        </div>
+                    </div>
+
                     <ul class="list-unstyled topbar-menu float-end mb-0 d-flex align-items-center">
+                        <!-- Mobile Search Trigger Icon -->
+                        <li class="d-inline-block d-sm-none me-1">
+                            <a class="nav-link" href="javascript:void(0);" id="mobile-search-trigger" title="Search (Ctrl + K)">
+                                <i class="uil-search font-22"></i>
+                            </a>
+                        </li>
+
                         <li class="notification-list me-1">
                             <a class="nav-link end-bar-toggle" href="javascript:void(0);" id="theme-toggle-btn" title="Toggle Light / Dark Theme" role="button">
                                 <i class="uil-moon font-22" id="theme-toggle-icon"></i>
@@ -406,6 +490,36 @@
         </div>
     </div>
 
+    <!-- Command Palette Spotlight Modal -->
+    <div class="modal fade" id="commandPaletteModal" tabindex="-1" aria-labelledby="commandPaletteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-top modal-lg" style="margin-top: 7vh; max-width: 680px;">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 14px; overflow: hidden;">
+                <div class="modal-header border-0 pb-0 pt-3 px-3">
+                    <div class="input-group input-group-lg border-bottom pb-2 w-100 align-items-center">
+                        <span class="input-group-text bg-transparent border-0 pe-2 text-primary font-22">
+                            <i class="uil-search"></i>
+                        </span>
+                        <input type="text" class="form-control bg-transparent border-0 font-16 shadow-none ps-1 text-dark" id="command-palette-input" placeholder="Search tasks, projects, people, or type > for actions..." autocomplete="off" spellcheck="false">
+                        <span class="badge bg-light text-muted border font-11 align-self-center px-2 py-1 me-1" style="cursor: pointer;" data-bs-dismiss="modal">ESC</span>
+                    </div>
+                </div>
+                <div class="modal-body p-2" id="command-palette-results" style="max-height: 440px; min-height: 160px; overflow-y: auto;">
+                    <!-- Dynamically populated via JS -->
+                </div>
+                <div class="modal-footer border-top py-2 px-3 bg-light d-flex justify-content-between font-12 text-muted">
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                        <span><kbd class="bg-white text-dark border px-1">↑</kbd> <kbd class="bg-white text-dark border px-1">↓</kbd> navigate</span>
+                        <span><kbd class="bg-white text-dark border px-1">↵</kbd> select</span>
+                        <span><kbd class="bg-white text-dark border px-1">&gt;</kbd> commands</span>
+                    </div>
+                    <div class="d-none d-sm-block font-11">
+                        <strong>Chege Jira</strong> Spotlight
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- bundle -->
     <script src="<?= base_url('assets/hyper/js/vendor.min.js') ?>"></script>
     <script src="<?= base_url('assets/hyper/js/app.min.js') ?>"></script>
@@ -463,6 +577,248 @@
                     localStorage.setItem('hyper_theme', newTheme);
                     applyTheme(newTheme);
                 });
+            }
+        })();
+
+        // Command Palette Spotlight Controller
+        (function() {
+            var modalEl = document.getElementById('commandPaletteModal');
+            if (!modalEl) return;
+
+            var paletteModal = null;
+            var inputEl = document.getElementById('command-palette-input');
+            var resultsEl = document.getElementById('command-palette-results');
+            var desktopTrigger = document.getElementById('global-search-trigger');
+            var mobileTrigger = document.getElementById('mobile-search-trigger');
+
+            var currentItems = [];
+            var activeIndex = 0;
+            var debounceTimer = null;
+
+            function getBootstrapModal() {
+                if (!paletteModal && window.bootstrap && window.bootstrap.Modal) {
+                    paletteModal = new bootstrap.Modal(modalEl, { backdrop: true, keyboard: true });
+                }
+                return paletteModal;
+            }
+
+            function openPalette(initialQuery) {
+                initialQuery = initialQuery || '';
+                var modal = getBootstrapModal();
+                if (modal) modal.show();
+                setTimeout(function() {
+                    if (inputEl) {
+                        inputEl.value = initialQuery;
+                        inputEl.focus();
+                        executeSearch(initialQuery);
+                    }
+                }, 150);
+            }
+
+            if (desktopTrigger) desktopTrigger.addEventListener('click', function() { openPalette(); });
+            if (mobileTrigger) mobileTrigger.addEventListener('click', function() { openPalette(); });
+
+            // Global shortcut Ctrl+K, Cmd+K, or /
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+                    e.preventDefault();
+                    openPalette();
+                } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    openPalette();
+                }
+            });
+
+            if (inputEl) {
+                inputEl.addEventListener('input', function() {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(function() {
+                        executeSearch(inputEl.value);
+                    }, 150);
+                });
+
+                inputEl.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (currentItems.length > 0) {
+                            activeIndex = (activeIndex + 1) % currentItems.length;
+                            updateActiveItem();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (currentItems.length > 0) {
+                            activeIndex = (activeIndex - 1 + currentItems.length) % currentItems.length;
+                            updateActiveItem();
+                        }
+                    } else if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (currentItems[activeIndex]) {
+                            selectItem(currentItems[activeIndex]);
+                        }
+                    }
+                });
+            }
+
+            function executeSearch(query) {
+                var q = (query || '').trim();
+                if (q.length === 0) {
+                    renderDefaultState();
+                    return;
+                }
+
+                resultsEl.innerHTML = '<div class="text-center py-4 text-muted font-14"><i class="mdi mdi-loading mdi-spin me-1 font-18 text-primary"></i> Searching workspace...</div>';
+
+                fetch('<?= site_url("api/search") ?>?q=' + encodeURIComponent(q))
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data.status === 'success' && data.results && data.results.length > 0) {
+                            renderResults(data.results, q);
+                        } else {
+                            resultsEl.innerHTML = '<div class="text-center py-4 text-muted">' +
+                                '<i class="uil-search-alt font-24 mb-1 d-block"></i>' +
+                                '<div class="font-14">No matching items found for "<strong>' + escapeHtml(q) + '</strong>"</div>' +
+                                '<div class="font-12 mt-1">Try searching for a ticket title, project name, or type <strong>&gt;</strong> for action commands.</div>' +
+                            '</div>';
+                            currentItems = [];
+                        }
+                    })
+                    .catch(function(err) {
+                        console.error('Search error:', err);
+                        resultsEl.innerHTML = '<div class="text-center py-3 text-danger font-13">Failed to load search results. Please try again.</div>';
+                    });
+            }
+
+            function renderDefaultState() {
+                var recents = getRecents();
+                var html = '';
+
+                if (recents.length > 0) {
+                    html += '<div class="palette-section-title">Recent Searches</div>';
+                    recents.forEach(function(item, idx) {
+                        html += renderItemHtml(item, idx);
+                    });
+                }
+
+                var suggestedActions = [
+                    { title: 'Create New Project', subtitle: 'Launch a new agile sprint or kanban project', icon: 'uil-plus-circle text-primary', badge: 'Action', badge_class: 'bg-info-lighten text-info', url: '<?= site_url("projects/create") ?>' },
+                    { title: 'Go to Kanban Board', subtitle: 'Interactive drag-and-drop workspace', icon: 'uil-clipboard-alt text-info', badge: 'Action', badge_class: 'bg-info-lighten text-info', url: '<?= site_url("kanban") ?>' },
+                    { title: 'Time Tracker & Timesheets', subtitle: 'Log hours and track activity', icon: 'uil-clock text-warning', badge: 'Action', badge_class: 'bg-info-lighten text-info', url: '<?= site_url("time") ?>' },
+                    { title: 'Velocity & Analytics', subtitle: 'Sprint metrics and team performance', icon: 'uil-chart-line text-purple', badge: 'Action', badge_class: 'bg-info-lighten text-info', url: '<?= site_url("analytics") ?>' },
+                    { title: 'Toggle Dark / Light Theme', subtitle: 'Switch interface color scheme', icon: 'uil-moon text-warning', badge: 'Action', badge_class: 'bg-info-lighten text-info', url: 'javascript:void(0);', action: 'toggleTheme' }
+                ];
+
+                html += '<div class="palette-section-title">Quick Actions</div>';
+                var startIdx = recents.length;
+                suggestedActions.forEach(function(act, idx) {
+                    html += renderItemHtml(act, startIdx + idx);
+                });
+
+                resultsEl.innerHTML = html;
+                currentItems = recents.concat(suggestedActions);
+                activeIndex = 0;
+                updateActiveItem();
+            }
+
+            function renderResults(results, query) {
+                var groups = {};
+                results.forEach(function(item) {
+                    var cat = item.category || 'Results';
+                    if (!groups[cat]) groups[cat] = [];
+                    groups[cat].push(item);
+                });
+
+                var html = '';
+                currentItems = [];
+                var indexCounter = 0;
+
+                for (var category in groups) {
+                    html += '<div class="palette-section-title">' + escapeHtml(category) + '</div>';
+                    groups[category].forEach(function(item) {
+                        currentItems.push(item);
+                        html += renderItemHtml(item, indexCounter++);
+                    });
+                }
+
+                resultsEl.innerHTML = html;
+                activeIndex = 0;
+                updateActiveItem();
+            }
+
+            function renderItemHtml(item, index) {
+                return '<a href="' + (item.url || 'javascript:void(0);') + '" class="palette-item d-flex align-items-center px-3 py-2 text-decoration-none rounded-2 mb-1" data-index="' + index + '" onclick="handlePaletteClick(event, ' + index + ')">' +
+                    '<div class="palette-icon me-3 font-20"><i class="' + (item.icon || 'uil-angle-right') + '"></i></div>' +
+                    '<div class="flex-grow-1 text-truncate">' +
+                        '<div class="fw-bold font-14 palette-title">' + escapeHtml(item.title) + '</div>' +
+                        '<div class="font-12 text-muted palette-subtitle">' + escapeHtml(item.subtitle || '') + '</div>' +
+                    '</div>' +
+                    (item.badge ? '<span class="badge ' + (item.badge_class || 'bg-light text-dark') + ' font-11 ms-2">' + escapeHtml(item.badge) + '</span>' : '') +
+                '</a>';
+            }
+
+            window.handlePaletteClick = function(e, index) {
+                e.preventDefault();
+                if (currentItems[index]) {
+                    selectItem(currentItems[index]);
+                }
+            };
+
+            function selectItem(item) {
+                if (!item) return;
+
+                if (!item.action) {
+                    saveRecent(item);
+                }
+
+                var modal = getBootstrapModal();
+                if (modal) modal.hide();
+
+                if (item.action === 'toggleTheme') {
+                    document.getElementById('theme-toggle-btn')?.click();
+                } else if (item.url && item.url !== 'javascript:void(0);') {
+                    window.location.href = item.url;
+                }
+            }
+
+            function updateActiveItem() {
+                var itemEls = resultsEl.querySelectorAll('.palette-item');
+                itemEls.forEach(function(el, idx) {
+                    if (idx === activeIndex) {
+                        el.classList.add('active');
+                        el.scrollIntoView({ block: 'nearest' });
+                    } else {
+                        el.classList.remove('active');
+                    }
+                });
+            }
+
+            function getRecents() {
+                try {
+                    return JSON.parse(localStorage.getItem('cj_recent_searches') || '[]');
+                } catch(e) {
+                    return [];
+                }
+            }
+
+            function saveRecent(item) {
+                try {
+                    var recents = getRecents();
+                    recents = recents.filter(function(r) { return r.url !== item.url; });
+                    recents.unshift({
+                        title: item.title,
+                        subtitle: item.subtitle,
+                        icon: item.icon,
+                        badge: item.badge,
+                        badge_class: item.badge_class,
+                        url: item.url
+                    });
+                    localStorage.setItem('cj_recent_searches', JSON.stringify(recents.slice(0, 4)));
+                } catch(e) {}
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+                return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
             }
         })();
     </script>

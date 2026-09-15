@@ -90,6 +90,9 @@ $routes->group('api', ['filter' => 'session'], function($routes) {
     // Notes
     $routes->post('notes/(:num)/star', 'Api\NoteApiController::toggleStar/$1');
     $routes->post('notes/(:num)/complete', 'Api\NoteApiController::toggleComplete/$1');
+    
+    // Global Unified Search & Command Palette
+    $routes->get('search', 'Api\SearchApiController::index');
 });
 
 // Manager zone — requires login + manager role (support both /manage and /manager)
