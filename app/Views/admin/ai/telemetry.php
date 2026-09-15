@@ -62,6 +62,14 @@
         $llmRuntime = $telemetry['llm_runtime'] ?? [];
         $db = $telemetry['database'] ?? [];
         $modelsList = $telemetry['models'] ?? $models;
+
+        $formatMemHuman = function($mb) {
+            if (!is_numeric($mb) || $mb <= 0) return '0 MB';
+            if ($mb >= 1024) {
+                return number_format($mb / 1024, 2) . ' GB';
+            }
+            return number_format($mb, 1) . ' MB';
+        };
     ?>
 
     <!-- Hardware & Runtime Stats -->
@@ -101,8 +109,8 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-baseline mb-2">
-                        <h3 class="my-0 me-2 text-success"><?= $container['ram_used_mb'] ?? '0' ?> MB</h3>
-                        <span class="text-muted font-13">/ <?= $container['ram_total_mb'] ?? '0' ?> MB</span>
+                        <h3 class="my-0 me-2 text-success"><?= $formatMemHuman($container['ram_used_mb'] ?? 0) ?></h3>
+                        <span class="text-muted font-13">/ <?= $formatMemHuman($container['ram_total_mb'] ?? 0) ?></span>
                     </div>
                     <div class="progress mb-2" style="height: 6px;">
                         <div class="progress-bar bg-success" role="progressbar" style="width: <?= min(100, $container['ram_percent'] ?? 0) ?>%"></div>

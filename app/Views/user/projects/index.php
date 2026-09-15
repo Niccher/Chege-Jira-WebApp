@@ -156,19 +156,25 @@
                 } else {
                     $initials = strtoupper(substr($clean, 0, 2) ?: 'PJ');
                 }
-                $color = !empty($project['color']) ? $project['color'] : '#727cf5';
+                
+                $palette = ['#727cf5', '#0acf97', '#fa5c7c', '#ffbc00', '#39afd1', '#6b5eae', '#e83e8c', '#fd7e14', '#20c997', '#02a8b5'];
+                $hashIdx = abs(crc32($name)) % count($palette);
+                $color = !empty($project['color']) ? $project['color'] : $palette[$hashIdx];
+
+                $fontSize = ($size === 'avatar-xs') ? '10px' : '13px';
+                
                 return '<div class="' . $size . ' me-2 flex-shrink-0 d-inline-block align-middle">
-                            <span class="avatar-title rounded-circle shadow-sm" style="background-color: ' . esc($color) . '; color: #fff; font-weight: 700; font-size: 13px;">
+                            <span class="avatar-title rounded-circle shadow-sm" style="background-color: ' . esc($color) . '; color: #fff; font-weight: 700; font-size: ' . $fontSize . ';">
                                 ' . esc($initials) . '
                             </span>
                         </div>';
             }
         }
-        ?>
 
-        <div class="tab-content">
-            <!-- ALL PROJECTS TAB -->
-            <div class="tab-pane show active" id="all">
+        if (!function_exists('renderUnifiedProjectsTable')) {
+            function renderUnifiedProjectsTable(array $projects, string $emptyMessage, array $priority_classes, array $status_classes, string $pagerKey, $pager): string {
+                ob_start();
+                ?>
                 <div class="table-responsive">
                     <table class="table table-hover table-centered mb-0">
                         <thead class="table-light">
@@ -182,26 +188,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($all_projects)): ?>
+                            <?php if (empty($projects)): ?>
                                 <tr>
                                     <td colspan="6" class="text-center py-5 text-muted">
                                         <i class="uil-folder-open font-28 d-block mb-2"></i>
-                                        <h5>No projects found</h5>
-                                        <p class="font-14 mb-3">Get started by creating your first project.</p>
+                                        <h5><?= esc($emptyMessage) ?></h5>
+                                        <p class="font-14 mb-3">Organize tasks and sprints with a new project workspace.</p>
                                         <a href="<?= site_url('projects/create') ?>" class="btn btn-primary btn-sm rounded-pill px-3">
                                             <i class="mdi mdi-plus me-1"></i> Create Project
                                         </a>
                                     </td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($all_projects as $project): ?>
+                                <?php foreach ($projects as $project): ?>
+                                    <?php $pTarget = !empty($project['slug']) ? $project['slug'] : $project['id']; ?>
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <?= projectInitialsAvatarBadge($project, 'avatar-sm') ?>
                                                 <div>
                                                     <h5 class="m-0 font-14">
-                                                        <a href="<?= site_url('projects/view/' . (!empty($project['slug']) ? $project['slug'] : $project['id'])) ?>" class="text-body fw-bold text-decoration-none">
+                                                        <a href="<?= site_url('projects/view/' . $pTarget) ?>" class="text-body fw-bold text-decoration-none">
                                                             <?= esc($project['name']) ?>
                                                         </a>
                                                     </h5>
@@ -244,7 +251,6 @@
                                             <?php endif; ?>
                                         </td>
                                         <td class="text-end pe-3">
-                                            <?php $pTarget = !empty($project['slug']) ? $project['slug'] : $project['id']; ?>
                                             <div class="btn-group btn-group-sm">
                                                 <a href="<?= site_url('projects/view/' . $pTarget) ?>" class="btn btn-outline-primary" title="View Project">
                                                     <i class="mdi mdi-eye"></i>
@@ -255,9 +261,15 @@
                                                 <a href="<?= site_url('projects/edit/' . $pTarget) ?>" class="btn btn-outline-warning" title="Edit">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
-                                                <a href="<?= site_url('projects/archive/' . $pTarget) ?>" class="btn btn-outline-danger" title="Toggle Archive" onclick="return confirm('Change archive status for this project?');">
-                                                    <i class="mdi mdi-archive-outline"></i>
-                                                </a>
+                                                <?php if (!empty($project['is_archived'])): ?>
+                                                    <a href="<?= site_url('projects/archive/' . $pTarget) ?>" class="btn btn-outline-success" title="Restore Project" onclick="return confirm('Restore this archived project?');">
+                                                        <i class="mdi mdi-restore"></i>
+                                                    </a>
+                                                <?php else: ?>
+                                                    <a href="<?= site_url('projects/archive/' . $pTarget) ?>" class="btn btn-outline-danger" title="Toggle Archive" onclick="return confirm('Change archive status for this project?');">
+                                                        <i class="mdi mdi-archive-outline"></i>
+                                                    </a>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
@@ -266,184 +278,41 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-3">
-                    <?= $pager->links('all', 'bootstrap_full') ?>
-                </div>
+                <?php if (!empty($pager)): ?>
+                    <div class="mt-3">
+                        <?= $pager->links($pagerKey, 'bootstrap_full') ?>
+                    </div>
+                <?php endif; ?>
+                <?php
+                return ob_get_clean();
+            }
+        }
+        ?>
+
+        <div class="tab-content">
+            <!-- ALL PROJECTS TAB -->
+            <div class="tab-pane show active" id="all">
+                <?= renderUnifiedProjectsTable($all_projects, 'No projects found', $priority_classes, $status_classes, 'all', $pager) ?>
             </div>
 
             <!-- ACTIVE PROJECTS TAB -->
             <div class="tab-pane" id="active">
-                <div class="table-responsive">
-                    <table class="table table-hover table-centered mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Project Name</th>
-                                <th style="width: 25%;">Progress</th>
-                                <th>Priority</th>
-                                <th class="text-end pe-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($active_projects)): ?>
-                                <tr><td colspan="4" class="text-center py-4 text-muted">No active projects currently in progress.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($active_projects as $p): ?>
-                                    <?php $actTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
-                                                <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="text-body fw-bold">
-                                                    <?= esc($p['name']) ?>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="progress flex-grow-1 me-2" style="height: 6px;">
-                                                    <div class="progress-bar bg-success" style="width: <?= (int)$p['progress'] ?>%"></div>
-                                                </div>
-                                                <span class="font-12 fw-bold"><?= (int)$p['progress'] ?>%</span>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge <?= $priority_classes[$p['priority']] ?? 'bg-secondary' ?>"><?= ucfirst($p['priority']) ?></span></td>
-                                        <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <?= $pager->links('active', 'bootstrap_full') ?>
-                </div>
+                <?= renderUnifiedProjectsTable($active_projects, 'No active projects currently in progress.', $priority_classes, $status_classes, 'active', $pager) ?>
             </div>
 
             <!-- PENDING PROJECTS TAB -->
             <div class="tab-pane" id="pending">
-                <div class="table-responsive">
-                    <table class="table table-hover table-centered mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Status</th>
-                                <th class="text-end pe-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($pending_projects)): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No pending or on-hold projects.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($pending_projects as $p): ?>
-                                    <?php $pendTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
-                                                <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="text-body fw-bold">
-                                                    <?= esc($p['name']) ?>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-warning"><?= ucfirst(str_replace('_', ' ', $p['status'])) ?></span></td>
-                                        <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <?= $pager->links('pending', 'bootstrap_full') ?>
-                </div>
+                <?= renderUnifiedProjectsTable($pending_projects, 'No pending or planning projects.', $priority_classes, $status_classes, 'pending', $pager) ?>
             </div>
 
             <!-- COMPLETED PROJECTS TAB -->
             <div class="tab-pane" id="completed">
-                <div class="table-responsive">
-                    <table class="table table-hover table-centered mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Status</th>
-                                <th class="text-end pe-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($completed_projects)): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No completed projects yet.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($completed_projects as $p): ?>
-                                    <?php $compTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
-                                                <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="text-body fw-bold">
-                                                    <?= esc($p['name']) ?>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-success"><i class="mdi mdi-check-circle me-1"></i> Completed</span></td>
-                                        <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <?= $pager->links('completed', 'bootstrap_full') ?>
-                </div>
+                <?= renderUnifiedProjectsTable($completed_projects, 'No completed projects yet.', $priority_classes, $status_classes, 'completed', $pager) ?>
             </div>
 
             <!-- ARCHIVED PROJECTS TAB -->
             <div class="tab-pane" id="archived">
-                <div class="table-responsive">
-                    <table class="table table-hover table-centered mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Status</th>
-                                <th class="text-end pe-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($archived_projects)): ?>
-                                <tr><td colspan="3" class="text-center py-4 text-muted">No archived projects.</td></tr>
-                            <?php else: ?>
-                                <?php foreach ($archived_projects as $p): ?>
-                                    <?php $archTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <?= projectInitialsAvatarBadge($p, 'avatar-xs') ?>
-                                                <a href="<?= site_url('projects/view/' . $archTarget) ?>" class="text-body fw-bold">
-                                                    <?= esc($p['name']) ?>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-secondary">Archived</span></td>
-                                        <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/archive/' . $archTarget) ?>" class="btn btn-sm btn-outline-success" onclick="return confirm('Restore this archived project?');">
-                                                <i class="mdi mdi-restore me-1"></i> Restore
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mt-3">
-                    <?= $pager->links('archived', 'bootstrap_full') ?>
-                </div>
+                <?= renderUnifiedProjectsTable($archived_projects, 'No archived projects found.', $priority_classes, $status_classes, 'archived', $pager) ?>
             </div>
 
         </div> <!-- end tab-content -->
