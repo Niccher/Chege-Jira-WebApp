@@ -21,31 +21,31 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/projects', 'User\ProjectController::index');
     $routes->get('/projects/create', 'User\ProjectController::create');
     $routes->post('/projects/store', 'User\ProjectController::store');
-    $routes->get('/projects/view/(:num)', 'User\ProjectController::view/$1');
-    $routes->get('/projects/edit/(:num)', 'User\ProjectController::edit/$1');
-    $routes->post('/projects/update/(:num)', 'User\ProjectController::update/$1');
-    $routes->post('/projects/delete/(:num)', 'User\ProjectController::delete/$1');
-    $routes->get('/projects/archive/(:num)', 'User\ProjectController::archive/$1');
-    $routes->get('/projects/analytics/(:num)', 'User\AnalyticsController::index');
-    $routes->get('/projects/time/(:num)', 'User\TimeTrackerController::index');
+    $routes->get('/projects/view/(:segment)', 'User\ProjectController::view/$1');
+    $routes->get('/projects/edit/(:segment)', 'User\ProjectController::edit/$1');
+    $routes->post('/projects/update/(:segment)', 'User\ProjectController::update/$1');
+    $routes->post('/projects/delete/(:segment)', 'User\ProjectController::delete/$1');
+    $routes->get('/projects/archive/(:segment)', 'User\ProjectController::archive/$1');
+    $routes->get('/projects/analytics/(:segment)', 'User\AnalyticsController::index/$1');
+    $routes->get('/projects/time/(:segment)', 'User\TimeTrackerController::index/$1');
     
     // Kanban
-    $routes->get('/projects/kanban/(:num)', 'User\KanbanController::index/$1');
+    $routes->get('/projects/kanban/(:segment)', 'User\KanbanController::index/$1');
     $routes->get('/projects/kanban', 'User\KanbanController::index');
     $routes->get('/kanban', 'User\KanbanController::index');
     
     // Sprints & Backlog
-    $routes->get('/projects/sprints/(:num)', 'User\SprintController::index/$1');
-    $routes->post('/projects/sprints/store/(:num)', 'User\SprintController::store/$1');
-    $routes->post('/projects/sprints/start/(:num)', 'User\SprintController::start/$1');
-    $routes->post('/projects/sprints/complete/(:num)', 'User\SprintController::complete/$1');
-    $routes->get('/projects/sprints/burndown/(:num)', 'User\SprintController::burndown/$1');
+    $routes->get('/projects/sprints/(:segment)', 'User\SprintController::index/$1');
+    $routes->post('/projects/sprints/store/(:segment)', 'User\SprintController::store/$1');
+    $routes->post('/projects/sprints/start/(:segment)', 'User\SprintController::start/$1');
+    $routes->post('/projects/sprints/complete/(:segment)', 'User\SprintController::complete/$1');
+    $routes->get('/projects/sprints/burndown/(:segment)', 'User\SprintController::burndown/$1');
     
     // Project Wiki & Documentation
-    $routes->get('/projects/wiki/(:num)', 'User\ProjectWikiController::index/$1');
-    $routes->get('/projects/wiki/(:num)/page/(:segment)', 'User\ProjectWikiController::index/$1/$2');
-    $routes->get('/projects/wiki/(:num)/create', 'User\ProjectWikiController::create/$1');
-    $routes->post('/projects/wiki/(:num)/store', 'User\ProjectWikiController::store/$1');
+    $routes->get('/projects/wiki/(:segment)', 'User\ProjectWikiController::index/$1');
+    $routes->get('/projects/wiki/(:segment)/page/(:segment)', 'User\ProjectWikiController::index/$1/$2');
+    $routes->get('/projects/wiki/(:segment)/create', 'User\ProjectWikiController::create/$1');
+    $routes->post('/projects/wiki/(:segment)/store', 'User\ProjectWikiController::store/$1');
     $routes->get('/projects/wiki/page/(:num)/edit', 'User\ProjectWikiController::edit/$1');
     $routes->post('/projects/wiki/page/(:num)/update', 'User\ProjectWikiController::update/$1');
     $routes->post('/projects/wiki/page/(:num)/delete', 'User\ProjectWikiController::delete/$1');

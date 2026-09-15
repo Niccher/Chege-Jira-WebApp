@@ -13,7 +13,7 @@ class ProjectModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'user_id', 'name', 'description', 'tech_stack', 'status', 
+        'user_id', 'name', 'slug', 'short_code', 'description', 'tech_stack', 'status', 
         'priority', 'start_date', 'due_date', 'progress', 
         'repository_url', 'categories', 'icon', 'color', 
         'budget', 'is_archived', 'deleted_at'
@@ -26,6 +26,10 @@ class ProjectModel extends Model
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
+    // Callbacks
+    protected $beforeInsert = ['generateSlugHook'];
+    protected $beforeUpdate = ['updateSlugHook'];
+
     // Validation
     protected $validationRules = [
         'name'        => 'required|min_length[3]|max_length[255]',
@@ -33,6 +37,132 @@ class ProjectModel extends Model
         'status'      => 'required|in_list[planning,in_progress,testing,completed,on_hold,abandoned]',
         'priority'    => 'required|in_list[low,medium,high,critical]',
     ];
+
+    /**
+     * Generate hybrid SEO slug and short hex code (e.g. mobile-app-redesign-8f9c1b)
+     */
+    public static function generateHybridSlug(string $name, ?string $existingCode = null): array
+    {
+        helper('url');
+        $baseSlug = url_title(strtolower(trim($name)), '-', true);
+        if (empty($baseSlug)) {
+            $baseSlug = 'project';
+        }
+
+        if ($existingCode && preg_match('/^[a-f0-9]{6,16}$/i', $existingCode)) {
+            $code = strtolower($existingCode);
+        } else {
+            try {
+                $code = bin2hex(random_bytes(3)); // 6 hex characters
+            } catch (\Exception $e) {
+                $code = substr(md5(uniqid((string)mt_rand(), true)), 0, 6);
+            }
+        }
+
+        return [
+            'slug'       => $baseSlug . '-' . $code,
+            'short_code' => $code,
+        ];
+    }
+
+    /**
+     * Hook before inserting a new project
+     */
+    protected function generateSlugHook(array $data)
+    {
+        if (!empty($data['data']['name'])) {
+            if (empty($data['data']['slug']) || empty($data['data']['short_code'])) {
+                $slugInfo = self::generateHybridSlug($data['data']['name']);
+                $data['data']['slug']       = $slugInfo['slug'];
+                $data['data']['short_code'] = $slugInfo['short_code'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Hook before updating an existing project (regenerate slug with same short_code if name changed)
+     */
+    protected function updateSlugHook(array $data)
+    {
+        if (!empty($data['data']['name'])) {
+            // Check if existing short code is present or retrieve from DB
+            $existingShortCode = $data['data']['short_code'] ?? null;
+            if (!$existingShortCode && !empty($data['id'])) {
+                $id = is_array($data['id']) ? reset($data['id']) : $data['id'];
+                $existing = $this->asArray()->find($id);
+                if ($existing) {
+                    $existingShortCode = $existing['short_code'] ?? null;
+                }
+            }
+
+            $slugInfo = self::generateHybridSlug($data['data']['name'], $existingShortCode);
+            $data['data']['slug'] = $slugInfo['slug'];
+            if (empty($data['data']['short_code'])) {
+                $data['data']['short_code'] = $slugInfo['short_code'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Flexible project resolver supporting:
+     * 1. Full hybrid slug (e.g. mobile-app-redesign-8f9c1b)
+     * 2. Short code (e.g. 8f9c1b or old-title-8f9c1b)
+     * 3. Legacy integer ID (e.g. 10)
+     */
+    public function findByIdentifier($identifier, ?int $userId = null, bool $isAdmin = false): ?array
+    {
+        if (empty($identifier)) {
+            return null;
+        }
+
+        $query = $this;
+
+        // 1. Try exact slug match
+        $project = (clone $query)->where('slug', (string)$identifier)->first();
+
+        // 2. Extract trailing short code or direct short code match
+        if (!$project) {
+            $shortCode = null;
+            if (preg_match('/-([a-f0-9]{6,16})$/i', (string)$identifier, $matches)) {
+                $shortCode = strtolower($matches[1]);
+            } elseif (preg_match('/^[a-f0-9]{6,16}$/i', (string)$identifier)) {
+                $shortCode = strtolower($identifier);
+            }
+
+            if ($shortCode) {
+                $project = (clone $query)->where('short_code', $shortCode)->first();
+            }
+        }
+
+        // 3. Fallback to numeric ID for legacy backward compatibility
+        if (!$project && is_numeric($identifier)) {
+            $project = (clone $query)->where('id', (int)$identifier)->first();
+        }
+
+        if (!$project) {
+            return null;
+        }
+
+        // Authorization check if userId is provided
+        if ($userId !== null && !$isAdmin) {
+            if ((int)$project['user_id'] !== (int)$userId) {
+                // Check if user is assigned any tasks in this project
+                $db = \Config\Database::connect();
+                $isAssigned = $db->table('tasks')
+                    ->where('project_id', $project['id'])
+                    ->where('assignee_id', $userId)
+                    ->countAllResults() > 0;
+
+                if (!$isAssigned) {
+                    return null; // Not authorized
+                }
+            }
+        }
+
+        return $project;
+    }
 
     /**
      * Get milestones for a project

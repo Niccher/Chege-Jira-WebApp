@@ -23,15 +23,18 @@ class ProjectWikiController extends BaseUserController
 
     /**
      * Wiki / Documentation Reader View
-     * GET /projects/wiki/(:num)
-     * GET /projects/wiki/(:num)/page/(:segment)
+     * GET /projects/wiki/(:segment)
+     * GET /projects/wiki/(:segment)/page/(:segment)
      */
-    public function index(int $projectId, ?string $slug = null)
+    public function index($projectIdentifier, ?string $slug = null)
     {
-        $project = $this->projectModel->find($projectId);
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $project = $this->projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
         if (!$project) {
             throw PageNotFoundException::forPageNotFound('Project not found');
         }
+
+        $projectId = (int)$project['id'];
 
         // Check if project has any wiki pages; if not, initialize starter doc
         $count = $this->wikiModel->where('project_id', $projectId)->countAllResults();
@@ -73,15 +76,17 @@ class ProjectWikiController extends BaseUserController
 
     /**
      * Create new wiki page form
-     * GET /projects/wiki/(:num)/create
+     * GET /projects/wiki/(:segment)/create
      */
-    public function create(int $projectId)
+    public function create($projectIdentifier)
     {
-        $project = $this->projectModel->find($projectId);
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $project = $this->projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
         if (!$project) {
             throw PageNotFoundException::forPageNotFound('Project not found');
         }
 
+        $projectId = (int)$project['id'];
         $allPages = $this->wikiModel->where('project_id', $projectId)->orderBy('title', 'ASC')->findAll();
 
         return view('user/projects/wiki/edit', [
@@ -93,15 +98,17 @@ class ProjectWikiController extends BaseUserController
 
     /**
      * Store new wiki page
-     * POST /projects/wiki/(:num)/store
+     * POST /projects/wiki/(:segment)/store
      */
-    public function store(int $projectId)
+    public function store($projectIdentifier)
     {
-        $project = $this->projectModel->find($projectId);
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $project = $this->projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
         if (!$project) {
             return redirect()->back()->with('error', 'Project not found.');
         }
 
+        $projectId = (int)$project['id'];
         $title = trim($this->request->getPost('title') ?? 'Untitled Page');
         $content = $this->request->getPost('content') ?? '';
         $parentId = (int)($this->request->getPost('parent_id') ?: 0) ?: null;
@@ -129,7 +136,8 @@ class ProjectWikiController extends BaseUserController
             'created_by'     => $this->userId,
         ]);
 
-        return redirect()->to(site_url('projects/wiki/' . $projectId . '/page/' . $slug))->with('success', 'Documentation page created successfully.');
+        $projectTarget = $project['slug'] ?? $projectId;
+        return redirect()->to(site_url('projects/wiki/' . $projectTarget . '/page/' . $slug))->with('success', 'Documentation page created successfully.');
     }
 
     /**
@@ -167,6 +175,7 @@ class ProjectWikiController extends BaseUserController
             return redirect()->back()->with('error', 'Wiki page not found.');
         }
 
+        $project = $this->projectModel->find($page['project_id']);
         $title = trim($this->request->getPost('title') ?? $page['title']);
         $content = $this->request->getPost('content') ?? '';
         $summary = trim($this->request->getPost('change_summary') ?? '') ?: 'Updated page content';
@@ -194,7 +203,8 @@ class ProjectWikiController extends BaseUserController
             'updated_by'  => $this->userId,
         ]);
 
-        return redirect()->to(site_url('projects/wiki/' . $page['project_id'] . '/page/' . $slug))->with('success', 'Page updated to version ' . $newVersion . '.');
+        $projectTarget = $project['slug'] ?? $page['project_id'];
+        return redirect()->to(site_url('projects/wiki/' . $projectTarget . '/page/' . $slug))->with('success', 'Page updated to version ' . $newVersion . '.');
     }
 
     /**
@@ -208,6 +218,7 @@ class ProjectWikiController extends BaseUserController
             return redirect()->back()->with('error', 'Wiki page not found.');
         }
 
+        $project = $this->projectModel->find($page['project_id']);
         $projectId = $page['project_id'];
 
         // Re-parent subpages if any
@@ -219,7 +230,8 @@ class ProjectWikiController extends BaseUserController
         // Delete page
         $this->wikiModel->delete($pageId);
 
-        return redirect()->to(site_url('projects/wiki/' . $projectId))->with('success', 'Wiki page deleted.');
+        $projectTarget = $project['slug'] ?? $projectId;
+        return redirect()->to(site_url('projects/wiki/' . $projectTarget))->with('success', 'Wiki page deleted.');
     }
 
     /**

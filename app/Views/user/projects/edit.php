@@ -9,6 +9,7 @@ $initials = strtoupper(substr($user->first_name ?? $user->username ?? 'U', 0, 1)
 $categories = is_array($categories ?? null) ? $categories : (!empty($project['categories']) ? explode(',', $project['categories']) : []);
 $tech_stack = is_array($tech_stack ?? null) ? $tech_stack : (!empty($project['tech_stack']) ? explode(',', $project['tech_stack']) : []);
 $milestones = is_array($milestones ?? null) ? $milestones : [];
+$editSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
 ?>
 
 <!-- Page Header -->
@@ -17,7 +18,7 @@ $milestones = is_array($milestones ?? null) ? $milestones : [];
         <div class="page-title-box">
             <div class="page-title-right">
                 <div class="btn-group">
-                    <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-primary btn-sm">
+                    <a href="<?= site_url('projects/view/' . $editSlug) ?>" class="btn btn-outline-primary btn-sm">
                         <i class="mdi mdi-eye me-1"></i> View Project
                     </a>
                     <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary btn-sm">
@@ -51,10 +52,10 @@ $milestones = is_array($milestones ?? null) ? $milestones : [];
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        <a href="<?= site_url('projects/time/' . $project['id']) ?>" class="btn btn-sm btn-outline-primary">
+                        <a href="<?= site_url('projects/time/' . $editSlug) ?>" class="btn btn-sm btn-outline-primary">
                             <i class="mdi mdi-clock-outline me-1"></i> Track Time
                         </a>
-                        <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-sm btn-outline-info">
+                        <a href="<?= site_url('projects/kanban/' . $editSlug) ?>" class="btn btn-sm btn-outline-info">
                             <i class="mdi mdi-view-column me-1"></i> Kanban
                         </a>
                     </div>
@@ -77,7 +78,7 @@ $milestones = is_array($milestones ?? null) ? $milestones : [];
                 </span>
             </div>
             <div class="card-body p-4">
-                <form id="projectEditForm" method="post" action="<?= site_url('projects/update/' . $project['id']) ?>">
+                <form id="projectEditForm" method="post" action="<?= site_url('projects/update/' . $editSlug) ?>">
                     <?= csrf_field() ?>
                     <input type="hidden" name="id" value="<?= $project['id'] ?>">
 
@@ -353,7 +354,7 @@ $milestones = is_array($milestones ?? null) ? $milestones : [];
                     <!-- Form Actions -->
                     <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 border-top gap-2">
                         <div class="d-flex align-items-center gap-2">
-                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-light">
+                            <a href="<?= site_url('projects/view/' . $editSlug) ?>" class="btn btn-light">
                                 Cancel
                             </a>
                             <button type="button" class="btn btn-outline-danger" id="deleteProjectBtn">
@@ -369,7 +370,7 @@ $milestones = is_array($milestones ?? null) ? $milestones : [];
 
                 </form>
 
-                <form id="deleteProjectForm" action="<?= site_url('projects/delete/' . $project['id']) ?>" method="post" style="display:none;">
+                <form id="deleteProjectForm" action="<?= site_url('projects/delete/' . $editSlug) ?>" method="post" style="display:none;">
                     <?= csrf_field() ?>
                 </form>
             </div>

@@ -7,38 +7,47 @@ use App\Models\TaskModel;
 
 class KanbanController extends BaseUserController
 {
-    public function index($id = null)
+    public function index($identifier = null)
     {
         $projectModel = new ProjectModel();
         $taskModel = new TaskModel();
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
 
-        if ($id === null) {
-            $latestProject = $projectModel->where('user_id', $this->userId)
-                                          ->orderBy('updated_at', 'DESC')
-                                          ->first();
+        if ($identifier === null) {
+            $latestProjectQuery = $isAdmin 
+                ? $projectModel->orderBy('updated_at', 'DESC')
+                : $projectModel->where('user_id', $this->userId)->orderBy('updated_at', 'DESC');
+                
+            $latestProject = $latestProjectQuery->first();
             if ($latestProject) {
-                return redirect()->to('projects/kanban/' . $latestProject['id']);
+                $target = $latestProject['slug'] ?? $latestProject['id'];
+                return redirect()->to('projects/kanban/' . $target);
             } else {
                 return redirect()->to('projects')->with('error', 'Please create a project first to use the Kanban board.');
             }
         }
 
-        $project = $projectModel->where('user_id', $this->userId)->find($id);
+        $project = $projectModel->findByIdentifier($identifier, $this->userId, $isAdmin);
 
         if (!$project) {
-            return redirect()->to('projects')->with('error', 'Project not found.');
+            return redirect()->to('projects')->with('error', 'Project not found or unauthorized.');
         }
 
-        $cats = $projectModel->getCategoriesByProjectId($id);
-        $tech = $projectModel->getTechStackByProjectId($id);
+        $projectId = (int)$project['id'];
+        $cats = $projectModel->getCategoriesByProjectId($projectId);
+        $tech = $projectModel->getTechStackByProjectId($projectId);
+
+        $projectsList = $isAdmin
+            ? $projectModel->orderBy('updated_at', 'DESC')->findAll()
+            : $projectModel->where('user_id', $this->userId)->orderBy('updated_at', 'DESC')->findAll();
 
         $data = [
             'user'       => $this->currentUser,
             'project'    => $project,
-            'projects'   => $projectModel->where('user_id', $this->userId)->orderBy('updated_at', 'DESC')->findAll(),
+            'projects'   => $projectsList,
             'categories' => $cats,
             'tech_stack' => $tech,
-            'boardData'  => $taskModel->getBoardData($id, $this->userId)
+            'boardData'  => $taskModel->getBoardData($projectId, $this->userId)
         ];
 
         return view('user/projects/kanban', $data);

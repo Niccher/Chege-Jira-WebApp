@@ -7,7 +7,7 @@ use App\Models\TimeLogModel;
 
 class TimeTrackerController extends BaseUserController
 {
-    public function index(?int $projectId = null)
+    public function index($projectIdentifier = null)
     {
         $db = \Config\Database::connect();
         $projectModel = new ProjectModel();
@@ -27,11 +27,21 @@ class TimeTrackerController extends BaseUserController
                                               ->findAll();
         }
 
+        $projectId = null;
+        $activeProject = null;
+        if ($projectIdentifier !== null) {
+            $activeProject = $projectModel->findByIdentifier($projectIdentifier, $this->userId, $isManager);
+            if ($activeProject) {
+                $projectId = (int)$activeProject['id'];
+            }
+        }
+
         $data['selectedProjectId'] = $projectId;
+        $data['activeProject'] = $activeProject;
         $data['user'] = $this->currentUser;
 
         // Base time log builder
-        $logsQuery = $timeModel->select('time_logs.*, projects.name as project_name, projects.color as project_color')
+        $logsQuery = $timeModel->select('time_logs.*, projects.name as project_name, projects.slug as project_slug, projects.color as project_color')
             ->join('projects', 'projects.id = time_logs.project_id', 'left')
             ->where('time_logs.user_id', $this->userId);
 
@@ -136,7 +146,12 @@ class TimeTrackerController extends BaseUserController
             'notes'      => $notes
         ]);
 
-        $redirectUrl = $projectId ? site_url('projects/time/' . $projectId) : site_url('time');
+        $redirectUrl = site_url('time');
+        if ($projectId) {
+            $proj = (new ProjectModel())->find($projectId);
+            $slug = $proj['slug'] ?? $projectId;
+            $redirectUrl = site_url('projects/time/' . $slug);
+        }
         return redirect()->to($redirectUrl)->with('success', 'Time log recorded successfully (' . $durationHours . ' hrs).');
     }
 }

@@ -95,12 +95,16 @@
 
 <?= $this->section('content') ?>
 
+<?php
+$wikiProjectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
+?>
+
 <!-- Page Title & Navigation Header -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                <a href="<?= site_url('projects/wiki/' . $project['id'] . '/create') ?>" class="btn btn-primary rounded-pill">
+                <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug . '/create') ?>" class="btn btn-primary rounded-pill">
                     <i class="mdi mdi-plus me-1"></i> New Document
                 </a>
             </div>
@@ -117,32 +121,32 @@
     <div class="col-12">
         <ul class="nav nav-tabs nav-bordered">
             <li class="nav-item">
-                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/view/' . $wikiProjectSlug) ?>" class="nav-link">
                     <i class="uil-eye me-1"></i> Overview
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/kanban/' . $wikiProjectSlug) ?>" class="nav-link">
                     <i class="uil-clipboard-alt me-1"></i> Kanban Board
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/sprints/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/sprints/' . $wikiProjectSlug) ?>" class="nav-link">
                     <i class="uil-layer-group me-1"></i> Sprints & Backlog
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/wiki/' . $project['id']) ?>" class="nav-link active">
+                <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug) ?>" class="nav-link active">
                     <i class="uil-book-open me-1"></i> Wiki & Docs
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/time/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/time/' . $wikiProjectSlug) ?>" class="nav-link">
                     <i class="uil-clock me-1"></i> Time Tracker
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/analytics/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/analytics/' . $wikiProjectSlug) ?>" class="nav-link">
                     <i class="uil-chart-line me-1"></i> Analytics
                 </a>
             </li>
@@ -172,7 +176,7 @@
             <div class="col-md-4 col-lg-3 p-3 wiki-sidebar-tree bg-light bg-opacity-25">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <h5 class="m-0 fw-bold text-dark font-14"><i class="uil-folder font-16 text-primary me-1"></i> Project Docs</h5>
-                    <a href="<?= site_url('projects/wiki/' . $project['id'] . '/create') ?>" class="btn btn-xs btn-outline-primary rounded-pill">
+                    <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug . '/create') ?>" class="btn btn-xs btn-outline-primary rounded-pill">
                         <i class="mdi mdi-plus"></i> New
                     </a>
                 </div>
@@ -189,7 +193,7 @@
                     <?php else: ?>
                         <?php foreach ($tree as $page): ?>
                             <?php $isActive = $activePage && ($activePage['id'] == $page['id']); ?>
-                            <a href="<?= site_url('projects/wiki/' . $project['id'] . '/page/' . $page['slug']) ?>" class="wiki-tree-link <?= $isActive ? 'active' : '' ?>" data-title="<?= esc(strtolower($page['title'])) ?>">
+                            <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug . '/page/' . $page['slug']) ?>" class="wiki-tree-link <?= $isActive ? 'active' : '' ?>" data-title="<?= esc(strtolower($page['title'])) ?>">
                                 <i class="uil-file-alt me-2 font-16 text-muted"></i>
                                 <span class="text-truncate flex-grow-1"><?= esc($page['title']) ?></span>
                                 <span class="badge bg-secondary-lighten text-muted font-10">v<?= $page['version'] ?></span>
@@ -199,7 +203,7 @@
                                 <div class="ps-3 border-start ms-2 mb-1">
                                     <?php foreach ($page['children'] as $child): ?>
                                         <?php $isChildActive = $activePage && ($activePage['id'] == $child['id']); ?>
-                                        <a href="<?= site_url('projects/wiki/' . $project['id'] . '/page/' . $child['slug']) ?>" class="wiki-tree-link <?= $isChildActive ? 'active' : '' ?>" data-title="<?= esc(strtolower($child['title'])) ?>">
+                                        <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug . '/page/' . $child['slug']) ?>" class="wiki-tree-link <?= $isChildActive ? 'active' : '' ?>" data-title="<?= esc(strtolower($child['title'])) ?>">
                                             <i class="uil-corner-down-right me-1 font-12 text-muted"></i>
                                             <span class="text-truncate flex-grow-1"><?= esc($child['title']) ?></span>
                                             <span class="badge bg-secondary-lighten text-muted font-10">v<?= $child['version'] ?></span>
@@ -255,7 +259,7 @@
                         <i class="uil-book-open font-36 d-block mb-2 text-primary"></i>
                         <h4 class="fw-bold text-dark">No Document Selected</h4>
                         <p class="font-14">Select a document from the left sidebar or create a new page for your project wiki.</p>
-                        <a href="<?= site_url('projects/wiki/' . $project['id'] . '/create') ?>" class="btn btn-primary rounded-pill px-4">
+                        <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug . '/create') ?>" class="btn btn-primary rounded-pill px-4">
                             <i class="mdi mdi-plus me-1"></i> Create First Page
                         </a>
                     </div>

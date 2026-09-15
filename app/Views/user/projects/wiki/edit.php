@@ -51,12 +51,15 @@
 
 <?= $this->section('content') ?>
 
+<?php
+$wikiProjectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
+?>
 <!-- Page Title & Navigation Header -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                <a href="<?= site_url('projects/wiki/' . $project['id']) ?>" class="btn btn-outline-secondary rounded-pill">
+                <a href="<?= site_url('projects/wiki/' . $wikiProjectSlug) ?>" class="btn btn-outline-secondary rounded-pill">
                     <i class="mdi mdi-arrow-left me-1"></i> Back to Docs
                 </a>
             </div>
@@ -68,7 +71,7 @@
     </div>
 </div>
 
-<form action="<?= $isEdit ? site_url('projects/wiki/page/' . $page['id'] . '/update') : site_url('projects/wiki/' . $project['id'] . '/store') ?>" method="POST">
+<form action="<?= $isEdit ? site_url('projects/wiki/page/' . $page['id'] . '/update') : site_url('projects/wiki/' . $wikiProjectSlug . '/store') ?>" method="POST">
     <?= csrf_field() ?>
 
     <div class="card shadow-sm border-0 mb-4">

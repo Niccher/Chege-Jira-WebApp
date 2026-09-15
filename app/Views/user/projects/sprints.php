@@ -68,32 +68,40 @@
     </div>
 </div>
 
+<?php
+$sprintProjectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
+?>
 <!-- Project Sub-Nav Tabs -->
 <div class="row mb-3">
     <div class="col-12">
         <ul class="nav nav-tabs nav-bordered">
             <li class="nav-item">
-                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/view/' . $sprintProjectSlug) ?>" class="nav-link">
                     <i class="uil-eye me-1"></i> Overview
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/kanban/' . $sprintProjectSlug) ?>" class="nav-link">
                     <i class="uil-clipboard-alt me-1"></i> Kanban Board
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/sprints/' . $project['id']) ?>" class="nav-link active">
+                <a href="<?= site_url('projects/sprints/' . $sprintProjectSlug) ?>" class="nav-link active">
                     <i class="uil-layer-group me-1"></i> Sprints & Backlog
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/time/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/wiki/' . $sprintProjectSlug) ?>" class="nav-link">
+                    <i class="uil-book-open me-1"></i> Wiki & Docs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= site_url('projects/time/' . $sprintProjectSlug) ?>" class="nav-link">
                     <i class="uil-clock me-1"></i> Time Tracker
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= site_url('projects/analytics/' . $project['id']) ?>" class="nav-link">
+                <a href="<?= site_url('projects/analytics/' . $sprintProjectSlug) ?>" class="nav-link">
                     <i class="uil-chart-line me-1"></i> Analytics
                 </a>
             </li>
@@ -180,7 +188,7 @@
                                         <i class="mdi mdi-drag-vertical text-muted font-18 me-2 cursor-grab"></i>
                                         <span class="badge bg-secondary-lighten text-secondary font-12 me-2">#<?= $task['id'] ?></span>
                                         <div>
-                                            <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="fw-bold text-dark text-decoration-none font-14"><?= esc($task['title']) ?></a>
+                                            <a href="<?= site_url('projects/view/' . $sprintProjectSlug) ?>" class="fw-bold text-dark text-decoration-none font-14"><?= esc($task['title']) ?></a>
                                             <div class="font-12 text-muted">
                                                 <span class="badge <?= $task['status'] === 'done' ? 'bg-success-lighten text-success' : 'bg-primary-lighten text-primary' ?> me-1">
                                                     <?= ucfirst(str_replace('_', ' ', $task['status'])) ?>
@@ -305,7 +313,7 @@
                     </span>
                 </div>
                 <div>
-                    <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-sm btn-outline-secondary rounded-pill">
+                    <a href="<?= site_url('projects/view/' . $sprintProjectSlug) ?>" class="btn btn-sm btn-outline-secondary rounded-pill">
                         <i class="mdi mdi-plus me-1"></i> Add Task to Backlog
                     </a>
                 </div>
@@ -374,7 +382,7 @@
 <div class="modal fade" id="createSprintModal" tabindex="-1" aria-labelledby="createSprintModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
-            <form action="<?= site_url('projects/sprints/store/' . $project['id']) ?>" method="POST">
+            <form action="<?= site_url('projects/sprints/store/' . $sprintProjectSlug) ?>" method="POST">
                 <?= csrf_field() ?>
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title text-white" id="createSprintModalLabel"><i class="mdi mdi-plus-circle me-1"></i> Plan New Sprint</h5>

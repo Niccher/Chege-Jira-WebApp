@@ -6,10 +6,16 @@ use App\Models\ProjectModel;
 
 class AnalyticsController extends BaseUserController
 {
-    public function index()
+    public function index($projectIdentifier = null)
     {
         $db = \Config\Database::connect();
         $projectModel = new ProjectModel();
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        
+        $selectedProject = null;
+        if ($projectIdentifier !== null) {
+            $selectedProject = $projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
+        }
 
         // Total projects count
         $totalProjects = $projectModel->where('user_id', $this->userId)->countAllResults();

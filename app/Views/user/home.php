@@ -121,6 +121,7 @@
                             <?php foreach ($projects as $project): ?>
                             <?php 
                                 $pId = is_array($project) ? ($project['id'] ?? '') : ($project->id ?? '');
+                                $pSlug = is_array($project) ? ($project['slug'] ?? $pId) : ($project->slug ?? $pId);
                                 $pName = is_array($project) ? ($project['name'] ?? '') : ($project->name ?? '');
                                 $pDesc = is_array($project) ? ($project['description'] ?? '') : ($project->description ?? '');
                                 $pStatus = is_array($project) ? ($project['status'] ?? 'in_progress') : ($project->status ?? 'in_progress');
@@ -144,7 +145,7 @@
                                             <i class="fas <?= esc($pIcon) ?> font-14"></i>
                                         </div>
                                         <div>
-                                            <a href="<?= site_url('projects/view/' . $pId) ?>" class="text-body fw-bold d-block">
+                                            <a href="<?= site_url('projects/view/' . $pSlug) ?>" class="text-body fw-bold d-block">
                                                 <?= esc($pName) ?>
                                             </a>
                                             <?php if (!empty($pDesc)): ?>
@@ -173,13 +174,13 @@
                                 </td>
                                 <td class="text-end pe-3">
                                     <div class="btn-group btn-group-sm">
-                                        <a href="<?= site_url('projects/view/' . $pId) ?>" class="btn btn-outline-secondary" title="View Details">
+                                        <a href="<?= site_url('projects/view/' . $pSlug) ?>" class="btn btn-outline-secondary" title="View Details">
                                             <i class="mdi mdi-eye"></i>
                                         </a>
-                                        <a href="<?= site_url('projects/kanban/' . $pId) ?>" class="btn btn-outline-info" title="Kanban Board">
+                                        <a href="<?= site_url('projects/kanban/' . $pSlug) ?>" class="btn btn-outline-info" title="Kanban Board">
                                             <i class="mdi mdi-view-column"></i>
                                         </a>
-                                        <a href="<?= site_url('projects/edit/' . $pId) ?>" class="btn btn-outline-warning" title="Edit Project">
+                                        <a href="<?= site_url('projects/edit/' . $pSlug) ?>" class="btn btn-outline-warning" title="Edit Project">
                                             <i class="mdi mdi-pencil"></i>
                                         </a>
                                     </div>
@@ -217,6 +218,7 @@
                     <?php foreach ($weeklyFocus as $focus): ?>
                     <?php 
                         $fId = is_array($focus) ? ($focus['id'] ?? '') : ($focus->id ?? '');
+                        $fSlug = is_array($focus) ? ($focus['slug'] ?? $fId) : ($focus->slug ?? $fId);
                         $fName = is_array($focus) ? ($focus['name'] ?? '') : ($focus->name ?? '');
                         $fPriority = is_array($focus) ? ($focus['priority'] ?? 'medium') : ($focus->priority ?? 'medium');
                         $fProgress = is_array($focus) ? ($focus['progress'] ?? 0) : ($focus->progress ?? 0);
@@ -233,7 +235,7 @@
                         <div class="p-3 border rounded h-100 bg-light-subtle">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h6 class="mb-0 text-truncate" style="max-width: 70%;">
-                                    <a href="<?= site_url('projects/view/' . $fId) ?>" class="text-body fw-bold">
+                                    <a href="<?= site_url('projects/view/' . $fSlug) ?>" class="text-body fw-bold">
                                         <?= esc($fName) ?>
                                     </a>
                                 </h6>

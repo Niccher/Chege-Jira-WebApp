@@ -41,6 +41,9 @@ $priorityClass = match($project['priority'] ?? 'medium') {
 };
 ?>
 
+<?php
+$projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
+?>
 <!-- Page Header -->
 <div class="row">
     <div class="col-12">
@@ -49,16 +52,16 @@ $priorityClass = match($project['priority'] ?? 'medium') {
                 <a href="<?= site_url('projects') ?>" class="btn btn-outline-secondary rounded-pill me-1">
                     <i class="mdi mdi-arrow-left me-1"></i> Back to Projects
                 </a>
-                <a href="<?= site_url('projects/sprints/' . $project['id']) ?>" class="btn btn-outline-primary rounded-pill me-1">
+                <a href="<?= site_url('projects/sprints/' . $projectSlug) ?>" class="btn btn-outline-primary rounded-pill me-1">
                     <i class="mdi mdi-layer-group me-1"></i> Sprints & Backlog
                 </a>
-                <a href="<?= site_url('projects/wiki/' . $project['id']) ?>" class="btn btn-outline-success rounded-pill me-1">
+                <a href="<?= site_url('projects/wiki/' . $projectSlug) ?>" class="btn btn-outline-success rounded-pill me-1">
                     <i class="mdi mdi-book-open-outline me-1"></i> Wiki & Docs
                 </a>
-                <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-outline-info rounded-pill me-1">
+                <a href="<?= site_url('projects/kanban/' . $projectSlug) ?>" class="btn btn-outline-info rounded-pill me-1">
                     <i class="mdi mdi-view-column me-1"></i> Kanban
                 </a>
-                <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-primary rounded-pill">
+                <a href="<?= site_url('projects/edit/' . $projectSlug) ?>" class="btn btn-primary rounded-pill">
                     <i class="mdi mdi-pencil me-1"></i> Edit Project
                 </a>
             </div>
@@ -194,7 +197,7 @@ $priorityClass = match($project['priority'] ?? 'medium') {
                 <h5 class="header-title mb-0">
                     <i class="uil-info-circle me-1 text-primary"></i> Project Overview
                 </h5>
-                <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-sm btn-outline-warning rounded-pill">
+                <a href="<?= site_url('projects/edit/' . $projectSlug) ?>" class="btn btn-sm btn-outline-warning rounded-pill">
                     <i class="mdi mdi-pencil me-1"></i> Edit Details
                 </a>
             </div>
@@ -346,7 +349,7 @@ $priorityClass = match($project['priority'] ?? 'medium') {
                         <div id="descriptionCollapse" class="accordion-collapse collapse" aria-labelledby="headingDesc" data-bs-parent="#projectDetailsAccordion">
                             <div class="accordion-body">
                                 <p class="text-body font-14 mb-0" style="white-space: pre-line;">
-                                    <?= esc($project['description'] ?? 'No detailed description provided.') ?>
+                                     <?= esc($project['description'] ?? 'No detailed description provided.') ?>
                                 </p>
                             </div>
                         </div>
@@ -370,12 +373,12 @@ $priorityClass = match($project['priority'] ?? 'medium') {
             <div class="card-body">
                 <div class="row g-2">
                     <div class="col-6">
-                        <a href="<?= site_url('time?project_id=' . $project['id']) ?>" class="btn btn-outline-primary btn-sm w-100 py-2">
+                        <a href="<?= site_url('projects/time/' . $projectSlug) ?>" class="btn btn-outline-primary btn-sm w-100 py-2">
                             <i class="mdi mdi-clock-start me-1"></i> Track Time
                         </a>
                     </div>
                     <div class="col-6">
-                        <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-outline-info btn-sm w-100 py-2">
+                        <a href="<?= site_url('projects/kanban/' . $projectSlug) ?>" class="btn btn-outline-info btn-sm w-100 py-2">
                             <i class="mdi mdi-view-column me-1"></i> Kanban
                         </a>
                     </div>
@@ -385,7 +388,7 @@ $priorityClass = match($project['priority'] ?? 'medium') {
                         </a>
                     </div>
                     <div class="col-6">
-                        <a href="<?= site_url('projects/archive/' . $project['id']) ?>" class="btn btn-outline-danger btn-sm w-100 py-2" onclick="return confirm('Archive this project?');">
+                        <a href="<?= site_url('projects/archive/' . $projectSlug) ?>" class="btn btn-outline-danger btn-sm w-100 py-2" onclick="return confirm('Archive this project?');">
                             <i class="mdi mdi-archive-arrow-down me-1"></i> Archive
                         </a>
                     </div>

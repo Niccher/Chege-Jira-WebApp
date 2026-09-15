@@ -183,7 +183,7 @@
                                                 </div>
                                                 <div>
                                                     <h5 class="m-0 font-14">
-                                                        <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="text-body fw-bold text-decoration-none">
+                                                        <a href="<?= site_url('projects/view/' . (!empty($project['slug']) ? $project['slug'] : $project['id'])) ?>" class="text-body fw-bold text-decoration-none">
                                                             <?= esc($project['name']) ?>
                                                         </a>
                                                     </h5>
@@ -217,17 +217,18 @@
                                             </span>
                                         </td>
                                         <td class="text-end pe-3">
+                                            <?php $pTarget = !empty($project['slug']) ? $project['slug'] : $project['id']; ?>
                                             <div class="btn-group btn-group-sm">
-                                                <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-primary" title="View Project">
+                                                <a href="<?= site_url('projects/view/' . $pTarget) ?>" class="btn btn-outline-primary" title="View Project">
                                                     <i class="mdi mdi-eye"></i>
                                                 </a>
-                                                <a href="<?= site_url('projects/kanban/' . $project['id']) ?>" class="btn btn-outline-info" title="Kanban Board">
+                                                <a href="<?= site_url('projects/kanban/' . $pTarget) ?>" class="btn btn-outline-info" title="Kanban Board">
                                                     <i class="mdi mdi-view-column"></i>
                                                 </a>
-                                                <a href="<?= site_url('projects/edit/' . $project['id']) ?>" class="btn btn-outline-warning" title="Edit">
+                                                <a href="<?= site_url('projects/edit/' . $pTarget) ?>" class="btn btn-outline-warning" title="Edit">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
-                                                <a href="<?= site_url('projects/archive/' . $project['id']) ?>" class="btn btn-outline-danger" title="Toggle Archive" onclick="return confirm('Change archive status for this project?');">
+                                                <a href="<?= site_url('projects/archive/' . $pTarget) ?>" class="btn btn-outline-danger" title="Toggle Archive" onclick="return confirm('Change archive status for this project?');">
                                                     <i class="mdi mdi-archive-outline"></i>
                                                 </a>
                                             </div>
@@ -260,9 +261,10 @@
                                 <tr><td colspan="4" class="text-center py-4 text-muted">No active projects currently in progress.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($active_projects as $p): ?>
+                                    <?php $actTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="text-body fw-bold">
+                                            <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="text-body fw-bold">
                                                 <?= esc($p['name']) ?>
                                             </a>
                                         </td>
@@ -276,7 +278,7 @@
                                         </td>
                                         <td><span class="badge <?= $priority_classes[$p['priority']] ?? 'bg-secondary' ?>"><?= ucfirst($p['priority']) ?></span></td>
                                         <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
+                                            <a href="<?= site_url('projects/view/' . $actTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -305,15 +307,16 @@
                                 <tr><td colspan="3" class="text-center py-4 text-muted">No pending or on-hold projects.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($pending_projects as $p): ?>
+                                    <?php $pendTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="text-body fw-bold">
+                                            <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="text-body fw-bold">
                                                 <?= esc($p['name']) ?>
                                             </a>
                                         </td>
                                         <td><span class="badge bg-warning"><?= ucfirst(str_replace('_', ' ', $p['status'])) ?></span></td>
                                         <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
+                                            <a href="<?= site_url('projects/view/' . $pendTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -342,15 +345,16 @@
                                 <tr><td colspan="3" class="text-center py-4 text-muted">No completed projects yet.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($completed_projects as $p): ?>
+                                    <?php $compTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="text-body fw-bold">
+                                            <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="text-body fw-bold">
                                                 <?= esc($p['name']) ?>
                                             </a>
                                         </td>
                                         <td><span class="badge bg-success"><i class="mdi mdi-check-circle me-1"></i> Completed</span></td>
                                         <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
+                                            <a href="<?= site_url('projects/view/' . $compTarget) ?>" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-eye me-1"></i> View</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -379,15 +383,16 @@
                                 <tr><td colspan="3" class="text-center py-4 text-muted">No archived projects.</td></tr>
                             <?php else: ?>
                                 <?php foreach ($archived_projects as $p): ?>
+                                    <?php $archTarget = !empty($p['slug']) ? $p['slug'] : $p['id']; ?>
                                     <tr>
                                         <td>
-                                            <a href="<?= site_url('projects/view/' . $p['id']) ?>" class="text-body fw-bold">
+                                            <a href="<?= site_url('projects/view/' . $archTarget) ?>" class="text-body fw-bold">
                                                 <?= esc($p['name']) ?>
                                             </a>
                                         </td>
                                         <td><span class="badge bg-secondary">Archived</span></td>
                                         <td class="text-end pe-3">
-                                            <a href="<?= site_url('projects/archive/' . $p['id']) ?>" class="btn btn-sm btn-outline-success" onclick="return confirm('Restore this archived project?');">
+                                            <a href="<?= site_url('projects/archive/' . $archTarget) ?>" class="btn btn-sm btn-outline-success" onclick="return confirm('Restore this archived project?');">
                                                 <i class="mdi mdi-restore me-1"></i> Restore
                                             </a>
                                         </td>

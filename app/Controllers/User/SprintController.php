@@ -26,14 +26,17 @@ class SprintController extends BaseUserController
 
     /**
      * Sprints & Backlog Planning View
-     * GET /projects/sprints/(:num)
+     * GET /projects/sprints/(:segment)
      */
-    public function index(int $projectId)
+    public function index($projectIdentifier)
     {
-        $project = $this->projectModel->find($projectId);
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $project = $this->projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
         if (!$project) {
             throw PageNotFoundException::forPageNotFound('Project not found');
         }
+
+        $projectId = (int)$project['id'];
 
         // Active sprint
         $activeSprint = $this->sprintModel->getActiveSprint($projectId);
@@ -84,15 +87,17 @@ class SprintController extends BaseUserController
 
     /**
      * Store new planned sprint
-     * POST /projects/sprints/store/(:num)
+     * POST /projects/sprints/store/(:segment)
      */
-    public function store(int $projectId)
+    public function store($projectIdentifier)
     {
-        $project = $this->projectModel->find($projectId);
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $project = $this->projectModel->findByIdentifier($projectIdentifier, $this->userId, $isAdmin);
         if (!$project) {
             return redirect()->back()->with('error', 'Project not found.');
         }
 
+        $projectId = (int)$project['id'];
         $name = trim($this->request->getPost('name') ?? '');
         $goal = trim($this->request->getPost('goal') ?? '');
         $durationWeeks = (int)($this->request->getPost('duration_weeks') ?? 2);

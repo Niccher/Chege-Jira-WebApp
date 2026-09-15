@@ -34,7 +34,7 @@
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
-                <a href="<?= site_url('projects/wiki/' . $project['id'] . '/page/' . $page['slug']) ?>" class="btn btn-outline-secondary rounded-pill">
+                <a href="<?= site_url('projects/wiki/' . (!empty($project['slug']) ? $project['slug'] : $project['id']) . '/page/' . $page['slug']) ?>" class="btn btn-outline-secondary rounded-pill">
                     <i class="mdi mdi-arrow-left me-1"></i> Back to Document
                 </a>
             </div>

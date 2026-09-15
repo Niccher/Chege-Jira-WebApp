@@ -13,7 +13,7 @@
                     <button type="button" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#addTaskModal">
                         <i class="mdi mdi-plus-circle me-1"></i> Add Task
                     </button>
-                    <a href="<?= site_url('projects/view/' . $project['id']) ?>" class="btn btn-outline-secondary rounded-pill">
+                    <a href="<?= site_url('projects/view/' . (!empty($project['slug']) ? $project['slug'] : $project['id'])) ?>" class="btn btn-outline-secondary rounded-pill">
                         <i class="mdi mdi-arrow-left me-1"></i> Back to Project
                     </a>
                 </div>

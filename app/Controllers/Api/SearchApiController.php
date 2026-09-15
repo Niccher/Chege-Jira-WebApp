@@ -71,6 +71,8 @@ class SearchApiController extends BaseController
                     default       => 'bg-secondary-lighten text-secondary'
                 };
 
+                $projectTarget = !empty($proj['slug']) ? $proj['slug'] : $proj['id'];
+
                 $results[] = [
                     'category' => 'Projects',
                     'title'    => $proj['name'],
@@ -78,13 +80,13 @@ class SearchApiController extends BaseController
                     'icon'     => 'uil-briefcase text-primary',
                     'badge'    => ucfirst($proj['status']),
                     'badge_class' => $statusBadge,
-                    'url'      => site_url('projects/view/' . $proj['id']),
+                    'url'      => site_url('projects/view/' . $projectTarget),
                 ];
             }
 
             // 3. Search Tasks
             $taskBuilder = $db->table('tasks')
-                ->select('tasks.id, tasks.project_id, tasks.title, tasks.status, tasks.priority, projects.name as project_name')
+                ->select('tasks.id, tasks.project_id, tasks.title, tasks.status, tasks.priority, projects.name as project_name, projects.slug as project_slug')
                 ->join('projects', 'projects.id = tasks.project_id', 'left');
 
             $numericQuery = preg_replace('/[^0-9]/', '', $cleanQuery);
@@ -105,6 +107,8 @@ class SearchApiController extends BaseController
                     default            => 'bg-info-lighten text-info'
                 };
 
+                $taskProjectTarget = !empty($task['project_slug']) ? $task['project_slug'] : $task['project_id'];
+
                 $results[] = [
                     'category' => 'Tasks',
                     'title'    => '#' . $task['id'] . ' ' . $task['title'],
@@ -112,7 +116,7 @@ class SearchApiController extends BaseController
                     'icon'     => 'uil-clipboard-alt text-info',
                     'badge'    => ucfirst($task['priority'] ?? 'medium'),
                     'badge_class' => $prioBadge,
-                    'url'      => $task['project_id'] ? site_url('projects/view/' . $task['project_id']) : site_url('kanban'),
+                    'url'      => $taskProjectTarget ? site_url('projects/view/' . $taskProjectTarget) : site_url('kanban'),
                 ];
             }
 
@@ -142,7 +146,7 @@ class SearchApiController extends BaseController
             // 5. Search Project Wiki / Docs
             if ($db->tableExists('project_wiki_pages')) {
                 $wikiPages = $db->table('project_wiki_pages')
-                    ->select('project_wiki_pages.id, project_wiki_pages.project_id, project_wiki_pages.title, project_wiki_pages.slug, project_wiki_pages.version, projects.name as project_name')
+                    ->select('project_wiki_pages.id, project_wiki_pages.project_id, project_wiki_pages.title, project_wiki_pages.slug, project_wiki_pages.version, projects.name as project_name, projects.slug as project_slug')
                     ->join('projects', 'projects.id = project_wiki_pages.project_id', 'left')
                     ->groupStart()
                         ->like('project_wiki_pages.title', $cleanQuery)
@@ -152,6 +156,7 @@ class SearchApiController extends BaseController
                     ->get()->getResultArray();
 
                 foreach ($wikiPages as $wp) {
+                    $wikiProjectTarget = !empty($wp['project_slug']) ? $wp['project_slug'] : $wp['project_id'];
                     $results[] = [
                         'category' => 'Wiki & Docs',
                         'title'    => $wp['title'],
@@ -159,7 +164,7 @@ class SearchApiController extends BaseController
                         'icon'     => 'uil-book-open text-success',
                         'badge'    => 'v' . $wp['version'],
                         'badge_class' => 'bg-success-lighten text-success',
-                        'url'      => site_url('projects/wiki/' . $wp['project_id'] . '/page/' . $wp['slug']),
+                        'url'      => site_url('projects/wiki/' . $wikiProjectTarget . '/page/' . $wp['slug']),
                     ];
                 }
             }
