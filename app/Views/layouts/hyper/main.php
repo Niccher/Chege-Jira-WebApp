@@ -100,6 +100,17 @@
             align-items: center;
             height: 70px;
         }
+        .navbar-custom {
+            min-height: 70px;
+        }
+        .navbar-custom .topbar-menu .nav-link {
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-custom .topbar-menu .nav-user {
+            padding: 0 12px;
+        }
         /* Robust Sidebar Active Highlighting */
         .side-nav .side-nav-item.menuitem-active > .side-nav-link,
         .side-nav .side-nav-item > .side-nav-link.active {
@@ -388,7 +399,7 @@
                         </div>
                     </div>
 
-                    <ul class="list-unstyled topbar-menu float-end mb-0 d-flex align-items-center">
+                    <ul class="list-unstyled topbar-menu mb-0 d-flex align-items-center ms-auto">
                         <!-- Mobile Search Trigger Icon -->
                         <li class="d-inline-block d-sm-none me-1">
                             <a class="nav-link" href="javascript:void(0);" id="mobile-search-trigger" title="Search (Ctrl + K)">
@@ -404,7 +415,7 @@
 
                         <!-- Notifications Bell -->
                         <li class="dropdown notification-list me-1">
-                            <a class="nav-link dropdown-toggle arrow-none position-relative" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" id="topbar-notification-dropdown" title="Notifications">
+                            <a class="nav-link dropdown-toggle arrow-none position-relative d-flex align-items-center" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" id="topbar-notification-dropdown" title="Notifications">
                                 <i class="uil-bell font-22"></i>
                                 <span class="position-absolute badge rounded-pill bg-danger font-10" id="notification-badge" style="top: 14px; right: 4px; display: <?= $unreadNotificationsCount > 0 ? 'inline-block' : 'none' ?>; font-size: 10px; padding: 2px 5px;">
                                     <?= $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount ?>
@@ -503,9 +514,6 @@
                             </div>
                         </li>
                     </ul>
-                    <button class="button-menu-mobile open-left">
-                        <i class="mdi mdi-menu font-20"></i>
-                    </button>
                 </div>
                 <!-- end Topbar -->
 
