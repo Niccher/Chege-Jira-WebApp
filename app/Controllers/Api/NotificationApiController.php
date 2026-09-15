@@ -20,10 +20,28 @@ class NotificationApiController extends BaseController
     }
 
     /**
-     * Get unread notifications count and recent items
+     * Get unread notifications count and recent items.
+     *
+     * If a human visits this URL directly in a browser (Accept: text/html),
+     * redirect them to the dashboard. This prevents users from seeing raw JSON
+     * if they accidentally open a bookmarked or copy-pasted API URL.
      */
     public function unreadCount(): ResponseInterface
     {
+        // Detect browser (non-AJAX) request by Accept header
+        $acceptHeader = $this->request->getHeaderLine('Accept');
+        $isAjax = $this->request->isAJAX()
+            || str_contains($acceptHeader, 'application/json')
+            || str_contains($acceptHeader, 'application/vnd');
+
+        if (! $isAjax) {
+            // Human opened this URL directly — redirect to appropriate page
+            if ($this->userId === 0) {
+                return redirect()->to(site_url('auth/login'));
+            }
+            return redirect()->to(site_url('home'));
+        }
+
         if ($this->userId === 0) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Unauthorized'])->setStatusCode(401);
         }

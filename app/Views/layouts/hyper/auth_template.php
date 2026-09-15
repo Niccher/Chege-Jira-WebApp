@@ -24,7 +24,8 @@
     <meta name="twitter:image" content="<?= base_url('assets/img/app_hero.jpg') ?>">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('favicon.ico') ?>">
+    <link rel="icon" type="image/png" href="<?= base_url('favicon.png') ?>">
     <link rel="apple-touch-icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
 
     <!-- App css -->
