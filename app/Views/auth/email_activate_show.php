@@ -3,88 +3,95 @@
 <?= $this->section('title') ?>Verify Your Email • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <div class="auth-card">
-        <div class="text-center mb-4">
-            <div class="mb-3">
-                <div style="width: 72px; height: 72px; background: rgba(99,102,241,0.15); display: inline-flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-envelope fa-2x" style="color: #6366f1;"></i>
-                </div>
-            </div>
-            <h3>Check Your Email</h3>
-            <div class="sub">We've sent a verification link to:</div>
-            <p class="fw-bold mt-2" style="color: var(--primary);"><?= esc($user->email) ?></p>
-        </div>
-
-        <div class="alert alert-info">
-            <i class="fas fa-info-circle me-2"></i>
-            <strong>Important:</strong> Click the verification link in the email to activate your account.
-        </div>
-
-        <div class="mb-4">
-            <h6 class="mb-3">Didn't receive the email?</h6>
-            <div class="mb-3">
-                <form action="<?= site_url('auth/resend-verification') ?>" method="POST" id="resendForm">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="email" value="<?= esc($user->email) ?>">
-                    <button type="submit" class="btn-auth" id="resendBtn">
-                        <i class="fas fa-paper-plane me-2"></i> Resend Verification Email
-                    </button>
-                </form>
-            </div>
-
-            <div class="small text-muted">
-                <i class="fas fa-lightbulb me-1"></i>
-                Check your spam folder if you don't see the email within a few minutes.
-            </div>
-
-            <div class="mt-4 text-center">
-                <a href="<?= site_url('auth/register') ?>" class="forgot-link">
-                    <i class="fas fa-edit me-1"></i> Register with Different Email
-                </a>
+    <div class="text-center mb-4">
+        <div class="mb-3">
+            <div class="avatar-lg bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
+                <i class="mdi mdi-email-check-outline font-36"></i>
             </div>
         </div>
-
-        <div class="auth-switch">
-            Already verified? <a href="<?= site_url('auth/login') ?>">Sign in to your account</a>
+        <h3 class="fw-bold text-body mb-1">Verify Your Email</h3>
+        <p class="text-muted font-14 mb-2">We've sent an activation link to your email address:</p>
+        <div class="badge bg-light text-primary font-14 px-3 py-2 border rounded-pill">
+            <i class="mdi mdi-email-outline me-1"></i> <?= esc($user->email ?? session('email') ?? '') ?>
         </div>
     </div>
-<?= $this->endSection() ?>
 
-<?= $this->section('scripts') ?>
+    <?php if (session()->has('error')) : ?>
+        <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+            <i class="mdi mdi-alert-circle-outline font-18 me-2"></i>
+            <div><?= session('error') ?></div>
+        </div>
+    <?php endif ?>
+
+    <?php if (session()->has('success') || session()->has('message')) : ?>
+        <div class="alert alert-success d-flex align-items-center mb-3" role="alert">
+            <i class="mdi mdi-check-circle-outline font-18 me-2"></i>
+            <div><?= session('success') ?? session('message') ?></div>
+        </div>
+    <?php endif ?>
+
+    <div class="alert alert-info d-flex align-items-start mb-4" role="alert">
+        <i class="mdi mdi-information-outline font-20 me-2 text-info"></i>
+        <div class="font-13">
+            <strong>Next Step:</strong> Open your inbox and click the verification button in the email to activate your workspace access.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <form action="<?= site_url('auth/resend-verification') ?>" method="POST" id="resendForm">
+            <?= csrf_field() ?>
+            <input type="hidden" name="email" value="<?= esc($user->email ?? session('email') ?? '') ?>">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill w-100 fw-semibold" id="resendBtn">
+                <i class="mdi mdi-email-sync-outline me-1"></i> Resend Verification Email
+            </button>
+        </form>
+    </div>
+
+    <div class="text-center font-12 text-muted mb-4">
+        <i class="mdi mdi-help-circle-outline me-1"></i> Didn't receive the email? Check your Spam / Junk folder.
+    </div>
+
+    <div class="pt-3 border-top text-center">
+        <p class="text-muted font-14 mb-2">
+            Already verified your email? 
+            <a href="<?= site_url('auth/login') ?>" class="text-primary fw-bold ms-1">Sign In</a>
+        </p>
+        <p class="text-muted font-14 mb-0">
+            Need to change your email? 
+            <a href="<?= site_url('auth/register') ?>" class="text-primary fw-semibold ms-1">Register Again</a>
+        </p>
+    </div>
+
     <script>
-        $(document).ready(function() {
-            let canResend = true;
-            let countdown = 60;
+        document.addEventListener('DOMContentLoaded', function() {
+            var canResend = true;
+            var countdown = 60;
+            var resendForm = document.getElementById('resendForm');
+            var resendBtn = document.getElementById('resendBtn');
 
-            // Resend email with cooldown
-            $('#resendForm').submit(function(e) {
-                if (!canResend) {
-                    e.preventDefault();
-                    return;
-                }
-
-                canResend = false;
-                $('#resendBtn').prop('disabled', true);
-
-                // Start countdown
-                const timer = setInterval(() => {
-                    countdown--;
-                    $('#resendBtn').html(`<i class="fas fa-clock me-2"></i> Resend in ${countdown}s`);
-
-                    if (countdown <= 0) {
-                        clearInterval(timer);
-                        canResend = true;
-                        countdown = 60;
-                        $('#resendBtn').prop('disabled', false);
-                        $('#resendBtn').html('<i class="fas fa-paper-plane me-2"></i> Resend Verification Email');
+            if (resendForm && resendBtn) {
+                resendForm.addEventListener('submit', function(e) {
+                    if (!canResend) {
+                        e.preventDefault();
+                        return;
                     }
-                }, 1000);
+                    canResend = false;
+                    resendBtn.disabled = true;
+                    var originalHtml = resendBtn.innerHTML;
 
-                // Show success message
-                setTimeout(() => {
-                    showToast('Verification email resent successfully!', 'success');
-                }, 1000);
-            });
+                    var timer = setInterval(function() {
+                        countdown--;
+                        resendBtn.innerHTML = '<i class="mdi mdi-timer-sand me-1"></i> Resend in ' + countdown + 's';
+                        if (countdown <= 0) {
+                            clearInterval(timer);
+                            canResend = true;
+                            countdown = 60;
+                            resendBtn.disabled = false;
+                            resendBtn.innerHTML = originalHtml;
+                        }
+                    }, 1000);
+                });
+            }
         });
     </script>
 <?= $this->endSection() ?>

@@ -3,64 +3,75 @@
 <?= $this->section('title') ?>Create New Password • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <div class="text-center w-75 m-auto">
-        <h4 class="text-dark-50 text-center mt-0 fw-bold">Set New Password</h4>
-        <p class="text-muted mb-4">Enter your new password below to regain access to your account.</p>
+    <div class="text-center mb-4">
+        <h3 class="fw-bold text-body mb-1">Set New Password</h3>
+        <p class="text-muted font-14">Enter your new password below to regain access to your account.</p>
     </div>
 
     <?php if (session()->has('error')) : ?>
-        <div class="alert alert-danger" role="alert">
-            <i class="mdi mdi-alert-circle-outline me-2"></i>
-            <?= session('error') ?>
+        <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+            <i class="mdi mdi-alert-circle-outline font-18 me-2"></i>
+            <div><?= session('error') ?></div>
         </div>
     <?php endif ?>
 
     <?php if (session()->has('errors')) : ?>
-        <div class="alert alert-danger" role="alert">
-            <ul class="list-unstyled mb-0">
+        <div class="alert alert-danger mb-3" role="alert">
+            <div class="fw-semibold mb-1"><i class="mdi mdi-alert-circle-outline me-1"></i>Please correct the following errors:</div>
+            <ul class="mb-0 ps-3 font-13">
                 <?php foreach (session('errors') as $error) : ?>
-                    <li><i class="mdi mdi-alert-circle-outline me-1"></i> <?= $error ?></li>
+                    <li><?= esc($error) ?></li>
                 <?php endforeach ?>
             </ul>
         </div>
     <?php endif ?>
 
-    <form action="<?= site_url('auth/reset-password') ?>" method="POST">
+    <?php if (session()->has('success')) : ?>
+        <div class="alert alert-success d-flex align-items-center mb-3" role="alert">
+            <i class="mdi mdi-check-circle-outline font-18 me-2"></i>
+            <div><?= session('success') ?></div>
+        </div>
+    <?php endif ?>
+
+    <form action="<?= site_url('auth/reset-password') ?>" method="POST" id="resetPasswordForm">
         <?= csrf_field() ?>
-        <?php if (!empty($token)): ?>
-            <input type="hidden" name="token" value="<?= esc($token) ?>">
-        <?php endif; ?>
+        <input type="hidden" name="token" value="<?= esc($token ?? old('token')) ?>">
+        <input type="hidden" name="email" value="<?= esc($email ?? old('email')) ?>">
 
         <div class="mb-3">
-            <label for="password" class="form-label">New Password</label>
+            <label for="password" class="form-label fw-semibold font-13">New Password <span class="text-danger">*</span></label>
             <div class="input-group input-group-merge">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter new password" required minlength="8">
-                <div class="input-group-text" data-password="false">
+                <span class="input-group-text"><i class="mdi mdi-lock-outline"></i></span>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter new password (min 8 chars)" required minlength="8" autofocus>
+                <div class="input-group-text" data-password="false" style="cursor: pointer;">
                     <span class="password-eye"></span>
                 </div>
             </div>
+            <small class="text-muted font-11">Must be at least 8 characters with letters and numbers.</small>
         </div>
 
         <div class="mb-3">
-            <label for="password_confirm" class="form-label">Confirm New Password</label>
+            <label for="password_confirm" class="form-label fw-semibold font-13">Confirm New Password <span class="text-danger">*</span></label>
             <div class="input-group input-group-merge">
+                <span class="input-group-text"><i class="mdi mdi-lock-check-outline"></i></span>
                 <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="Confirm new password" required minlength="8">
-                <div class="input-group-text" data-password="false">
+                <div class="input-group-text" data-password="false" style="cursor: pointer;">
                     <span class="password-eye"></span>
                 </div>
             </div>
         </div>
 
-        <div class="mb-3 text-center">
-            <button class="btn btn-primary w-100" type="submit">
-                <i class="fas fa-lock me-1"></i> Update Password
+        <div class="d-grid mb-3">
+            <button class="btn btn-primary btn-lg rounded-pill fw-semibold" type="submit">
+                <i class="mdi mdi-lock-reset me-1"></i> Update Password &amp; Sign In
             </button>
         </div>
     </form>
 
-    <div class="row mt-3">
-        <div class="col-12 text-center">
-            <p class="text-muted">Remembered your password? <a href="<?= site_url('auth/login') ?>" class="text-muted ms-1"><b>Log In</b></a></p>
-        </div>
+    <div class="text-center mt-3">
+        <p class="text-muted font-14 mb-0">
+            Remembered your password? 
+            <a href="<?= site_url('auth/login') ?>" class="text-primary fw-bold ms-1">Sign In</a>
+        </p>
     </div>
 <?= $this->endSection() ?>

@@ -102,14 +102,31 @@
     <div class="auth-fluid">
         <!-- Auth Form Pane -->
         <div class="auth-fluid-form-box">
-            <!-- Header Logo -->
-            <div class="mb-4">
-                <a href="<?= site_url() ?>" class="d-inline-flex align-items-center text-decoration-none">
-                    <img src="<?= base_url('assets/img/app_logo.jpg') ?>" alt="Logo" class="rounded-circle me-2 shadow-sm" style="width: 36px; height: 36px; object-fit: cover;">
-                    <span class="font-20 fw-bold text-body">
-                        <?= esc(setting('App.siteName')) ?>
-                    </span>
-                </a>
+            <!-- Header Logo & Quick Nav -->
+            <div class="mb-4 pb-2 border-bottom">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <a href="<?= site_url() ?>" class="d-inline-flex align-items-center text-decoration-none">
+                        <img src="<?= base_url('assets/img/app_logo.jpg') ?>" alt="Logo" class="rounded-circle me-2 shadow-sm" style="width: 38px; height: 38px; object-fit: cover;">
+                        <span class="font-20 fw-bold text-body">
+                            <?= esc(setting('App.siteName')) ?>
+                        </span>
+                    </a>
+                    
+                    <div class="d-flex align-items-center gap-1">
+                        <a href="<?= site_url('/') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="Return to Homepage">
+                            <i class="mdi mdi-home-outline me-1"></i>Home
+                        </a>
+                        <a href="<?= site_url('features') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="Explore Features">
+                            <i class="mdi mdi-star-outline me-1"></i>Features
+                        </a>
+                        <a href="<?= site_url('pricing') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary" title="View Pricing">
+                            <i class="mdi mdi-tag-outline me-1"></i>Pricing
+                        </a>
+                        <a href="<?= site_url('setup') ?>" class="btn btn-sm btn-light rounded-pill px-2 py-1 font-12 text-secondary d-none d-sm-inline-flex" title="Setup Guide">
+                            <i class="mdi mdi-book-open-outline me-1"></i>Setup
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!-- Main Auth Content Area -->
@@ -117,10 +134,25 @@
                 <?= $this->renderSection('content') ?>
             </div>
 
-            <!-- Footer -->
-            <div class="mt-4 pt-3 border-top text-muted font-12 d-flex justify-content-between align-items-center">
-                <span><?= date('Y') ?> © <?= esc(setting('App.siteName')) ?></span>
-                <span class="badge bg-light text-secondary font-11">v1.0.0</span>
+            <!-- Footer & Cross-Navigation -->
+            <div class="mt-4 pt-3 border-top">
+                <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 font-12 text-muted mb-2">
+                    <a href="<?= site_url('/') ?>" class="text-muted text-decoration-none hover-primary">Home</a>
+                    <span>•</span>
+                    <a href="<?= site_url('features') ?>" class="text-muted text-decoration-none hover-primary">Features</a>
+                    <span>•</span>
+                    <a href="<?= site_url('pricing') ?>" class="text-muted text-decoration-none hover-primary">Pricing</a>
+                    <span>•</span>
+                    <a href="<?= site_url('setup') ?>" class="text-muted text-decoration-none hover-primary">Setup Guide</a>
+                    <span>•</span>
+                    <a href="<?= site_url('faqs') ?>" class="text-muted text-decoration-none hover-primary">FAQs</a>
+                    <span>•</span>
+                    <a href="<?= site_url('compare') ?>" class="text-muted text-decoration-none hover-primary">Compare</a>
+                </div>
+                <div class="d-flex justify-content-between align-items-center font-12 text-muted">
+                    <span><?= date('Y') ?> © <?= esc(setting('App.siteName')) ?></span>
+                    <span class="badge bg-light text-secondary font-11">v1.0.0</span>
+                </div>
             </div>
         </div>
 

@@ -1,10 +1,10 @@
 <?= $this->extend('layouts/hyper/auth_template') ?>
 
-<?= $this->section('title') ?>Sign In<?= $this->endSection() ?>
+<?= $this->section('title') ?>Sign In • <?= esc(setting('App.siteName')) ?><?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
-<div class="mb-4">
+<div class="text-center mb-4">
     <h3 class="fw-bold text-body mb-1">Welcome back!</h3>
     <p class="text-muted font-14">Enter your credentials to access your workspace.</p>
 </div>
@@ -18,7 +18,8 @@
 
 <?php if(session()->has('errors')): ?>
     <div class="alert alert-danger mb-3" role="alert">
-        <ul class="mb-0 ps-3">
+        <div class="fw-semibold mb-1"><i class="mdi mdi-alert-circle-outline me-1"></i>Please fix the following:</div>
+        <ul class="mb-0 ps-3 font-13">
             <?php foreach(session('errors') as $err): ?>
                 <li><?= esc($err) ?></li>
             <?php endforeach; ?>
@@ -37,21 +38,24 @@
     <?= csrf_field() ?>
 
     <div class="mb-3">
-        <label for="email" class="form-label fw-semibold">Email address</label>
+        <label for="email" class="form-label fw-semibold font-13">Email address <span class="text-danger">*</span></label>
         <div class="input-group">
             <span class="input-group-text"><i class="mdi mdi-email-outline"></i></span>
-            <input class="form-control" type="email" id="email" name="email" value="<?= old('email') ?>" required placeholder="name@company.com" autofocus>
+            <input class="form-control" type="email" id="email" name="email" value="<?= old('email') ?>" required placeholder="name@company.com" autofocus autocomplete="email">
         </div>
     </div>
 
     <div class="mb-3">
         <div class="d-flex justify-content-between align-items-center mb-1">
-            <label for="password" class="form-label fw-semibold mb-0">Password</label>
-            <a href="<?= site_url('auth/forgot-password') ?>" class="text-muted font-12">Forgot password?</a>
+            <label for="password" class="form-label fw-semibold font-13 mb-0">Password <span class="text-danger">*</span></label>
+            <a href="<?= site_url('auth/forgot-password') ?>" class="text-primary font-12 text-decoration-none">Forgot password?</a>
         </div>
-        <div class="input-group">
+        <div class="input-group input-group-merge">
             <span class="input-group-text"><i class="mdi mdi-lock-outline"></i></span>
-            <input type="password" id="password" name="password" class="form-control" required placeholder="Enter your password">
+            <input type="password" id="password" name="password" class="form-control" required placeholder="Enter your password" autocomplete="current-password">
+            <div class="input-group-text" data-password="false" style="cursor: pointer;">
+                <span class="password-eye"></span>
+            </div>
         </div>
     </div>
 
@@ -69,7 +73,7 @@
     </div>
 </form>
 
-<div class="text-center mt-4">
+<div class="text-center mt-3">
     <p class="text-muted font-14 mb-0">
         Don't have an account yet? 
         <a href="<?= site_url('auth/register') ?>" class="text-primary fw-bold ms-1">Create Account</a>

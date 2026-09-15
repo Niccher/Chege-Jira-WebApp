@@ -11,14 +11,14 @@ class ResetPasswordController extends BaseController
     /**
      * Display reset password form
      */
-    public function resetPasswordView(): string
+    public function resetPasswordView(): ResponseInterface|string
     {
-        $token = $this->request->getGet('token');
-        $email = $this->request->getGet('email');
+        $token = trim((string) $this->request->getGet('token'));
+        $email = trim((string) $this->request->getGet('email'));
 
         // Basic validation that token exists
         if (empty($token) || empty($email)) {
-             return redirect()->to('/auth/login')->with('error', 'Invalid password reset link.');
+             return redirect()->to('/auth/login')->with('error', 'Invalid or missing password reset link.');
         }
 
         $data = [
@@ -27,7 +27,7 @@ class ResetPasswordController extends BaseController
             'email' => $email,
         ];
 
-        return view('\App\Views\auth\reset_password', $data);
+        return view('auth/reset_password', $data);
     }
 
     /**
@@ -35,67 +35,77 @@ class ResetPasswordController extends BaseController
      */
     public function resetPasswordAction(): ResponseInterface
     {
-        $rules = [
-            'token' => 'required',
-            'email' => 'required|valid_email',
-            'password' => 'required|min_length[8]|strong_password',
-            'confirmPassword' => 'required|matches[password]',
+        $email = trim((string) $this->request->getPost('email'));
+        $token = trim((string) $this->request->getPost('token'));
+        $password = (string) $this->request->getPost('password');
+        $passwordConfirm = (string) ($this->request->getPost('password_confirm') ?? $this->request->getPost('confirmPassword') ?? '');
+
+        $validationData = [
+            'email'            => $email,
+            'token'            => $token,
+            'password'         => $password,
+            'password_confirm' => $passwordConfirm,
         ];
 
-        if (!$this->validate($rules)) {
+        $rules = [
+            'token' => [
+                'label'  => 'Security Token',
+                'rules'  => 'required',
+            ],
+            'email' => [
+                'label'  => 'Email',
+                'rules'  => 'required|valid_email',
+            ],
+            'password' => [
+                'label'  => 'New Password',
+                'rules'  => 'required|min_length[8]|strong_password',
+                'errors' => [
+                    'min_length'      => 'Password must be at least 8 characters long',
+                    'strong_password' => 'Password must contain at least one letter and one number',
+                ],
+            ],
+            'password_confirm' => [
+                'label'  => 'Confirm Password',
+                'rules'  => 'required|matches[password]',
+                'errors' => [
+                    'matches' => 'Password confirmation does not match the new password.',
+                ],
+            ],
+        ];
+
+        if (!$this->validateData($validationData, $rules)) {
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
         }
 
-        $email = $this->request->getPost('email');
-        $token = $this->request->getPost('token');
-        $password = $this->request->getPost('password');
-
-        $userModel = new UserModel();
-        
         // Find user by email
-        $user = auth()->getProvider()->findByCredentials(['email' => $email]);
+        $users = auth()->getProvider();
+        $user = $users->findByCredentials(['email' => $email]);
 
         if (!$user) {
-             return redirect()->to('/auth/login')->with('error', 'Invalid request.');
+             return redirect()->to('/auth/login')->with('error', 'Unable to find an account associated with this request.');
         }
 
         // Verify Token and Expiry
-        // Note: reset_hash and reset_expires_at are custom fields we added
-        if ($user->reset_hash !== $token) {
-            return redirect()->back()->withInput()->with('error', 'Invalid or expired token.');
+        if (empty($user->reset_hash) || $user->reset_hash !== $token) {
+            return redirect()->back()->withInput()->with('error', 'Invalid or expired password reset link. Please request a new one.');
         }
 
-        if (strtotime($user->reset_expires_at) < time()) {
-             return redirect()->back()->withInput()->with('error', 'Token has expired. Please request a new one.');
+        if ($user->reset_expires_at && strtotime($user->reset_expires_at) < time()) {
+             return redirect()->back()->withInput()->with('error', 'This password reset link has expired. Please request a new one.');
         }
 
-        // Update Password
-        // Shield's User entity handles password hashing automatically when 'password' field is set?
-        // Shield User Entity uses accessors/mutators or Fillable?
-        // Actually Shield users store password in auth_identities.
-        // We need to use the Identity Provider to update the password.
-        
-        $users = auth()->getProvider();
-        $user->password = $password; // This sets the plain text password on the entity
-        
-        // We also need to clear the reset token
+        // Update Password and Clear Reset Token
+        $user->password = $password;
         $user->reset_hash = null;
         $user->reset_expires_at = null;
 
-        // Saving the user via the Model *should* trigger Shield's password update logic 
-        // IF the Entity handles it correctly. 
-        // Shield Entity `setPassword` mutator usually handles hashing but storage is in identities.
-        // Let's rely on Shield's $userModel->save($user) handling it if $user is a Shield Entity.
-        // Since we extend Shield User now (in one of the previous fixes), checking that...
-        // Wait, earlier we fixed App\Entities\User to extend Shield\Entities\User.
-        
         if ($users->save($user)) {
             return redirect()->to('/auth/login')
-                ->with('success', 'Password reset successful! You can now login with your new password.');
+                ->with('success', 'Your password has been successfully reset! You may now sign in.');
         }
 
-        return redirect()->back()->withInput()->with('error', 'Failed to update password. Please try again.');
+        return redirect()->back()->withInput()->with('error', 'Failed to update password. Please try again or contact support.');
     }
 }

@@ -73,7 +73,7 @@ class Auth extends ShieldAuth
     public array $views = [
         'login'                       => '\App\Views\auth\login',
         'register'                    => '\App\Views\auth\register',
-        'layout'                      => '\App\Views\layouts\auth\auth_template',
+        'layout'                      => '\App\Views\layouts\hyper\auth_template',
         'forgotPassword'              => '\App\Views\auth\forgot_password',
         'resetPassword'               => '\App\Views\auth\reset_password',
         'verifyEmail'                 => '\App\Views\auth\verify_email',
@@ -569,10 +569,10 @@ class Auth extends ShieldAuth
     public function __construct()
     {
         parent::__construct();
-        if (filter_var(env("AUTH_SEND_EMAIL_ON_REGISTER", False), FILTER_VALIDATE_BOOLEAN) == False) {
+        if (filter_var(env("AUTH_SEND_EMAIL_ON_REGISTER", false), FILTER_VALIDATE_BOOLEAN) === false) {
             $this->actions["register"] = null;
         } else {
-            $this->actions["register"] = "\\CodeIgniter\\Shield\\Authentication\\Actions\\EmailActivator::class";
+            $this->actions["register"] = \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class;
         }
     }
 }
