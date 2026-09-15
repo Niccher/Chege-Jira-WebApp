@@ -166,6 +166,7 @@ $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
     // AI Engine Admin routes
     $routes->get('ai/telemetry', 'Admin\AiController::telemetry');
     $routes->get('ai/settings', 'Admin\AiController::settings');
+    $routes->get('ai/models-json', 'Admin\AiController::modelsJson');
     $routes->post('ai/settings/update', 'Admin\AiController::updateSettings');
     $routes->post('ai/test-connection', 'Admin\AiController::testConnection');
     $routes->post('ai/cache-action', 'Admin\AiController::cacheAction');
