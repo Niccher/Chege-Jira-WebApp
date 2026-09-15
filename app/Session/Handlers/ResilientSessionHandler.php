@@ -47,9 +47,26 @@ class ResilientSessionHandler extends BaseHandler implements SessionHandlerInter
     {
         try {
             // Attempt to use Redis Handler first
-            // We temporarily adjust the config to point to Redis
             $redisConfig = clone $this->config;
-            $redisConfig->savePath = 'tcp://redis:6379';
+            
+            // Auto-detect Railway or local Redis environment
+            $redisUrl = getenv('REDIS_URL');
+            if ($redisUrl) {
+                // If Railway provides REDIS_URL like redis://default:pass@host:port
+                // CodeIgniter RedisHandler expects tcp://host:port?auth=pass
+                $parsed = parse_url($redisUrl);
+                $host = $parsed['host'] ?? 'redis';
+                $port = $parsed['port'] ?? 6379;
+                $pass = $parsed['pass'] ?? '';
+                
+                $pathStr = "tcp://{$host}:{$port}";
+                if ($pass) {
+                    $pathStr .= "?auth=" . $pass;
+                }
+                $redisConfig->savePath = $pathStr;
+            } else {
+                $redisConfig->savePath = 'tcp://redis:6379';
+            }
             
             $this->activeHandler = new RedisHandler($redisConfig, $this->ipAddress);
             

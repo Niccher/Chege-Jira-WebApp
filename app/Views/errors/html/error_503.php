@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>503 Service Unavailable | <?= esc(setting('App.siteName')) ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="<?= base_url('assets/hyper/images/favicon.ico') ?>">
+    <link rel="icon" type="image/jpeg" href="<?= base_url('assets/img/app_logo.jpg') ?>">
     <link href="<?= base_url('assets/hyper/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/hyper/css/app.min.css') ?>" rel="stylesheet" type="text/css" id="light-style" />
 </head>

@@ -67,8 +67,11 @@ class Session extends BaseConfig
      * --------------------------------------------------------------------------
      *
      * How many seconds between CI regenerating the session ID.
+     * Set to 30 days (2592000) to prevent AJAX race conditions from destroying sessions.
+     *
+     * @var int
      */
-    public int $timeToUpdate = 300;
+    public int $timeToUpdate = 2592000;
 
     /**
      * --------------------------------------------------------------------------
