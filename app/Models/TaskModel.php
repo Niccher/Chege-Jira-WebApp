@@ -53,7 +53,12 @@ class TaskModel extends Model
         ];
 
         foreach ($tasks as $task) {
-            $board[$task['status']][] = $task;
+            $status = $task['status'] ?? 'todo';
+            if (isset($board[$status])) {
+                $board[$status][] = $task;
+            } else {
+                $board['todo'][] = $task;
+            }
         }
 
         return $board;
@@ -75,17 +80,18 @@ class TaskModel extends Model
     /**
      * Get tasks pending review (status = 'review')
      */
-    public function getPendingReviews(int $managerId = null)
+    public function getPendingReviews(?int $managerId = null)
     {
-        $query = $this->select('tasks.*, projects.name as project_name, users.first_name, users.last_name')
+        $query = $this->select('tasks.*, projects.name as project_name, users.first_name, users.last_name, users.username')
                       ->join('projects', 'projects.id = tasks.project_id', 'left')
                       ->join('users', 'users.id = tasks.assigned_to', 'left')
                       ->where('tasks.status', 'review');
                       
-        // In a more complex setup, you'd filter by the manager's assigned projects or team members.
-        // For now, if $managerId is passed, maybe they can only review tasks they assigned?
-        if ($managerId) {
-            $query->where('tasks.assigned_by', $managerId);
+        if ($managerId !== null) {
+            $query->groupStart()
+                  ->where('tasks.assigned_by', $managerId)
+                  ->orWhere('tasks.assigned_by IS NULL')
+                  ->groupEnd();
         }
 
         return $query->orderBy('tasks.updated_at', 'ASC')->findAll();

@@ -15,20 +15,24 @@ class TeamDashboardController extends BaseController
         // 1. Overall Team Stats
         $taskModel = new TaskModel();
         $totalTasks = $taskModel->countAllResults();
-        $approvedTasks = $taskModel->where('status', 'approved')->countAllResults();
-        $pendingTasks = $taskModel->where('status', 'in_progress')->orWhere('status', 'pending_approval')->countAllResults();
+        $approvedTasks = $taskModel->whereIn('status', ['approved', 'done'])->countAllResults();
+        $pendingTasks = $taskModel->whereIn('status', ['in_progress', 'review'])->countAllResults();
         
-        // 2. Performance Leaderboard (Rank workers by approved tasks)
-        // We join with auth_identities to get the username/email
+        // 2. Performance Leaderboard (Rank workers by approved/completed tasks)
         $leaderboardQuery = $db->query("
             SELECT 
                 u.id as user_id,
-                i.secret as username,
+                COALESCE(
+                    NULLIF(TRIM(CONCAT(COALESCE(u.first_name, ''), ' ', COALESCE(u.last_name, ''))), ''),
+                    u.username,
+                    i.secret,
+                    'Team Member'
+                ) as username,
                 COUNT(t.id) as completed_tasks
             FROM users u
-            JOIN auth_identities i ON u.id = i.user_id AND i.type = 'email_password'
-            LEFT JOIN tasks t ON u.id = t.assignee_id AND t.status = 'approved'
-            GROUP BY u.id
+            LEFT JOIN auth_identities i ON u.id = i.user_id AND i.type = 'email_password'
+            LEFT JOIN tasks t ON u.id = t.assigned_to AND t.status IN ('approved', 'done')
+            GROUP BY u.id, u.first_name, u.last_name, u.username, i.secret
             ORDER BY completed_tasks DESC
             LIMIT 10
         ");

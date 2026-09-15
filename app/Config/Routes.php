@@ -122,14 +122,19 @@ $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
 });
 
 // Load default Shield routes, excluding those we'll customize
-service('auth')->routes($routes, ['except' => ['login', 'register', 'forgot', 'reset', 'verify-email', 'locked']]);
+service('auth')->routes($routes, ['except' => ['login', 'register', 'forgot', 'reset', 'verify-email', 'locked', 'logout']]);
+
+// Direct Logout routes (root /logout and /auth/logout)
+$routes->get('logout', [\App\Controllers\Auth\LoginController::class, 'logoutAction'], ['as' => 'logout']);
+$routes->post('logout', [\App\Controllers\Auth\LoginController::class, 'logoutAction']);
 
 // Custom Authentication Routes
 $routes->group('auth', static function ($routes) {
-    // Login
+    // Login & Logout
     $routes->get('login', [\App\Controllers\Auth\LoginController::class, 'loginView'], ['as' => 'login']);
     $routes->post('login', [\App\Controllers\Auth\LoginController::class, 'loginAction']);
-    $routes->get('logout', [\App\Controllers\Auth\LoginController::class, 'logoutAction'], ['as' => 'logout']);
+    $routes->get('logout', [\App\Controllers\Auth\LoginController::class, 'logoutAction']);
+    $routes->post('logout', [\App\Controllers\Auth\LoginController::class, 'logoutAction']);
 
     // Register
     $routes->get('register', [\App\Controllers\Auth\RegisterController::class, 'registerView'], ['as' => 'register']);

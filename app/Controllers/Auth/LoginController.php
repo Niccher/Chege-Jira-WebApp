@@ -36,7 +36,10 @@ class LoginController extends ShieldLogin
         if (session()->has('success')) {
             $data['success'] = session('success');
         }
-        // Return your custom view
+        if (session()->has('message')) {
+            $data['message'] = session('message');
+        }
+        // Return custom view
         return view('auth/login', $data);
     }
 
@@ -68,6 +71,19 @@ class LoginController extends ShieldLogin
         }
         // Success - redirect to dashboard
         return redirect()->to(config('Auth')->loginRedirect())->with('success', 'Welcome back!');
+    }
+
+    /**
+     * Handle user logout
+     */
+    public function logoutAction(): RedirectResponse
+    {
+        if (auth()->loggedIn()) {
+            auth()->logout();
+        }
+        session()->destroy();
+
+        return redirect()->to(site_url('auth/login'))->with('success', 'You have been successfully logged out.');
     }
 
     /**

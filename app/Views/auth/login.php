@@ -1,61 +1,79 @@
 <?= $this->extend('layouts/hyper/auth_template') ?>
 
-<?= $this->section('title') ?>Login<?= $this->endSection() ?>
+<?= $this->section('title') ?>Sign In<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-    <div class="text-center w-75 m-auto">
-        <h4 class="text-dark-50 text-center mt-0 fw-bold">Sign In</h4>
-        <p class="text-muted mb-4">Enter your email address and password to access your dashboard.</p>
+
+<div class="mb-4">
+    <h3 class="fw-bold text-body mb-1">Welcome back!</h3>
+    <p class="text-muted font-14">Enter your credentials to access your workspace.</p>
+</div>
+
+<?php if(session()->has('error')): ?>
+    <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+        <i class="mdi mdi-alert-circle-outline font-18 me-2"></i>
+        <div><?= session('error') ?></div>
+    </div>
+<?php endif; ?>
+
+<?php if(session()->has('errors')): ?>
+    <div class="alert alert-danger mb-3" role="alert">
+        <ul class="mb-0 ps-3">
+            <?php foreach(session('errors') as $err): ?>
+                <li><?= esc($err) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<?php if(session()->has('success') || session()->has('message')): ?>
+    <div class="alert alert-success d-flex align-items-center mb-3" role="alert">
+        <i class="mdi mdi-check-circle-outline font-18 me-2"></i>
+        <div><?= session('success') ?? session('message') ?></div>
+    </div>
+<?php endif; ?>
+
+<form action="<?= site_url('auth/login') ?>" method="POST" id="loginForm">
+    <?= csrf_field() ?>
+
+    <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email address</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="mdi mdi-email-outline"></i></span>
+            <input class="form-control" type="email" id="email" name="email" value="<?= old('email') ?>" required placeholder="name@company.com" autofocus>
+        </div>
     </div>
 
-    <?php if(session()->has('error')): ?>
-        <div class="alert alert-danger" role="alert">
-            <i class="mdi mdi-alert-circle-outline me-2"></i>
-            <?= session('error') ?>
+    <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="password" class="form-label fw-semibold mb-0">Password</label>
+            <a href="<?= site_url('auth/forgot-password') ?>" class="text-muted font-12">Forgot password?</a>
         </div>
-    <?php endif; ?>
-
-    <?php if(session()->has('success')): ?>
-        <div class="alert alert-success" role="alert">
-            <i class="mdi mdi-check-circle-outline me-2"></i>
-            <?= session('success') ?>
+        <div class="input-group">
+            <span class="input-group-text"><i class="mdi mdi-lock-outline"></i></span>
+            <input type="password" id="password" name="password" class="form-control" required placeholder="Enter your password">
         </div>
-    <?php endif; ?>
-
-    <form action="<?= site_url('auth/login') ?>" method="POST">
-        <?= csrf_field() ?>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input class="form-control" type="email" id="email" name="email" required="" placeholder="Enter your email">
-        </div>
-
-        <div class="mb-3">
-            <a href="<?= site_url('auth/forgot-password') ?>" class="text-muted float-end"><small>Forgot your password?</small></a>
-            <label for="password" class="form-label">Password</label>
-            <div class="input-group input-group-merge">
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
-                <div class="input-group-text" data-password="false">
-                    <span class="password-eye"></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-3 mb-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                <label class="form-check-label" for="remember">Remember me</label>
-            </div>
-        </div>
-
-        <div class="mb-3 text-center">
-            <button class="btn btn-primary w-100" type="submit"> Log In </button>
-        </div>
-    </form>
-    
-    <div class="row mt-3">
-        <div class="col-12 text-center">
-            <p class="text-muted">Don't have an account? <a href="<?= site_url('auth/register') ?>" class="text-muted ms-1"><b>Sign Up</b></a></p>
-        </div> <!-- end col -->
     </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="remember" name="remember" <?= old('remember') ? 'checked' : '' ?>>
+            <label class="form-check-label font-13" for="remember">Keep me logged in on this device</label>
+        </div>
+    </div>
+
+    <div class="d-grid mb-3">
+        <button class="btn btn-primary btn-lg rounded-pill fw-semibold" type="submit">
+            <i class="mdi mdi-login me-1"></i> Sign In to Workspace
+        </button>
+    </div>
+</form>
+
+<div class="text-center mt-4">
+    <p class="text-muted font-14 mb-0">
+        Don't have an account yet? 
+        <a href="<?= site_url('auth/register') ?>" class="text-primary fw-bold ms-1">Create Account</a>
+    </p>
+</div>
+
 <?= $this->endSection() ?>

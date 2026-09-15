@@ -242,13 +242,15 @@
             <!-- content -->
 
             <!-- Footer Start -->
-            <footer class="footer py-3">
+            <footer class="footer py-3 border-top">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12 text-center font-14">
+                            <span class="text-muted"><i class="mdi mdi-calendar-today text-primary me-1"></i> <?= date('l, F j, Y') ?></span>
+                            <span class="mx-2 text-muted">•</span>
                             <span><?= date('Y') ?> © <strong><?= esc(setting('App.siteName')) ?></strong></span>
                             <span class="mx-2 text-muted">•</span>
-                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#appVersionModal" class="badge bg-primary-lighten text-primary text-decoration-none px-2 py-1 font-12">
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#appVersionModal" class="badge bg-primary-lighten text-primary text-decoration-none px-2 py-1 font-12" title="View Version & Changelog">
                                 <i class="mdi mdi-tag-outline me-1"></i>v1.0.0
                             </a>
                         </div>
