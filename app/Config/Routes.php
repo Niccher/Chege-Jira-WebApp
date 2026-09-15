@@ -12,6 +12,9 @@ $routes->get('/faqs', 'Home::faqs');
 $routes->get('/compare', 'Home::compare');
 $routes->get('/community', 'Home::community');
 
+// Health Check
+$routes->get('/health', 'HealthController::index');
+
 // Public Client Portal (Token Gated - No Login Required)
 $routes->get('/portal/(:segment)', 'PortalController::view/$1');
 
@@ -170,6 +173,11 @@ $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
     $routes->post('ai/settings/update', 'Admin\AiController::updateSettings');
     $routes->post('ai/test-connection', 'Admin\AiController::testConnection');
     $routes->post('ai/cache-action', 'Admin\AiController::cacheAction');
+    
+    // AI Reports routes
+    $routes->get('ai/reports', 'Admin\AiReportsController::index');
+    $routes->post('ai/reports/generate', 'Admin\AiReportsController::generate');
+    $routes->get('ai/reports/status/(:segment)', 'Admin\AiReportsController::status/$1');
 });
 
 // Load default Shield routes, excluding those we'll customize

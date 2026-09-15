@@ -41,6 +41,14 @@ services:
     networks:
       - shared-network
 
+  redis:
+    image: redis:alpine
+    container_name: shared-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - shared-network
+
   chege-jira:
     build:
       context: .

@@ -21,7 +21,7 @@ class Session extends BaseConfig
      *
      * @var class-string<BaseHandler>
      */
-    public string $driver = DatabaseHandler::class;
+    public string $driver = \App\Session\Handlers\ResilientSessionHandler::class;
 
     /**
      * --------------------------------------------------------------------------
@@ -46,16 +46,6 @@ class Session extends BaseConfig
      * --------------------------------------------------------------------------
      * Session Save Path
      * --------------------------------------------------------------------------
-     *
-     * The location to save sessions to and is driver dependent.
-     *
-     * For the 'files' driver, it's a path to a writable directory.
-     * WARNING: Only absolute paths are supported!
-     *
-     * For the 'database' driver, it's a table name.
-     * Please read up the manual for the format with other session drivers.
-     *
-     * IMPORTANT: You are REQUIRED to set a valid save path!
      */
     public string $savePath = 'ci_sessions';
 

@@ -69,7 +69,12 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold font-13">API Secret Key (X-API-Key)</label>
-                            <input type="password" name="api_key" class="form-control" value="<?= esc($apiKey) ?>" placeholder="Secret key matching ML container" required>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="api_key" name="api_key" class="form-control" value="<?= esc($apiKey) ?>" placeholder="Secret key matching ML container" required>
+                                <div class="input-group-text" data-password="false" style="cursor: pointer;" onclick="const input = document.getElementById('api_key'); const icon = this.querySelector('i'); if(input.type === 'password'){ input.type = 'text'; icon.classList.remove('mdi-eye-outline'); icon.classList.add('mdi-eye-off-outline'); } else { input.type = 'password'; icon.classList.remove('mdi-eye-off-outline'); icon.classList.add('mdi-eye-outline'); }">
+                                    <i class="mdi mdi-eye-outline"></i>
+                                </div>
+                            </div>
                             <div class="form-text font-12">Shared authorization token.</div>
                         </div>
 

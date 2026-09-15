@@ -45,6 +45,11 @@ class UserManagementController extends BaseController
         if ($user) {
             $role = $this->request->getPost('role');
             
+            // Prevent Admin self-demotion
+            if ($id == auth()->id() && $role !== 'admin') {
+                return redirect()->back()->with('error', 'You cannot demote your own administrator account.');
+            }
+            
             // Remove existing groups (roles)
             foreach ($user->getGroups() as $group) {
                 $user->removeGroup($group);
@@ -67,6 +72,11 @@ class UserManagementController extends BaseController
         $user = $users->findById($id);
 
         if ($user) {
+            // Prevent Admin self-deactivation
+            if ($id == auth()->id()) {
+                return redirect()->back()->with('error', 'You cannot deactivate your own account.');
+            }
+
             if ($user->isBanned()) {
                 $user->unBan();
                 return redirect()->back()->with('message', 'User activated successfully.');

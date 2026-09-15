@@ -22,8 +22,7 @@
     <meta name="description" content="<?= esc(setting('App.siteName')) ?> - Agile Project Management" />
 
     <!-- App favicon -->
-    <link rel="icon" type="image/x-icon" href="<?= base_url('favicon.ico') ?>">
-    <link rel="icon" type="image/png" href="<?= base_url('favicon.png') ?>">
+    <link rel="icon" type="image/jpeg" href="<?= base_url('assets/img/app_logo.jpg') ?>">
     <link rel="apple-touch-icon" href="<?= base_url('assets/img/app_logo.jpg') ?>">
 
     <!-- Primary Meta Tags & SEO -->
