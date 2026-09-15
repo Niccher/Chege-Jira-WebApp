@@ -89,6 +89,11 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                                 <span class="badge <?= $priorityClass ?> font-12">
                                     <?= ucfirst($project['priority'] ?? 'medium') ?> Priority
                                 </span>
+                                <?php if (!empty($health)): ?>
+                                    <a href="<?= site_url('projects/health') ?>" class="badge <?= $health['badge_class'] ?> font-12 text-decoration-none" title="View workspace health audit">
+                                        <i class="mdi <?= $health['icon'] ?> me-1"></i> Health: <?= $health['score'] ?>/100 (<?= $health['label'] ?>)
+                                    </a>
+                                <?php endif; ?>
                             </div>
                             <p class="text-muted font-14 mb-2"><?= esc($project['description']) ?></p>
                             <div class="d-flex gap-1 flex-wrap">
@@ -339,6 +344,92 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                         </div>
                     </div>
 
+                    <!-- Client Portal Share Links Section -->
+                    <div class="accordion-item border rounded mb-2">
+                        <h2 class="accordion-header" id="headingPortal">
+                            <button class="accordion-button collapsed fw-bold text-body" type="button" data-bs-toggle="collapse" data-bs-target="#portalCollapse" aria-expanded="false" aria-controls="portalCollapse">
+                                <i class="uil-share-alt me-2 text-info"></i> Client Portal Links (<?= count($portal_tokens ?? []) ?>)
+                            </button>
+                        </h2>
+                        <div id="portalCollapse" class="accordion-collapse collapse" aria-labelledby="headingPortal" data-bs-parent="#projectDetailsAccordion">
+                            <div class="accordion-body">
+                                <div class="bg-light p-3 rounded mb-3 border">
+                                    <h6 class="font-13 fw-bold text-dark mb-2">
+                                        <i class="mdi mdi-link-variant me-1 text-primary"></i> Create Client Status Link
+                                    </h6>
+                                    <form method="POST" action="<?= site_url('projects/portal/generate') ?>" class="row g-2">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
+                                        <div class="col-md-7 col-12">
+                                            <input type="text" name="label" class="form-control form-control-sm" placeholder="e.g. Shared with Client Stakeholders" required>
+                                        </div>
+                                        <div class="col-md-3 col-8">
+                                            <select name="expires_days" class="form-select form-select-sm">
+                                                <option value="0">Never Expires</option>
+                                                <option value="7">Expires in 7 days</option>
+                                                <option value="30">Expires in 30 days</option>
+                                                <option value="90">Expires in 90 days</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-4">
+                                            <button type="submit" class="btn btn-primary btn-sm w-100">
+                                                <i class="mdi mdi-plus"></i> Share
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <small class="text-muted font-11 mt-1 d-block">
+                                        <i class="mdi mdi-information-outline me-1"></i>Links provide read-only progress metrics without exposing internal notes or comments.
+                                    </small>
+                                </div>
+
+                                <div class="portal-tokens-list">
+                                    <?php if (!empty($portal_tokens)): ?>
+                                        <?php foreach ($portal_tokens as $t): 
+                                            $link = site_url('portal/' . $t['token']);
+                                            $isRevoked = (int)($t['is_active'] ?? 1) === 0;
+                                        ?>
+                                            <div class="p-2 mb-2 rounded border bg-white d-flex align-items-center justify-content-between <?= $isRevoked ? 'opacity-50' : '' ?>">
+                                                <div>
+                                                    <div class="fw-semibold font-12 text-dark">
+                                                        <?= esc($t['label']) ?>
+                                                        <?php if ($isRevoked): ?>
+                                                            <span class="badge bg-secondary-lighten text-secondary ms-1 font-10">Revoked</span>
+                                                        <?php elseif (!empty($t['expires_at'])): ?>
+                                                            <span class="badge bg-info-lighten text-info ms-1 font-10">Exp: <?= date('M j, Y', strtotime($t['expires_at'])) ?></span>
+                                                        <?php else: ?>
+                                                            <span class="badge bg-success-lighten text-success ms-1 font-10">Permanent</span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <small class="text-muted font-11 text-truncate d-block" style="max-width: 250px;">
+                                                        <?= $link ?>
+                                                    </small>
+                                                </div>
+                                                <div class="btn-group btn-group-sm">
+                                                    <?php if (!$isRevoked): ?>
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm copy-portal-btn" data-url="<?= $link ?>" title="Copy link">
+                                                            <i class="mdi mdi-content-copy"></i>
+                                                        </button>
+                                                        <a href="<?= $link ?>" target="_blank" class="btn btn-outline-primary btn-sm" title="Open Client Portal">
+                                                            <i class="mdi mdi-open-in-new"></i>
+                                                        </a>
+                                                        <form method="POST" action="<?= site_url('projects/portal/revoke/' . $t['id']) ?>" onsubmit="return confirm('Revoke this client link?');" class="d-inline">
+                                                            <?= csrf_field() ?>
+                                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Revoke access">
+                                                                <i class="mdi mdi-link-off"></i>
+                                                            </button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="text-center text-muted py-3 font-12">No client share links generated yet.</div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Long Description Section -->
                     <div class="accordion-item border rounded">
                         <h2 class="accordion-header" id="headingDesc">
@@ -517,6 +608,21 @@ $projectSlug = !empty($project['slug']) ? $project['slug'] : $project['id'];
                     showToast('Failed to save note', 'danger');
                 }
             });
+        });
+
+        // Copy portal link to clipboard
+        $('.copy-portal-btn').click(function() {
+            const url = $(this).data('url');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(function() {
+                    showToast('Client Portal link copied to clipboard!', 'success');
+                });
+            } else {
+                const tempInput = $('<input>').val(url).appendTo('body').select();
+                document.execCommand('copy');
+                tempInput.remove();
+                showToast('Client Portal link copied to clipboard!', 'success');
+            }
         });
 
         // Toast notification function

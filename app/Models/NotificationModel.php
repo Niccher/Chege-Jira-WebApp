@@ -27,4 +27,48 @@ class NotificationModel extends Model
                     ->orderBy('created_at', 'DESC')
                     ->findAll();
     }
+
+    public function getUnreadCountForUser(int $userId): int
+    {
+        return $this->where('user_id', $userId)
+                    ->where('is_read', 0)
+                    ->countAllResults();
+    }
+
+    public function getRecentForUser(int $userId, int $limit = 8): array
+    {
+        return $this->where('user_id', $userId)
+                    ->orderBy('created_at', 'DESC')
+                    ->limit($limit)
+                    ->findAll();
+    }
+
+    public function markAsRead(int $notificationId, int $userId): bool
+    {
+        return (bool) $this->where('id', $notificationId)
+                           ->where('user_id', $userId)
+                           ->set(['is_read' => 1])
+                           ->update();
+    }
+
+    public function markAllAsRead(int $userId): bool
+    {
+        return (bool) $this->where('user_id', $userId)
+                           ->where('is_read', 0)
+                           ->set(['is_read' => 1])
+                           ->update();
+    }
+
+    public static function createNotification(int $userId, string $type, string $title, string $body, ?string $actionUrl = null): int|false
+    {
+        $model = new self();
+        return $model->insert([
+            'user_id'    => $userId,
+            'type'       => $type,
+            'title'      => $title,
+            'body'       => $body,
+            'action_url' => $actionUrl,
+            'is_read'    => 0,
+        ]);
+    }
 }

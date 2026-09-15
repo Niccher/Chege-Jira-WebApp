@@ -374,4 +374,156 @@ class ProjectModel extends Model
         $project = $this->find($projectId);
         return $project ? json_decode($project['tech_stack'], true) : [];
     }
+
+    /**
+     * Compute Project Health Score (0-100) and identify risk factors
+     */
+    public function calculateHealthScore(array $project, array $tasks = [], ?array $activeSprint = null): array
+    {
+        if (($project['status'] ?? '') === 'completed') {
+            return [
+                'score'       => 100,
+                'status'      => 'healthy',
+                'label'       => 'Completed',
+                'badge_class' => 'bg-success-lighten text-success',
+                'icon'        => 'mdi-check-all',
+                'issues'      => [],
+                'overdue_cnt' => 0,
+            ];
+        }
+
+        $score = 100;
+        $issues = [];
+        $overdueCount = 0;
+        $now = time();
+
+        // 1. Check project overall due date
+        if (!empty($project['due_date'])) {
+            $dueTimestamp = strtotime($project['due_date']);
+            if ($dueTimestamp < $now) {
+                $daysOver = ceil(($now - $dueTimestamp) / 86400);
+                $score -= 25;
+                $issues[] = "Project target completion date was {$daysOver}d ago";
+            }
+        }
+
+        // 2. Check overdue tasks
+        $totalTasks = count($tasks);
+        $completedTasks = 0;
+        foreach ($tasks as $t) {
+            if (($t['status'] ?? '') === 'done' || ($t['status'] ?? '') === 'approved') {
+                $completedTasks++;
+            } else {
+                if (!empty($t['due_date']) && strtotime($t['due_date']) < $now) {
+                    $overdueCount++;
+                }
+            }
+        }
+
+        if ($overdueCount > 0) {
+            $deduction = min(30, $overdueCount * 6);
+            $score -= $deduction;
+            $issues[] = "{$overdueCount} task(s) past due date (-{$deduction} pts)";
+        }
+
+        // 3. Inactivity penalty
+        if (!empty($project['updated_at'])) {
+            $updatedTimestamp = strtotime($project['updated_at']);
+            $daysInactive = floor(($now - $updatedTimestamp) / 86400);
+            if ($daysInactive > 14) {
+                $score -= 20;
+                $issues[] = "No recorded project activity for {$daysInactive} days (-20 pts)";
+            } elseif ($daysInactive > 7) {
+                $score -= 10;
+                $issues[] = "No updates in {$daysInactive} days (-10 pts)";
+            }
+        }
+
+        // 4. Stalled progress check
+        $progress = (int)($project['progress'] ?? 0);
+        $status = $project['status'] ?? 'planning';
+        if ($status === 'in_progress' && $progress < 15 && $totalTasks > 0) {
+            $score -= 15;
+            $issues[] = "Project active but progress is under 15% (-15 pts)";
+        }
+
+        // 5. Active Sprint health
+        if ($activeSprint) {
+            if (!empty($activeSprint['end_date']) && strtotime($activeSprint['end_date']) < $now) {
+                $score -= 20;
+                $issues[] = "Active sprint '{$activeSprint['name']}' has exceeded its end date (-20 pts)";
+            }
+        }
+
+        // Clamp score between 10 and 100
+        $score = max(10, min(100, $score));
+
+        // Derive status and badge
+        if ($score >= 80) {
+            $healthStatus = 'healthy';
+            $label = 'Healthy';
+            $badgeClass = 'bg-success-lighten text-success';
+            $icon = 'mdi-check-circle-outline';
+        } elseif ($score >= 50) {
+            $healthStatus = 'warning';
+            $label = 'Needs Attention';
+            $badgeClass = 'bg-warning-lighten text-warning';
+            $icon = 'mdi-alert-outline';
+        } else {
+            $healthStatus = 'danger';
+            $label = 'At Risk';
+            $badgeClass = 'bg-danger-lighten text-danger';
+            $icon = 'mdi-alert-circle-outline';
+        }
+
+        return [
+            'score'       => $score,
+            'status'      => $healthStatus,
+            'label'       => $label,
+            'badge_class' => $badgeClass,
+            'icon'        => $icon,
+            'issues'      => $issues,
+            'overdue_cnt' => $overdueCount,
+            'total_tasks' => $totalTasks,
+            'done_tasks'  => $completedTasks,
+        ];
+    }
+
+    /**
+     * Get all accessible projects with computed health score
+     */
+    public function getProjectsWithHealth(int $userId, bool $isAdmin, ?string $healthFilter = null): array
+    {
+        $db = \Config\Database::connect();
+        
+        $builder = $this->select('projects.*');
+        if (!$isAdmin) {
+            $builder->where('projects.user_id', $userId);
+        }
+        $projects = $builder->orderBy('projects.updated_at', 'DESC')->findAll();
+
+        if (empty($projects)) {
+            return [];
+        }
+
+        $taskModel = new TaskModel();
+        $sprintModel = new SprintModel();
+
+        $results = [];
+        foreach ($projects as $project) {
+            $tasks = $taskModel->where('project_id', $project['id'])->findAll();
+            $activeSprint = $sprintModel->getActiveSprint((int)$project['id']);
+            $health = $this->calculateHealthScore($project, $tasks, $activeSprint);
+
+            $project['health'] = $health;
+
+            if ($healthFilter && $health['status'] !== $healthFilter) {
+                continue;
+            }
+
+            $results[] = $project;
+        }
+
+        return $results;
+    }
 }

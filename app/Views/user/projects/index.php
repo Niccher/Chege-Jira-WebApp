@@ -9,6 +9,9 @@
     <div class="col-12">
         <div class="page-title-box">
             <div class="page-title-right">
+                <a href="<?= site_url('projects/health') ?>" class="btn btn-outline-danger rounded-pill me-1">
+                    <i class="mdi mdi-heart-pulse me-1"></i> Health Audit
+                </a>
                 <a href="<?= site_url('projects/create') ?>" class="btn btn-primary rounded-pill">
                     <i class="mdi mdi-plus me-1"></i> New Project
                 </a>

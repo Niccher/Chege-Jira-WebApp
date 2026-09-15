@@ -166,6 +166,14 @@ class SprintController extends BaseUserController
             'completed_points' => $pts['completed_points'],
         ]);
 
+        \App\Services\NotificationService::send(
+            $this->userId,
+            'sprint',
+            'Sprint Started: ' . $sprint['name'],
+            'Sprint "' . esc($sprint['name']) . '" is now active with ' . $pts['total_points'] . ' story points.',
+            'projects/sprints/' . ($project['slug'] ?? $sprint['project_id'])
+        );
+
         return redirect()->back()->with('success', 'Sprint "' . esc($sprint['name']) . '" has officially started!');
     }
 
@@ -189,6 +197,14 @@ class SprintController extends BaseUserController
             'total_points'     => $pts['total_points'],
             'completed_points' => $pts['completed_points'],
         ]);
+
+        \App\Services\NotificationService::send(
+            $this->userId,
+            'sprint',
+            'Sprint Completed: ' . $sprint['name'],
+            'Sprint "' . esc($sprint['name']) . '" completed (' . $pts['completed_points'] . '/' . $pts['total_points'] . ' points achieved).',
+            'projects/sprints/' . $sprint['project_id']
+        );
 
         // Move uncompleted tasks back to the backlog
         $db = \Config\Database::connect();

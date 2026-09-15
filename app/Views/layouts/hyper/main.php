@@ -4,6 +4,14 @@
     $initials = strtoupper(substr(trim($rawName), 0, 2));
     $isAdmin = $currentUser && $currentUser->inGroup('admin');
     $isManager = $currentUser && ($currentUser->inGroup('manager') || $isAdmin);
+
+    $unreadNotificationsCount = 0;
+    $initialNotifications = [];
+    if ($currentUser) {
+        $notifModel = new \App\Models\NotificationModel();
+        $unreadNotificationsCount = $notifModel->getUnreadCountForUser((int)$currentUser->id);
+        $initialNotifications = $notifModel->getRecentForUser((int)$currentUser->id, 8);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -244,7 +252,8 @@
                     $isDash = in_array($uri, ['dashboard', 'home', 'user/dashboard', 'user/home', '']);
                     $isKanban = str_contains($uri, 'kanban');
                     $isProjects = (str_starts_with($uri, 'projects') && !$isKanban);
-                    $isTime = str_starts_with($uri, 'time');
+                    $isTimeReport = str_contains($uri, 'time/report');
+                    $isTime = (str_starts_with($uri, 'time') && !$isTimeReport);
                     $isCal = str_starts_with($uri, 'calendar');
                     $isNotes = str_starts_with($uri, 'notes');
                     $isAnalytics = str_starts_with($uri, 'analytics');
@@ -281,6 +290,12 @@
                         <a href="<?= site_url('time') ?>" class="side-nav-link <?= $isTime ? 'active' : '' ?>">
                             <i class="uil-clock text-warning"></i>
                             <span> Time Tracker </span>
+                        </a>
+                    </li>
+                    <li class="side-nav-item <?= $isTimeReport ? 'menuitem-active' : '' ?>">
+                        <a href="<?= site_url('time/report') ?>" class="side-nav-link <?= $isTimeReport ? 'active' : '' ?>">
+                            <i class="uil-file-check-alt text-success"></i>
+                            <span> Time Reports </span>
                         </a>
                     </li>
                     <li class="side-nav-item <?= $isCal ? 'menuitem-active' : '' ?>">
@@ -385,6 +400,78 @@
                             <a class="nav-link end-bar-toggle" href="javascript:void(0);" id="theme-toggle-btn" title="Toggle Light / Dark Theme" role="button">
                                 <i class="uil-moon font-22" id="theme-toggle-icon"></i>
                             </a>
+                        </li>
+
+                        <!-- Notifications Bell -->
+                        <li class="dropdown notification-list me-1">
+                            <a class="nav-link dropdown-toggle arrow-none position-relative" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" id="topbar-notification-dropdown" title="Notifications">
+                                <i class="uil-bell font-22"></i>
+                                <span class="position-absolute badge rounded-pill bg-danger font-10" id="notification-badge" style="top: 14px; right: 4px; display: <?= $unreadNotificationsCount > 0 ? 'inline-block' : 'none' ?>; font-size: 10px; padding: 2px 5px;">
+                                    <?= $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount ?>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu shadow-lg border" style="width: 330px; max-width: 90vw;" aria-labelledby="topbar-notification-dropdown">
+                                <div class="dropdown-header noti-title d-flex justify-content-between align-items-center py-2 px-3 border-bottom bg-light">
+                                    <h6 class="m-0 font-13 fw-bold text-dark">
+                                        <i class="mdi mdi-bell-ring-outline text-primary me-1"></i> Notifications
+                                        <span class="badge bg-primary-lighten text-primary ms-1" id="dropdown-unread-count"><?= $unreadNotificationsCount ?></span>
+                                    </h6>
+                                    <a href="javascript:void(0);" id="mark-all-read-btn" class="text-primary font-11 text-decoration-none fw-semibold">
+                                        Mark all read
+                                    </a>
+                                </div>
+
+                                <div style="max-height: 280px; overflow-y: auto;" id="notification-items-container">
+                                    <?php if (empty($initialNotifications)): ?>
+                                        <div class="p-4 text-center text-muted" id="notif-empty-state">
+                                            <i class="mdi mdi-bell-sleep-outline font-24 d-block mb-1 opacity-50"></i>
+                                            <span class="font-12">No notifications yet</span>
+                                        </div>
+                                    <?php else: ?>
+                                        <?php foreach ($initialNotifications as $notif): 
+                                            $isUnread = (int)$notif['is_read'] === 0;
+                                            $icon = 'mdi-bell-outline';
+                                            $iconColor = 'text-primary bg-primary-lighten';
+                                            switch($notif['type']) {
+                                                case 'task_assigned': $icon = 'mdi-clipboard-account-outline'; $iconColor = 'text-info bg-info-lighten'; break;
+                                                case 'task_moved': case 'task_status': $icon = 'mdi-swap-horizontal'; $iconColor = 'text-warning bg-warning-lighten'; break;
+                                                case 'work_approved': $icon = 'mdi-check-decagram-outline'; $iconColor = 'text-success bg-success-lighten'; break;
+                                                case 'work_rejected': $icon = 'mdi-alert-circle-outline'; $iconColor = 'text-danger bg-danger-lighten'; break;
+                                                case 'sprint': $icon = 'mdi-run-fast'; $iconColor = 'text-primary bg-primary-lighten'; break;
+                                                case 'project': $icon = 'mdi-folder-star-outline'; $iconColor = 'text-secondary bg-secondary-lighten'; break;
+                                            }
+                                        ?>
+                                            <a href="<?= !empty($notif['action_url']) ? base_url($notif['action_url']) : 'javascript:void(0);' ?>" 
+                                               class="dropdown-item notify-item py-2 px-3 border-bottom notif-item <?= $isUnread ? 'bg-light-lighten' : 'opacity-75' ?>" 
+                                               data-id="<?= $notif['id'] ?>">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar-xs me-2 flex-shrink-0">
+                                                        <span class="avatar-title rounded-circle font-14 <?= $iconColor ?>">
+                                                            <i class="mdi <?= $icon ?>"></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1 overflow-hidden">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <h6 class="m-0 font-12 fw-semibold text-truncate <?= $isUnread ? 'text-dark fw-bold' : 'text-muted' ?>">
+                                                                <?= esc($notif['title']) ?>
+                                                            </h6>
+                                                            <?php if ($isUnread): ?>
+                                                                <span class="badge bg-danger rounded-circle p-1 ms-1" style="width: 6px; height: 6px;"></span>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                        <p class="font-11 text-muted mb-0 text-truncate"><?= esc($notif['body']) ?></p>
+                                                        <small class="text-muted font-10"><i class="mdi mdi-clock-outline"></i> <?= date('M j, g:i a', strtotime($notif['created_at'])) ?></small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="p-1 border-top text-center bg-light">
+                                    <small class="text-muted font-10"><i class="mdi mdi-refresh me-1"></i>Real-time team updates</small>
+                                </div>
+                            </div>
                         </li>
 
                         <li class="dropdown notification-list">
@@ -820,6 +907,124 @@
                 var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
                 return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
             }
+        })();
+
+        // ==========================================
+        // Live Notification Bell System
+        // ==========================================
+        (function() {
+            var badgeEl = document.getElementById('notification-badge');
+            var dropdownCountEl = document.getElementById('dropdown-unread-count');
+            var containerEl = document.getElementById('notification-items-container');
+            var markAllBtn = document.getElementById('mark-all-read-btn');
+
+            if (!badgeEl || !containerEl) return;
+
+            // Handle mark single notification as read on click
+            containerEl.addEventListener('click', function(e) {
+                var item = e.target.closest('.notif-item');
+                if (!item) return;
+                var notifId = item.getAttribute('data-id');
+                if (notifId) {
+                    fetch('<?= base_url('api/notifications/mark-read') ?>/' + notifId, {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    }).then(function(r) { return r.json(); })
+                      .then(function(data) {
+                          if (data.status === 'success') {
+                              updateBadge(data.unread_count);
+                              item.classList.remove('bg-light-lighten');
+                              item.classList.add('opacity-75');
+                              var dot = item.querySelector('.bg-danger');
+                              if (dot) dot.remove();
+                          }
+                      }).catch(function() {});
+                }
+            });
+
+            // Handle Mark All Read
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    fetch('<?= base_url('api/notifications/mark-all-read') ?>', {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    }).then(function(r) { return r.json(); })
+                      .then(function(data) {
+                          if (data.status === 'success') {
+                              updateBadge(0);
+                              var items = containerEl.querySelectorAll('.notif-item');
+                              items.forEach(function(el) {
+                                  el.classList.remove('bg-light-lighten');
+                                  el.classList.add('opacity-75');
+                                  var title = el.querySelector('h6');
+                                  if (title) { title.classList.remove('fw-bold', 'text-dark'); title.classList.add('text-muted'); }
+                                  var dot = el.querySelector('.bg-danger');
+                                  if (dot) dot.remove();
+                              });
+                          }
+                      }).catch(function() {});
+                });
+            }
+
+            function updateBadge(count) {
+                if (count > 0) {
+                    badgeEl.style.display = 'inline-block';
+                    badgeEl.textContent = count > 99 ? '99+' : count;
+                } else {
+                    badgeEl.style.display = 'none';
+                    badgeEl.textContent = '0';
+                }
+                if (dropdownCountEl) dropdownCountEl.textContent = count;
+            }
+
+            // Polling for live notifications every 30 seconds
+            function pollNotifications() {
+                fetch('<?= base_url('api/notifications/unread-count') ?>', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.status === 'success') {
+                        updateBadge(data.unread_count);
+                        if (data.notifications && data.notifications.length > 0) {
+                            renderNotifications(data.notifications);
+                        }
+                    }
+                })
+                .catch(function() {});
+            }
+
+            function renderNotifications(items) {
+                var html = '';
+                items.forEach(function(notif) {
+                    var isUnread = notif.is_read === 0;
+                    html += '<a href="' + (notif.action_url || 'javascript:void(0);') + '" class="dropdown-item notify-item py-2 px-3 border-bottom notif-item ' + (isUnread ? 'bg-light-lighten' : 'opacity-75') + '" data-id="' + notif.id + '">' +
+                        '<div class="d-flex align-items-start">' +
+                            '<div class="avatar-xs me-2 flex-shrink-0">' +
+                                '<span class="avatar-title rounded-circle font-14 ' + notif.bg_class + '">' +
+                                    '<i class="mdi ' + notif.icon + '"></i>' +
+                                '</span>' +
+                            '</div>' +
+                            '<div class="flex-grow-1 overflow-hidden">' +
+                                '<div class="d-flex justify-content-between align-items-center">' +
+                                    '<h6 class="m-0 font-12 fw-semibold text-truncate ' + (isUnread ? 'text-dark fw-bold' : 'text-muted') + '">' +
+                                        notif.title +
+                                    '</h6>' +
+                                    (isUnread ? '<span class="badge bg-danger rounded-circle p-1 ms-1" style="width: 6px; height: 6px;"></span>' : '') +
+                                '</div>' +
+                                '<p class="font-11 text-muted mb-0 text-truncate">' + notif.body + '</p>' +
+                                '<small class="text-muted font-10"><i class="mdi mdi-clock-outline"></i> ' + notif.time_ago + '</small>' +
+                            '</div>' +
+                        '</div>' +
+                    '</a>';
+                });
+                containerEl.innerHTML = html;
+            }
+
+            // Start polling timer
+            setInterval(pollNotifications, 30000);
         })();
     </script>
     

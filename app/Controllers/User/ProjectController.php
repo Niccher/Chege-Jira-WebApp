@@ -101,9 +101,18 @@ class ProjectController extends BaseUserController
             ->limit(10)
             ->get()->getResultArray();
 
+        $taskModel = new \App\Models\TaskModel();
+        $sprintModel = new \App\Models\SprintModel();
+        $tasks = $taskModel->where('project_id', $projectId)->findAll();
+        $activeSprint = $sprintModel->getActiveSprint($projectId);
+        $portalTokenModel = new \App\Models\PortalTokenModel();
+        $portalTokens = $portalTokenModel->getTokensForProject($projectId);
+
         $data = [
             'user'          => $this->currentUser,
             'project'       => $project,
+            'health'        => $health,
+            'portal_tokens' => $portalTokens,
             'milestones'    => $projectModel->getMilestones($projectId),
             'tech_stack'    => json_decode($project['tech_stack'], true) ?? [],
             'categories'    => json_decode($project['categories'], true) ?? [],
@@ -112,6 +121,51 @@ class ProjectController extends BaseUserController
         ];
 
         return view('user/projects/view', $data);
+    }
+
+    /**
+     * Dedicated Project Health & RAG Risk Dashboard
+     */
+    public function health()
+    {
+        $projectModel = new ProjectModel();
+        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $filter = $this->request->getGet('filter'); // 'danger', 'warning', 'healthy', or null
+
+        $projects = $projectModel->getProjectsWithHealth($this->userId, $isAdmin, $filter);
+
+        // Sort by health score ascending (most at-risk first)
+        usort($projects, function($a, $b) {
+            return ($a['health']['score'] ?? 100) <=> ($b['health']['score'] ?? 100);
+        });
+
+        // Compute aggregate metrics
+        $totalCount = count($projects);
+        $atRiskCount = 0;
+        $warningCount = 0;
+        $healthyCount = 0;
+        $totalScore = 0;
+
+        foreach ($projects as $p) {
+            $s = $p['health']['score'] ?? 100;
+            $totalScore += $s;
+            if (($p['health']['status'] ?? '') === 'danger') $atRiskCount++;
+            elseif (($p['health']['status'] ?? '') === 'warning') $warningCount++;
+            else $healthyCount++;
+        }
+
+        $avgScore = $totalCount > 0 ? round($totalScore / $totalCount) : 100;
+
+        return view('user/projects/health', [
+            'projects'     => $projects,
+            'totalCount'   => $totalCount,
+            'atRiskCount'  => $atRiskCount,
+            'warningCount' => $warningCount,
+            'healthyCount' => $healthyCount,
+            'avgScore'     => $avgScore,
+            'currentFilter'=> $filter,
+            'isAdmin'      => $isAdmin,
+        ]);
     }
 
     public function edit($identifier)

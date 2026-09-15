@@ -100,16 +100,27 @@
 <!-- Calendar Main Card -->
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-header bg-transparent border-bottom py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h5 class="header-title mb-0">
-            <i class="uil-calender me-1 text-primary"></i> <span id="calendarTitle">Calendar</span>
-        </h5>
+        <div class="d-flex align-items-center gap-2">
+            <h5 class="header-title mb-0">
+                <i class="uil-calender me-1 text-primary"></i> <span id="calendarTitle">Calendar</span>
+            </h5>
+            <select id="projectCalendarFilter" class="form-select form-select-sm ms-2" style="width: 180px;">
+                <option value="">All Projects</option>
+                <?php 
+                    $pModel = new \App\Models\ProjectModel();
+                    $userProjs = $pModel->where('user_id', auth()->id())->findAll();
+                    foreach ($userProjs as $up): 
+                ?>
+                    <option value="<?= $up['id'] ?>"><?= esc($up['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
         <!-- Activity Legend -->
         <div class="calendar-legend d-none d-lg-flex flex-wrap gap-3 font-12 text-muted">
-            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-info me-1"></i>Project</div>
-            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-primary me-1"></i>Start</div>
-            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-success me-1"></i>Goal</div>
-            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-secondary me-1"></i>Note</div>
-            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-warning me-1"></i>Idea</div>
+            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 me-1" style="color: #727cf5;"></i>Sprint</div>
+            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-info me-1"></i>Task</div>
+            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 me-1" style="color: #6366f1;"></i>Project Due</div>
+            <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-warning me-1"></i>Milestone</div>
             <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-purple me-1" style="color: #8b5cf6;"></i>Time</div>
             <div class="d-flex align-items-center"><i class="mdi mdi-circle font-10 text-success me-1"></i>Done</div>
         </div>
@@ -324,6 +335,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="javascript:void(0);" class="btn btn-primary" id="openWorkspaceBtn" style="display: none;">
+                    <i class="mdi mdi-open-in-new me-1"></i> Open in Workspace
+                </a>
                 <button type="button" class="btn btn-outline-danger" id="deleteEventBtn">Delete</button>
                 <button type="button" class="btn btn-primary" id="editEventBtn">Edit</button>
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -381,6 +395,12 @@ $(document).ready(function() {
         eventClick: function(info) {
             const props = info.event.extendedProps;
             
+            if (props.url) {
+                $('#openWorkspaceBtn').attr('href', props.url).show();
+            } else {
+                $('#openWorkspaceBtn').hide();
+            }
+
             if (props.type === 'manual') {
                 $('#detailsTitle').text(info.event.title);
                 $('#detailsDesc').text(props.description || 'No description provided.');
@@ -416,14 +436,14 @@ $(document).ready(function() {
                 $('#detailsTitle').text(info.event.title);
                 $('#detailsDesc').text(props.description || 'No details provided.');
                 $('#detailsTime').text(info.event.start ? info.event.start.toLocaleDateString() : '');
-                $('#detailsType').text(props.type.toUpperCase()).removeClass('bg-primary bg-info bg-success').addClass(
-                    props.type === 'project' ? 'bg-info-lighten text-info' : 
-                    (props.type === 'milestone' ? 'bg-success-lighten text-success' : 'bg-primary-lighten text-primary')
-                );
                 
-                if (props.type === 'note_completed') {
-                    $('#detailsType').text('COMPLETED NOTE').removeClass('bg-primary-lighten text-primary').addClass('bg-success-lighten text-success');
-                }
+                let badgeClass = 'bg-primary-lighten text-primary';
+                if (props.type === 'sprint') badgeClass = 'bg-primary text-white';
+                else if (props.type === 'task') badgeClass = 'bg-info-lighten text-info';
+                else if (props.type === 'project') badgeClass = 'bg-secondary-lighten text-secondary';
+                else if (props.type === 'milestone') badgeClass = 'bg-warning-lighten text-warning';
+
+                $('#detailsType').text(props.type.toUpperCase()).attr('class', 'badge ' + badgeClass);
                 
                 $('#editEventBtn').hide();
                 $('#deleteEventBtn').hide();
@@ -434,6 +454,14 @@ $(document).ready(function() {
         }
     });
     calendar.render();
+
+    // Handle Project Filter
+    $('#projectCalendarFilter').on('change', function() {
+        var pId = $(this).val();
+        var newUrl = '<?= site_url('calendar/events') ?>' + (pId ? '?project_id=' + pId : '');
+        calendar.removeAllEventSources();
+        calendar.addEventSource(newUrl);
+    });
 
     // Link manual Add Event button
     $('#addEventBtn').on('click', function() {

@@ -11,6 +11,10 @@ $routes->get('/setup', 'Home::setup');
 $routes->get('/faqs', 'Home::faqs');
 $routes->get('/compare', 'Home::compare');
 $routes->get('/community', 'Home::community');
+
+// Public Client Portal (Token Gated - No Login Required)
+$routes->get('/portal/(:segment)', 'PortalController::view/$1');
+
 $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/home', 'User\MyDashboardController::index');
     $routes->get('/dashboard', 'User\MyDashboardController::index');
@@ -20,7 +24,10 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     // Projects
     $routes->get('/projects', 'User\ProjectController::index');
     $routes->get('/projects/create', 'User\ProjectController::create');
+    $routes->get('/projects/health', 'User\ProjectController::health');
     $routes->post('/projects/store', 'User\ProjectController::store');
+    $routes->post('/projects/portal/generate', 'PortalController::generate');
+    $routes->post('/projects/portal/revoke/(:num)', 'PortalController::revoke/$1');
     $routes->get('/projects/view/(:segment)', 'User\ProjectController::view/$1');
     $routes->get('/projects/edit/(:segment)', 'User\ProjectController::edit/$1');
     $routes->post('/projects/update/(:segment)', 'User\ProjectController::update/$1');
@@ -62,11 +69,14 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->post('/calendar/event/update/(:num)', 'User\CalendarController::updateEvent/$1');
     $routes->post('/calendar/event/delete/(:num)', 'User\CalendarController::deleteEvent/$1');
     
-    // Time
+    // Time & Invoicing Reports
     $routes->get('/time', 'User\TimeTrackerController::index');
     $routes->post('/time/manual', 'User\TimeTrackerController::logManual');
     $routes->post('/time/start', 'Api\TimeApiController::start');
     $routes->post('/time/stop/(:num)', 'Api\TimeApiController::stop/$1');
+    $routes->get('/time/report', 'User\TimeReportController::index');
+    $routes->get('/time/report/pdf', 'User\TimeReportController::pdf');
+    $routes->get('/time/report/csv', 'User\TimeReportController::csv');
     
     // Notes
     $routes->get('/notes', 'User\NoteController::index');
@@ -112,6 +122,11 @@ $routes->group('api', ['filter' => 'session'], function($routes) {
     // Sprints API
     $routes->post('sprints/assign-task', 'Api\SprintApiController::assignTask');
     $routes->post('sprints/task-points', 'Api\SprintApiController::updatePoints');
+    
+    // Notifications API
+    $routes->get('notifications/unread-count', 'Api\NotificationApiController::unreadCount');
+    $routes->post('notifications/mark-read/(:num)', 'Api\NotificationApiController::markRead/$1');
+    $routes->post('notifications/mark-all-read', 'Api\NotificationApiController::markAllRead');
     
     // Global Unified Search & Command Palette
     $routes->get('search', 'Api\SearchApiController::index');
