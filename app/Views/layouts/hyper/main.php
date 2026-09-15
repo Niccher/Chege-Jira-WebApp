@@ -273,6 +273,8 @@
                     $isReports = str_contains($uri, 'reports');
                     $isAdminSettings = str_contains($uri, 'admin/settings');
                     $isAdminTelemetry = str_contains($uri, 'admin/telemetry');
+                    $isAdminAiTelemetry = str_contains($uri, 'admin/ai/telemetry');
+                    $isAdminAiSettings = str_contains($uri, 'admin/ai/settings');
                     $isProfile = ($uri === 'settings' || $uri === 'user/settings');
                 ?>
                 <!--- Sidemenu -->
@@ -358,10 +360,22 @@
                                 <span> System Settings </span>
                             </a>
                         </li>
-                        <li class="side-nav-item <?= $isAdminTelemetry ? 'menuitem-active' : '' ?>">
-                            <a href="<?= site_url('admin/telemetry') ?>" class="side-nav-link <?= $isAdminTelemetry ? 'active' : '' ?>">
+                        <li class="side-nav-item <?= ($isAdminTelemetry && !$isAdminAiTelemetry) ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('admin/telemetry') ?>" class="side-nav-link <?= ($isAdminTelemetry && !$isAdminAiTelemetry) ? 'active' : '' ?>">
                                 <i class="uil-server text-light"></i>
                                 <span> Telemetry & Logs </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item <?= $isAdminAiTelemetry ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('admin/ai/telemetry') ?>" class="side-nav-link <?= $isAdminAiTelemetry ? 'active' : '' ?>">
+                                <i class="uil-brain text-purple"></i>
+                                <span> AI Engine Diagnostics </span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item <?= $isAdminAiSettings ? 'menuitem-active' : '' ?>">
+                            <a href="<?= site_url('admin/ai/settings') ?>" class="side-nav-link <?= $isAdminAiSettings ? 'active' : '' ?>">
+                                <i class="uil-cpu text-info"></i>
+                                <span> AI Engine Settings </span>
                             </a>
                         </li>
                     <?php endif; ?>

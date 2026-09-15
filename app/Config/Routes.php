@@ -162,6 +162,12 @@ $routes->group('admin', ['filter' => ['session', 'admin']], function($routes) {
     $routes->post('settings/send-test-email', 'Admin\SystemSettingsController::sendTestEmail');
     $routes->post('settings/backup/create', 'Admin\SystemSettingsController::createBackup');
     $routes->get('settings/backup/download/(:segment)', 'Admin\SystemSettingsController::downloadBackup/$1');
+    
+    // AI Engine Admin routes
+    $routes->get('ai/telemetry', 'Admin\AiController::telemetry');
+    $routes->get('ai/settings', 'Admin\AiController::settings');
+    $routes->post('ai/settings/update', 'Admin\AiController::updateSettings');
+    $routes->post('ai/cache-action', 'Admin\AiController::cacheAction');
 });
 
 // Load default Shield routes, excluding those we'll customize
