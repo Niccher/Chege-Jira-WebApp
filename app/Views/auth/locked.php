@@ -5,12 +5,12 @@
 <?= $this->section('content') ?>
 <div class="text-center mb-4">
     <div class="mb-3">
-        <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-            <i class="mdi mdi-lock-alert-outline font-36"></i>
+        <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+            <i class="mdi mdi-lock-alert-outline font-32"></i>
         </div>
     </div>
     <h3 class="fw-bold text-danger mb-1">Account Locked</h3>
-    <p class="text-muted font-14">Your account has been temporarily locked due to multiple failed login attempts.</p>
+    <p class="text-muted font-14 mb-0">Your account has been temporarily locked due to multiple failed login attempts.</p>
 </div>
 
 <?php if (session()->has('error')) : ?>

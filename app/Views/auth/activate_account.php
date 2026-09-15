@@ -6,12 +6,12 @@
     <?php if($status === 'success'): ?>
         <div class="text-center mb-4">
             <div class="mb-3">
-                <div class="avatar-lg bg-success-lighten text-success rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="mdi mdi-check-decagram-outline font-36"></i>
+                <div class="avatar-lg bg-success-lighten text-success rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+                    <i class="mdi mdi-check-decagram-outline font-32"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-dark mb-1">Account Activated!</h3>
-            <p class="text-muted font-14">Your workspace account has been verified and activated successfully.</p>
+            <h3 class="fw-bold mb-1">Account Activated!</h3>
+            <p class="text-muted font-14 mb-0">Your workspace account has been verified and activated successfully.</p>
         </div>
 
         <div class="d-grid gap-2 mb-3">
@@ -26,12 +26,12 @@
     <?php elseif($status === 'already_activated'): ?>
         <div class="text-center mb-4">
             <div class="mb-3">
-                <div class="avatar-lg bg-info-lighten text-info rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="mdi mdi-information-outline font-36"></i>
+                <div class="avatar-lg bg-info-lighten text-info rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+                    <i class="mdi mdi-information-outline font-32"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-dark mb-1">Already Activated</h3>
-            <p class="text-muted font-14">This account is active. You can sign in immediately.</p>
+            <h3 class="fw-bold mb-1">Already Activated</h3>
+            <p class="text-muted font-14 mb-0">This account is active. You can sign in immediately.</p>
         </div>
 
         <div class="d-grid mb-3">
@@ -43,12 +43,12 @@
     <?php elseif($status === 'invalid_token'): ?>
         <div class="text-center mb-4">
             <div class="mb-3">
-                <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="mdi mdi-alert-circle-outline font-36"></i>
+                <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+                    <i class="mdi mdi-alert-circle-outline font-32"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-dark mb-1">Invalid Activation Link</h3>
-            <p class="text-muted font-14">The link is invalid or may have already been used.</p>
+            <h3 class="fw-bold mb-1">Invalid Activation Link</h3>
+            <p class="text-muted font-14 mb-0">The link is invalid or may have already been used.</p>
         </div>
 
         <div class="mb-3">
@@ -67,12 +67,12 @@
     <?php elseif($status === 'expired_token'): ?>
         <div class="text-center mb-4">
             <div class="mb-3">
-                <div class="avatar-lg bg-warning-lighten text-warning rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="mdi mdi-timer-sand-empty font-36"></i>
+                <div class="avatar-lg bg-warning-lighten text-warning rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+                    <i class="mdi mdi-timer-sand-empty font-32"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-dark mb-1">Activation Link Expired</h3>
-            <p class="text-muted font-14">Activation links expire after 24 hours.</p>
+            <h3 class="fw-bold mb-1">Activation Link Expired</h3>
+            <p class="text-muted font-14 mb-0">Activation links expire after 24 hours.</p>
         </div>
 
         <div class="mb-3">
@@ -91,12 +91,12 @@
     <?php else: ?>
         <div class="text-center mb-4">
             <div class="mb-3">
-                <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="mdi mdi-alert-circle-outline font-36"></i>
+                <div class="avatar-lg bg-danger-lighten text-danger rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+                    <i class="mdi mdi-alert-circle-outline font-32"></i>
                 </div>
             </div>
-            <h3 class="fw-bold text-dark mb-1">Activation Error</h3>
-            <p class="text-muted font-14">An unexpected issue occurred while processing your activation.</p>
+            <h3 class="fw-bold mb-1">Activation Error</h3>
+            <p class="text-muted font-14 mb-0">An unexpected issue occurred while processing your activation.</p>
         </div>
 
         <div class="d-grid gap-2 mb-3">

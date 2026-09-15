@@ -4,9 +4,12 @@
 
 <?= $this->section('content') ?>
 
-<div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">Welcome back</h3>
-    <p class="text-muted font-14">Enter your credentials to access your workspace.</p>
+<div class="text-center mb-4">
+    <div class="avatar-md bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 52px; height: 52px;">
+        <i class="mdi mdi-login-variant font-24"></i>
+    </div>
+    <h3 class="fw-bold mb-1">Welcome Back</h3>
+    <p class="text-muted font-14 mb-0">Enter your credentials to access your workspace</p>
 </div>
 
 <?php if(session()->has('error')): ?>

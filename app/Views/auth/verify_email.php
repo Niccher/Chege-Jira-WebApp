@@ -5,12 +5,12 @@
 <?= $this->section('content') ?>
 <div class="text-center mb-4">
     <div class="mb-3">
-        <div class="avatar-lg bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-            <i class="mdi mdi-email-seal-outline font-36"></i>
+        <div class="avatar-lg bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 54px; height: 54px;">
+            <i class="mdi mdi-email-seal-outline font-30"></i>
         </div>
     </div>
-    <h3 class="fw-bold text-dark mb-1">Check Your Inbox</h3>
-    <p class="text-muted font-14">We have sent a verification link to your email address.</p>
+    <h3 class="fw-bold mb-1">Check Your Inbox</h3>
+    <p class="text-muted font-14 mb-0">We have sent a verification link to your email address.</p>
 </div>
 
 <?php if (session()->has('error')) : ?>

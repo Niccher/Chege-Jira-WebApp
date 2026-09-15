@@ -4,9 +4,12 @@
 
 <?= $this->section('content') ?>
 
-<div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">Set New Password</h3>
-    <p class="text-muted font-14">Enter your new password below to regain access.</p>
+<div class="text-center mb-4">
+    <div class="avatar-md bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 52px; height: 52px;">
+        <i class="mdi mdi-shield-key-outline font-24"></i>
+    </div>
+    <h3 class="fw-bold mb-1">Set New Password</h3>
+    <p class="text-muted font-14 mb-0">Enter your new secure password below to regain access</p>
 </div>
 
 <?php if (session()->has('error')) : ?>
@@ -43,7 +46,7 @@
         <label for="password" class="form-label fw-semibold font-13">New Password <span class="text-danger">*</span></label>
         <div class="input-group input-group-merge">
             <span class="input-group-text"><i class="mdi mdi-lock-outline"></i></span>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Minimum 8 characters" required minlength="8" autofocus>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Minimum 8 characters" required minlength="8" autofocus autocomplete="new-password">
             <div class="input-group-text" data-password="false" style="cursor: pointer;">
                 <span class="password-eye"></span>
             </div>
@@ -54,7 +57,7 @@
         <label for="password_confirm" class="form-label fw-semibold font-13">Confirm New Password <span class="text-danger">*</span></label>
         <div class="input-group input-group-merge">
             <span class="input-group-text"><i class="mdi mdi-lock-check-outline"></i></span>
-            <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="Confirm new password" required minlength="8">
+            <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="Confirm new password" required minlength="8" autocomplete="new-password">
             <div class="input-group-text" data-password="false" style="cursor: pointer;">
                 <span class="password-eye"></span>
             </div>

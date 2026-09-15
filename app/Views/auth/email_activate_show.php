@@ -5,14 +5,12 @@
 <?= $this->section('content') ?>
 
 <div class="text-center mb-4">
-    <div class="mb-3">
-        <div class="avatar-lg bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm">
-            <i class="mdi mdi-email-check-outline font-36"></i>
-        </div>
+    <div class="avatar-md bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 54px; height: 54px;">
+        <i class="mdi mdi-email-check-outline font-30"></i>
     </div>
-    <h3 class="fw-bold text-dark mb-1">Verify Your Email</h3>
+    <h3 class="fw-bold mb-1">Verify Your Email</h3>
     <p class="text-muted font-14 mb-2">We've sent an activation link to:</p>
-    <div class="badge bg-light text-primary font-13 px-3 py-2 border rounded-pill">
+    <div class="badge bg-light text-primary font-13 px-3 py-2 border rounded-pill text-break">
         <i class="mdi mdi-email-outline me-1"></i> <?= esc($user->email ?? session('email') ?? '') ?>
     </div>
 </div>

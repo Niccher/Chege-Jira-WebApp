@@ -4,9 +4,12 @@
 
 <?= $this->section('content') ?>
 
-<div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">Reset Password</h3>
-    <p class="text-muted font-14">Enter your email address to receive reset instructions.</p>
+<div class="text-center mb-4">
+    <div class="avatar-md bg-primary-lighten text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 52px; height: 52px;">
+        <i class="mdi mdi-lock-reset font-24"></i>
+    </div>
+    <h3 class="fw-bold mb-1">Reset Password</h3>
+    <p class="text-muted font-14 mb-0">Enter your email address to receive reset instructions</p>
 </div>
 
 <?php if (session()->has('error')) : ?>

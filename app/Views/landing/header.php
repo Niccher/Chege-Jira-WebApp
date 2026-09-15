@@ -31,45 +31,76 @@
     <!-- App css -->
     <link href="<?= base_url('assets/hyper/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
     <link href="<?= base_url('assets/hyper/css/app.min.css') ?>" rel="stylesheet" type="text/css" id="light-style" />
+    <link href="<?= base_url('assets/hyper/css/app-dark.min.css') ?>" rel="stylesheet" type="text/css" id="dark-style" disabled="disabled" />
+    
+    <script>
+        (function() {
+            var theme = localStorage.getItem('hyper_theme');
+            if (theme === 'dark') {
+                document.getElementById('light-style')?.setAttribute('disabled', 'disabled');
+                document.getElementById('dark-style')?.removeAttribute('disabled');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
     
     <style>
         .landing-navbar {
-            padding: 16px 0;
-            background-color: #313a46;
-            box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
+            padding: 14px 0;
+            background-color: #1e293b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
         }
         .landing-navbar .nav-link { 
-            color: rgba(255,255,255,.7); 
+            color: rgba(255, 255, 255, 0.75); 
             font-weight: 500;
-            padding: 8px 16px !important;
-            transition: all .2s;
+            padding: 8px 14px !important;
+            transition: all 0.2s ease;
         }
         .landing-navbar .nav-link:hover,
         .landing-navbar .nav-link.active { 
-            color: #fff; 
+            color: #ffffff; 
             font-weight: 600;
         }
         .landing-navbar .navbar-brand { 
-            color: #fff; 
+            color: #ffffff; 
             font-weight: 700; 
-            font-size: 22px; 
+            font-size: 20px; 
             letter-spacing: -0.5px;
         }
+        #theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #ffffff;
+        }
+        #theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.05);
+        }
         .hero-section {
-            padding: 80px 0 60px 0;
-            background-color: #f7f9fc;
+            padding: 70px 0 50px 0;
             position: relative;
         }
         .feature-card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 0 35px 0 rgba(154,161,171,.1);
-            transition: all .3s ease-in-out;
+            border: 1px solid var(--bs-border-color, rgba(154, 161, 171, 0.2));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
             height: 100%;
         }
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(154,161,171,.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         .avatar-title {
             align-items: center;
@@ -79,22 +110,22 @@
             width: 100%;
         }
         .bg-primary-lighten {
-            background-color: rgba(114, 124, 245, 0.15) !important;
+            background-color: rgba(114, 124, 245, 0.12) !important;
         }
         .bg-success-lighten {
-            background-color: rgba(10, 207, 151, 0.15) !important;
+            background-color: rgba(10, 207, 151, 0.12) !important;
         }
         .bg-danger-lighten {
-            background-color: rgba(250, 92, 124, 0.15) !important;
+            background-color: rgba(250, 92, 124, 0.12) !important;
         }
         .bg-warning-lighten {
-            background-color: rgba(255, 188, 0, 0.15) !important;
+            background-color: rgba(255, 188, 0, 0.12) !important;
         }
         .bg-info-lighten {
-            background-color: rgba(57, 175, 209, 0.15) !important;
+            background-color: rgba(57, 175, 209, 0.12) !important;
         }
         .bg-dark-lighten {
-            background-color: rgba(49, 58, 70, 0.15) !important;
+            background-color: rgba(49, 58, 70, 0.12) !important;
         }
     </style>
 </head>
@@ -104,8 +135,9 @@
     <nav class="navbar navbar-expand-lg landing-navbar sticky-top">
         <div class="container">
             <!-- logo -->
-            <a href="<?= site_url() ?>" class="navbar-brand me-4">
-                <i class="mdi mdi-leaf text-success me-1"></i> <?= esc(setting('App.siteName')) ?>
+            <a href="<?= site_url() ?>" class="navbar-brand me-4 d-inline-flex align-items-center">
+                <img src="<?= base_url('assets/img/app_logo.jpg') ?>" class="rounded-circle me-2" height="28" width="28" alt="Logo">
+                <span><?= esc(setting('App.siteName')) ?></span>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,6 +166,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string() === 'faqs' ? 'active' : '' ?>" href="<?= site_url('faqs') ?>">FAQs</a>
+                    </li>
+                    <!-- Theme Toggle Switch -->
+                    <li class="nav-item ms-lg-2 my-2 my-lg-0">
+                        <button type="button" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
+                            <i class="mdi mdi-weather-night font-18" id="theme-toggle-icon"></i>
+                        </button>
                     </li>
                     <?php if (auth()->loggedIn()): ?>
                         <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
