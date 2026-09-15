@@ -53,6 +53,8 @@
             if (theme === 'dark') {
                 document.getElementById('light-style')?.setAttribute('disabled', 'disabled');
                 document.getElementById('dark-style')?.removeAttribute('disabled');
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+                document.documentElement.classList.add('dark-theme');
             }
         })();
     </script>
@@ -101,6 +103,57 @@
         .side-nav .side-nav-item.menuitem-active > .side-nav-link i,
         .side-nav .side-nav-item > .side-nav-link.active i {
             color: #727cf5 !important;
+        }
+
+        /* Layout & Guaranteed Visible Footer Structure */
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row;
+        }
+        .content-page {
+            display: flex !important;
+            flex-direction: column !important;
+            min-height: 100vh !important;
+            margin-left: 260px;
+            padding: 70px 15px 0 15px !important;
+            flex: 1 1 auto;
+            width: calc(100% - 260px);
+            overflow-x: hidden;
+        }
+        .content-page .content {
+            flex: 1 0 auto !important;
+        }
+        .content-page .footer {
+            position: static !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            width: 100% !important;
+            flex-shrink: 0 !important;
+            margin-top: auto !important;
+            background-color: #ffffff;
+            border-top: 1px solid rgba(152, 166, 173, 0.2) !important;
+            padding: 16px 24px !important;
+            z-index: 10;
+        }
+        html.dark-theme .content-page .footer,
+        body.dark-theme .content-page .footer,
+        html[data-bs-theme="dark"] .content-page .footer,
+        body[data-layout-config*='"darkMode":true'] .content-page .footer {
+            background-color: #343a40 !important;
+            border-top-color: rgba(255, 255, 255, 0.08) !important;
+        }
+        @media (max-width: 767.98px) {
+            .content-page {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 70px 10px 0 10px !important;
+            }
+        }
+        body[data-leftbar-compact-mode="condensed"] .content-page {
+            margin-left: 70px !important;
+            width: calc(100% - 70px) !important;
         }
     </style>
 
@@ -371,6 +424,8 @@
                     if (toggleIcon) {
                         toggleIcon.className = 'uil-sun font-22 text-warning';
                     }
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    document.body.classList.add('dark-theme');
                     document.body.setAttribute('data-layout-config', JSON.stringify({
                         "leftSideBarTheme": "dark",
                         "layoutBoxed": false,
@@ -385,6 +440,8 @@
                     if (toggleIcon) {
                         toggleIcon.className = 'uil-moon font-22';
                     }
+                    document.documentElement.setAttribute('data-bs-theme', 'light');
+                    document.body.classList.remove('dark-theme');
                     document.body.setAttribute('data-layout-config', JSON.stringify({
                         "leftSideBarTheme": "dark",
                         "layoutBoxed": false,
