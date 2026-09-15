@@ -20,6 +20,20 @@
     </div>
 </div>
 
+<!-- Flash Alerts -->
+<?php if (session()->getFlashdata('success') || session()->getFlashdata('message')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="mdi mdi-check-all me-1"></i> <?= session()->getFlashdata('success') ?: session()->getFlashdata('message') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="mdi mdi-block-helper me-1"></i> <?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
 <!-- Active Timer & Quick Start Section -->
 <div class="row mb-4">
     <div class="col-12">
@@ -58,7 +72,9 @@
                         <select class="form-select" id="quickProjectSelect">
                             <option value="">Select Project...</option>
                             <?php foreach ($projects as $proj): ?>
-                                <option value="<?= $proj['id'] ?>"><?= esc($proj['name']) ?></option>
+                                <option value="<?= $proj['id'] ?>" <?= (!empty($selectedProjectId) && $selectedProjectId == $proj['id']) ? 'selected' : '' ?>>
+                                    <?= esc($proj['name']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -284,7 +300,9 @@
                         <select class="form-select" id="entryProject" name="project_id" required>
                             <option value="">Select Project</option>
                             <?php foreach ($projects as $project): ?>
-                                <option value="<?= $project['id'] ?>"><?= esc($project['name']) ?></option>
+                                <option value="<?= $project['id'] ?>" <?= (!empty($selectedProjectId) && $selectedProjectId == $project['id']) ? 'selected' : '' ?>>
+                                    <?= esc($project['name']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
