@@ -481,18 +481,56 @@ class Auth extends ShieldAuth
     /**
      * Returns the URL that a user should be redirected
      * to after a successful login.
+     *
+     * Overrides Shield's default to guard against API/AJAX URLs being saved
+     * as beforeLoginUrl when the session expires mid-page (e.g. the background
+     * notifications poll fires before the user logs in again, causing a redirect
+     * to /api/notifications/unread-count which shows raw JSON to the user).
      */
     public function loginRedirect(): string
     {
-        $session = session();
-        $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
+        $session     = session();
+        $savedUrl    = $session->getTempdata('beforeLoginUrl');
+        $defaultUrl  = setting('Auth.redirects')['login'];
 
-        // If the URL is the root landing page, redirect to dashboard instead
-        if ($url === '/' || $url === rtrim(site_url('/'), '/ ')) {
-            $url = setting('Auth.redirects')['login'];
+        // Reject saved URL if it is an API/AJAX endpoint, a raw JSON URL,
+        // or the site root — all of which would give a bad user experience.
+        if ($savedUrl !== null && $this->isSafeRedirectUrl($savedUrl)) {
+            $url = $savedUrl;
+        } else {
+            $url = $defaultUrl;
         }
 
         return $this->getUrl($url);
+    }
+
+    /**
+     * Determines whether a saved pre-login URL is safe to redirect the user to
+     * after successful authentication (i.e. it is a real HTML page, not an API
+     * or background AJAX endpoint).
+     */
+    protected function isSafeRedirectUrl(string $url): bool
+    {
+        // Strip the base URL to get only the path portion
+        $base = rtrim(site_url('/'), '/');
+        $path = ltrim(str_replace($base, '', $url), '/');
+
+        // Block: site root → go to dashboard
+        if ($path === '' || $path === '/') {
+            return false;
+        }
+
+        // Block: /api/* endpoints (background AJAX calls)
+        if (str_starts_with($path, 'api/') || str_starts_with($path, 'api')) {
+            return false;
+        }
+
+        // Block: auth/* pages (don't loop back to login/register)
+        if (str_starts_with($path, 'auth/') || str_starts_with($path, 'auth')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
