@@ -34,6 +34,13 @@ $routes->group('', ['filter' => 'session'], function($routes) {
     $routes->get('/projects/kanban', 'User\KanbanController::index');
     $routes->get('/kanban', 'User\KanbanController::index');
     
+    // Sprints & Backlog
+    $routes->get('/projects/sprints/(:num)', 'User\SprintController::index/$1');
+    $routes->post('/projects/sprints/store/(:num)', 'User\SprintController::store/$1');
+    $routes->post('/projects/sprints/start/(:num)', 'User\SprintController::start/$1');
+    $routes->post('/projects/sprints/complete/(:num)', 'User\SprintController::complete/$1');
+    $routes->get('/projects/sprints/burndown/(:num)', 'User\SprintController::burndown/$1');
+    
     // My Tasks
     $routes->get('/my-tasks', 'User\MyTasksController::index');
     
@@ -90,6 +97,10 @@ $routes->group('api', ['filter' => 'session'], function($routes) {
     // Notes
     $routes->post('notes/(:num)/star', 'Api\NoteApiController::toggleStar/$1');
     $routes->post('notes/(:num)/complete', 'Api\NoteApiController::toggleComplete/$1');
+    
+    // Sprints API
+    $routes->post('sprints/assign-task', 'Api\SprintApiController::assignTask');
+    $routes->post('sprints/task-points', 'Api\SprintApiController::updatePoints');
     
     // Global Unified Search & Command Palette
     $routes->get('search', 'Api\SearchApiController::index');
