@@ -1,13 +1,13 @@
 <?= $this->extend('layouts/hyper/main') ?>
 
-<?= $this->section('title') ?>Time Reports & Billing<?= $this->endSection() ?>
+<?= $this->section('title') ?>Time Reports &amp; Billing<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
             <h4 class="page-title">
-                <i class="mdi mdi-clock-check-outline text-primary me-1"></i> Time Reports & Invoicing
+                <i class="mdi mdi-clock-check-outline text-primary me-1"></i> Time Reports &amp; Invoicing
             </h4>
             <div class="page-title-right d-flex gap-2">
                 <a href="<?= site_url('time') ?>" class="btn btn-outline-secondary btn-sm">
@@ -52,9 +52,12 @@
                 <label class="form-label font-12 text-muted mb-1">Team Member</label>
                 <select name="user_id" class="form-select form-select-sm">
                     <option value="">All Members</option>
-                    <?php foreach ($users as $u): ?>
-                        <option value="<?= $u['id'] ?>" <?= ($filters['user_id'] == $u['id']) ? 'selected' : '' ?>>
-                            <?= esc($u['username'] ?? $u['email']) ?>
+                    <?php foreach ($users as $u): 
+                        $uId = is_array($u) ? ($u['id'] ?? '') : ($u->id ?? '');
+                        $uName = is_array($u) ? ($u['username'] ?? $u['email'] ?? ('User #' . $uId)) : ($u->username ?? $u->email ?? ('User #' . $uId));
+                    ?>
+                        <option value="<?= esc($uId) ?>" <?= ((string)$filters['user_id'] === (string)$uId) ? 'selected' : '' ?>>
+                            <?= esc($uName) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

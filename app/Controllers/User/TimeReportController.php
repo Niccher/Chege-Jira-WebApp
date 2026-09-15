@@ -25,29 +25,31 @@ class TimeReportController extends BaseUserController
      */
     public function index()
     {
-        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $user = auth()->user();
+        $isAdmin = $user && ($user->inGroup('admin') || $user->inGroup('manager'));
+        $currentUserId = (int) ($this->userId ?? auth()->id() ?? 0);
         
         $filters = [
             'from_date'   => $this->request->getGet('from_date') ?: date('Y-m-01'),
             'to_date'     => $this->request->getGet('to_date') ?: date('Y-m-d'),
             'project_id'  => $this->request->getGet('project_id') ?: '',
-            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $this->userId),
+            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $currentUserId),
             'is_billable' => $this->request->getGet('is_billable') ?? 'all',
         ];
 
-        $logs = $this->timeLogModel->getFilteredLogs($this->userId, $isAdmin, $filters);
+        $logs = $this->timeLogModel->getFilteredLogs($currentUserId, $isAdmin, $filters);
         $summary = $this->timeLogModel->getSummaryStats($logs);
 
         // Projects for filter dropdown
         $projects = $isAdmin 
             ? $this->projectModel->orderBy('name', 'ASC')->findAll()
-            : $this->projectModel->where('user_id', $this->userId)->orderBy('name', 'ASC')->findAll();
+            : $this->projectModel->where('user_id', $currentUserId)->orderBy('name', 'ASC')->findAll();
 
         // Team members for filter dropdown (if admin/manager)
         $users = [];
         if ($isAdmin) {
             $userModel = new UserModel();
-            $users = $userModel->orderBy('username', 'ASC')->findAll();
+            $users = $userModel->asArray()->orderBy('username', 'ASC')->findAll();
         }
 
         return view('user/time_report', [
@@ -65,17 +67,19 @@ class TimeReportController extends BaseUserController
      */
     public function pdf()
     {
-        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $user = auth()->user();
+        $isAdmin = $user && ($user->inGroup('admin') || $user->inGroup('manager'));
+        $currentUserId = (int) ($this->userId ?? auth()->id() ?? 0);
         
         $filters = [
             'from_date'   => $this->request->getGet('from_date') ?: date('Y-m-01'),
             'to_date'     => $this->request->getGet('to_date') ?: date('Y-m-d'),
             'project_id'  => $this->request->getGet('project_id') ?: '',
-            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $this->userId),
+            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $currentUserId),
             'is_billable' => $this->request->getGet('is_billable') ?? 'all',
         ];
 
-        $logs = $this->timeLogModel->getFilteredLogs($this->userId, $isAdmin, $filters);
+        $logs = $this->timeLogModel->getFilteredLogs($currentUserId, $isAdmin, $filters);
         $summary = $this->timeLogModel->getSummaryStats($logs);
 
         // Selected project name if filtered
@@ -115,17 +119,19 @@ class TimeReportController extends BaseUserController
      */
     public function csv()
     {
-        $isAdmin = auth()->user() && auth()->user()->inGroup('admin', 'manager');
+        $user = auth()->user();
+        $isAdmin = $user && ($user->inGroup('admin') || $user->inGroup('manager'));
+        $currentUserId = (int) ($this->userId ?? auth()->id() ?? 0);
         
         $filters = [
             'from_date'   => $this->request->getGet('from_date') ?: date('Y-m-01'),
             'to_date'     => $this->request->getGet('to_date') ?: date('Y-m-d'),
             'project_id'  => $this->request->getGet('project_id') ?: '',
-            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $this->userId),
+            'user_id'     => $this->request->getGet('user_id') ?: ($isAdmin ? '' : $currentUserId),
             'is_billable' => $this->request->getGet('is_billable') ?? 'all',
         ];
 
-        $logs = $this->timeLogModel->getFilteredLogs($this->userId, $isAdmin, $filters);
+        $logs = $this->timeLogModel->getFilteredLogs($currentUserId, $isAdmin, $filters);
 
         $filename = 'Timesheet_Export_' . date('Ymd_His') . '.csv';
 
